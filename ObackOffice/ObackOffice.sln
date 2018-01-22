@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObackOffice", "ObackOffice\ObackOffice.csproj", "{D26EB6FE-7718-4B28-BC4A-89AF8E4EEB6D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D26EB6FE-7718-4B28-BC4A-89AF8E4EEB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D26EB6FE-7718-4B28-BC4A-89AF8E4EEB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D26EB6FE-7718-4B28-BC4A-89AF8E4EEB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D26EB6FE-7718-4B28-BC4A-89AF8E4EEB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D802C3FE-B902-44D0-9475-30932FE1E9C9}
+	EndGlobalSection
+EndGlobal

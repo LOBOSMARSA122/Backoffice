@@ -1,0 +1,84 @@
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\ApplicationInsights.config
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\ObackOffice.dll.config
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\ObackOffice.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\ObackOffice.pdb
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Antlr3.Runtime.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.Web.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Newtonsoft.Json.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Helpers.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Mvc.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Optimization.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Razor.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.WebPages.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.WebPages.Razor.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\WebGrease.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Helpers.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Mvc.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Optimization.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.Razor.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.WebPages.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\System.Web.WebPages.Razor.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Antlr3.Runtime.pdb
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Newtonsoft.Json.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\bin\Microsoft.AI.Web.xml
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\obj\Debug\ObackOffice.csprojResolveAssemblyReference.cache
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\obj\Debug\ObackOffice.csproj.CoreCompileInputs.cache
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\obj\Debug\ObackOffice.dll
+C:\Users\Jesus Fernandez\source\repos\ObackOffice\ObackOffice\obj\Debug\ObackOffice.pdb
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\ApplicationInsights.config
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\ObackOffice.dll.config
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\ObackOffice.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\ObackOffice.pdb
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Antlr3.Runtime.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.Agent.Intercept.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.DependencyCollector.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.PerfCounterCollector.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.ServerTelemetryChannel.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.Web.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.WindowsServer.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.ApplicationInsights.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.Web.Infrastructure.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Newtonsoft.Json.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Helpers.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Mvc.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Optimization.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Razor.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.WebPages.Deployment.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.WebPages.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.WebPages.Razor.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\WebGrease.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Helpers.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Mvc.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Optimization.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.Razor.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.WebPages.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.WebPages.Deployment.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\System.Web.WebPages.Razor.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Antlr3.Runtime.pdb
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Newtonsoft.Json.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.ApplicationInsights.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.DependencyCollector.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.ServerTelemetryChannel.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.WindowsServer.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\bin\Microsoft.AI.Web.xml
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\obj\Debug\ObackOffice.csprojResolveAssemblyReference.cache
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\obj\Debug\ObackOffice.csproj.CoreCompileInputs.cache
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\obj\Debug\ObackOffice.dll
+E:\Projects\Omeganet\Backoffice\ObackOffice\ObackOffice\obj\Debug\ObackOffice.pdb
