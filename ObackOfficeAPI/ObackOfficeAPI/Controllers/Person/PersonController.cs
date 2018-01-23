@@ -9,9 +9,14 @@ namespace ObackOfficeAPI.Controllers.Person
         private PersonRepository pr = new PersonRepository();
 
         [HttpGet]
-        public IEnumerable<BE.Person> GetAll()
+        public IHttpActionResult GetAll()
         {
-            return pr.GetAll();
+            List<BE.Person> result = pr.GetAll();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
         }
     }
 }

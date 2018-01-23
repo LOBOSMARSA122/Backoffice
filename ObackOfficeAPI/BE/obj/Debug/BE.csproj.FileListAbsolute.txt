@@ -1,5 +1,0 @@
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\BE\bin\Debug\BE.dll
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\BE\bin\Debug\BE.pdb
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\BE\obj\Debug\BE.csproj.CoreCompileInputs.cache
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\BE\obj\Debug\BE.dll
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\BE\obj\Debug\BE.pdb

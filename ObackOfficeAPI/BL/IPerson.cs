@@ -9,7 +9,7 @@ namespace BL
 {
     public interface IPerson
     {
-        IEnumerable<Person> GetAll();
+        List<Person> GetAll();
 
         Person GetById(int id);
 

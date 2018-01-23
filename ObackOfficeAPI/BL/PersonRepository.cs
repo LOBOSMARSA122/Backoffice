@@ -16,7 +16,7 @@ namespace BL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Person> GetAll()
+        public List<Person> GetAll()
         {
             try
             {

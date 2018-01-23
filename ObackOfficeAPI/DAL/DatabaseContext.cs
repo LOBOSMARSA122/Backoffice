@@ -5,7 +5,7 @@ namespace DAL
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext() : base("name=DefaultConnection") {}
-        public virtual DbSet<Person> People { get; set; }
+        public DatabaseContext() : base("name=BDBackoffice") {}
+        public DbSet<Person> People { get; set; }
     }
 }
