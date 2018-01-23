@@ -1,8 +1,22 @@
 *.config
 
+# Visual Studio files #
+#######################
+*.suo
+*.user
+
 # Directory
 bin
 obj
+ObackOfficeAPI/.vs/ObackOfficeAPI/v15/.suo
+ObackOffice/.vs/ObackOffice/v15/.suo
+ObackOfficeAPI/.vs/ObackOfficeAPI/v15/.suo
+ObackOfficeAPI\.vs\ObackOfficeAPI\v15\.suo
 ObackOffice/.vs/ObackOffice/v15/Server/sqlite3/db.lock
 ObackOfficeAPI/.vs/ObackOfficeAPI/v15/Server/sqlite3/db.lock
-ObackOfficeAPI/.vs/ObackOfficeAPI/v15/.suo
+ObackOffice/.vs/ObackOffice/v15/Server/sqlite3/storage.ide
+ObackOffice/.vs/ObackOffice/v15/Server/sqlite3/storage.ide-shm
+ObackOffice/.vs/ObackOffice/v15/Server/sqlite3/storage.ide-wal
+ObackOfficeAPI/.vs/ObackOfficeAPI/v15/Server/sqlite3/storage.ide
+ObackOfficeAPI/.vs/ObackOfficeAPI/v15/Server/sqlite3/storage.ide-shmObackOfficeAPI/.vs/ObackOfficeAPI/v15/Server/sqlite3/storage.ide-wal
+
