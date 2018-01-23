@@ -6,7 +6,7 @@ using DAL;
 
 namespace BL
 {
-    public class PersonRepository : IPerson
+    public class PersonRepository
     {
         private List<Person> _lPerson = new List<Person>();
         private DatabaseContext ctx = new DatabaseContext();
