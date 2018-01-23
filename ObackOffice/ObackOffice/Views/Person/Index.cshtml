@@ -1,0 +1,25 @@
+﻿
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Ape. Paterno</th>
+            <th>Ape. Materno</th>
+            <th>Género</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.RESPONSE)
+        {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.FirstName</td>
+            <td>@item.FirstLastName</td>
+            <td>@item.SecondLastName</td>
+            <td>@item.GenderId</td>
+        </tr>
+        }
+    </tbody>  
+</table>
+
