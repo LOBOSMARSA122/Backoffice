@@ -1,2 +1,8 @@
+*.config
+
+# Directory
+bin
+obj
 ObackOffice/.vs/ObackOffice/v15/Server/sqlite3/db.lock
 ObackOfficeAPI/.vs/ObackOfficeAPI/v15/Server/sqlite3/db.lock
+ObackOfficeAPI/.vs/ObackOfficeAPI/v15/.suo

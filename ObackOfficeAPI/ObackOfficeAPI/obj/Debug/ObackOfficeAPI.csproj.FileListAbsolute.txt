@@ -104,7 +104,3 @@ E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\DAL.pdb
 E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\EntityFramework.xml
 E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\EntityFramework.SqlServer.dll
 E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\EntityFramework.SqlServer.xml
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\Microsoft.AspNet.Identity.Core.dll
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-E:\Projects\Omeganet\Backoffice\ObackOfficeAPI\ObackOfficeAPI\bin\Microsoft.AspNet.Identity.Core.xml

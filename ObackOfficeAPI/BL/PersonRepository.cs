@@ -9,7 +9,7 @@ namespace BL
     public class PersonRepository : IPerson
     {
         private List<Person> _lPerson = new List<Person>();
-        private ApplicationDbContext ctx = new ApplicationDbContext();
+        private DatabaseContext ctx = new DatabaseContext();
 
         public bool Delete(int id)
         {
