@@ -34,14 +34,14 @@
     font-style:italic;
 }
 
-.login-page form input[type=button] {
+.login-page form input[type=submit] {
     background: #EE9F00;
     color: #fff;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
 }
 
-.login-page form input[type=button]:hover{
+.login-page form input[type=submit]:hover{
     background: #D68f00;
 }
 
@@ -57,34 +57,8 @@
     font-size: 12px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.fila {
-    background: #808080;
-}
-
-.columna {
-    border: 1px solid;
-}
-
 body {
-    padding: 0;
+    padding-top: 70px;
     background: #EDEEEF;
     font-family: 'Roboto', sans-serif;
 }
@@ -99,10 +73,11 @@ a:hover{
 
 /*--- HEADER ---*/
 
-header{
+body header{
     background: #3C3C3B;
     padding: 10px 0;
 }
+
 /* LOGO */
 header .logo img{
     padding:0 45px;
@@ -125,12 +100,53 @@ header .menu a:hover{
     color: #39cccc;
 }
 
-/*.logo {
-    background: #f2f2f2;
+
+/*---BARRA LATERAL---*/
+.main{
+ /*border: 1px solid red;*/
+}
+.barra-lateral {
+    background: #3C3C3B;
+    color: #fff;
+    min-width: 300px;
+    min-height: 100vh;
+    padding: 0;
 }
 
-.menu{
-    background: #dbdbdb;
-}*/
+.barra-lateral a{
+    color: #fff;
+}
 
+.barra-lateral .datos-usuario{
+    background:#808080;
+    margin-bottom:2px;
+}
 
+.barra-lateral .datos-usuario img{
+    width:100%;
+    height: 100%;
+}
+
+.barra-lateral .datos-usuario h2{
+    padding:20px 0;
+    margin:0;
+}
+
+/*---MENU---*/
+.barra-lateral .menu a {
+    display: block;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.barra-lateral .menu a:hover{
+    background: #35ae6b;
+    text-decoration: none;
+}
+
+.barra-lateral .menu a i{
+    margin-right: 20px;
+    font-weight: normal;
+}
