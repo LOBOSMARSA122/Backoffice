@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>BackOffice</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/estilos.css")" rel="stylesheet" type="text/css" />
+</head>
+<body class="login-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <img src="@Url.Content("~/Content/img/logoLogin.png")" height="100" />
+        </div>
+        <div class="IniciarSesion text-center">
+            <p>Iniciar Sesión</p>       
+        </div>
+        <div class="row mt-3 justify-content-center">
+            <div class="col-12 col-sm-6 col-md-4 ">
+                <form action="/" method="post" class="formulario-login">
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <input type="text" name="name" id="usuario" class="form-control" placeholder="Ingrese su Usuario" />
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario">Contraseña</label>
+                        <input type="text" name="name" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="recordar" id="recordar" class="form-check-input"/>Recordar constraseña
+                        </label>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="button" id="enviar" name="enviar" value="Ingresar" class="btn btn-block" />
+                    </div>
+                    <div class="form-group">
+                        <a href="#">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div class="form-group">
+                        <span>¿No tienes una cuenta con nostros? <a href="#">¡Regístrate ahora!</a></span>                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+

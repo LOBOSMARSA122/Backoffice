@@ -14,9 +14,27 @@ namespace ObackOffice
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                      "General_login", "ingresar/",
+                      new { controller = "Generals", action = "Login" },
+                      new[] { "ObackOffice.Controllers" }
+                  );
+            routes.MapRoute(
+                "General_logout", "salir/",
+                new { controller = "Generals", action = "Logout" },
+                new[] { "ObackOffice.Controllers" }
+            );
+
+            routes.MapRoute(
+               "404",
+               "404/",
+               new { controller = "Generals", action = "NoFound" },
+               new[] { "ObackOffice.Controllers" }
+           );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Person", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Generals", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

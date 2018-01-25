@@ -144,6 +144,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Person\PersonController.cs" />
     <Compile Include="Global.asax.cs">
@@ -170,6 +171,7 @@
     <Content Include="Content\icons\icon-CURSOS.png" />
     <Content Include="Content\icons\icon-REGISTROS.png" />
     <Content Include="Content\icons\icon-REPORTES.png" />
+    <Content Include="Content\img\fondo_login.jpg" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logoHeader.png" />
     <Content Include="Content\img\logoLogin.png" />
@@ -251,6 +253,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Generals\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

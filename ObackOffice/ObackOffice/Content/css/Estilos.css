@@ -1,4 +1,89 @@
-﻿body {
+﻿
+/*LOGIN*/
+.login-page {
+    background-image: url('../img/fondo_login.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    margin-top: 160px;
+}
+
+.IniciarSesion {
+    font-size: 15px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+.login-page form label {
+    color: #EE9F00;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+.login-page form input[type=text] {
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    border-bottom: 2px solid #EE9F00;
+    color:#fff;
+}
+.login-page form input[type=text]::-webkit-input-placeholder {
+    color: #e5e5e5;
+    font-family: 'Roboto', sans-serif;
+    font-size:12px;
+    font-style:italic;
+}
+
+.login-page form input[type=button] {
+    background: #EE9F00;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+.login-page form input[type=button]:hover{
+    background: #D68f00;
+}
+
+.login-page form span {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+.login-page form a {
+    color: #EE9F00;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.fila {
+    background: #808080;
+}
+
+.columna {
+    border: 1px solid;
+}
+
+body {
     padding: 0;
     background: #EDEEEF;
     font-family: 'Roboto', sans-serif;
@@ -16,21 +101,36 @@ a:hover{
 
 header{
     background: #3C3C3B;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 /* LOGO */
 header .logo img{
-    height: 70px;
+    padding:0 45px;
+    height: 50px;
 }
-
+/*IMAGEN PERSONA*/
 header .menu .imagen img {
     border-radius: 100px;
 }
 
-header .menu p{
+header .menu a{
     font-size: 16px;
     display: inline-block;
     margin: 0;
     color: #fff;
-    padding-left: 10px;
+    padding: 0 5px;
 }
+
+header .menu a:hover{
+    color: #39cccc;
+}
+
+/*.logo {
+    background: #f2f2f2;
+}
+
+.menu{
+    background: #dbdbdb;
+}*/
+
+
