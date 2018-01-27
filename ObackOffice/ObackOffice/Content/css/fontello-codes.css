@@ -4,6 +4,8 @@
 .icon-mail:before { content: '\e802'; } /* '' */
 .icon-book:before { content: '\e803'; } /* '' */
 .icon-edit:before { content: '\e804'; } /* '' */
+.icon-down-dir:before { content: '\e805'; } /* '' */
+.icon-up-dir:before { content: '\e806'; } /* '' */
 .icon-menu:before { content: '\f0c9'; } /* '' */
 .icon-trash:before { content: '\f1f8'; } /* '' */
 .icon-envelope-open-o:before { content: '\f2b7'; } /* '' */

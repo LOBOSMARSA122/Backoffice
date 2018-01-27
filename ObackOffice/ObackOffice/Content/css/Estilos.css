@@ -1,4 +1,17 @@
-﻿
+﻿* {
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 85px;
+    background: #EDEEEF;
+    font-family: 'Roboto', sans-serif;
+ 
+}
 /*LOGIN*/
 .login-page {
     background-image: url('../img/fondo_login.jpg');
@@ -57,11 +70,7 @@
     font-size: 12px;
 }
 
-body {
-    padding-top: 70px;
-    background: #EDEEEF;
-    font-family: 'Roboto', sans-serif;
-}
+
 
 a{
     color: #1176b6;
@@ -74,14 +83,12 @@ a:hover{
 /*--- HEADER ---*/
 
 body header{
-    background: #3C3C3B;
-    padding: 10px 0;
+    background: #3C3C3B;  
 }
 
 /* LOGO */
 header .logo img{
-    padding:0 45px;
-    height: 50px;
+    height: 70px;
 }
 /*IMAGEN PERSONA*/
 header .menu .imagen img {
@@ -102,16 +109,27 @@ header .menu a:hover{
 
 
 /*---BARRA LATERAL---*/
-.main{
- /*border: 1px solid red;*/
-}
+
 .barra-lateral {
+    position:fixed;
+    background: #3C3C3B;
+    color: #fff;
+    /*min-width: 300px;*/
+    min-height: calc(100vh - 9vh);
+    padding: 0;
+    vertical-align: top;
+}
+
+/*.barra-lateral {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 85px;
+    min-height: 100%;
     background: #3C3C3B;
     color: #fff;
     min-width: 300px;
-    min-height: 100vh;
-    padding: 0;
-}
+}*/
 
 .barra-lateral a{
     color: #fff;
@@ -133,12 +151,19 @@ header .menu a:hover{
 }
 
 /*---MENU---*/
+
+
+
 .barra-lateral .menu a {
     display: block;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.barra-lateral .menu ul{
+    list-style:none;
 }
 
 .barra-lateral .menu a:hover{
@@ -150,3 +175,99 @@ header .menu a:hover{
     margin-right: 20px;
     font-weight: normal;
 }
+
+.barra-lateral .menu ul li:hover .children{
+    display:none;
+}
+
+.barra-lateral .menu ul li .children {
+    display: none;
+}
+
+.barra-lateral .menu ul li .children li a{
+    padding-left:40px;
+}
+
+.barra-lateral .menu ul li .caret {
+    /*position: relative;*/
+    top:3px;
+    margin-left:10px;
+    margin-right:0;
+}
+
+
+.fila {
+    background: #e8e8e8;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.columna {
+    background: #EE9F00;
+    text-align: center;
+    padding: 20px;
+}
+
+.columna .bt-menu {
+    font-weight: 100;
+    color:#fff;
+    font-size:30px;
+    font-style:normal;
+}
+
+body .contenido{
+    position:absolute;
+    background:#EDEEEF;
+    height:100%;
+    width:100%;
+
+}
+
+.main .abrir{
+    margin-left:285px;
+}
+
+@media screen and (max-width:800px){
+
+    .barra-lateral .datos-usuario{
+        display: none;
+    }
+    .barra-lateral {
+        top: 85px;
+        width: 80%;
+        position: absolute ;
+        /*right: 100%;*/
+    }        
+
+    .barra-lateral .menu a:hover {
+        background: #1176b6;
+        text-decoration: none;
+    }
+
+    .barra-lateral nav ul{
+        width:100%;
+    }
+        
+    .barra-lateral .menu ul li:hover .children {
+        display: none;
+    }
+
+    .barra-lateral .menu ul li{
+        display: block;
+    }
+
+
+}
+
+
+/*basura*/
+/*.barra-lateral .menu{
+}
+
+    .barra-lateral .menu ul li {
+        border: 1px solid blue;
+    }
+
+    .barra-lateral .menu ul li a {
+        border: 1px solid red;
+    }*/

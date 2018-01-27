@@ -11,46 +11,74 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <header class="fixed-top">
-                <div class="row ">
-                    <div class="col logo d-none d-md-block">
-                        <a href="http://alphabusinessc.com/">
-                            <img src="~/Content/img/logoHeader.png" />
-                        </a>
-                    </div>
-                    <nav class="col menu d-flex align-items-center col-auto">
-                        <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="40" height="40" alt="" /></a>
-                        <a href="#">Anabel Torress Medina</a>
-                    </nav>
+        <header class="fixed-top">
+            <div class="row  align-items-center">
+                <div class="col-auto columna ml-3">
+                    <a href="#" class="bt-menu"><span class="icon-menu"></span></a>
                 </div>
-            </header>
-        </div>
 
+                <div class="col logo d-none d-md-block">
+                    <a href="http://alphabusinessc.com/">
+                        <img src="~/Content/img/logoHeader.png" />
+                    </a>
+                </div>
+
+                <nav class="col menu d-flex col-auto align-items-center ">
+                    <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="35" height="35" alt="" /></a>
+                    <a href="#">Anabel Torress Medina</a>
+                </nav>
+
+            </div>
+        </header>
+      
         <div class="row main">
-            <div class="barra-lateral col-12 col-sm-auto">
+            <div class="barra-lateral col-auto">
                 <div class="datos-usuario">
                     <img src="~/Content/img/perfil.jpg" />
                 </div>
-                <nav class="menu d-flex d-sm-block justify-content-center flex-wrap">
-                    <a href="#"><i class="icon-pencil"></i><span>Registros</span></a>
-                    <a href="#"><i class="icon-book"></i><span>Cursos</span></a>
-                    <a href="#"><i class="icon-chart-bar"></i><span>Reportes</span></a>
-                </nav>            
+                <nav class="menu d-flex d-sm-block  flex-wrap">
+                    <ul>
+                        <li class="submenu">
+                            <a href="#"><i class="icon-pencil"></i><span>Registros<span class="caret icon-down-dir"></span></span></a>
+                            <ul class="children">
+                                <li><a href="#">content 1</a></li>
+                                <li><a href="#">content 2</a></li>
+                                <li><a href="#">content 3</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="icon-book"></i><span>Cursos<span class="caret icon-down-dir"></span></span></a>
+                            <ul class="children">
+                                <li><a href="#">content 4</a></li>
+                                <li><a href="#">content 5</a></li>
+                                <li><a href="#">content 6</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="icon-chart-bar"></i><span>Reportes<span class="caret icon-down-dir"></span></span></a>
+                            <ul class="children">
+                                <li><a href="#">content 7</a></li>
+                                <li><a href="#">content 8</a></li>
+                                <li><a href="#">content 9</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <main class="col">
-                @RenderBody()
-            </main>
+         
+                <main class="col contenido abrir">
+                    @RenderBody()
+                </main>
+            
         </div>
-      
-           
+
+
     </div>
-  
-
-
-
+    
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/main")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
