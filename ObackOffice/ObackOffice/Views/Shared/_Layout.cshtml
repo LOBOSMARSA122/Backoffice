@@ -14,7 +14,7 @@
         <header class="fixed-top">
             <div class="row  align-items-center">
                 <div class="col-auto columna ml-3">
-                    <a href="#" class="bt-menu"><span class="icon-menu"></span></a>
+                    <a href="#" class="bt-menu"><span class="icon-menu icono-menu"></span></a>
                 </div>
 
                 <div class="col logo d-none d-md-block">
@@ -32,7 +32,7 @@
         </header>
       
         <div class="row main">
-            <div class="barra-lateral col-auto">
+            <div class="barra-lateral col-auto abrir-barralateral contenido-wrapper">
                 <div class="datos-usuario">
                     <img src="~/Content/img/perfil.jpg" />
                 </div>
@@ -60,19 +60,21 @@
                                 <li><a href="#">content 7</a></li>
                                 <li><a href="#">content 8</a></li>
                                 <li><a href="#">content 9</a></li>
+                                <li><a href="#">content 10</a></li>
+                                <li><a href="#">content 11</a></li>
+                                <li><a href="#">content 12</a></li>
+                                <li><a href="#">content 13</a></li>
+                                <li><a href="#">content 14</a></li>
+                                <li><a href="#">content 15</a></li>
                             </ul>
                         </li>
                     </ul>
                 </nav>
             </div>
-         
-                <main class="col contenido abrir">
+                <main class="col contenido abrir contenido-wrapper">
                     @RenderBody()
-                </main>
-            
+                </main> 
         </div>
-
-
     </div>
     
     @Scripts.Render("~/bundles/jquery")

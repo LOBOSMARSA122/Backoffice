@@ -15,38 +15,42 @@
 </head>
 <body class="login-page">
     <div class="container">
-        <div class="row justify-content-center">
-            <img src="@Url.Content("~/Content/img/logoLogin.png")" height="100" />
-        </div>
-        <div class="IniciarSesion text-center">
-            <p>Iniciar Sesión</p>       
-        </div>
-        <div class="row mt-3 justify-content-center">
-            <div class="col-12 col-sm-6 col-md-4 ">
-                <form action="Generals/Login_authentication" method="post" class="formulario-login">
-                    <div class="form-group">
-                        <label for="usuario">Usuario</label>
-                        <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su Usuario" />
+        <div class="row mirar-div">
+            <div class="col absolute-center is-responsive">
+                <div class="row justify-content-center">
+                    <img src="@Url.Content("~/Content/img/logoLogin.png")" height="100" />
+                </div>
+                <div class="IniciarSesion text-center">
+                    Iniciar Sesión
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <form action="Generals/Login_authentication" method="post" class="formulario-login">
+                            <div class="form-group">
+                                <label for="usuario">Usuario</label>
+                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su usuario" />
+                            </div>
+                            <div class="form-group">
+                                <label for="usuario">Contraseña</label>
+                                <input type="text" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" name="recordar" id="recordar" class="form-check-input" />Recordar constraseña
+                                </label>
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="submit" id="enviar" name="enviar" value="Ingresar" class="btn btn-block" />
+                            </div>
+                            <div class="form-group ">
+                                <a href="#">¿Olvidaste tu contraseña?</a>
+                            </div>
+                            <div class="form-group">
+                                <span>¿No tienes una cuenta con nostros? <a href="#">¡Regístrate ahora!</a></span>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="usuario">Contraseña</label>
-                        <input type="text" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" name="recordar" id="recordar" class="form-check-input"/>Recordar constraseña
-                        </label>
-                    </div>
-                    <div class="form-group mt-2">
-                        <input type="submit" id="enviar" name="enviar" value="Ingresar" class="btn btn-block" />
-                    </div>
-                    <div class="form-group">
-                        <a href="#">¿Olvidaste tu contraseña?</a>
-                    </div>
-                    <div class="form-group">
-                        <span>¿No tienes una cuenta con nostros? <a href="#">¡Regístrate ahora!</a></span>                        
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

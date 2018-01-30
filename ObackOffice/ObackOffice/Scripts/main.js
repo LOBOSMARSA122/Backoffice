@@ -2,7 +2,9 @@
 
 function main() {
     $('.bt-menu').on('click', function () {
-        $('.contenido').toggleClass('abrir');
+        $('.contenido').toggleClass('abrir-contenido');
+
+        $('.barra-lateral').toggleClass('abrir-barralateral');
     });
 
     //Mostramos y ocultamos submenus
