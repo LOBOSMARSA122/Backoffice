@@ -1,4 +1,5 @@
 ﻿using ObackOffice.Models;
+using ObackOffice.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,7 @@ namespace ObackOffice.Controllers
 
         public ActionResult Home()
         {
-            Api API = new Api();
-            string url = "Usuario/GetAutorizacion";
-            Dictionary<string, string> AccesoUsuario = new Dictionary<string, string>();
-            AccesoUsuario.Add("rolId", "1");
-            ViewBag.MENU = API.Get<List<Models.Acceso.Autorizacion>>(url, AccesoUsuario);
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             return View("~/Views/Generals/Index.cshtml",ViewBag.MENU);
         }
 
@@ -55,27 +52,31 @@ namespace ObackOffice.Controllers
                 Dictionary<string, string> AccesoUsuario = new Dictionary<string, string>();
                 AccesoUsuario.Add("usuario", usuario);
                 AccesoUsuario.Add("contrasenia", contrasenia);
-                ViewBag.USUARIO = API.Get<Models.Acceso.Usuario>(url, AccesoUsuario);
+                ViewBag.USUARIO = API.Get<Models.Acceso.UsuarioLogin>(url, AccesoUsuario);
                 if (ViewBag.USUARIO != null)
                 {
+                    ClientSession oclientSession = new ClientSession();
+                    oclientSession.UsuarioId = ViewBag.USUARIO.UsuarioId;
+                    oclientSession.PersonaId = ViewBag.USUARIO.PersonaId;
+                    oclientSession.NombreUsuario = ViewBag.USUARIO.NombreUsuario;
+                    oclientSession.NombreCompleto = ViewBag.USUARIO.NombreCompleto;
+                    oclientSession.FechaCaduca = ViewBag.USUARIO.FechaCaduca;
+                    oclientSession.RolId = ViewBag.USUARIO.RolId;
+                    oclientSession.Rol = ViewBag.USUARIO.Rol;
+                    oclientSession.Rol = oclientSession.Rol.Substring(0, 3);
+                    oclientSession.Autorizacion = ViewBag.USUARIO.Autorizacion;
+                    Session.Add("AutBackoffice", oclientSession);
                     return RedirectToRoute("backoffice");
                 }
                 else
                 {
                     return RedirectToRoute("General_NotAuthorized");
                 }
-                //if (((List<Models.Acceso.Autorizacion>)ViewBag.RESPONSE).ToList().Count > 0)
 
             }
             return RedirectToRoute("General_NotAuthorized");
         }
-
-        public ActionResult Autorizacion(int rolId)
-        {
-
-            return null;
-        }
-
+        
         public ActionResult Notauthorized()
         {
             Session.Remove("Auth");

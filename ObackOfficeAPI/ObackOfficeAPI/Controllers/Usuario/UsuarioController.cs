@@ -16,7 +16,7 @@ namespace ObackOfficeAPI.Controllers.Usuario
         [HttpGet]
         public IHttpActionResult GetUsuario(string usuario, string contrasenia)
         {
-            BE.Acceso.Usuario result = ur.LoginUsuario(usuario, contrasenia);
+            BE.Acceso.UsuarioAutorizado result = ur.LoginUsuario(usuario, contrasenia);
             return Ok(result);
           
             

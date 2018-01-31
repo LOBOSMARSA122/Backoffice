@@ -11,36 +11,18 @@
 </head>
 <body>
     <div class="container-fluid">
-        <header class="fixed-top">
-            <div class="row  align-items-center">
-                <div class="col-auto columna ml-3">
-                    <a href="#" class="bt-menu"><span class="icon-menu icono-menu"></span></a>
-                </div>
 
-                <div class="col logo d-none d-md-block">
-                    <a href="http://alphabusinessc.com/">
-                        <img src="~/Content/img/logoHeader.png" />
-                    </a>
-                </div>
-
-                <nav class="col menu d-flex col-auto align-items-center ">
-                    <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="35" height="35" alt="" /></a>
-                    <a href="#">Anabel Torress Medina</a>
-                </nav>
-
-            </div>
-        </header>
-      
+        @Html.Partial("_HeaderPartial")
         <div class="row main">
             <div class="barra-lateral col-auto contenido-wrapper">
                 <div class="datos-usuario">
                     <img src="~/Content/img/perfil.jpg" />
                 </div>
-                @Html.Partial("_sideBarPartial")
+                @Html.Partial("_SideBarPartial")
             </div>
-                <main class="col contenido abrir-contenido contenido-wrapper">
-                    @RenderBody()
-                </main> 
+            <main class="col contenido abrir-contenido contenido-wrapper">
+                @RenderBody()
+            </main>
         </div>
     </div>
     

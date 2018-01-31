@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BE.Comun
 {
+    [Table("tblPersonas")]
     public class Persona
     {
         public int PersonaId { get; set; }

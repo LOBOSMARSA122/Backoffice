@@ -10,14 +10,36 @@ namespace BL
     {
         private DatabaseContext ctx = new DatabaseContext();
 
-        public Usuario LoginUsuario(string usuario, string contrasenia)
+        public UsuarioAutorizado LoginUsuario(string usuario, string contrasenia)
         {
             try
             {
-                var query = (from a in ctx.Usuarios
-                            where a.NombreUsuario == usuario && a.Contrasenia == contrasenia
-                             select a).FirstOrDefault();
-                return query;
+                UsuarioAutorizado oUsuarioAutorizado = new UsuarioAutorizado();
+                var qUsuario = (from a in ctx.Usuarios
+                                join b in ctx.Personas on a.PersonaId equals b.PersonaId
+                                join c in ctx.Parametros on new {a = a.RolId, b=102} equals new {a = c.ParametroId, b= c.GrupoId}
+                                where a.NombreUsuario == usuario && a.Contrasenia == contrasenia
+                                select new UsuarioAutorizado {
+                                    UsuarioId = a.UsuarioId,
+                                    PersonaId = a.PersonaId,
+                                    NombreUsuario = a.NombreUsuario,
+                                    NombreCompleto = b.Nombres + " " + b.ApellidoPaterno + " " + b.ApellidoMaterno,
+                                    FechaCaduca = a.FechaCaduca,
+                                    RolId = a.RolId,
+                                    Rol = c.Valor1
+
+                             }).FirstOrDefault();
+                if (qUsuario != null)
+                {
+                    var qAutu = GetAutorizacion(qUsuario.RolId);
+                    qUsuario.Autorizacion = qAutu;
+                }
+                else
+                {
+                    return null;
+                }               
+
+                return qUsuario;
             }
             catch (Exception ex)
             {

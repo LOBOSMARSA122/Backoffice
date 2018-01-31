@@ -1,6 +1,6 @@
 ﻿<nav class="menu d-flex d-sm-block  flex-wrap">
     <ul>
-        @foreach (var menu in ViewBag.MENU)
+        @foreach (var menu in ViewBag.USUARIO.Autorizacion)
         {
             <li class="submenu">
                 <a href="#"><i class="@menu.Icono"></i><span>@menu.Descripcion<span class="caret icon-down-dir"></span></span></a>

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BE.Comun
 {
+    [Table("tblParametros")]
     public class Parametro
     {
         public int GrupoId { get; set; }

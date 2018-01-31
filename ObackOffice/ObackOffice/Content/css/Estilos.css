@@ -70,6 +70,7 @@ body .margen-superior{
     border-bottom: 2px solid #EE9F00;
     color: #fff;
 }
+.login-page form input[type=password]::-webkit-input-placeholder,
 .login-page form input[type=text]::-webkit-input-placeholder {
     color: #e5e5e5;
     font-family: 'Roboto', sans-serif;
@@ -171,10 +172,23 @@ a:hover{
 
 /*--- HEADER ---*/
 
-body header{
-    background: #3C3C3B;  
+body header {
+    background: #3C3C3B;
     /*z-index:1000;*/
 }
+
+/*body header div > div {
+    border: 1px solid red;
+}
+
+body header div nav > a {
+    border: 1px solid red;
+}*/
+
+body header nav .NombreUsuario {
+    min-width:250px;
+}
+
 
 /* LOGO */
 header .logo img{
