@@ -63,11 +63,12 @@ body .margen-superior{
     font-size: 12px;
 }
 
-.login-page form input[type=text] {
+.login-page form input[type=text],
+.login-page form input[type=password] {
     background: rgba(0, 0, 0, 0);
     border: none;
     border-bottom: 2px solid #EE9F00;
-    color:#fff;
+    color: #fff;
 }
 .login-page form input[type=text]::-webkit-input-placeholder {
     color: #e5e5e5;
@@ -316,7 +317,7 @@ header .columna a:hover {
 }
 
 body .contenido{
-    border: 1px solid red;
+    /*border: 1px solid blue;*/
     position:absolute;
     background:#EDEEEF;
     /*left:330px;*/
@@ -381,15 +382,125 @@ body .contenido-wrapper {
 
 }
 
+/*--INDEX--*/
 
-/*basura*/
-/*.barra-lateral .menu{
+.barra-acceso-rapido > div {
+    /*background: #d1caca;*/
+    /*border: 1px solid #4d5061;*/
+    text-align: center;
+    /*margin-top:40px;*/
+    /*margin-bottom:40px;*/
+    /*padding:30px;*/
 }
 
-    .barra-lateral .menu ul li {
-        border: 1px solid blue;
+.barra-acceso-rapido .small-box {
+    border-radius: 2px;
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    width:70%;
+    min-width:300px;
+}
+
+    /* boton 1*/
+    .barra-acceso-rapido .small-box .inner {
+        text-decoration: none;
+        background: #0179BC;
+        padding: 20px;
     }
 
-    .barra-lateral .menu ul li a {
-        border: 1px solid red;
-    }*/
+        .barra-acceso-rapido .small-box .inner a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 20px;
+        }
+
+    .barra-acceso-rapido .small-box .icono {
+        font-size: 100px;
+        background: #2196F3;
+        color: rgba(0, 0, 0, 0.15);
+    }
+
+
+    /* boton 1*/
+    .barra-acceso-rapido .small-box .inner-1 {
+        text-decoration: none;
+        background: #0179BC;
+        padding: 20px;
+    }
+
+        .barra-acceso-rapido .small-box .inner-1 a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 20px;
+        }
+
+    .barra-acceso-rapido .small-box .icono-1 {
+        font-size: 100px;
+        background: #2196F3;
+        color: rgba(0, 0, 0, 0.15);
+    }
+
+
+
+    /* boton 2*/
+    .barra-acceso-rapido .small-box .inner-2 {
+        text-decoration: none;
+        background: #EA9307;
+        padding: 20px;
+    }
+
+        .barra-acceso-rapido .small-box .inner-2 a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 20px;
+        }
+
+    .barra-acceso-rapido .small-box .icono-2 {
+        font-size: 100px;
+        background: #FBA20A;
+        color: rgba(0, 0, 0, 0.15);
+    }
+
+
+
+    /* boton 3*/
+    .barra-acceso-rapido .small-box .inner-3 {
+        text-decoration: none;
+        background: #199382;
+        padding: 20px;
+    }
+
+        .barra-acceso-rapido .small-box .inner-3 a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 20px;
+        }
+
+    .barra-acceso-rapido .small-box .icono-3 {
+        font-size: 100px;
+        background: #26A59A;
+        color: rgba(0, 0, 0, 0.15);
+    }
+
+
+    /* boton 4*/
+    .barra-acceso-rapido .small-box .inner-4 {
+        text-decoration: none;
+        background: #3349A1;
+        padding: 20px;
+    }
+
+        .barra-acceso-rapido .small-box .inner-4 a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 20px;
+        }
+
+    .barra-acceso-rapido .small-box .icono-4 {
+        font-size: 100px;
+        background: #3F51B5;
+        color: rgba(0, 0, 0, 0.15);
+    }
+

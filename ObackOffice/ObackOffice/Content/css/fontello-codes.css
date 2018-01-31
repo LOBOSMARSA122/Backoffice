@@ -6,6 +6,10 @@
 .icon-edit:before { content: '\e804'; } /* '' */
 .icon-down-dir:before { content: '\e805'; } /* '' */
 .icon-up-dir:before { content: '\e806'; } /* '' */
+.icon-calendar:before { content: '\e807'; } /* '' */
+.icon-clock:before { content: '\e808'; } /* '' */
+.icon-book-open:before { content: '\e809'; } /* '' */
+.icon-users:before { content: '\f064'; } /* '' */
 .icon-menu:before { content: '\f0c9'; } /* '' */
 .icon-trash:before { content: '\f1f8'; } /* '' */
 .icon-envelope-open-o:before { content: '\f2b7'; } /* '' */

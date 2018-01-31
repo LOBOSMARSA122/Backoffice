@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObackOffice.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -37,13 +38,38 @@ namespace ObackOffice.Controllers
 
         public ActionResult Login_authentication(FormCollection collection)
         {
-            if (collection.Get("usuario").Trim() != "")
+            if (collection.Get("usuario").Trim() != string.Empty && collection.Get("pass").Trim() != string.Empty)
             {
+                string usuario = collection.Get("usuario").Trim();
+                string contrasenia = Utils.Utils.Encrypt(collection.Get("pass").Trim());
                 //Validar si el usuario existe en el sistema
+                Api API = new Api();
+                string url = "Usuario/GetUsuario";
 
-                return RedirectToRoute("backoffice");
+                Dictionary<string, string> AccesoUsuario = new Dictionary<string, string>();
+                AccesoUsuario.Add("usuario", usuario);
+                AccesoUsuario.Add("contrasenia", contrasenia);
+                ViewBag.RESPONSE = API.Get<Models.Acceso.Usuario>(url, AccesoUsuario);
+
+                if (ViewBag.RESPONSE != null)
+                {
+                    return RedirectToRoute("backoffice");
+                }
+                else
+                {
+                    return RedirectToRoute("General_NotAuthorized");
+                }               
             }
             return RedirectToRoute("General_NotAuthorized");
+        }
+
+        public ActionResult Notauthorized()
+        {
+            Session.Remove("Auth");
+            Session.Remove("AuthBackoffice");
+            Session.Remove("AuthPArent");
+            Session.RemoveAll();
+            return View();
         }
 
         #endregion
