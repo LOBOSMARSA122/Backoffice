@@ -316,12 +316,12 @@ header .columna a:hover {
 }
 
 body .contenido{
-    /*border: 1px solid red;*/
+    border: 1px solid red;
     position:absolute;
     background:#EDEEEF;
     /*left:330px;*/
     padding:15px;
-    height:100%;
+    /*height:calc(100% - 80px);*/
     overflow:hidden;
 }
 
@@ -336,6 +336,7 @@ body .contenido-wrapper {
 
 .main .abrir-contenido {
     transform: translateX(330px);
+    width: calc(100% - 330px);
 }
 
 .main .abrir-barralateral {
