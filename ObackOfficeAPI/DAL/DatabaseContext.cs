@@ -1,4 +1,5 @@
-﻿using BE;
+﻿using BE.Acceso;
+using BE.Comun;
 using System.Data.Entity;
 
 namespace DAL

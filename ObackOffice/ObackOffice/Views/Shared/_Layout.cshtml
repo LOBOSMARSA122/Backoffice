@@ -36,40 +36,7 @@
                 <div class="datos-usuario">
                     <img src="~/Content/img/perfil.jpg" />
                 </div>
-                <nav class="menu d-flex d-sm-block  flex-wrap">
-                    <ul>
-                        <li class="submenu">
-                            <a href="#"><i class="icon-pencil"></i><span>Registros<span class="caret icon-down-dir"></span></span></a>
-                            <ul class="children">
-                                <li><a href="#">content 1</a></li>
-                                <li><a href="#">content 2</a></li>
-                                <li><a href="#">content 3</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="icon-book"></i><span>Cursos<span class="caret icon-down-dir"></span></span></a>
-                            <ul class="children">
-                                <li><a href="#">content 4</a></li>
-                                <li><a href="#">content 5</a></li>
-                                <li><a href="#">content 6</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="icon-chart-bar"></i><span>Reportes<span class="caret icon-down-dir"></span></span></a>
-                            <ul class="children">
-                                <li><a href="#">content 7</a></li>
-                                <li><a href="#">content 8</a></li>
-                                <li><a href="#">content 9</a></li>
-                                <li><a href="#">content 10</a></li>
-                                <li><a href="#">content 11</a></li>
-                                <li><a href="#">content 12</a></li>
-                                <li><a href="#">content 13</a></li>
-                                <li><a href="#">content 14</a></li>
-                                <li><a href="#">content 15</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+                @Html.Partial("_sideBarPartial")
             </div>
                 <main class="col contenido abrir-contenido contenido-wrapper">
                     @RenderBody()

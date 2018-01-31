@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BE
+namespace BE.Acceso
 {
     [Table("tblUsuarios")]
     public class Usuario

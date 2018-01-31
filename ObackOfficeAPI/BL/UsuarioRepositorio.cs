@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BE;
+using BE.Acceso;
 using DAL;
 
 namespace BL
@@ -23,6 +23,41 @@ namespace BL
             {
                 return null;
             }
+        }
+
+        public List<Autorizacion> GetAutorizacion(int rolId)
+        {
+
+            var perfil = (from a in ctx.Perfiles
+                          join b in ctx.Menus on a.MenuId equals b.MenuId
+                          where a.RolId == rolId && a.EsEliminado == 0
+                          select new SubMenu
+                          {
+                              MenuId = a.MenuId,
+                              Descripcion = b.Descripcion,
+                              PadreId = b.PadreId
+                          }).ToList();
+
+            var query = (from a in ctx.Perfiles
+                        join b in ctx.Menus on a.MenuId equals b.MenuId
+                         where a.RolId == rolId && a.EsEliminado == 0 && b.PadreId ==-1
+                         select new Autorizacion
+                         {
+                             PerfilId = a.PerfilId,
+                             RolId = a.RolId,
+                             MenuId = b.MenuId,
+                             Descripcion = b.Descripcion,
+                             PadreId = b.PadreId,
+                             Icono = b.Icono
+                         }).ToList();
+            query.ForEach(a =>
+            {
+                a.SubMenus = perfil.FindAll(p => p.PadreId == a.MenuId);
+            });
+
+            return query;
+
+
         }
     }
 }

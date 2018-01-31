@@ -9,6 +9,8 @@
 .icon-calendar:before { content: '\e807'; } /* '' */
 .icon-clock:before { content: '\e808'; } /* '' */
 .icon-book-open:before { content: '\e809'; } /* '' */
+.icon-lock:before { content: '\e80a'; } /* '' */
+.icon-eye:before { content: '\e80b'; } /* '' */
 .icon-users:before { content: '\f064'; } /* '' */
 .icon-menu:before { content: '\f0c9'; } /* '' */
 .icon-trash:before { content: '\f1f8'; } /* '' */

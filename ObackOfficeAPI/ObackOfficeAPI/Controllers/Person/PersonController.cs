@@ -11,7 +11,7 @@ namespace ObackOfficeAPI.Controllers.Person
         [HttpGet]
         public IHttpActionResult GetAll()
         {
-            List<BE.Person> result = pr.GetAll();
+            List<BE.Comun.Person> result = pr.GetAll();
             if (result != null)
             {
                 return Ok(result);

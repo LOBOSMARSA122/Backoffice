@@ -11,12 +11,18 @@ namespace ObackOffice.Controllers
     {
         public ActionResult Index()
         {
+
             return RedirectToRoute("General_login");
         }
 
         public ActionResult Home()
         {
-            return View("~/Views/Generals/Index.cshtml");
+            Api API = new Api();
+            string url = "Usuario/GetAutorizacion";
+            Dictionary<string, string> AccesoUsuario = new Dictionary<string, string>();
+            AccesoUsuario.Add("rolId", "1");
+            ViewBag.MENU = API.Get<List<Models.Acceso.Autorizacion>>(url, AccesoUsuario);
+            return View("~/Views/Generals/Index.cshtml",ViewBag.MENU);
         }
 
         public ActionResult Logout()
@@ -49,18 +55,25 @@ namespace ObackOffice.Controllers
                 Dictionary<string, string> AccesoUsuario = new Dictionary<string, string>();
                 AccesoUsuario.Add("usuario", usuario);
                 AccesoUsuario.Add("contrasenia", contrasenia);
-                ViewBag.RESPONSE = API.Get<Models.Acceso.Usuario>(url, AccesoUsuario);
-
-                if (ViewBag.RESPONSE != null)
+                ViewBag.USUARIO = API.Get<Models.Acceso.Usuario>(url, AccesoUsuario);
+                if (ViewBag.USUARIO != null)
                 {
                     return RedirectToRoute("backoffice");
                 }
                 else
                 {
                     return RedirectToRoute("General_NotAuthorized");
-                }               
+                }
+                //if (((List<Models.Acceso.Autorizacion>)ViewBag.RESPONSE).ToList().Count > 0)
+
             }
             return RedirectToRoute("General_NotAuthorized");
+        }
+
+        public ActionResult Autorizacion(int rolId)
+        {
+
+            return null;
         }
 
         public ActionResult Notauthorized()

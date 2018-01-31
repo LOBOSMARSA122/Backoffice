@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BE;
+using BE.Comun;
 using DAL;
 
 namespace BL
@@ -25,7 +25,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             
         }

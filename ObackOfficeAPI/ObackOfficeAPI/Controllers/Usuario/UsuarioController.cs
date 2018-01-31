@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using BE.Acceso;
 
 namespace ObackOfficeAPI.Controllers.Usuario
 {
@@ -15,7 +16,16 @@ namespace ObackOfficeAPI.Controllers.Usuario
         [HttpGet]
         public IHttpActionResult GetUsuario(string usuario, string contrasenia)
         {
-            BE.Usuario result = ur.LoginUsuario(usuario, contrasenia);           
+            BE.Acceso.Usuario result = ur.LoginUsuario(usuario, contrasenia);
+            return Ok(result);
+          
+            
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetAutorizacion(int rolId)
+        {
+            List<Autorizacion> result = ur.GetAutorizacion(rolId);
             return Ok(result);
         }
     }

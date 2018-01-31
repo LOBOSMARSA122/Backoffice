@@ -1,11 +1,16 @@
-﻿
-@*<div class="row">
-    <div class="col">
-        <p>holaa</p>
-        <p>holaa</p>
-        <p>holaa</p>
-        <p>holaa</p>
-        <p>holaa</p><p>holaa</p>
-        <p>holaa</p>
-    </div>
-</div>*@
+﻿<nav class="menu d-flex d-sm-block  flex-wrap">
+    <ul>
+        @foreach (var menu in ViewBag.MENU)
+        {
+            <li class="submenu">
+                <a href="#"><i class="@menu.Icono"></i><span>@menu.Descripcion<span class="caret icon-down-dir"></span></span></a>
+                <ul class="children">
+                    @foreach (var submenu in menu.SubMenus)
+                    {
+                        <li><a href="#">@submenu.Descripcion</a></li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</nav>
