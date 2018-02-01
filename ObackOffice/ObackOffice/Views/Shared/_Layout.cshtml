@@ -11,18 +11,15 @@
 </head>
 <body>
     <div class="container-fluid">
-
         @Html.Partial("_HeaderPartial")
         <div class="row main">
-            <div class="barra-lateral col-auto contenido-wrapper">
-                <div class="datos-usuario">
-                    <img src="~/Content/img/perfil.jpg" />
-                </div>
-                @Html.Partial("_SideBarPartial")
-            </div>
+           
+            @Html.Partial("_SideBarPartial")
+            
             <main class="col contenido abrir-contenido contenido-wrapper">
                 @RenderBody()
             </main>
+
         </div>
     </div>
     
