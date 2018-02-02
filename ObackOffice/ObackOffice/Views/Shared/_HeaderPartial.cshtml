@@ -1,7 +1,6 @@
-﻿
-<header class="fixed-top">
-    <div class="row  align-items-center">
-        <div class="col-auto columna ml-3">
+﻿<header class="fixed-top">
+    <div class="row align-items-center menu">
+        <div class="col-auto align-self-stretch boton-menu ">
             <a href="#" class="bt-menu"><span class="icon-menu icono-menu"></span></a>
         </div>
 
@@ -10,11 +9,11 @@
                 <img src="~/Content/img/logoHeader.png" />
             </a>
         </div>
-
-        <nav class="col menu d-flex col-auto align-items-center ">
-            <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="35" height="35" alt="" /></a>
-            <a href="#" class="NombreUsuario">(@ViewBag.USUARIO.Rol) @ViewBag.USUARIO.NombreCompleto</a>
-        </nav>
-
+        <div>
+            <nav class="col">
+                <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="35" height="35" alt="" /></a>
+                <a href="#" class="nombre-usuario">(@ViewBag.USUARIO.Rol) @ViewBag.USUARIO.NombreCompleto</a>
+            </nav>
+        </div>
     </div>
 </header>

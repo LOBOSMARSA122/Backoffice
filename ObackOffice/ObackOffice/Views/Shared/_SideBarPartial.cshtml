@@ -1,22 +1,22 @@
-﻿<div class="barra-lateral col-auto contenido-wrapper">
+﻿<div id="sidebar-wrapper" class="barra-lateral">
     <div class="datos-usuario d-flex justify-content-around align-items-center">
         <img src="~/Content/img/persona3.jpg" />
         <a href="#">(@ViewBag.USUARIO.Rol)  @ViewBag.USUARIO.NombreCompleto</a>
     </div>
-    <nav class="menu d-flex d-sm-block  flex-wrap">
-        <ul>
-            @foreach (var menu in ViewBag.USUARIO.Autorizacion)
-            {
-                <li class="submenu">
-                    <a href="#"><i class="@menu.Icono"></i><span>@menu.Descripcion<span class="caret icon-down-dir"></span></span></a>
-                    <ul class="children">
-                        @foreach (var submenu in menu.SubMenus)
-                        {
-                            <li><a href="#">@submenu.Descripcion</a></li>
-                        }
-                    </ul>
-                </li>
-            }
-        </ul>
-    </nav>
+    <nav class="menu d-flex d-sm-block">
+            <ul>
+                @foreach (var menu in ViewBag.USUARIO.Autorizacion)
+                {
+                    <li class="submenu">
+                        <a href="#"><i class="@menu.Icono"></i><span>@menu.Descripcion<span class="caret icon-down-dir"></span></span></a>
+                        <ul class="children">
+                            @foreach (var submenu in menu.SubMenus)
+                            {
+                                <li><a href="#">@submenu.Descripcion</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </nav>
 </div>

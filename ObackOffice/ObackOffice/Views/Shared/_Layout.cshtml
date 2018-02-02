@@ -9,20 +9,31 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div class="container-fluid">
-        @Html.Partial("_HeaderPartial")
-        <div class="row main">
-           
-            @Html.Partial("_SideBarPartial")
-            
-            <main class="col contenido abrir-contenido contenido-wrapper">
-                @RenderBody()
-            </main>
+<body class="mirar-div">
+    @Html.Partial("_HeaderPartial")
 
-        </div>
+    <div id="wrapper" class="active">       
+            @Html.Partial("_SideBarPartial")
+
+        <main class="col contenido">
+            @RenderBody()
+        </main>
     </div>
-    
+ 
+ 
+   
+
+    <footer class=" d-flex justify-content-between">
+        <div class="d-none d-md-block">
+            <strong>Copyright &copy; @DateTime.Now.Year <a href="#" target="_blank">Riesgos Críticos</a>.</strong>
+        </div>
+        <div>
+            <span>Desarrollado por <a href="https://www.omeganetperu.com/" target="_blank">Omeganetperu</a></span>
+        </div>
+
+    </footer>
+
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/main")
