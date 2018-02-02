@@ -23,7 +23,7 @@ namespace BL
                                     UsuarioId = a.UsuarioId,
                                     PersonaId = a.PersonaId,
                                     NombreUsuario = a.NombreUsuario,
-                                    NombreCompleto = b.Nombres + " " + b.ApellidoPaterno + " " + b.ApellidoMaterno,
+                                    NombreCompleto = b.Nombres + " " + b.ApellidoPaterno,
                                     FechaCaduca = a.FechaCaduca,
                                     RolId = a.RolId,
                                     Rol = c.Valor1

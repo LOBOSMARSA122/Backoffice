@@ -98,9 +98,10 @@ header .menu {
 }
 
 header .boton-menu {
-    background: #EE9F00;
+    background: #5b5b59;
     width: 80px;
     text-align: center;
+    /*--FLEX--*/
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -128,15 +129,6 @@ header .menu .nombre-usuario {
     min-width: 250px;
     color: #fff;
 }
-
-
-
-
-
-
-
-
-
 
 
 /*--SIDEBAR--*/
@@ -239,43 +231,9 @@ header .menu .nombre-usuario {
 }
 
 
-
 .barra-lateral .menu ul {
     padding-left: 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*--CONTENIDO--*/
@@ -293,6 +251,81 @@ body footer {
     color: #444;
     border-top: 1px solid #d2d6de;
 }
+
+
+
+/*ACCESO-RAPIDO*/
+
+.acceso-rapido{
+    width:100%;
+    height:auto;
+    background:#fff;
+    padding:10px;
+    /*border:1px solid #2c3e50;*/
+    margin:20px;
+    /*--FLEX--*/
+    display:flex;
+    display:-webkit-flex;
+    display:-ms-flexbox;    
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:space-around;
+}
+
+.acceso-rapido .boton{
+    color:#fff;
+    margin:5px;
+    background:#1B9385;
+    text-align:center;
+    width:250px;
+    height:100px;
+    min-width:200px;
+    border-radius:5px;
+    /*FLEX*/
+    display:flex;
+    flex-direction:row;
+    
+    /*align-items:center;*/
+}
+
+.acceso-rapido .boton .boton-titulo {
+    background: #26a69a;
+    align-items: stretch;
+    border-radius: 5px;
+    /*FLEX*/
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    /*border:1px solid red;*/
+}
+
+.acceso-rapido .boton .boton-titulo a {
+    /*text-align: center;*/
+    padding:5px;
+    margin-bottom:0;
+    text-decoration:none;
+    color:#fff;
+}
+
+.acceso-rapido .boton .boton-titulo a:hover {
+    color: #c6c2c2;
+}
+
+.acceso-rapido .boton .boton-icono{
+    font-size:60px;
+    margin:0;
+    width:50%;
+    /*border:1px solid red;*/
+ 
+    display:flex;
+    flex-direction:column;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+}
+
 
 /*MEDIA QUERYS*/
 
