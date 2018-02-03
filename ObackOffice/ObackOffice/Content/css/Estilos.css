@@ -326,11 +326,52 @@ body footer {
     align-items:center;
 }
 
+.busqueda-empleado {
+    /*border:1px solid red;*/
+    padding:10px;
+    /*FLEX*/
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.busqueda-empleado{
+    margin-bottom:0;
+}
+table thead {
+    color: #3c3c3b;
+    font-family: 'Roboto', sans-serif;
+    font-size:14px;
+}
+
+table tbody {
+    color: #3c3c3b;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    cursor:pointer;
+}
+
+table tbody tr td{
+    text-align:center;
+}
+
+.subtable thead {
+    color: #3c3c3b;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+}
+
+.subtable  {
+   text-align:center;
+}
+
+.mostrar-tabla{
+    display:none
+}
+
 
 /*MEDIA QUERYS*/
-
 @media only screen and (max-width: 640px) and (orientation: landscape) {
-
     .login-page {
         background: url('../img/login-mobile_ho.jpg')no-repeat fixed center;
         -webkit-background-size: cover;

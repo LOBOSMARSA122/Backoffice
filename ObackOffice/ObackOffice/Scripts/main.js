@@ -16,6 +16,11 @@ function main() {
         e.preventDefault();
         $("#wrapper").toggleClass("active");
     });
+
+    $("#click-registro-prueba").on('click', function (e) {
+        e.preventDefault();
+        $(".subtable").toggleClass("mostrar-tabla");
+    });
 }
 
 
