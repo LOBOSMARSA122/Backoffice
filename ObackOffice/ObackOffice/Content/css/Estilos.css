@@ -130,6 +130,10 @@ header .menu .nombre-usuario {
     color: #fff;
 }
 
+header .menu dropdown-menu {
+    width:100px;
+    height:20px;
+}
 
 /*--SIDEBAR--*/
 #wrapper {
@@ -338,6 +342,14 @@ body footer {
 .busqueda-empleado{
     margin-bottom:0;
 }
+
+.busqueda-empleado form {
+    /*FLEX*/
+    display:flex;
+    justify-content:center;
+    /*border:1px solid blue;*/
+}
+
 table thead {
     color: #3c3c3b;
     font-family: 'Roboto', sans-serif;
