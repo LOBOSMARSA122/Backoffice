@@ -10,8 +10,6 @@ namespace BE.Comun
     {
         public string text { get; set; }
         public TreeView[] nodes { get; set; }
-        public string icon { get; } = "glyphicons glyphicons-unchecked";
-        public string selectedIcon { get; } = "glyphicons glyphicons-check";
         public TreeViewState state { get; set; }
     }
 

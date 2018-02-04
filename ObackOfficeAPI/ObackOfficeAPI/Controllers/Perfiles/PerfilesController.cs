@@ -19,5 +19,15 @@ namespace ObackOfficeAPI.Controllers.Perfiles
             }
             return NotFound();
         }
+
+        [HttpPost]
+        public IHttpActionResult InsertRol(MultiDataModel data)
+        {
+            if (string.IsNullOrWhiteSpace(data.String1))
+                return BadRequest("Nombre Inválido");
+
+            Parametro response = pr.InsertRol(data.String1, Newtonsoft.Json.JsonConvert.DeserializeObject<List<TreeView>>(data.String2));
+            return Ok(response);
+        }
     }
 }

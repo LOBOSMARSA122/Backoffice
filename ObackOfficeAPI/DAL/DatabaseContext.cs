@@ -13,6 +13,5 @@ namespace DAL
         public DbSet<Perfil> Perfiles { get; set; }
         public DbSet<Persona> Personas  { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Genero> Generos { get; set; }
     }
 }

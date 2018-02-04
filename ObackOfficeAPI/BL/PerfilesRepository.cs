@@ -56,6 +56,18 @@ namespace BL
 
         }
 
+        public Parametro InsertRol(string Nombre, List<TreeView> Tree)
+        {
+            try
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public bool Save(Perfil oPerson)
         {
             throw new NotImplementedException();
