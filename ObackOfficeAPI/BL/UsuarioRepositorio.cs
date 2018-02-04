@@ -83,33 +83,5 @@ namespace BL
 
 
         }
-
-        public List<Genero> GetGeneros()
-        {
-            List<Genero> result = (from a in ctx.Generos where a.EsEliminado == 0 select a).ToList();
-
-            return result;
-        }
-
-        public Genero InsertGenero(string Descripcion)
-        {
-            Genero data = new Genero() {
-                Descripcion = Descripcion
-            };
-
-            try
-            {
-                ctx.Generos.Add(data);
-                int rows = ctx.SaveChanges();
-                if (rows > 0)
-                    return data;
-
-                return null;
-            }
-            catch(Exception e)
-            {
-                return null;
-            }
-        }
     }
 }
