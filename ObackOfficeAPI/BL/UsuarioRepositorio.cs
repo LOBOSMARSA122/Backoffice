@@ -58,7 +58,8 @@ namespace BL
                           {
                               MenuId = a.MenuId,
                               Descripcion = b.Descripcion,
-                              PadreId = b.PadreId
+                              PadreId = b.PadreId,
+                              Icono = b.Icono
                           }).ToList();
 
             var query = (from a in ctx.Perfiles

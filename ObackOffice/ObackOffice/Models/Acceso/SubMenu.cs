@@ -10,5 +10,6 @@ namespace ObackOffice.Models.Acceso
         public int MenuId { get; set; }
         public string Descripcion { get; set; }
         public int PadreId { get; set; }
+        public string Icono { get; set; }
     }
 }
