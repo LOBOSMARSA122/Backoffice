@@ -44,10 +44,12 @@
     <Compile Include="Acceso\Autorizacion.cs" />
     <Compile Include="Acceso\Menu.cs" />
     <Compile Include="Acceso\SubMenu.cs" />
+    <Compile Include="Comun\Genero.cs" />
     <Compile Include="Comun\Parametro.cs" />
     <Compile Include="Acceso\Perfil.cs" />
     <Compile Include="Comun\Person.cs" />
     <Compile Include="Comun\Persona.cs" />
+    <Compile Include="Comun\TreeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Acceso\Usuario.cs" />
     <Compile Include="Utils.cs" />

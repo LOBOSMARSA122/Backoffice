@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BE.Acceso;
+using BE.Comun;
 
 namespace ObackOfficeAPI.Controllers.Usuario
 {
@@ -16,17 +17,35 @@ namespace ObackOfficeAPI.Controllers.Usuario
         [HttpGet]
         public IHttpActionResult GetUsuario(string usuario, string contrasenia)
         {
-            BE.Acceso.UsuarioAutorizado result = ur.LoginUsuario(usuario, contrasenia);
+            UsuarioAutorizado result = ur.LoginUsuario(usuario, contrasenia);
             return Ok(result);
-          
-            
         }
 
         [HttpGet]
         public IHttpActionResult GetAutorizacion(int rolId)
         {
+            if (rolId == 0)
+                return BadRequest("Rol Inválido");
+
             List<Autorizacion> result = ur.GetAutorizacion(rolId);
             return Ok(result);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetGeneros()
+        {
+            List<Genero> result = ur.GetGeneros();
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IHttpActionResult InsertGenero(Genero Genero)
+        {
+            if (string.IsNullOrWhiteSpace(Genero.Descripcion))
+                return BadRequest("Descripción Inválida");
+
+            Genero response = ur.InsertGenero(Genero.Descripcion);
+            return Ok(response);
         }
     }
 }

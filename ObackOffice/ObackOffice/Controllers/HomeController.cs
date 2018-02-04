@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ObackOffice.Models;
+using ObackOffice.Utils;
+using Newtonsoft.Json;
 
 namespace ObackOffice.Controllers
 {
@@ -44,6 +46,55 @@ namespace ObackOffice.Controllers
             ViewBag.RESPONSE = API.PUT<string>(url, new Dictionary<string, string>());
 
             return View("index");
+        }
+
+        public ActionResult Index()
+        {
+            Api API = new Api();
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            ViewBag.Genero = API.Get<List<Genero>>("Usuario/GetGeneros");
+            return View();
+        }
+
+        public ActionResult GetAccordion(string data)
+        {
+            ViewBag.Accordion = data;
+            return View("_AccordionPartial");
+        }
+
+        public JsonResult GetTreeData(int data)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            args.Add("id", data.ToString());
+            List<TreeView> Tree = API.Get<List<TreeView>>("Perfiles/GetTreeView", args);
+            return Json(Tree);
+        }
+
+        public class TreeView
+        {
+            public string text { get; set; }
+            public TreeView[] nodes { get; set; }
+            public string icon { get; set; }
+            public string selectedIcon { get; set; }
+            public TreeViewState state { get; set; }
+        }
+        public class TreeViewState
+        {
+            public bool disabled { get; set; }
+            public bool expanded { get; set; }
+            public bool selected { get; set; }
+        }
+
+        public JsonResult AddNewGender(string input)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "Descripcion", input }
+            };
+            Genero response = API.Post<Genero>("Usuario/InsertGenero", args);
+            return Json(response);
         }
     }
 }
