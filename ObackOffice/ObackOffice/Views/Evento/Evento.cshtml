@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Evento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div id="calendar"></div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Evento/GetEventos",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: v.Subject,
+                            description: v.Description,
+                            start: moment(v.Start),
+                            end: v.End != null ? moment(v.End) : null,
+                            color: v.ThemeColor,
+                            allDay: v.IsFullDay
+                        })
+                    });
+                    GenerateCalender(events);
+                },
+                error: function (error) {
+                    alert('Failed');
+                }
+                  
+            });
+            function GenerateCalender(events) {
+                $('#calendar').fullCalendar('destroy');
+                $('#calendar').fullCalendar({
+                    content: 400,
+                    defaultDate: new Date();
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right:'month,basicWeek,basicDay,agenda'
+                    },
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events
+                });
+            }
+        });
+    </script>
+}

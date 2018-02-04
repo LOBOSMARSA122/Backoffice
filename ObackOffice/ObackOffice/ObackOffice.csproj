@@ -147,6 +147,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Administracion\EventoController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Person\PersonController.cs" />
@@ -392,10 +393,11 @@
     <Content Include="Views\Shared\_HeaderPartial.cshtml" />
     <Content Include="Views\Generals\SessionExpired.cshtml" />
     <Content Include="Views\Shared\_AccordionPartial.cshtml" />
+    <Content Include="Views\Evento\Evento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Evento\" />
+    <Folder Include="Controllers\Registro\" />
     <Folder Include="Views\Genero\" />
   </ItemGroup>
   <ItemGroup>
