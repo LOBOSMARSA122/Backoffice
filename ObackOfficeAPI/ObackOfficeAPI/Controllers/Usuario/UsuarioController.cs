@@ -30,22 +30,5 @@ namespace ObackOfficeAPI.Controllers.Usuario
             List<Autorizacion> result = ur.GetAutorizacion(rolId);
             return Ok(result);
         }
-
-        [HttpGet]
-        public IHttpActionResult GetGeneros()
-        {
-            List<Genero> result = ur.GetGeneros();
-            return Ok(result);
-        }
-
-        [HttpPost]
-        public IHttpActionResult InsertGenero(Genero Genero)
-        {
-            if (string.IsNullOrWhiteSpace(Genero.Descripcion))
-                return BadRequest("Descripción Inválida");
-
-            Genero response = ur.InsertGenero(Genero.Descripcion);
-            return Ok(response);
-        }
     }
 }
