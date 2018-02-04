@@ -24,7 +24,9 @@ namespace ObackOffice.Controllers
 
         public ActionResult Logout()
         {
-            return View();
+            Session.Remove("AutBackoffice");           
+            Session.RemoveAll();    
+            return RedirectToRoute("General_sessionexpired");
         }
 
         public ActionResult Login()
@@ -82,6 +84,13 @@ namespace ObackOffice.Controllers
             Session.Remove("Auth");
             Session.Remove("AuthBackoffice");
             Session.Remove("AuthPArent");
+            Session.RemoveAll();
+            return View();
+        }
+
+        public ActionResult SessionExpired()
+        {
+            Session.Remove("AutBackoffice");
             Session.RemoveAll();
             return View();
         }

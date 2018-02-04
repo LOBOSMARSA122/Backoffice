@@ -280,6 +280,7 @@
     <Content Include="Views\Generals\Index.cshtml" />
     <Content Include="Views\Generals\Notauthorized.cshtml" />
     <Content Include="Views\Shared\_HeaderPartial.cshtml" />
+    <Content Include="Views\Generals\SessionExpired.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

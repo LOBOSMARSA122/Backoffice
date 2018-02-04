@@ -28,14 +28,20 @@
             </div>
         </footer>
     </div>
- 
- 
-   
+    <script>
+        window.url_base = '@Url.Content("~/")';
+        window.session_timeout =  @(Session.Timeout * 60 * 1000); //milliseconds
 
-    
-
+        var IDtemporizador = window.setInterval(function()
+        {
+            window.session_timeout -= 1000;
+            if(window.session_timeout <= 0)
+                window.location.href = '@Url.Content("~/adios")';
+        }, 1000);
+    </script>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/popper")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/main")
     @RenderSection("scripts", required: false)

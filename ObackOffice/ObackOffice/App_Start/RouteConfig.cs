@@ -35,6 +35,13 @@ namespace ObackOffice
             );
 
             routes.MapRoute(
+              "General_sessionexpired",
+              "adios/",
+              new { controller = "Generals", action = "SessionExpired" },
+              new[] { "ObackOffice.Controllers" }
+          );
+
+            routes.MapRoute(
                    "backoffice", "backoffice/",
                    new { controller = "Generals", action = "Home" },
                    new[] { "ObackOffice.Controllers" }

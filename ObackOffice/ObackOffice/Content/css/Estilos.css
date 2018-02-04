@@ -130,9 +130,15 @@ header .menu .nombre-usuario {
     color: #fff;
 }
 
-header .menu dropdown-menu {
+
+.dropdown-menu {
+    position: absolute;
+    background: #3C3C3B;
+    background-color: rgba(60,60, 59, .5);
+}
+
+.dropdown-menu a{
     width:100px;
-    height:20px;
 }
 
 /*--SIDEBAR--*/
@@ -348,6 +354,10 @@ body footer {
     display:flex;
     justify-content:center;
     /*border:1px solid blue;*/
+}
+
+.busqueda-empleado form > input{
+    margin:10px;
 }
 
 table thead {

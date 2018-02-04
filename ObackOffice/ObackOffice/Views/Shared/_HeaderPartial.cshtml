@@ -10,12 +10,14 @@
             </a>
         </div>
         <div>
-            <nav class="col">
+            <nav class="col ">
                 <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="35" height="35" alt="" /></a>
                 <a href="#" class="nombre-usuario dropdown-toggle" data-toggle="dropdown">(@ViewBag.USUARIO.Rol) @ViewBag.USUARIO.NombreCompleto</a>
                 <ul class="dropdown-menu">
-                    <li>
-
+                    <li  class="user-header">
+                        <div class="text-center">
+                            <a href="@Url.Content("~/salir")" class="btn btn-danger">Salir</a>
+                        </div>                        
                     </li>
                 </ul>
             </nav>
