@@ -18,7 +18,7 @@ namespace BL
                 UsuarioAutorizado oUsuarioAutorizado = new UsuarioAutorizado();
                 var qUsuario = (from a in ctx.Usuarios
                                 join b in ctx.Personas on a.PersonaId equals b.PersonaId
-                                join c in ctx.Parametros on new {a = a.RolId, b=102} equals new {a = c.ParametroId, b= c.GrupoId}
+                                join c in ctx.Parametros on new {a = a.RolId, b=100} equals new {a = c.ParametroId, b= c.GrupoId}
                                 where a.NombreUsuario == usuario && a.Contrasenia == contrasenia
                                 select new UsuarioAutorizado {
                                     UsuarioId = a.UsuarioId,
