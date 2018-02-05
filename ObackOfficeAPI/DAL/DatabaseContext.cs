@@ -16,5 +16,6 @@ namespace DAL
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<CursoProgramado> CursosProgramados { get; set; }
     }
 }

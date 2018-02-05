@@ -1,4 +1,5 @@
 ﻿using ObackOffice.Models;
+using ObackOffice.Models.Administracion;
 using ObackOffice.Utils;
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,18 @@ namespace ObackOffice.Controllers.Administracion
 
         public ActionResult Evento()
         {
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             return View();
         }
 
-        //public JsonResult GetEventos()
-        //{
-
-        //}
+        public JsonResult GetAgenda()
+        {
+            Api API = new Api();
+            string url = "Eventos/GetAgenda";
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            args.Add("eventoId", "1");
+            List<Agenda> Agenda = API.Get<List<Agenda>>(url, args);
+            return new JsonResult { Data = Agenda, JsonRequestBehavior =JsonRequestBehavior.AllowGet };
+        }
     }
 }

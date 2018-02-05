@@ -159,6 +159,7 @@
     <Compile Include="Models\Acceso\SubMenu.cs" />
     <Compile Include="Models\Acceso\Usuario.cs" />
     <Compile Include="Models\Acceso\UsuarioLogin.cs" />
+    <Compile Include="Models\Administracion\Agenda.cs" />
     <Compile Include="Models\Administracion\Evento.cs" />
     <Compile Include="Models\API.cs" />
     <Compile Include="Models\Parametro.cs" />
@@ -184,6 +185,7 @@
     <Content Include="Content\css\fontello-ie7-codes.css" />
     <Content Include="Content\css\fontello-ie7.css" />
     <Content Include="Content\css\fontello.css" />
+    <Content Include="Content\css\FullCalendar-custom.css" />
     <Content Include="Content\font\fontello.svg" />
     <Content Include="Content\font\user-plus.svg" />
     <Content Include="Content\fullcalendar.css" />
