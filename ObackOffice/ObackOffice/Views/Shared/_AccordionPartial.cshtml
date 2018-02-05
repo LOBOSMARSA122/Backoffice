@@ -60,9 +60,15 @@
                     case "Rol":
                         <div class="col-12 Accordion-Content">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="Accordion-SubTitle">Nombre del Rol: </div>
                                     <div><input type="text" id="Accordion-Rol" /></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="Accordion-SubTitle">Copiar de: </div>
+                                    <div>
+                                        <select id="Accordion-Rol-Copia"></select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -85,6 +91,13 @@
 </div>
 
 <script>
+    $("#Accordion-Rol-Copia").append($('<option>', {
+        value: "0",
+        text: "Seleccione"
+    })).append($("#RegisterRol").html()).change(function () {
+        getTree($("#Accordion-Rol-Copia").val());
+    });
+
     function HideAccordion() {
         $("#Accordion-Container").animate({
             height: "0px"
@@ -98,12 +111,57 @@
             method: 'POST',
             url: '/Acceso/GetTreeData?data=' + data,
             success: function (json) {
-                console.log("tree", json);
                 $('#tree').treeview({
                     data: json,
                     multiSelect: true,
                     showCheckbox: true,
-                    checkedIcon: ''
+                    checkedIcon: 'icon-check',
+                    uncheckedIcon: 'icon-check-empty',
+                    collapseIcon: 'icon-minus',
+                    expandIcon: 'icon-plus'
+                });
+
+                $('#tree').on('nodeCollapsed', function (event, data) {
+                    updateAccordionHeight();
+                });
+
+                $('#tree').on('nodeExpanded', function (event, data) {
+                    updateAccordionHeight();
+                });
+
+                $('#tree').on('nodeChecked', function (event, data) {
+                    if (data.nodes != null && data.nodes.length > 0) {
+                        for (a = 0; a < data.nodes.length; a++) {
+                            $('#tree').treeview('checkNode', [data.nodes[a].nodeId, { silent: true }]);
+                        }
+                    }
+
+                    if (data.parentId != undefined) {
+                        $('#tree').treeview('checkNode', [data.parentId, { silent: true }]);
+                    }
+                });
+
+                $('#tree').on('nodeUnchecked', function (event, data) {
+                    if (data.nodes != null && data.nodes.length > 0) {
+                        for (a = 0; a < data.nodes.length; a++) {
+                            $('#tree').treeview('uncheckNode', [data.nodes[a].nodeId, { silent: true }]);
+                        }
+                    }
+
+                    if (data.parentId != undefined) {
+                        var node = $('#tree').treeview('getNode', data.parentId);
+                        var HaveSelected = false;
+
+                        if (node.nodes != null && node.nodes.length > 0) {
+                            for (a = 0; a < node.nodes.length; a++) {
+                                if (node.nodes[a].state.checked)
+                                    HaveSelected = true;
+                            }
+                        }
+
+                        if (!HaveSelected)
+                            $('#tree').treeview('uncheckNode', [data.parentId, { silent: true }]);
+                    }
                 });
 
                 updateAccordionHeight();
@@ -131,7 +189,7 @@
         } else if (type == "Rol") {
             data = {
                 input: $("#Accordion-Rol").val(),
-                tree: JSON.stringify($('#tree').treeview('getSelected'))
+                tree: JSON.stringify($('#tree').treeview('getChecked'))
             };
             url = "/Acceso/AddNewRol";
         }

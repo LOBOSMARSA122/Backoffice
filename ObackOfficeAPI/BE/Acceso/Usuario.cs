@@ -17,10 +17,10 @@ namespace BE.Acceso
         public int RolId { get; set; }
 
         public int EsEliminado { get; set; }
-        public int UsuGraba { get; set; }
-        public DateTime FechaGraba { get; set; }
-        public int UsuActualiza { get; set; }
-        public DateTime FechaActualiza { get; set; }
+        public int? UsuGraba { get; set; }
+        public DateTime? FechaGraba { get; set; }
+        public int? UsuActualiza { get; set; }
+        public DateTime? FechaActualiza { get; set; }
     }
 
     public class UsuarioAutorizado

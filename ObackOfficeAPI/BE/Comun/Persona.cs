@@ -21,9 +21,9 @@ namespace BE.Comun
         public string CorreoElectronico { get; set; }
         public string NumeroCelular { get; set; }
         public int EsEliminado { get; set; }
-        public int UsuGraba { get; set; }
-        public DateTime FechaGraba { get; set; }
-        public int UsuActualiza { get; set; }
-        public DateTime FechaActualiza { get; set; }
+        public int? UsuGraba { get; set; }
+        public DateTime? FechaGraba { get; set; }
+        public int? UsuActualiza { get; set; }
+        public DateTime? FechaActualiza { get; set; }
     }
 }

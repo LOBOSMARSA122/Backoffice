@@ -26,7 +26,10 @@ namespace ObackOfficeAPI.Controllers.Perfiles
             if (string.IsNullOrWhiteSpace(data.String1))
                 return BadRequest("Nombre Inválido");
 
-            Parametro response = pr.InsertRol(data.String1, Newtonsoft.Json.JsonConvert.DeserializeObject<List<TreeView>>(data.String2));
+            if(data.Int1 == 0)
+                return BadRequest("Sesión Expirada");
+
+            Parametro response = pr.InsertRol(data.String1, Newtonsoft.Json.JsonConvert.DeserializeObject<List<TreeView>>(data.String2), data.Int1);
             return Ok(response);
         }
     }

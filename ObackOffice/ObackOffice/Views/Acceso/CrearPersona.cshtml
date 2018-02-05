@@ -184,8 +184,10 @@
     }
 
     function updateAccordionHeight() {
-        $("#Accordion-Container").animate({
-            height: $("#Accordion-Container > .row").height() + "px"
-        }, 800);
+        setTimeout(function () {
+            $("#Accordion-Container").animate({
+                height: $("#Accordion-Container > .row").height() + "px"
+            }, 600);
+        }, 200);
     }
 </script>

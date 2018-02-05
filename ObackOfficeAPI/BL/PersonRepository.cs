@@ -49,7 +49,7 @@ namespace BL
             return result;
         }
 
-        public Parametro InsertGenero(string Descripcion)
+        public Parametro InsertGenero(string Descripcion, int UsuarioID)
         {
             try
             {
@@ -67,7 +67,8 @@ namespace BL
                     PadreParametroId = -1,
                     Orden = orden,
                     EsEliminado = NoEliminado,
-                    FechaGraba = DateTime.Now
+                    FechaGraba = DateTime.Now,
+                    UsuGraba = UsuarioID
                 };
 
                 ctx.Parametros.Add(data);
