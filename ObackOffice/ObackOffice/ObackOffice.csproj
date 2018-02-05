@@ -151,6 +151,7 @@
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Person\PersonController.cs" />
+    <Compile Include="Controllers\Seguridad\AccesoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -159,8 +160,9 @@
     <Compile Include="Models\Acceso\Usuario.cs" />
     <Compile Include="Models\Acceso\UsuarioLogin.cs" />
     <Compile Include="Models\API.cs" />
-    <Compile Include="Models\Genero.cs" />
+    <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\TreeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ClientSession.cs" />
     <Compile Include="Utils\Utils.cs" />
@@ -394,11 +396,11 @@
     <Content Include="Views\Generals\SessionExpired.cshtml" />
     <Content Include="Views\Shared\_AccordionPartial.cshtml" />
     <Content Include="Views\Evento\Evento.cshtml" />
+    <Content Include="Views\Acceso\CrearPersona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\Registro\" />
-    <Folder Include="Views\Genero\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

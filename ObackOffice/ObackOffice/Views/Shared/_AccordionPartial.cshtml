@@ -60,9 +60,15 @@
                     case "Rol":
                         <div class="col-12 Accordion-Content">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="Accordion-SubTitle">Nombre del Rol: </div>
                                     <div><input type="text" id="Accordion-Rol" /></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="Accordion-SubTitle">Copiar de: </div>
+                                    <div>
+                                        <select id="Accordion-Rol-Copia"></select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -85,6 +91,13 @@
 </div>
 
 <script>
+    $("#Accordion-Rol-Copia").append($('<option>', {
+        value: "0",
+        text: "Seleccione"
+    })).append($("#RegisterRol").html()).change(function () {
+        getTree($("#Accordion-Rol-Copia").val());
+    });
+
     function HideAccordion() {
         $("#Accordion-Container").animate({
             height: "0px"
@@ -96,17 +109,62 @@
             cache: false,
             dataType: 'json',
             method: 'POST',
-            url: '/Home/GetTreeData?data=' + data,
+            url: '/Acceso/GetTreeData?data=' + data,
             success: function (json) {
                 $('#tree').treeview({
                     data: json,
                     multiSelect: true,
-                    showCheckbox: true
+                    showCheckbox: true,
+                    checkedIcon: 'icon-check',
+                    uncheckedIcon: 'icon-check-empty',
+                    collapseIcon: 'icon-minus',
+                    expandIcon: 'icon-plus'
                 });
 
-                $("#Accordion-Container").animate({
-                    height: $("#Accordion-Container > .row").height() + "px"
-                }, 800);
+                $('#tree').on('nodeCollapsed', function (event, data) {
+                    updateAccordionHeight();
+                });
+
+                $('#tree').on('nodeExpanded', function (event, data) {
+                    updateAccordionHeight();
+                });
+
+                $('#tree').on('nodeChecked', function (event, data) {
+                    if (data.nodes != null && data.nodes.length > 0) {
+                        for (a = 0; a < data.nodes.length; a++) {
+                            $('#tree').treeview('checkNode', [data.nodes[a].nodeId, { silent: true }]);
+                        }
+                    }
+
+                    if (data.parentId != undefined) {
+                        $('#tree').treeview('checkNode', [data.parentId, { silent: true }]);
+                    }
+                });
+
+                $('#tree').on('nodeUnchecked', function (event, data) {
+                    if (data.nodes != null && data.nodes.length > 0) {
+                        for (a = 0; a < data.nodes.length; a++) {
+                            $('#tree').treeview('uncheckNode', [data.nodes[a].nodeId, { silent: true }]);
+                        }
+                    }
+
+                    if (data.parentId != undefined) {
+                        var node = $('#tree').treeview('getNode', data.parentId);
+                        var HaveSelected = false;
+
+                        if (node.nodes != null && node.nodes.length > 0) {
+                            for (a = 0; a < node.nodes.length; a++) {
+                                if (node.nodes[a].state.checked)
+                                    HaveSelected = true;
+                            }
+                        }
+
+                        if (!HaveSelected)
+                            $('#tree').treeview('uncheckNode', [data.parentId, { silent: true }]);
+                    }
+                });
+
+                updateAccordionHeight();
             },
             error: function (error) {
                 console.log(error);
@@ -115,15 +173,27 @@
     }
 
     function AccordionAdd(type) {
+        var width = $(window).width();
+        var height = $(window).height();
+
+        $("#Loading").show().css("width", width + "px").css("height", height + "px");
+        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
         var data;
         var url;
         if (type == "Gender") {
             data = {
                 input: $("#Accordion-Gender").val()
             };
-            url = "/Home/AddNewGender";
+            url = "/Acceso/AddNewGender";
+        } else if (type == "Rol") {
+            data = {
+                input: $("#Accordion-Rol").val(),
+                tree: JSON.stringify($('#tree').treeview('getChecked'))
+            };
+            url = "/Acceso/AddNewRol";
         }
-        
+
         $.ajax({
             cache: false,
             dataType: 'json',
@@ -131,15 +201,23 @@
             url: url,
             data: data,
             success: function (json) {
+                $("#Loading").hide();
                 if (type == "Gender") {
                     $('#RegisterGender').append($('<option>', {
-                        value: json.Id,
-                        text: json.Descripcion
+                        value: json.ParametroId,
+                        text: json.Valor1
+                    }));
+                    HideAccordion();
+                } else if (type == "Rol") {
+                    $('#RegisterRol').append($('<option>', {
+                        value: json.ParametroId,
+                        text: json.Valor1
                     }));
                     HideAccordion();
                 }
             },
             error: function (error) {
+                $("#Loading").hide();
                 console.log(error);
             }
         });

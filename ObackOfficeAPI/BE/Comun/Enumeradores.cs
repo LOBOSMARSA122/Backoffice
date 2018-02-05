@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE.Comun
 {
-    class Enumeradores
+    public class Enumeradores
     {
         public enum GrupoParametros
         {

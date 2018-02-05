@@ -29,8 +29,9 @@ namespace BL
                             text = hijo.Descripcion,
                             state = new TreeViewState()
                             {
-                                selected = accesos.Contains(hijo.MenuId)
-                            }
+                                @checked = accesos.Contains(hijo.MenuId)
+                            },
+                            MenuId = hijo.MenuId
                         };
                         ChildList.Add(Child);
                     }
@@ -40,8 +41,9 @@ namespace BL
                         nodes = ChildList.ToArray(),
                         state = new TreeViewState()
                         {
-                            selected = accesos.Contains(padre.MenuId)
-                        }
+                            @checked = accesos.Contains(padre.MenuId)
+                        },
+                        MenuId = padre.MenuId
                     };
                     FatherList.Add(Father);
                 }
@@ -56,10 +58,51 @@ namespace BL
 
         }
 
-        public Parametro InsertRol(string Nombre, List<TreeView> Tree)
+        public Parametro InsertRol(string Nombre, List<TreeView> Tree, int UserID)
         {
             try
             {
+                int grupo = (int)Enumeradores.GrupoParametros.Roles;
+                int NoEliminado = (int)Enumeradores.EsEliminado.No;
+                List<Parametro> Listado = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo select a).ToList();
+                int parametroId = (from a in Listado orderby a.ParametroId descending select a.ParametroId).FirstOrDefault() + 1;
+                int orden = (from a in Listado orderby a.Orden descending select a.Orden).FirstOrDefault() + 1;
+                Parametro data = new Parametro()
+                {
+                    GrupoId = grupo,
+                    ParametroId = parametroId,
+                    Valor1 = Nombre,
+                    PadreParametroId = -1,
+                    Orden = orden,
+                    EsEliminado = NoEliminado,
+                    FechaGraba = DateTime.Now,
+                    UsuGraba = UserID
+                };
+
+                List<Perfil> ListPerfiles = new List<Perfil>();
+                foreach(var P in Tree)
+                {
+                    Perfil perfil = new Perfil()
+                    {
+                        RolId = parametroId,
+                        MenuId = P.MenuId,
+                        EsEliminado = NoEliminado,
+                        FechaGraba = DateTime.Now,
+                        UsuGraba = UserID
+                    };
+
+                    ListPerfiles.Add(perfil);
+                }
+
+                ctx.Parametros.Add(data);
+                ctx.Perfiles.AddRange(ListPerfiles);
+
+
+                int rows = ctx.SaveChanges();
+                if (rows > 0)
+                    return data;
+
+
                 return null;
             }
             catch (Exception e)

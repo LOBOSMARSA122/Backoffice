@@ -28,12 +28,15 @@ namespace ObackOfficeAPI.Controllers.Person
         }
 
         [HttpPost]
-        public IHttpActionResult InsertGenero(Parametro Genero)
+        public IHttpActionResult InsertGenero(MultiDataModel data)
         {
-            if (string.IsNullOrWhiteSpace(Genero.Valor1))
+            if (string.IsNullOrWhiteSpace(data.String1))
                 return BadRequest("Descripción Inválida");
 
-            Parametro response = pr.InsertGenero(Genero.Valor1);
+            if (data.Int1 == 0)
+                return BadRequest("Sesión Expirada");
+
+            Parametro response = pr.InsertGenero(data.String1,data.Int1);
             return Ok(response);
         }
 
