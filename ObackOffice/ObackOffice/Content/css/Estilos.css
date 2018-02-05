@@ -396,6 +396,14 @@ table tbody tr td {
     display: none
 }
 
+.informacion{
+    color:#444;
+    font-size:12px;
+}
+
+.pagination{
+    font-size:12px;
+}
 /*Box*/
 .box {
     position: relative;
@@ -440,6 +448,10 @@ table tbody tr td {
 
 .box-header a {
     color: #444;
+}
+
+.box .box-header:hover {
+    background: #fbf9f9;
 }
 
 .box-header.with-border {
@@ -523,6 +535,10 @@ table tbody tr td {
     .cuenta-ocultar {
         display: none;
     }
+
+    /*body{
+        border:1px solid red;
+    }*/
 }
 
 @media only screen and (max-width: 450px) and (orientation: portrait) {
@@ -557,24 +573,17 @@ table tbody tr td {
     }
 
     body {
-        border: 1px solid blue;
-        margin: 0;
-        padding: 0
+        width:100vh;
     }
-    .contenido{
-        border:1px solid red;
-        /*Flex*/
-        display:flex;
-        flex-direction:row;
-        justify-content:center;
-    }
+
 }
 
 @media screen and (max-width:800px) {
        
 .barra-lateral {
     top: 85px;
-    width: 80%;
+    width: 50%;
+    margin:auto;
     position: absolute;
 }
   

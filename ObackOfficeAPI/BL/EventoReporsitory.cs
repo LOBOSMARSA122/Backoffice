@@ -25,6 +25,7 @@ namespace BL
                                  EventoId = a.EventoId,
                                  EmpresaId =a.EmpresaId,
                                  Empresa =b.RazonSocial,
+                                 Nombre = a.Nombre,
                                  Ruc = b.Ruc
                              }).ToList();
                 return query;
