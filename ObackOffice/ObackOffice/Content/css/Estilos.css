@@ -251,6 +251,8 @@ body .contenido {
     margin-top: 85px;
     display: flex;
     min-height: calc(100vh - 140px);
+    /*border:1px solid red;*/
+    width:100%;
 }
 
 
@@ -360,21 +362,24 @@ body footer {
     margin:10px;
 }
 
+
+/*BANDEJAS*/
+
 table thead {
-    color: #3c3c3b;
+    color: #969696;
     font-family: 'Roboto', sans-serif;
-    font-size:14px;
+    font-size: 13px;
 }
 
 table tbody {
     color: #3c3c3b;
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-table tbody tr td{
-    text-align:center;
+table tbody tr td {
+    text-align: left;
 }
 
 .subtable thead {
@@ -383,14 +388,125 @@ table tbody tr td{
     font-size: 11px;
 }
 
-.subtable  {
-   text-align:center;
+.subtable {
+    text-align: center;
 }
 
-.mostrar-tabla{
-    display:none
+.mostrar-tabla {
+    display: none
 }
 
+.informacion{
+    color:#444;
+    font-size:12px;
+}
+
+.pagination{
+    font-size:12px;
+}
+/*Box*/
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.box.box-primary {
+    border-top-color: #3c8dbc;
+}
+
+.box.box-info {
+    border-top-color: #00c0ef;
+}
+
+.box.box-danger {
+    border-top-color: #dd4b39;
+}
+
+.box.box-warning {
+    border-top-color: #f39c12;
+}
+
+.box.box-success {
+    border-top-color: #00a65a;
+}
+
+.box.box-default {
+    border-top-color: #d2d6de;
+}
+
+.box-header {
+    color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+}
+
+.box-header a {
+    color: #444;
+}
+
+.box .box-header:hover {
+    background: #fbf9f9;
+}
+
+.box-header.with-border {
+    border-bottom: 1px solid #f4f4f4;
+}
+.box-header.with-border {
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.box-header .box-title {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1;
+}
+
+.box-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 10px;
+}
+
+.form-control {
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #d2d6de;
+}
+
+.btn-info {
+    background-color: #00c0ef;
+    border-color: #00acd6;
+}
+.form-control {
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #d2d6de;
+}
+
+.form-control:focus {
+    border-color: #3c8dbc;
+    box-shadow: none;
+}
+
+.box-body form .boton{
+    margin-top:8px;
+}
+
+.form-control::-moz-placeholder,
+.form-control:-ms-input-placeholder,
+.form-control::-webkit-input-placeholder {
+    color: #bbb;
+    opacity: 1;
+}
 
 /*MEDIA QUERYS*/
 @media only screen and (max-width: 640px) and (orientation: landscape) {
@@ -419,6 +535,10 @@ table tbody tr td{
     .cuenta-ocultar {
         display: none;
     }
+
+    /*body{
+        border:1px solid red;
+    }*/
 }
 
 @media only screen and (max-width: 450px) and (orientation: portrait) {
@@ -451,15 +571,19 @@ table tbody tr td{
     .formulario-login > div {
         line-height: 1.1;
     }
+
+    body {
+        width:100vh;
+    }
+
 }
 
 @media screen and (max-width:800px) {
-
-
-   
+       
 .barra-lateral {
     top: 85px;
-    width: 80%;
+    width: 50%;
+    margin:auto;
     position: absolute;
 }
   

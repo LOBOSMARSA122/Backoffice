@@ -1,4 +1,5 @@
 ﻿using BE.Acceso;
+using BE.Administracion;
 using BE.Comun;
 using System.Data.Entity;
 
@@ -13,5 +14,7 @@ namespace DAL
         public DbSet<Perfil> Perfiles { get; set; }
         public DbSet<Persona> Personas  { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
     }
 }

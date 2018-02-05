@@ -12,7 +12,7 @@
                         <ul class="children">
                             @foreach (var submenu in menu.SubMenus)
                             {
-                                <li><a href="#"><i class="@submenu.Icono"></i>@submenu.Descripcion</a></li>
+                                <li><a href="@Url.Content("~/")@submenu.Uri"><i class="@submenu.Icono"></i>@submenu.Descripcion</a></li>
                             }
                         </ul>
                     </li>
