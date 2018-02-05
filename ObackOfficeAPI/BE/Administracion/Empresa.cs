@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BE.Acceso
+namespace BE.Administracion
 {
-    [Table("tblMenu")]
-    public class Menu
+    [Table("tblEmpresas")]
+    public class Empresa
     {
-        public int MenuId { get; set; }
-        public string Descripcion { get; set; }
-        public int PadreId { get; set; }
-        public string Icono { get; set; }
-        public string Uri { get; set; }
+        public int EmpresaId { get; set; }
+        public string RazonSocial { get; set; }
+        public string Ruc { get; set; }
+        public int TipoEmpresaId { get; set; }
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }
         public DateTime? FechaGraba { get; set; }
