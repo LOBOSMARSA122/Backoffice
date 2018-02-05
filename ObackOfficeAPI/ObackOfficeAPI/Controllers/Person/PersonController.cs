@@ -54,11 +54,18 @@ namespace ObackOfficeAPI.Controllers.Person
             Persona Persona = JsonConvert.DeserializeObject<Persona>(data.String1);
             BE.Acceso.Usuario Usuario = JsonConvert.DeserializeObject<BE.Acceso.Usuario>(data.String2);
 
-            if (string.IsNullOrWhiteSpace(Persona.ApellidoMaterno) || string.IsNullOrWhiteSpace(Persona.ApellidoPaterno) || string.IsNullOrWhiteSpace(Persona.Nombres) || Persona.TipoDocumentoId == 0 || string.IsNullOrWhiteSpace(Persona.NroDocumento) || string.IsNullOrWhiteSpace(Usuario.NombreUsuario) || string.IsNullOrWhiteSpace(Usuario.Contrasenia) || data.Int1 == 0)
+            if (string.IsNullOrWhiteSpace(Persona.ApellidoMaterno) || string.IsNullOrWhiteSpace(Persona.ApellidoPaterno) || string.IsNullOrWhiteSpace(Persona.Nombres) || Persona.TipoDocumentoId == 0 || string.IsNullOrWhiteSpace(Persona.NroDocumento) || string.IsNullOrWhiteSpace(Usuario.NombreUsuario) || string.IsNullOrWhiteSpace(Usuario.Contrasenia) || data.Int1 == 0 || Usuario.EmpresaId == 0)
                 return BadRequest("Datos Incompletos");
 
             bool response = pr.InsertNewPerson(Persona,Usuario,data.Int1);
             return Ok(response);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetTipoDocumentos()
+        {
+            List<Parametro> result = pr.GetTipoDocumentos();
+            return Ok(result);
         }
     }
 }

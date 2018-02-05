@@ -46,7 +46,7 @@ namespace BL
         {
             int grupo = (int)Enumeradores.GrupoParametros.Generos;
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo select a).ToList();
+            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending select a).ToList();
 
             return result;
         }
@@ -97,7 +97,7 @@ namespace BL
         {
             int grupo = (int)Enumeradores.GrupoParametros.Roles;
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo select a).ToList();
+            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending select a).ToList();
 
             return result;
         }
@@ -123,6 +123,7 @@ namespace BL
                 Usuario.EsEliminado = NoEsEliminado;
                 Usuario.FechaCaduca = DateTime.Now.AddYears(1);
                 Usuario.Contrasenia = Utils.Encrypt(Usuario.Contrasenia);
+                Usuario.RespuestaSecreta = Utils.Encrypt(Usuario.RespuestaSecreta);
                 Usuario.PersonaId = Persona.PersonaId;
 
                 ctx.Usuarios.Add(Usuario);
@@ -138,6 +139,15 @@ namespace BL
             {
                 return false;
             }
+        }
+
+        public List<Parametro> GetTipoDocumentos()
+        {
+            int grupo = (int)Enumeradores.GrupoParametros.TipoDocumentos;
+            int NoEliminado = (int)Enumeradores.EsEliminado.No;
+            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending select a).ToList();
+
+            return result;
         }
     }
 }

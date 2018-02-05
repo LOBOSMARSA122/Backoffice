@@ -12,7 +12,9 @@ namespace BE.Comun
         {
             Roles = 100,
             TipoDocumentos = 101,
-            Generos = 102
+            Generos = 102,
+            Cursos = 103,
+            TipoEmpresas = 104
         }
 
         public enum EsEliminado

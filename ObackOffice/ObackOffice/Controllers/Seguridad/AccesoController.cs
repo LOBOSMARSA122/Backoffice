@@ -11,13 +11,20 @@ namespace ObackOffice.Controllers.Seguridad
 {
     public class AccesoController : Controller
     {
-        public ActionResult Index()
+        public ActionResult BandejaUsuarios()
+        {
+            return View();
+        }
+
+        public ActionResult CrearPersona()
         {
             Api API = new Api();
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             ViewBag.Genero = API.Get<List<Parametro>>("Person/GetGeneros");
             ViewBag.Roles = API.Get<List<Parametro>>("Person/GetRoles");
-            return View("CrearPersona");
+            ViewBag.TipoDocumento = API.Get<List<Parametro>>("Person/GetTipoDocumentos");
+            ViewBag.Empresas = API.Get<List<Models.Administracion.Empresa>>("Empresas/GetEmpresas");
+            return View();
         }
 
         public ActionResult GetAccordion(string data)

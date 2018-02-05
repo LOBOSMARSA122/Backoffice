@@ -94,7 +94,7 @@
     $("#Accordion-Rol-Copia").append($('<option>', {
         value: "0",
         text: "Seleccione"
-    })).append($("#RegisterRol").html()).change(function () {
+    })).append($("#UserRol").html()).change(function () {
         getTree($("#Accordion-Rol-Copia").val());
     });
 
@@ -203,13 +203,13 @@
             success: function (json) {
                 $("#Loading").hide();
                 if (type == "Gender") {
-                    $('#RegisterGender').append($('<option>', {
+                    $('#PersonaGenero').append($('<option>', {
                         value: json.ParametroId,
                         text: json.Valor1
                     }));
                     HideAccordion();
                 } else if (type == "Rol") {
-                    $('#RegisterRol').append($('<option>', {
+                    $('#UserRol').append($('<option>', {
                         value: json.ParametroId,
                         text: json.Valor1
                     }));
