@@ -75,5 +75,23 @@ namespace ObackOffice.Controllers.Seguridad
             Parametro response = API.Post<Parametro>("Perfiles/InsertRol", args);
             return Json(response);
         }
+
+        public JsonResult InsertNewPerson(string Persona, string Usuario)
+        {
+            if (((ClientSession)Session["AutBackoffice"]) == null)
+                return null;
+
+            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
+
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", Persona },
+                { "String2", Usuario },
+                { "Int1", User.UsuarioId.ToString() }
+            };
+            bool response = API.Post<bool>("Person/InsertNewPerson", args);
+            return Json(response);
+        }
     }
 }
