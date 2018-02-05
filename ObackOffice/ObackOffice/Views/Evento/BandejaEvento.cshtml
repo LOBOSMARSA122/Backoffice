@@ -5,7 +5,7 @@
 }
 
 <div class="container-fluid">
-    <div class="box box-warning mt-2" id="acordion">
+    <div class="box box-default mt-2" id="acordion">
         <div class="box-header with-border" id="heading1">
             <a href="#collapse1" data-toggle="collapse" data-parent="#acordion" aria-expended="true" aria-controls="collapse1">
                 <h3 class="box-title"><i class="icon-calendar"></i> Banjeda de Eventos</h3>
@@ -14,22 +14,22 @@
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">
             <form action="/" method="post">
                 <div class="row">
-                    <div class="col-sm-4 col-xl-2">
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                         <div class="form-group">
                             <label for="">Evento</label>
-                            <input type="text" name="evento" class="form-control" maxlength="150" placeholder="Nombre de Evento" />
+                            <input type="text" name="evento" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Evento" />
                         </div>
                     </div>
-                    <div class="col-sm-4 col-xl-2">
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                         <div class="form-group">
                             <label for="">Empresa</label>
-                            <input type="text" name="evento" class="form-control" maxlength="150" placeholder="Nombre de Evento" />
+                            <input type="text" name="evento" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Empresa" />
                         </div>
                     </div>
-                    <div class="col-sm-4 col-xl-2">
+                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <button class="btn btn-info boton form-control">
+                            <button class="btn-info boton form-control">
                                 <i class="fa fa-search"></i> Filtrar
                             </button>
                         </div>
@@ -41,48 +41,58 @@
     <div>
         <span class="informacion">Mostrando 1 de 9 de un total de 9 entradas</span>
     </div>
-    <div class="box box-success mt-2">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>RUC</th>
-                    <th>Evento</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="box box-warning mt-2">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th>RUC</th>
+                        <th>Evento</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
                 @foreach (var item in ViewBag.EVENTOS)
                 {
-                    <tr>
-                        <td>@item.Empresa</td>
-                        <td>@item.Ruc</td>
-                        <td>@item.Nombre</td>
-                        <td><a><span class="icon-edit"></span></a></td>
-                        <td><a><span class="icon-trash"></span></a></td>
-                    </tr>
+                <tr>
+                    <td>@item.Empresa</td>
+                    <td>@item.Ruc</td>
+                    <td>@item.Nombre</td>
+                    <td><a><span class="icon-edit"></span></a></td>
+                    <td><a><span class="icon-trash"></span></a></td>
+                </tr>
                 }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+            <div class="paginacion-tabla d-flex justify-content-center">
+                <div>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true">Anterior</span>
+                        </li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">
+                                <span aria-hidden="true">Siguiente</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>              
+            </div>
+        </div>
     </div>
 
-    <nav class="d-flex justify-content-end">
+    <nav class="d-flex justify-content-end align-items-center flex-wrap">
+       
         <div>
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <span class="page-link" aria-hidden="true">&laquo; Anterior</span>
-                </li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item">
-                    <a href="#" class="page-link">
-                        <span aria-hidden="true">Siguiente &raquo; </span>
-                    </a>
-                </li>
-            </ul>
+            <button class="btn-success boton form-control">
+                <i class="fa fa-search"></i> Nuevo Evento
+            </button>
         </div>
     </nav>
 </div>
