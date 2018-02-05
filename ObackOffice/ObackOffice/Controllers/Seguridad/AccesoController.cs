@@ -13,10 +13,13 @@ namespace ObackOffice.Controllers.Seguridad
     {
         public ActionResult BandejaUsuarios()
         {
+            Api API = new Api();
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            ViewBag.Usuarios = API.Get<List<Models.Acceso.Usuario>>("Usuario/GetUsuarios");
             return View();
         }
 
-        public ActionResult CrearPersona()
+        public ActionResult CrearUsuario(int? id)
         {
             Api API = new Api();
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
@@ -24,6 +27,12 @@ namespace ObackOffice.Controllers.Seguridad
             ViewBag.Roles = API.Get<List<Parametro>>("Person/GetRoles");
             ViewBag.TipoDocumento = API.Get<List<Parametro>>("Person/GetTipoDocumentos");
             ViewBag.Empresas = API.Get<List<Models.Administracion.Empresa>>("Empresas/GetEmpresas");
+            if (id.HasValue)
+            {
+                ViewBag.EditUser = API.Get<Models.Acceso.Usuario>("Usuario/GetUsuario", new Dictionary<string, string> { { "id", id.Value.ToString() } });
+                ViewBag.EditPerson = API.Get<Models.Comun.Persona>("Person/GetPersona", new Dictionary<string, string> { { "id", ViewBag.EditUser.PersonaId.ToString() } });
+            }
+                
             return View();
         }
 

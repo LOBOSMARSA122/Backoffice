@@ -67,5 +67,12 @@ namespace ObackOfficeAPI.Controllers.Person
             List<Parametro> result = pr.GetTipoDocumentos();
             return Ok(result);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetPersona(int id)
+        {
+            Persona result = pr.GetPersona(id);
+            return Ok(result);
+        }
     }
 }

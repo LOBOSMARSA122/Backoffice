@@ -37,5 +37,12 @@ namespace ObackOfficeAPI.Controllers.Usuario
             List<BE.Acceso.Usuario> result = ur.GetUsuarios();
             return Ok(result);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetUsuario(int id)
+        {
+            BE.Acceso.Usuario result = ur.GetUsuario(id);
+            return Ok(result);
+        }
     }
 }

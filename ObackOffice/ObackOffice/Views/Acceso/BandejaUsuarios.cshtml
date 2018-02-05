@@ -1,3 +1,110 @@
-﻿
-    <h1>BandejaUsuarios</h1>
+﻿<div class="container-fluid">
+    <div class="box box-default mt-2" id="acordion">
+        <div class="box-header with-border" id="heading1">
+            <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-calendar"></i> Banjeda de Usuarios</h3>
+        </div>
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
+            <form action="/" method="post">
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Evento</label>
+                            <input type="text" name="evento" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Evento" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Empresa</label>
+                            <input type="text" name="evento" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Empresa" />
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <button class="btn-info boton form-control">
+                                <i class="fa fa-search"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <span class="informacion">Mostrando 1 de 9 de un total de 9 entradas</span>
+    </div>
+    <div class="box box-warning mt-2">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>NombreUsuario</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ 
+                        if(ViewBag.Usuarios == null)
+                        {
+                            <tr><td colspan="999">Error al conectarse al servidor</td></tr>
+                        }else if(ViewBag.Usuarios.Count == 0)
+                        {
+                            <tr><td colspan="999">No hay resultados</td></tr>
+                        }
+                        else
+                        {
+                            foreach (var item in ViewBag.Usuarios)
+                            {
+                                <tr>
+                                    <td>@item.NombreUsuario</td>
+                                    <td><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
+                                    <td><a><span class="icon-trash"></span></a></td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            <div class="paginacion-tabla d-flex justify-content-center">
+                <div>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true">Anterior</span>
+                        </li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">
+                                <span aria-hidden="true">Siguiente</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <nav class="d-flex justify-content-end align-items-center flex-wrap">
+
+        <div>
+            <button class="btn-success boton form-control">
+                <a href="@Url.Action("CrearUsuario","Acceso")">
+                    <i class="fa fa-search"></i> Nuevo Usuario
+                </a>
+            </button>
+        </div>
+    </nav>
+</div>
+
+<script>
+    function ColapsarFiltro(id) {
+        if ($("#" + id).height() == 0) {
+            $("#" + id).animate({ "height": "100px", "padding":"10px" }, 400);
+        } else {
+            $("#" + id).animate({ "height": "0px", "padding":"0px 10px" }, 400);
+        }
+    }
+</script>

@@ -149,5 +149,11 @@ namespace BL
 
             return result;
         }
+
+        public Persona GetPersona(int id)
+        {
+            int NoEliminado = (int)Enumeradores.EsEliminado.No;
+            return (from a in ctx.Personas where a.EsEliminado == NoEliminado select a).FirstOrDefault();
+        }
     }
 }
