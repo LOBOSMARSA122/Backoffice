@@ -281,7 +281,7 @@ body footer {
     display:-ms-flexbox;    
     flex-direction:row;
     flex-wrap:wrap;
-    justify-content:space-around;
+    justify-content:space-around;bal
 }
 
 .acceso-rapido .boton{
@@ -364,7 +364,6 @@ body footer {
 
 
 /*BANDEJAS*/
-
 table thead {
     color: #969696;
     font-family: 'Roboto', sans-serif;
@@ -377,6 +376,7 @@ table tbody {
     font-size: 12px;
     cursor: pointer;
 }
+
 
 table tbody tr td {
     text-align: left;
@@ -401,9 +401,25 @@ table tbody tr td {
     font-size:12px;
 }
 
-.pagination{
-    font-size:12px;
+.paginacion-tabla {
+    background: #f6f7f9;
+    border: 1px solid #d9d9d9;
 }
+
+.pagination {
+    margin:0;
+    border:0;
+}
+
+.pagination .page-item .page-link {
+    border: 0;
+    background: #f6f7f9;
+}
+
+.pagination ul:hover{
+    background:red;
+}
+
 /*Box*/
 .box {
     position: relative;
@@ -576,6 +592,15 @@ table tbody tr td {
         width:100vh;
     }
 
+    .table-responsive {
+        overflow: auto;
+    }
+
+        .table-responsive > .table tr th,
+        .table-responsive > .table tr td {
+            white-space: normal !important;
+        }
+
 }
 
 @media screen and (max-width:800px) {
@@ -632,15 +657,16 @@ table tbody tr td {
 
 
 
-/*BORDES Y OTROS DE PRUEBA*/
-.mirar-div {
-    /*border: 1px solid red;*/
-    /*height: 85px;*/
-}
 
-    .mirar-div > div {
+    /*BORDES Y OTROS DE PRUEBA*/
+    .mirar-div {
         /*border: 1px solid red;*/
+        /*height: 85px;*/
     }
+
+        .mirar-div > div {
+            /*border: 1px solid red;*/
+        }
 
 
 
