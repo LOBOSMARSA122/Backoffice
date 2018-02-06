@@ -141,6 +141,54 @@ namespace BL
             }
         }
 
+        public bool EditPerson(Persona Persona, Usuario Usuario, int UsuarioID)
+        {
+            try
+            {
+                var ctxPersona = (from a in ctx.Personas where a.PersonaId == Persona.PersonaId select a).FirstOrDefault();
+                var ctxUsuario = (from a in ctx.Usuarios where a.UsuarioId == Usuario.UsuarioId select a).FirstOrDefault();
+
+                if (ctxPersona == null || ctxUsuario == null)
+                    return false;
+
+                ctxPersona.TipoDocumentoId = Persona.TipoDocumentoId;
+                ctxPersona.NroDocumento = Persona.NroDocumento;
+                ctxPersona.Nombres = Persona.Nombres;
+                ctxPersona.ApellidoPaterno = Persona.ApellidoPaterno;
+                ctxPersona.ApellidoMaterno = Persona.ApellidoMaterno;
+                ctxPersona.FechaNacimiento = Persona.FechaNacimiento;
+                ctxPersona.GeneroId = Persona.GeneroId;
+                ctxPersona.CorreoElectronico = Persona.CorreoElectronico;
+                ctxPersona.NumeroCelular = Persona.NumeroCelular;
+                ctxPersona.UsuActualiza = UsuarioID;
+                ctxPersona.FechaActualiza = DateTime.Now;
+
+
+                ctxUsuario.NombreUsuario = Usuario.NombreUsuario;
+                if (Utils.Encrypt(Usuario.Contrasenia) != ctxUsuario.Contrasenia && !string.IsNullOrWhiteSpace(Usuario.Contrasenia))
+                    ctxUsuario.Contrasenia = Utils.Encrypt(Usuario.Contrasenia);
+                ctxUsuario.EmpresaId = Usuario.EmpresaId;
+                ctxUsuario.RolId = Usuario.RolId;
+                ctxUsuario.PreguntaSecreta = Usuario.PreguntaSecreta;
+                if (Utils.Encrypt(Usuario.RespuestaSecreta) != ctxUsuario.RespuestaSecreta && !string.IsNullOrWhiteSpace(Usuario.RespuestaSecreta))
+                    ctxUsuario.RespuestaSecreta = Utils.Encrypt(Usuario.RespuestaSecreta);
+                ctxUsuario.UsuActualiza = UsuarioID;
+                ctxUsuario.FechaActualiza = DateTime.Now;
+
+
+                int rows = ctx.SaveChanges();
+
+                if (rows > 1)
+                    return true;
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public List<Parametro> GetTipoDocumentos()
         {
             int grupo = (int)Enumeradores.GrupoParametros.TipoDocumentos;
@@ -153,7 +201,7 @@ namespace BL
         public Persona GetPersona(int id)
         {
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            return (from a in ctx.Personas where a.EsEliminado == NoEliminado select a).FirstOrDefault();
+            return (from a in ctx.Personas where a.EsEliminado == NoEliminado && a.PersonaId == id select a).FirstOrDefault();
         }
     }
 }

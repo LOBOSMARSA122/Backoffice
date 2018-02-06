@@ -162,6 +162,7 @@
     <Compile Include="Models\Administracion\Empresa.cs" />
     <Compile Include="Models\Administracion\Evento.cs" />
     <Compile Include="Models\API.cs" />
+    <Compile Include="Models\Bandejas.cs" />
     <Compile Include="Models\Comun\Persona.cs" />
     <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Person.cs" />
@@ -402,6 +403,7 @@
     <Content Include="Views\Acceso\CrearUsuario.cshtml" />
     <Content Include="Views\Evento\BandejaEvento.cshtml" />
     <Content Include="Views\Acceso\BandejaUsuarios.cshtml" />
+    <Content Include="Views\Shared\_BandejaUsuariosPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

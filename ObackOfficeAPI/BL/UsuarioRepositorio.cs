@@ -86,12 +86,51 @@ namespace BL
 
         }
 
-        public List<Usuario> GetUsuarios()
+        public BandejaUsuario GetUsuarios(BandejaUsuario data)
         {
             try
             {
                 int NoEliminado = (int)Enumeradores.EsEliminado.No;
-                return (from a in ctx.Usuarios where a.EsEliminado == NoEliminado select a).ToList();
+                int GrupoRol = (int)Enumeradores.GrupoParametros.Roles;
+                int GrupoEmpresa = (int)Enumeradores.GrupoParametros.TipoEmpresas;
+                string NombreUsuario = string.IsNullOrWhiteSpace(data.NombreUsuario) ? "" : data.NombreUsuario;
+                string NombrePersona = string.IsNullOrWhiteSpace(data.NombrePersona) ? "" : data.NombrePersona;
+                int skip = (data.Index -1) * data.Take;
+
+                var Lista = (from U in ctx.Usuarios
+                             join P in ctx.Personas on U.PersonaId equals P.PersonaId
+                             join R in ctx.Parametros on U.RolId equals R.ParametroId
+                             join E in ctx.Empresas on U.EmpresaId equals E.EmpresaId
+                             join TE in ctx.Parametros on E.TipoEmpresaId equals TE.ParametroId
+                             where U.EsEliminado == NoEliminado &&
+                             P.EsEliminado == NoEliminado &&
+                             R.GrupoId == GrupoRol &&
+                             TE.GrupoId == GrupoEmpresa &&
+                             U.NombreUsuario.Contains(NombreUsuario) &&
+                             (P.Nombres.Contains(NombrePersona) ||
+                             P.ApellidoPaterno.Contains(NombrePersona) ||
+                             P.ApellidoMaterno.Contains(NombrePersona))
+                             select new BandejaUsuarioLista()
+                             {
+                                 UsuarioId = U.UsuarioId,
+                                 NombreCompleto = P.Nombres + " " + P.ApellidoPaterno + " " + P.ApellidoMaterno,
+                                 NombreUsuario = U.NombreUsuario,
+                                 Empresa = E.RazonSocial,
+                                 Rol = R.Valor1,
+                                 TipoEmpresa = TE.Valor1
+                             }).ToList();
+
+                int TotalRegistros = Lista.Count;
+
+                Lista = Lista.Skip(skip).Take(data.Take).ToList();
+
+                BandejaUsuario returnData = new BandejaUsuario()
+                {
+                    Lista = Lista,
+                    TotalRegistros = TotalRegistros
+                };
+
+                return returnData;
             }
             catch (Exception e)
             {
@@ -104,11 +143,45 @@ namespace BL
             try
             {
                 int NoEliminado = (int)Enumeradores.EsEliminado.No;
-                return (from a in ctx.Usuarios where a.EsEliminado == NoEliminado && a.UsuarioId == id select a).FirstOrDefault();
+                return (from a in ctx.Usuarios where a.EsEliminado == NoEliminado && a.UsuarioId == id
+                        select a).ToList().Select(a => new Usuario()
+                        {
+                            EmpresaId = a.EmpresaId,
+                            EsEliminado = a.EsEliminado,
+                            FechaActualiza = a.FechaActualiza,
+                            FechaCaduca = a.FechaCaduca,
+                            PersonaId = a.PersonaId,
+                            FechaGraba = a.FechaGraba,
+                            NombreUsuario = a.NombreUsuario,
+                            PreguntaSecreta = a.PreguntaSecreta,
+                            RolId = a.RolId,
+                            UsuActualiza = a.UsuActualiza,
+                            UsuarioId = a.UsuarioId,
+                            UsuGraba = a.UsuGraba
+                        }).FirstOrDefault();
             }
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        public bool DeleteUser(int DeleteId, int UserId)
+        {
+            try
+            {
+                var Usuario = (from a in ctx.Usuarios where a.UsuarioId == DeleteId select a).FirstOrDefault();
+
+                Usuario.UsuActualiza = UserId;
+                Usuario.FechaActualiza = DateTime.Now;
+                Usuario.EsEliminado = (int)Enumeradores.EsEliminado.Si;
+
+                int rows = ctx.SaveChanges();
+                return rows > 0;
+            }
+            catch(Exception e)
+            {
+                return false;
             }
         }
     }

@@ -46,6 +46,7 @@
     <Compile Include="Acceso\SubMenu.cs" />
     <Compile Include="Administracion\Empresa.cs" />
     <Compile Include="Administracion\Evento.cs" />
+    <Compile Include="Comun\Bandejas.cs" />
     <Compile Include="Comun\Enumeradores.cs" />
     <Compile Include="Comun\MultiDataModel.cs" />
     <Compile Include="Comun\Parametro.cs" />
