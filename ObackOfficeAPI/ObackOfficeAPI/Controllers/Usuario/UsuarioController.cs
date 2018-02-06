@@ -31,10 +31,10 @@ namespace ObackOfficeAPI.Controllers.Usuario
             return Ok(result);
         }
 
-        [HttpGet]
-        public IHttpActionResult GetUsuarios()
+        [HttpPost]
+        public IHttpActionResult GetUsuarios(BandejaUsuario data)
         {
-            List<BE.Acceso.Usuario> result = ur.GetUsuarios();
+            BandejaUsuario result = ur.GetUsuarios(data);
             return Ok(result);
         }
 
@@ -43,6 +43,19 @@ namespace ObackOfficeAPI.Controllers.Usuario
         {
             BE.Acceso.Usuario result = ur.GetUsuario(id);
             return Ok(result);
+        }
+
+        [HttpPost]
+        public IHttpActionResult DeleteUser(MultiDataModel data)
+        {
+            if (data.Int1 == 0)
+                return BadRequest("Información Inválida");
+
+            if (data.Int2 == 0)
+                return BadRequest("Sesión Expirada");
+
+            bool response = ur.DeleteUser(data.Int1, data.Int2);
+            return Ok(response);
         }
     }
 }

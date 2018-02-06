@@ -1,0 +1,78 @@
+﻿@{ 
+    int Total = 0;
+    int Primer = 0;
+    int Ultimo = 0;
+
+    if(ViewBag.Usuarios != null)
+    {
+        Total = ViewBag.Usuarios.TotalRegistros;
+        Primer = ((ViewBag.Usuarios.Index - 1)* ViewBag.Usuarios.Take) + 1;
+        Ultimo = Primer + (ViewBag.Usuarios.Lista.Count - 1);
+    }
+}
+
+<div>
+    <span class="informacion">Mostrando @Primer de @Ultimo de un total de @Total entradas</span>
+</div>
+<div class="box box-warning mt-2">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre Usuario</th>
+                    <th>Nombre Persona</th>
+                    <th>Rol</th>
+                    <th>Empresa</th>
+                    <th>Tipo Empresa</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (ViewBag.Usuarios == null)
+                    {
+                        <tr><td colspan="999" class="text-center">Error al conectarse al servidor</td></tr>
+                    }
+                    else if (ViewBag.Usuarios.Lista.Count == 0)
+                    {
+                        <tr><td colspan="999" class="text-center">No hay resultados</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var item in ViewBag.Usuarios.Lista)
+                        {
+                            <tr>
+                                <td>@item.NombreUsuario</td>
+                                <td>@item.NombreCompleto</td>
+                                <td>@item.Rol</td>
+                                <td>@item.Empresa</td>
+                                <td>@item.TipoEmpresa</td>
+                                <td><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
+                                <td><a onclick="DeleteUser(@item.UsuarioId)"><span class="icon-trash"></span></a></td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="paginacion-tabla d-flex justify-content-center">
+            <div>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <span class="page-link" aria-hidden="true">Anterior</span>
+                    </li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item">
+                        <a href="#" class="page-link">
+                            <span aria-hidden="true">Siguiente</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

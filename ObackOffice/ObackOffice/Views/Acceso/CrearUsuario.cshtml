@@ -1,4 +1,45 @@
-﻿<style>
+﻿ @{ 
+     int TipoDocumentoId = 0;
+     string NroDocumento = "";
+     string Nombres = "";
+     string ApellidoPaterno = "";
+     string ApellidoMaterno = "";
+     DateTime FechaNacimiento = DateTime.Now;
+     int GeneroId = 0;
+     string CorreoElectronico = "";
+     string NumeroCelular = "";
+     int PersonaId = 0;
+
+     string NombreUsuario = "";
+     int EmpresaId = 0;
+     int RolId = 0;
+     string PreguntaSecreta = "";
+     int UsuarioId = 0;
+
+
+     if (ViewBag.EditUser != null && ViewBag.EditPerson != null)
+     {
+         TipoDocumentoId = ViewBag.EditPerson.TipoDocumentoId;
+         NroDocumento = ViewBag.EditPerson.NroDocumento;
+         Nombres = ViewBag.EditPerson.Nombres;
+         ApellidoPaterno = ViewBag.EditPerson.ApellidoPaterno;
+         ApellidoMaterno = ViewBag.EditPerson.ApellidoMaterno;
+         FechaNacimiento = ViewBag.EditPerson.FechaNacimiento;
+         GeneroId = ViewBag.EditPerson.GeneroId;
+         CorreoElectronico = ViewBag.EditPerson.CorreoElectronico;
+         NumeroCelular = ViewBag.EditPerson.NumeroCelular;
+         PersonaId = ViewBag.EditPerson.PersonaId;
+
+         NombreUsuario = ViewBag.EditUser.NombreUsuario;
+         EmpresaId = ViewBag.EditUser.EmpresaId;
+         RolId = ViewBag.EditUser.RolId;
+         PreguntaSecreta = ViewBag.EditUser.PreguntaSecreta;
+         UsuarioId = ViewBag.EditUser.UsuarioId;
+     }
+ }
+ 
+
+<style>
     .Titulo {
         font-weight: bolder;
         font-size: 20px;
@@ -65,7 +106,7 @@
                                 <select id="PersonaTipoDocumento">
                                 @foreach (var G in ViewBag.TipoDocumento)
                                 {
-                                    <option value="@G.ParametroId">@G.Valor1</option>
+                                    <option value="@G.ParametroId" @(TipoDocumentoId == G.ParametroId ? "selected":"")>@G.Valor1</option>
                                 }
                                 </select>
                             }
@@ -76,31 +117,31 @@
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Numero Documento: </div>
-                    <div><input type="text" id="PersonaNroDocumento" /></div>
+                    <div><input type="text" id="PersonaNroDocumento" value="@NroDocumento"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Nombres: </div>
-                    <div><input type="text" id="PersonaNombre" /></div>
+                    <div><input type="text" id="PersonaNombre" value="@Nombres"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Apellido Paterno: </div>
-                    <div><input type="text" id="PersonaApellidoPaterno" /></div>
+                    <div><input type="text" id="PersonaApellidoPaterno" value="@ApellidoPaterno"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Apellido Materno: </div>
-                    <div><input type="text" id="PersonaApellidoMaterno" /></div>
+                    <div><input type="text" id="PersonaApellidoMaterno" value="@ApellidoMaterno"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Fecha Nacimiento: </div>
-                    <div><input type="date" id="PersonaFechaNacimiento" /></div>
+                    <div><input type="date" id="PersonaFechaNacimiento" value="@FechaNacimiento.ToString("yyyy-MM-dd")"/></div>
                 </div>
             </div>
             <div class="row">
@@ -113,7 +154,7 @@
                                 <select id="PersonaGenero">
                                 @foreach (var G in ViewBag.Genero)
                                 {
-                                    <option value="@G.ParametroId">@G.Valor1</option>
+                                    <option value="@G.ParametroId" @(GeneroId == G.ParametroId ? "selected":"")>@G.Valor1</option>
                                 }
                                 </select>
                                 @*<img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Gender')" />*@
@@ -125,13 +166,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Correo: </div>
-                    <div><input type="email" id="PersonaCorreo" /></div>
+                    <div><input type="email" id="PersonaCorreo" value="@CorreoElectronico"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Teléfono Celular: </div>
-                    <div><input type="tel" id="PersonaCelular" /></div>
+                    <div><input type="tel" id="PersonaCelular" value="@NumeroCelular"/></div>
                 </div>
             </div>
         </div>
@@ -142,19 +183,19 @@
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Usuario: </div>
-                    <div><input type="text" id="UserName" /></div>
+                    <div><input type="text" id="UserName" value="@NombreUsuario"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Contraseña: </div>
-                    <div><input type="password" id="UserPassword" /></div>
+                    <div><input type="password" id="UserPassword"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Confirmar Contraseña: </div>
-                    <div><input type="password" id="UserRepeatPassword" /></div>
+                    <div><input type="password" id="UserRepeatPassword"/></div>
                 </div>
             </div>
             <div class="row">
@@ -167,7 +208,7 @@
                                 <select id="UserEmpresa">
                                 @foreach (var R in ViewBag.Empresas)
                                 {
-                                    <option value="@R.EmpresaId">@R.RazonSocial</option>
+                                    <option value="@R.EmpresaId" @(EmpresaId == R.EmpresaId ? "selected":"")>@R.RazonSocial</option>
                                 }
                                 </select>
                             }
@@ -185,7 +226,7 @@
                                 <select id="UserRol">
                                 @foreach (var R in ViewBag.Roles)
                                 {
-                                    <option value="@R.ParametroId">@R.Valor1</option>
+                                    <option value="@R.ParametroId" @(RolId == R.ParametroId ? "selected":"")>@R.Valor1</option>
                                 }
                                 </select>
                                 <img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Rol')" />
@@ -197,13 +238,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Pregunta Secreta: </div>
-                    <div><input type="text" id="UserPregunta" /></div>
+                    <div><input type="text" id="UserPregunta" value="@PreguntaSecreta"/></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="SubTitulo">Respuesta Secreta: </div>
-                    <div><input type="password" id="UserRespuesta" /></div>
+                    <div><input type="password" id="UserRespuesta"/></div>
                 </div>
             </div>
         </div>
@@ -214,7 +255,7 @@
     <div class="row">
         <div class="col-12 text-center botonera">
             <div><input type="button" value="Aceptar" onclick="EnviarFormulario()" /></div>
-            <div><input type="button" value="Cancelar" onclick="Cancelar()" /></div>
+            <div><input type="button" value="Cancelar" onclick="location.href='@Url.Action("BandejaUsuarios","Acceso")'" /></div>
         </div>
     </div>
 </div>
@@ -235,7 +276,8 @@
             FechaNacimiento: $("#PersonaFechaNacimiento").val(),
             GeneroId: $("#PersonaGenero").val(),
             CorreoElectronico: $("#PersonaCorreo").val(),
-            NumeroCelular: $("#PersonaCelular").val()
+            NumeroCelular: $("#PersonaCelular").val(),
+            PersonaId: @PersonaId
         };
 
 
@@ -245,7 +287,8 @@
             EmpresaId: $("#UserEmpresa").val(),
             RolId: $("#UserRol").val(),
             PreguntaSecreta: $("#UserPregunta").val(),
-            RespuestaSecreta: $("#UserRespuesta").val()
+            RespuestaSecreta: $("#UserRespuesta").val(),
+            UsuarioId: @UsuarioId
         };
 
 
@@ -256,8 +299,11 @@
             dataType: 'json',
             method: 'POST',
             data: data,
-            url: '/Acceso/InsertNewPerson',
+            url: '@(ViewBag.EditUser != null && ViewBag.EditPerson != null ? "/Acceso/EditPerson": "/Acceso/InsertNewPerson")',
             success: function (json) {
+                if (json) {
+                    location.href = '@Url.Action("BandejaUsuarios","Acceso")';
+                }
             },
             error: function (error) {
                 console.log(error);

@@ -15,8 +15,27 @@ namespace ObackOffice.Controllers.Seguridad
         {
             Api API = new Api();
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
-            ViewBag.Usuarios = API.Get<List<Models.Acceso.Usuario>>("Usuario/GetUsuarios");
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "Index","1" },
+                { "Take","10"}
+            };
+            ViewBag.Usuarios = API.Post<BandejaUsuario>("Usuario/GetUsuarios", arg);
             return View();
+        }
+
+        public ActionResult FiltrarUsuario(BandejaUsuario data)
+        {
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "NombrePersona",data.NombrePersona },
+                { "NombreUsuario", data.NombreUsuario},
+                { "Index", data.Index.ToString()},
+                { "Take", data.Take.ToString()}
+            };
+            ViewBag.Usuarios = API.Post<BandejaUsuario>("Usuario/GetUsuarios",arg);
+            return PartialView("_BandejaUsuariosPartial");
         }
 
         public ActionResult CrearUsuario(int? id)
@@ -107,6 +126,41 @@ namespace ObackOffice.Controllers.Seguridad
                 { "Int1", User.UsuarioId.ToString() }
             };
             bool response = API.Post<bool>("Person/InsertNewPerson", args);
+            return Json(response);
+        }
+
+        public JsonResult EditPerson(string Persona, string Usuario)
+        {
+            if (((ClientSession)Session["AutBackoffice"]) == null)
+                return null;
+
+            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
+
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", Persona },
+                { "String2", Usuario },
+                { "Int1", User.UsuarioId.ToString() }
+            };
+            bool response = API.Post<bool>("Person/EditPerson", args);
+            return Json(response);
+        }
+
+        public JsonResult DeleteUser(int id)
+        {
+            if (((ClientSession)Session["AutBackoffice"]) == null)
+                return null;
+
+            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
+
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "Int1", id.ToString() },
+                { "Int2", User.UsuarioId.ToString() }
+            };
+            bool response = API.Post<bool>("Usuario/DeleteUser", args);
             return Json(response);
         }
     }
