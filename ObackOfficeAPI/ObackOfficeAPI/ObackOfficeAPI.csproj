@@ -188,6 +188,7 @@
     <Compile Include="Controllers\Comun\ParametroController.cs" />
     <Compile Include="Controllers\Perfiles\PerfilesController.cs" />
     <Compile Include="Controllers\Person\PersonController.cs" />
+    <Compile Include="Controllers\Prueba\ExcelController.cs" />
     <Compile Include="Controllers\Prueba\ObackOfficePruebaController.cs" />
     <Compile Include="Controllers\Usuario\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">

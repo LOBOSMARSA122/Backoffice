@@ -4,6 +4,9 @@ using System.Linq;
 using BE.Acceso;
 using BE.Comun;
 using DAL;
+using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace BL
 {
@@ -182,6 +185,55 @@ namespace BL
             catch(Exception e)
             {
                 return false;
+            }
+        }
+
+        public MemoryStream BandejaUsuarioExcel(BandejaUsuario data)
+        {
+            try
+            {
+                List<BandejaUsuarioLista> Lista = GetUsuarios(data).Lista;
+
+                IWorkbook Book = new XSSFWorkbook();
+                ISheet Sheet = Book.CreateSheet("Lista");
+                int index = 0;
+                IRow Row = Sheet.CreateRow(index);
+
+
+                Row.CreateCell(0).SetCellValue("Nombre Usuario");
+                Row.CreateCell(0).SetCellValue("Nombre Completo");
+                Row.CreateCell(0).SetCellValue("Rol");
+                Row.CreateCell(0).SetCellValue("Empresa");
+                Row.CreateCell(0).SetCellValue("Tipo Empresa");
+                foreach (var Usuario in Lista)
+                {
+                    index++;
+                    Row = Sheet.CreateRow(index);
+                    Row.CreateCell(0).SetCellValue(Usuario.NombreUsuario);
+                    Row.CreateCell(1).SetCellValue(Usuario.NombreCompleto);
+                    Row.CreateCell(2).SetCellValue(Usuario.Rol);
+                    Row.CreateCell(3).SetCellValue(Usuario.Empresa);
+                    Row.CreateCell(4).SetCellValue(Usuario.TipoEmpresa);
+                }
+                Sheet.AutoSizeColumn(0);
+                Sheet.AutoSizeColumn(1);
+                Sheet.AutoSizeColumn(2);
+                Sheet.AutoSizeColumn(3);
+                Sheet.AutoSizeColumn(4);
+
+                MemoryStream ms = new MemoryStream();
+                using (MemoryStream tempStream = new MemoryStream())
+                {
+                    Book.Write(tempStream);
+                    var byteArray = tempStream.ToArray();
+                    ms.Write(byteArray, 0, byteArray.Length);
+                }
+
+                return ms;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }

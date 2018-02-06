@@ -18,10 +18,10 @@ namespace ObackOffice.Controllers.Registro
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "grupoId", "100" },
-                { "accion","" },
+                { "grupoId", ((int)Enums.Parametros.Sedes).ToString() },
+                { "accion",Constantes.Select },
             };
-            ViewBag.Roles = API.Get<List<Parametro>>("Parametr/GetParametroByGrupoId", args);
+            ViewBag.EVENTOS = API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args);
             return View();
         }
     }
