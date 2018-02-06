@@ -24,18 +24,27 @@ namespace ObackOffice.Controllers.Administracion
             return View(ViewBag.EVENTOS);
         }
 
-        public ActionResult Evento()
+        public ActionResult Evento(int? EventoId)
         {
+            if (EventoId.HasValue)
+            {
+                ViewBag.EventoId = EventoId;
+            }
+            else
+            {
+                ViewBag.EventoId = 0;
+            }
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             return View();
         }
 
-        public JsonResult GetAgenda()
+        public JsonResult GetAgenda(int? eventoId)
         {
+            var x = ViewBag.EventoId;
             Api API = new Api();
             string url = "Eventos/GetAgenda";
             Dictionary<string, string> args = new Dictionary<string, string>();
-            args.Add("eventoId", "1");
+            args.Add("eventoId", eventoId.ToString());
             List<Agenda> Agenda = API.Get<List<Agenda>>(url, args);
             return new JsonResult { Data = Agenda, JsonRequestBehavior =JsonRequestBehavior.AllowGet };
         }

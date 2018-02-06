@@ -5,6 +5,47 @@
 
 <div class="container-fluid">
     <div id="calendar" class="calendar-custom mt-2"></div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventTitle"></h5>
+                    <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid" >
+                        <div class="row xxx">
+                            <div class="col-auto form-group m-0">
+                              
+                                <select class="form-control">
+                                    <option value="1">Evento 1</option>
+                                    <option value="2">Evento 2</option>
+                                    <option value="3">Evento 3</option>
+                                    <option value="4">Evento 4</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <i class="icon-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div style="width:900px">
+                        <p id="pDetails"></p>
+                    </div>*@
+                    
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success">Agendar</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <link href="~/Content/fullcalendar.css" rel="stylesheet" />
@@ -16,7 +57,7 @@
             var events = [];
             $.ajax({
                 type: "GET",
-                url: "/Evento/GetAgenda",
+                url: "/Evento/GetAgenda?eventoId=" + @ViewBag.EventoId,
                 success: function (data) {
                     $.each(data, function (i, v) {
                         events.push({
@@ -50,6 +91,18 @@
                     eventLimit: true,
                     eventColor: '#378006',
                     events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                        $('#myModal #eventTitle').text("Programación de: "+calEvent.title);
+                        var $description = $('<div/>');
+                        $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                        if (calEvent.end != null) {
+                            $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                        }
+                        $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                        $('#myModal #pDetails').empty().html($description);
+
+                        $('#myModal').modal();
+                    }
                 });
             }
         });

@@ -15,6 +15,7 @@ namespace BE.Acceso
         public string RespuestaSecreta { get; set; }
         public DateTime FechaCaduca { get; set; }
         public int RolId { get; set; }
+        public int EmpresaId { get; set; }
 
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }

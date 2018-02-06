@@ -11,13 +11,29 @@ namespace ObackOffice.Controllers.Seguridad
 {
     public class AccesoController : Controller
     {
-        public ActionResult Index()
+        public ActionResult BandejaUsuarios()
+        {
+            Api API = new Api();
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            ViewBag.Usuarios = API.Get<List<Models.Acceso.Usuario>>("Usuario/GetUsuarios");
+            return View();
+        }
+
+        public ActionResult CrearUsuario(int? id)
         {
             Api API = new Api();
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             ViewBag.Genero = API.Get<List<Parametro>>("Person/GetGeneros");
             ViewBag.Roles = API.Get<List<Parametro>>("Person/GetRoles");
-            return View("CrearPersona");
+            ViewBag.TipoDocumento = API.Get<List<Parametro>>("Person/GetTipoDocumentos");
+            ViewBag.Empresas = API.Get<List<Models.Administracion.Empresa>>("Empresas/GetEmpresas");
+            if (id.HasValue)
+            {
+                ViewBag.EditUser = API.Get<Models.Acceso.Usuario>("Usuario/GetUsuario", new Dictionary<string, string> { { "id", id.Value.ToString() } });
+                ViewBag.EditPerson = API.Get<Models.Comun.Persona>("Person/GetPersona", new Dictionary<string, string> { { "id", ViewBag.EditUser.PersonaId.ToString() } });
+            }
+                
+            return View();
         }
 
         public ActionResult GetAccordion(string data)
@@ -73,6 +89,24 @@ namespace ObackOffice.Controllers.Seguridad
                 { "Int1", Usuario.UsuarioId.ToString() }
             };
             Parametro response = API.Post<Parametro>("Perfiles/InsertRol", args);
+            return Json(response);
+        }
+
+        public JsonResult InsertNewPerson(string Persona, string Usuario)
+        {
+            if (((ClientSession)Session["AutBackoffice"]) == null)
+                return null;
+
+            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
+
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", Persona },
+                { "String2", Usuario },
+                { "Int1", User.UsuarioId.ToString() }
+            };
+            bool response = API.Post<bool>("Person/InsertNewPerson", args);
             return Json(response);
         }
     }

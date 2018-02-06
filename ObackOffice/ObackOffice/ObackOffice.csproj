@@ -160,8 +160,10 @@
     <Compile Include="Models\Acceso\Usuario.cs" />
     <Compile Include="Models\Acceso\UsuarioLogin.cs" />
     <Compile Include="Models\Administracion\Agenda.cs" />
+    <Compile Include="Models\Administracion\Empresa.cs" />
     <Compile Include="Models\Administracion\Evento.cs" />
     <Compile Include="Models\API.cs" />
+    <Compile Include="Models\Comun\Persona.cs" />
     <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\TreeView.cs" />
@@ -399,8 +401,9 @@
     <Content Include="Views\Generals\SessionExpired.cshtml" />
     <Content Include="Views\Shared\_AccordionPartial.cshtml" />
     <Content Include="Views\Evento\Evento.cshtml" />
-    <Content Include="Views\Acceso\CrearPersona.cshtml" />
+    <Content Include="Views\Acceso\CrearUsuario.cshtml" />
     <Content Include="Views\Evento\BandejaEvento.cshtml" />
+    <Content Include="Views\Acceso\BandejaUsuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

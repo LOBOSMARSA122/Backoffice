@@ -1,17 +1,9 @@
-﻿
-@{
-    ViewBag.Title = "BandejaEvento";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<div class="container-fluid">
+﻿<div class="container-fluid">
     <div class="box box-default mt-2" id="acordion">
         <div class="box-header with-border" id="heading1">
-            <a href="#collapse1" data-toggle="collapse" data-parent="#acordion" aria-expended="true" aria-controls="collapse1">
-                <h3 class="box-title"><i class="icon-calendar"></i> Banjeda de Eventos</h3>
-            </a>
+            <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-calendar"></i> Banjeda de Usuarios</h3>
         </div>
-        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
             <form action="/" method="post">
                 <div class="row">
                     <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
@@ -46,24 +38,32 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Empresa</th>
-                        <th>RUC</th>
-                        <th>Evento</th>
+                        <th>NombreUsuario</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in ViewBag.EVENTOS)
-                {
-                <tr>
-                    <td>@item.Empresa</td>
-                    <td>@item.Ruc</td>
-                    <td>@item.Nombre</td>
-                    <td><a href="@Url.Action("Evento","Evento",new {eventoId = @item.EventoId })"><span class="icon-edit"></span></a></td>
-                    <td><a><span class="icon-trash"></span></a></td>
-                </tr>
-                }
+                    @{ 
+                        if(ViewBag.Usuarios == null)
+                        {
+                            <tr><td colspan="999">Error al conectarse al servidor</td></tr>
+                        }else if(ViewBag.Usuarios.Count == 0)
+                        {
+                            <tr><td colspan="999">No hay resultados</td></tr>
+                        }
+                        else
+                        {
+                            foreach (var item in ViewBag.Usuarios)
+                            {
+                                <tr>
+                                    <td>@item.NombreUsuario</td>
+                                    <td><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
+                                    <td><a><span class="icon-trash"></span></a></td>
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>
             <div class="paginacion-tabla d-flex justify-content-center">
@@ -82,18 +82,29 @@
                             </a>
                         </li>
                     </ul>
-                </div>              
+                </div>
             </div>
         </div>
     </div>
 
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
-       
+
         <div>
-            <button class="btn-success boton form-control" onclick="location.href='@Url.Action("Evento","Evento")'; return false;">
-                <i class="fa fa-search"></i> Nuevo Evento
+            <button class="btn-success boton form-control">
+                <a href="@Url.Action("CrearUsuario","Acceso")">
+                    <i class="fa fa-search"></i> Nuevo Usuario
+                </a>
             </button>
         </div>
     </nav>
 </div>
 
+<script>
+    function ColapsarFiltro(id) {
+        if ($("#" + id).height() == 0) {
+            $("#" + id).animate({ "height": "100px", "padding":"10px" }, 400);
+        } else {
+            $("#" + id).animate({ "height": "0px", "padding":"0px 10px" }, 400);
+        }
+    }
+</script>

@@ -64,10 +64,16 @@ namespace BL
             {
                 int grupo = (int)Enumeradores.GrupoParametros.Roles;
                 int NoEliminado = (int)Enumeradores.EsEliminado.No;
-                List<Parametro> Listado = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo select a).ToList();
+                List<Parametro> Listado = (from a in ctx.Parametros where a.GrupoId == grupo select a).ToList();
                 int parametroId = (from a in Listado orderby a.ParametroId descending select a.ParametroId).FirstOrDefault() + 1;
                 int orden = (from a in Listado orderby a.Orden descending select a.Orden).FirstOrDefault() + 1;
-                Parametro data = new Parametro()
+
+                Parametro Parametro = (from a in Listado where a.Valor1 == Nombre select a).FirstOrDefault();
+
+                if (Parametro != null)
+                    return null;
+
+                Parametro = new Parametro()
                 {
                     GrupoId = grupo,
                     ParametroId = parametroId,
@@ -94,13 +100,13 @@ namespace BL
                     ListPerfiles.Add(perfil);
                 }
 
-                ctx.Parametros.Add(data);
+                ctx.Parametros.Add(Parametro);
                 ctx.Perfiles.AddRange(ListPerfiles);
 
 
                 int rows = ctx.SaveChanges();
                 if (rows > 0)
-                    return data;
+                    return Parametro;
 
 
                 return null;

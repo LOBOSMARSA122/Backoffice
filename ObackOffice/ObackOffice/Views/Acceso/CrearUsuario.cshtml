@@ -1,0 +1,302 @@
+﻿<style>
+    .Titulo {
+        font-weight: bolder;
+        font-size: 20px;
+        margin-top: 80px;
+    }
+
+    .SubTitulo {
+        margin-top: 20px;
+    }
+
+    select {
+        width: 186px;
+        height: 28px;
+    }
+
+    .IconoMas {
+        cursor: pointer;
+        width: 25px;
+    }
+
+    .botonera > div {
+        display: inline-block;
+        margin: 80px 0px;
+        margin-left: 30px;
+    }
+
+        .botonera > div > input {
+            width: 150px;
+            height: 38px;
+            cursor: pointer;
+        }
+
+    #Loading {
+        background-color: rgba(0, 0, 0, 0.60);
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        z-index: 9999;
+    }
+
+        #Loading > img {
+            width: 200px;
+        }
+
+    #Accordion-Container {
+        overflow: hidden;
+        height: 0px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4 offset-2">
+            <div class="row">
+                <div class="col-12 Titulo">Datos de Persona</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Tipo Documento: </div>
+                    <div>
+                        @{
+                            if (ViewBag.TipoDocumento != null)
+                            {
+                                <select id="PersonaTipoDocumento">
+                                @foreach (var G in ViewBag.TipoDocumento)
+                                {
+                                    <option value="@G.ParametroId">@G.Valor1</option>
+                                }
+                                </select>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Numero Documento: </div>
+                    <div><input type="text" id="PersonaNroDocumento" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Nombres: </div>
+                    <div><input type="text" id="PersonaNombre" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Apellido Paterno: </div>
+                    <div><input type="text" id="PersonaApellidoPaterno" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Apellido Materno: </div>
+                    <div><input type="text" id="PersonaApellidoMaterno" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Fecha Nacimiento: </div>
+                    <div><input type="date" id="PersonaFechaNacimiento" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Género: </div>
+                    <div>
+                        @{
+                            if (ViewBag.Genero != null)
+                            {
+                                <select id="PersonaGenero">
+                                @foreach (var G in ViewBag.Genero)
+                                {
+                                    <option value="@G.ParametroId">@G.Valor1</option>
+                                }
+                                </select>
+                                @*<img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Gender')" />*@
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Correo: </div>
+                    <div><input type="email" id="PersonaCorreo" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Teléfono Celular: </div>
+                    <div><input type="tel" id="PersonaCelular" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 offset-2">
+            <div class="row">
+                <div class="col-12 Titulo">Datos de Usuario</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Usuario: </div>
+                    <div><input type="text" id="UserName" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Contraseña: </div>
+                    <div><input type="password" id="UserPassword" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Confirmar Contraseña: </div>
+                    <div><input type="password" id="UserRepeatPassword" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Empresa: </div>
+                    <div>
+                        @{
+                            if (ViewBag.Empresas != null)
+                            {
+                                <select id="UserEmpresa">
+                                @foreach (var R in ViewBag.Empresas)
+                                {
+                                    <option value="@R.EmpresaId">@R.RazonSocial</option>
+                                }
+                                </select>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Rol: </div>
+                    <div>
+                        @{
+                            if (ViewBag.Roles != null)
+                            {
+                                <select id="UserRol">
+                                @foreach (var R in ViewBag.Roles)
+                                {
+                                    <option value="@R.ParametroId">@R.Valor1</option>
+                                }
+                                </select>
+                                <img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Rol')" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Pregunta Secreta: </div>
+                    <div><input type="text" id="UserPregunta" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="SubTitulo">Respuesta Secreta: </div>
+                    <div><input type="password" id="UserRespuesta" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" id="Accordion-Container"></div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center botonera">
+            <div><input type="button" value="Aceptar" onclick="EnviarFormulario()" /></div>
+            <div><input type="button" value="Cancelar" onclick="Cancelar()" /></div>
+        </div>
+    </div>
+</div>
+
+<div id="Loading" style="display:none;">
+    <img src="~/Content/icons/loading.gif" />
+</div>
+
+<script>
+    function EnviarFormulario() {
+
+        var Persona = {
+            TipoDocumentoId: $("#PersonaTipoDocumento").val(),
+            NroDocumento: $("#PersonaNroDocumento").val(),
+            Nombres: $("#PersonaNombre").val(),
+            ApellidoPaterno: $("#PersonaApellidoPaterno").val(),
+            ApellidoMaterno: $("#PersonaApellidoMaterno").val(),
+            FechaNacimiento: $("#PersonaFechaNacimiento").val(),
+            GeneroId: $("#PersonaGenero").val(),
+            CorreoElectronico: $("#PersonaCorreo").val(),
+            NumeroCelular: $("#PersonaCelular").val()
+        };
+
+
+        var Usuario = {
+            NombreUsuario: $("#UserName").val(),
+            Contrasenia: $("#UserPassword").val(),
+            EmpresaId: $("#UserEmpresa").val(),
+            RolId: $("#UserRol").val(),
+            PreguntaSecreta: $("#UserPregunta").val(),
+            RespuestaSecreta: $("#UserRespuesta").val()
+        };
+
+
+        var data = { Persona: JSON.stringify(Persona), Usuario: JSON.stringify(Usuario) };
+
+        $.ajax({
+            cache: false,
+            dataType: 'json',
+            method: 'POST',
+            data: data,
+            url: '/Acceso/InsertNewPerson',
+            success: function (json) {
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function Cancelar() {
+        alert("Cancelar");
+    }
+    function AddAccordion(data) {
+        var width = $(window).width();
+        var height = $(window).height();
+
+        $("#Loading").show().css("width", width + "px").css("height", height + "px");
+        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+        $.ajax({
+            cache: false,
+            dataType: 'html',
+            method: 'GET',
+            url: '/Acceso/GetAccordion?data=' + data,
+            success: function (html) {
+                $("#Accordion-Container").html(html);
+                $("#Loading").hide();
+                updateAccordionHeight();
+            },
+            error: function (error) {
+                $("#Loading").hide();
+                console.log(error);
+            }
+        });
+    }
+
+    function updateAccordionHeight() {
+        setTimeout(function () {
+            $("#Accordion-Container").animate({
+                height: $("#Accordion-Container > .row").height() + "px"
+            }, 600);
+        }, 200);
+    }
+</script>

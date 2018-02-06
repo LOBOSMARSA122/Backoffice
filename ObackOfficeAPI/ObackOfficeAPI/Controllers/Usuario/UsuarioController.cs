@@ -30,5 +30,19 @@ namespace ObackOfficeAPI.Controllers.Usuario
             List<Autorizacion> result = ur.GetAutorizacion(rolId);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetUsuarios()
+        {
+            List<BE.Acceso.Usuario> result = ur.GetUsuarios();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetUsuario(int id)
+        {
+            BE.Acceso.Usuario result = ur.GetUsuario(id);
+            return Ok(result);
+        }
     }
 }

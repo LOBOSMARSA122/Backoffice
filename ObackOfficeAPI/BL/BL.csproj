@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CursoProgramadoRepository.cs" />
+    <Compile Include="EmpresasRepositorio.cs" />
     <Compile Include="EventoReporsitory.cs" />
     <Compile Include="PerfilesRepository.cs" />
     <Compile Include="PersonRepository.cs" />

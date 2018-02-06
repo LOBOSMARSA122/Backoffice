@@ -85,5 +85,31 @@ namespace BL
 
 
         }
+
+        public List<Usuario> GetUsuarios()
+        {
+            try
+            {
+                int NoEliminado = (int)Enumeradores.EsEliminado.No;
+                return (from a in ctx.Usuarios where a.EsEliminado == NoEliminado select a).ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public Usuario GetUsuario(int id)
+        {
+            try
+            {
+                int NoEliminado = (int)Enumeradores.EsEliminado.No;
+                return (from a in ctx.Usuarios where a.EsEliminado == NoEliminado && a.UsuarioId == id select a).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 }

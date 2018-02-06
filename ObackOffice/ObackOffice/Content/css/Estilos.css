@@ -155,7 +155,7 @@ header .menu .nombre-usuario {
     background: #3C3C3B;
     position: fixed;
     height: 100%;
-    z-index: 10000;
+    z-index: 1000;
     transition: all .4s ease 0s;
     overflow: scroll;
     height: calc(100% - 80px);
@@ -281,7 +281,7 @@ body footer {
     display:-ms-flexbox;    
     flex-direction:row;
     flex-wrap:wrap;
-    justify-content:space-around;bal
+    justify-content:space-around;
 }
 
 .acceso-rapido .boton{
@@ -632,7 +632,16 @@ table tbody tr td {
 }
 
 
-
+/*MODAL CALENDAR*/
+.xxx 
+{
+/*FLEX*/
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+align-items:flex-end;
+justify-content:flex-start;
+}
 
 
 
