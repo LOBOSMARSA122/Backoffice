@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ObackOffice.Models;
 using ObackOffice.Utils;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace ObackOffice.Controllers.Seguridad
 {
@@ -162,6 +163,28 @@ namespace ObackOffice.Controllers.Seguridad
             };
             bool response = API.Post<bool>("Usuario/DeleteUser", args);
             return Json(response);
+        }
+
+        public JsonResult CrearExcel(BandejaUsuario data)
+        {
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "NombrePersona",data.NombrePersona },
+                { "NombreUsuario", data.NombreUsuario},
+                { "Index", data.Index.ToString()},
+                { "Take", data.Take.ToString()}
+            };
+            byte[] ms = API.PostDownloadStream("Usuario/BandejaUsuarioExcel", arg);
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;  filename=Probando.xlsx");
+            Response.BinaryWrite(ms.ToArray());//.GetAsByteArray());
+            Response.End();
+
+            return Json(Response);
         }
     }
 }

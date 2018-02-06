@@ -96,50 +96,80 @@
     }
 
     function ExportExcel() {
-        for (i = 0; i < $("#TablaAExportar .NoImprimir").length; i++) {
-            $($("#TablaAExportar .NoImprimir")[i]).css("display", "none");
-        }
+        data = {
+            NombreUsuario: $("#NombreUsuario").val(),
+            NombrePersona: $("#NombrePersona").val(),
+            Index: 1,
+            Take: 10
+        };
 
-        var tab_text = "<table border='2px'><tr style='text-align:center'><td colspan='999'>Listado Usuarios</td></tr><tr bgcolor='#87AFC6'>";
-        var textRange; var j = 0;
-        tab = document.getElementById('TablaAExportar'); // id of table
+        $.ajax({
+            cache: false,
+            method: 'POST',
+            data: data,
+            url: '/Acceso/CrearExcel',
+            success: function (response) {
+                var base64 = JSON.parse(response);
+                var binaryString = window.atob(base64._buffer);
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                    var ascii = binaryString.charCodeAt(i);
+                    bytes[i] = ascii;
+                }
 
-        for (j = 0; j < tab.rows.length; j++) {
-            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
-            //tab_text=tab_text+"</tr>";
-        }
+                var blob = new Blob([bytes]);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                var d = new Date();
+                var fileName = "Listado Usuarios " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
+                link.download = fileName;
+                link.click();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
 
-        tab_text = tab_text + "</table>";
-        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
-        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+        //var tab_text = "<table border='2px'><tr style='text-align:center'><td colspan='5'>Listado Usuarios</td></tr><tr bgcolor='#87AFC6'>";
+        //var textRange; var j = 0;
+        //tab = document.getElementById('TablaAExportar'); // id of table
 
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf("MSIE "); 
-        var sa;
+        //for (j = 0; j < tab.rows.length; j++) {
+        //    if (j > 0)
+        //        tab_text = tab_text + "<tr>";
+        //    tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+        //}
 
-        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-        {
-            txtArea1.document.open("txt/html", "replace");
-            txtArea1.document.write(tab_text);
-            txtArea1.document.close();
-            txtArea1.focus();
-            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
-        }
-        else {
-            //other browser not tested on IE 11
-            //sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text), "Prueba1", );
-            var downloadLink = document.createElement("a");
-            downloadLink.href = 'data:application/vnd.ms-excel,' + encodeURIComponent(tab_text);
-            var d = new Date();
-            downloadLink.download = "Listado Usuarios " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xls";
-            downloadLink.click();
-        }
+        //tab_text = tab_text + "</table>";
+        //tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        //tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        //tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+        //tab_text = tab_text.replace(/<th(.*?) class=\"NoImprimir\"(.*?)\/th>/gi, "");
+        //tab_text = tab_text.replace(/<td(.*?) class=\"NoImprimir\"(.*?)\/td>/gi, "");
 
-        for (i = 0; i < $("#TablaAExportar .NoImprimir").length; i++) {
-            $($("#TablaAExportar .NoImprimir")[i]).css("display", "table-cell");
-        }
+        //var ua = window.navigator.userAgent;
+        //var msie = ua.indexOf("MSIE "); 
+        //var sa;
 
-        return (sa);
+        //if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        //{
+        //    txtArea1.document.open("txt/html", "replace");
+        //    txtArea1.document.write(tab_text);
+        //    txtArea1.document.close();
+        //    txtArea1.focus();
+        //    sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        //}
+        //else {
+        //    //other browser not tested on IE 11
+        //    //sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text), "Prueba1", );
+        //    var downloadLink = document.createElement("a");
+        //    downloadLink.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' + encodeURIComponent(tab_text);
+        //    var d = new Date();
+        //    downloadLink.download = "Listado Usuarios " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xls";
+        //    downloadLink.click();
+        //}
+
+        //return (sa);
     }
 </script>

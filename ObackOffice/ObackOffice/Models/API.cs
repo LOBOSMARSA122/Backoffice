@@ -55,7 +55,7 @@ namespace ObackOffice.Models
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public byte[] GetStream(string relativePath, Dictionary<string, string> args)
+        public byte[] GetDownloadStream(string relativePath, Dictionary<string, string> args)
         {
             return CallStream(relativePath, HttpVerb.GET, args);
         }
@@ -83,9 +83,13 @@ namespace ObackOffice.Models
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public string PostStream(string relativePath, byte[] arr)
+        public string PostUploadStream(string relativePath, byte[] arr)
         {
             return CallStream(relativePath, HttpVerb.POST, arr);
+        }
+        public byte[] PostDownloadStream(string relativePath, Dictionary<string, string> args)
+        {
+            return CallStream(relativePath, HttpVerb.POST, args);
         }
         #endregion
 

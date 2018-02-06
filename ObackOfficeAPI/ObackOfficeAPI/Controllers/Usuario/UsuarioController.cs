@@ -57,5 +57,13 @@ namespace ObackOfficeAPI.Controllers.Usuario
             bool response = ur.DeleteUser(data.Int1, data.Int2);
             return Ok(response);
         }
+
+        [HttpPost]
+        public IHttpActionResult BandejaUsuarioExcel(BandejaUsuario data)
+        {
+            System.IO.MemoryStream response = ur.BandejaUsuarioExcel(data);
+
+            return Ok(response);
+        }
     }
 }
