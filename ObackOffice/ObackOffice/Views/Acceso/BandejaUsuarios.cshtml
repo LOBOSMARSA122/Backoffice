@@ -35,8 +35,11 @@
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
 
         <div>
+            <button class="btn-success boton form-control" onclick="ExportExcel()">
+                <i class="fa fa-search"></i> Exportar a Excel
+            </button>
             <button class="btn-success boton form-control" onclick="location.href='@Url.Action("CrearUsuario","Acceso")'">
-                    <i class="fa fa-search"></i> Nuevo Usuario
+                <i class="fa fa-search"></i> Nuevo Usuario
             </button>
         </div>
     </nav>
@@ -90,5 +93,53 @@
                 console.log(error);
             }
         });
+    }
+
+    function ExportExcel() {
+        for (i = 0; i < $("#TablaAExportar .NoImprimir").length; i++) {
+            $($("#TablaAExportar .NoImprimir")[i]).css("display", "none");
+        }
+
+        var tab_text = "<table border='2px'><tr style='text-align:center'><td colspan='999'>Listado Usuarios</td></tr><tr bgcolor='#87AFC6'>";
+        var textRange; var j = 0;
+        tab = document.getElementById('TablaAExportar'); // id of table
+
+        for (j = 0; j < tab.rows.length; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE "); 
+        var sa;
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        }
+        else {
+            //other browser not tested on IE 11
+            //sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text), "Prueba1", );
+            var downloadLink = document.createElement("a");
+            downloadLink.href = 'data:application/vnd.ms-excel,' + encodeURIComponent(tab_text);
+            var d = new Date();
+            downloadLink.download = "Listado Usuarios " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xls";
+            downloadLink.click();
+        }
+
+        for (i = 0; i < $("#TablaAExportar .NoImprimir").length; i++) {
+            $($("#TablaAExportar .NoImprimir")[i]).css("display", "table-cell");
+        }
+
+        return (sa);
     }
 </script>

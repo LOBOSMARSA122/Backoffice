@@ -16,7 +16,7 @@
 </div>
 <div class="box box-warning mt-2">
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover" id="TablaAExportar">
             <thead>
                 <tr>
                     <th>Nombre Usuario</th>
@@ -24,8 +24,8 @@
                     <th>Rol</th>
                     <th>Empresa</th>
                     <th>Tipo Empresa</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th class="NoImprimir">Editar</th>
+                    <th class="NoImprimir">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,8 +48,8 @@
                                 <td>@item.Rol</td>
                                 <td>@item.Empresa</td>
                                 <td>@item.TipoEmpresa</td>
-                                <td><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
-                                <td><a onclick="DeleteUser(@item.UsuarioId)"><span class="icon-trash"></span></a></td>
+                                <td class="NoImprimir"><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
+                                <td class="NoImprimir"><a onclick="DeleteUser(@item.UsuarioId)"><span class="icon-trash"></span></a></td>
                             </tr>
                         }
                     }
