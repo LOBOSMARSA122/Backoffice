@@ -7,25 +7,19 @@ using System.Threading.Tasks;
 
 namespace BE.Administracion
 {
-    [Table("tblEventos")]
-    public class Evento
+    [Table("tblSalonProgramado")]
+    public class SalonProgramado
     {
-        public int EventoId { get; set; }
-        public string Nombre { get; set; }
-        public int SedeId { get; set; }        
+        public int SalonProgramadoId { get; set; }
+        public int CursoProgramadoId { get; set; }
+        public int CapacitadorId { get; set; }       
+        public int EventoSalonId { get; set; }
+        public int NroCupos { get; set; }
+
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }
         public DateTime? FechaGraba { get; set; }
         public int? UsuActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
-    }
-
-    public class BandejaEventos
-    {
-        public int EventoId { get; set; }
-        public int EmpresaId { get; set; }
-        public string Empresa { get; set; }
-        public string Ruc { get; set; }
-        public string Nombre { get; set; }       
     }
 }

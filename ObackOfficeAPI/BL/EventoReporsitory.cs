@@ -17,16 +17,12 @@ namespace BL
             try
             {
                 var query = (from a in ctx.Eventos
-                             join b in ctx.Empresas on a.EmpresaId equals b.EmpresaId
                              //where (a.Nombre == null || a.Nombre.Contains(nombreEvento)) 
                              //       && (a.EmpresaId == -1 ||a.EmpresaId == empresaId)
                              select new BandejaEventos
                              {
                                  EventoId = a.EventoId,
-                                 EmpresaId =a.EmpresaId,
-                                 Empresa =b.RazonSocial,
-                                 Nombre = a.Nombre,
-                                 Ruc = b.Ruc
+                                 Nombre = a.Nombre
                              }).ToList();
                 return query;
             }
