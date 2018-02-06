@@ -50,6 +50,7 @@
     <Compile Include="CursoProgramadoRepository.cs" />
     <Compile Include="EmpresasRepositorio.cs" />
     <Compile Include="EventoReporsitory.cs" />
+    <Compile Include="ParametroRepository.cs" />
     <Compile Include="PerfilesRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

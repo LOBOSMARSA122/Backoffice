@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Evento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="box box-default mt-2" id="acordion">
+        <div class="box-header with-border" id="heading1">
+            <a href="#collapse1" data-toggle="collapse" data-parent="#acordion" aria-expended="true" aria-controls="collapse1">
+                <h3 class="box-title"><i class="icon-calendar"></i>Agenda de Cursos</h3>
+            </a>
+        </div>
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">
+            <form action="/" method="post">
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Sede</label>
+                            <select name="sede" id="sede" class="form-control">
+                                <option value="1">Lima</option>
+                                <option value="2">Huancayo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Evento</label>
+                            <select name="evento" id="evento" class="form-control">
+                                <option value="1">Evento 1</option>
+                                <option value="2">Evento 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Curso</label>
+                            <select name="evento" id="evento" class="form-control">
+                                <option value="1">Evento 1</option>
+                                <option value="2">Evento 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <button class="btn-info boton form-control">
+                                <i class="fa fa-search"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="calendar" class="calendar-custom mt-2"></div>
+</div>
+
+
+<link href="~/Content/fullcalendar.css" rel="stylesheet" />
+<link href="~/Content/css/FullCalendar-custom.css" rel="stylesheet" />
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/Evento/GetAgenda?eventoId=1",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: v.Curso,
+                            description: 'nada',
+                            start: moment(v.FechaInicio),
+                            end: v.End != null ? moment(v.FechaFin) : null,
+                            color: 'red',
+                            allDay:true
+                        })
+                    });
+                    GenerateCalender(events);
+                },
+                error: function (error) {
+                    alert('Failed');
+                }
+
+            });
+            function GenerateCalender(events) {
+                $('#calendar').fullCalendar('destroy');
+                $('#calendar').fullCalendar({
+                    lang: 'es',
+                    contentHeight: 600,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek,basicDay,agenda'
+                    },
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                        $('#myModal #eventTitle').text("Programación de: "+calEvent.title);
+                        var $description = $('<div/>');
+                        $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                        if (calEvent.end != null) {
+                            $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                        }
+                        $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                        $('#myModal #pDetails').empty().html($description);
+
+                        $('#myModal').modal();
+                    }
+                });
+            }
+        });
+    </script>
+}

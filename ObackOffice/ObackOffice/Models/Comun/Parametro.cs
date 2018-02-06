@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace ObackOffice.Models
+namespace ObackOffice.Models.Comun
 {
     public class Parametro
-    {
-        public int GrupoId { get; set; }
+    {      
+        public int GrupoId { get; set; }      
         public int ParametroId { get; set; }
         public string Valor1 { get; set; }
         public string Valor2 { get; set; }
@@ -17,5 +20,11 @@ namespace ObackOffice.Models
         public DateTime? FechaGraba { get; set; }
         public int? UsuActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
+    }
+
+    public class Dropdownlist
+    {
+        public int ParametroId { get; set; }
+        public string Valor1 { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ObackOffice.Models;
 using ObackOffice.Utils;
 using Newtonsoft.Json;
+using ObackOffice.Models.Comun;
 
 namespace ObackOffice.Controllers.Seguridad
 {
