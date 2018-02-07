@@ -161,6 +161,7 @@
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Registro\EmpleadoController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
     <Compile Include="Controllers\Seguridad\AccesoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -418,6 +419,8 @@
     <Content Include="Views\Shared\_BandejaUsuariosPartial.cshtml" />
     <Content Include="Views\Empleado\Agenda.cshtml" />
     <Content Include="Views\Home\Chart.cshtml" />
+    <Content Include="Views\ReporteAcademico\ReporteAcademico.cshtml" />
+    <Content Include="Views\Shared\_ReporteAcademicoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

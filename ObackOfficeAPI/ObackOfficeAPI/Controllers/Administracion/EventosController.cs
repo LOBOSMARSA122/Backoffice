@@ -39,7 +39,7 @@ namespace ObackOfficeAPI.Controllers.Administracion
         [HttpGet]
         public IHttpActionResult ddlCursoProgramdos(int eventoId)
         {
-            List<ddlCursoProgramdo> result = cpr.ddlCursoProgramdos(eventoId);
+            List<Dropdownlist> result = cpr.ddlCursoProgramdos(eventoId);
             return Ok(result);
         }
     }
