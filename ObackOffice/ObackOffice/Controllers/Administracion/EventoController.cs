@@ -40,7 +40,6 @@ namespace ObackOffice.Controllers.Administracion
 
         public JsonResult GetAgenda(int? eventoId)
         {
-            var x = ViewBag.EventoId;
             Api API = new Api();
             string url = "Eventos/GetAgenda";
             Dictionary<string, string> args = new Dictionary<string, string>();

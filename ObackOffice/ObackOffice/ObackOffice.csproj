@@ -170,6 +170,7 @@
     <Compile Include="Models\Acceso\Usuario.cs" />
     <Compile Include="Models\Acceso\UsuarioLogin.cs" />
     <Compile Include="Models\Administracion\Agenda.cs" />
+    <Compile Include="Models\Administracion\CursoProgramado.cs" />
     <Compile Include="Models\Administracion\Empresa.cs" />
     <Compile Include="Models\Administracion\Evento.cs" />
     <Compile Include="Models\API.cs" />
@@ -220,6 +221,7 @@
     <Content Include="Content\img\logoHeader_.png" />
     <Content Include="Content\img\logoLogin_.png" />
     <Content Include="Content\img\perfil.jpg" />
+    <Content Include="Content\img\persona1.jpg" />
     <Content Include="Content\img\persona3.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -417,6 +419,7 @@
     <Content Include="Views\Acceso\BandejaUsuarios.cshtml" />
     <Content Include="Views\Shared\_BandejaUsuariosPartial.cshtml" />
     <Content Include="Views\Empleado\Agenda.cshtml" />
+    <Content Include="Views\Shared\_InformacionCursoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

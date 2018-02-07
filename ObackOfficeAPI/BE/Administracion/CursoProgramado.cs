@@ -29,6 +29,7 @@ namespace BE.Administracion
         public string Evento { get; set; }
         public int CursoId { get; set; }
         public string Curso { get; set; }
+        public string Color { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
     }

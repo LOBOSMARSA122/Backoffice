@@ -15,7 +15,7 @@ namespace BE.Administracion
         public string CodigoCurso { get; set; }
         public int NroHoras { get; set; }
         public string Descripcion { get; set; }
-
+        public int ColorId { get; set; }
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }
         public DateTime? FechaGraba { get; set; }

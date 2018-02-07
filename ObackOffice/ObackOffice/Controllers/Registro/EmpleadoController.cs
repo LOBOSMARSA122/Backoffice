@@ -26,6 +26,16 @@ namespace ObackOffice.Controllers.Registro
             return View();
         }
 
+        public JsonResult GetCursosProgramados(int cursoId)
+        {
+            Api API = new Api();
+            string url = "CursoProgramado/CursosProgramados";
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            args.Add("cursoId", cursoId.ToString());
+            List<Agenda> result = API.Get<List<Agenda>>(url, args);
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
         public JsonResult GetEvento(string sedeId)
         {
             Api API = new Api();

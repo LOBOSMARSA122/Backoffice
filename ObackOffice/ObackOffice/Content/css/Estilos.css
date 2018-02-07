@@ -638,22 +638,23 @@ table tbody tr td {
 
 
 /*MODAL CALENDAR*/
-.xxx 
-{
-/*FLEX*/
-display:flex;
-flex-direction:row;
-flex-wrap:wrap;
-align-items:flex-end;
-justify-content:flex-start;
+.contenedor-modal > div{
+    text-align:center;
 }
 
+.datos-capacitador .foto img {
+    height: 100px;
+    border-radius: 100%;
+}
 
+.datos-capacitador .datos {
+  text-align:start;
+}
 
-
-
-
-
+.datos-capacitador p {
+    font-size:14px;
+    font-weight:500;
+}
 
 
 

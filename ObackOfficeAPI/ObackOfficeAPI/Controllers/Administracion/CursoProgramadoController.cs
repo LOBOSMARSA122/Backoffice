@@ -15,10 +15,20 @@ namespace ObackOfficeAPI.Controllers.Administracion
         private CursoProgramadoRepository cpr = new CursoProgramadoRepository();
 
         [HttpGet]
+        public IHttpActionResult CursosProgramados(int cursoId)
+        {
+            List<Agenda> result = cpr.CursosProgramados(cursoId);
+            return Ok(result);
+        }
+
+
+        [HttpGet]
         public IHttpActionResult ddlCursoProgramdos(int eventoId)
         {
             List<Dropdownlist> result = cpr.ddlCursoProgramdos(eventoId);
             return Ok(result);
         }
+
+
     }
 }
