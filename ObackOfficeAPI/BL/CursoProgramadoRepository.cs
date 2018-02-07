@@ -49,7 +49,7 @@ namespace BL
             try
             {
                 var query = (from a in ctx.CursosProgramados
-                             join b in ctx.Cursos on a.CursoId equals   b.CursoId
+                             join b in ctx.Cursos on a.CursoId equals b.CursoId
                              where a.EventoId == eventoId && a.EsEliminado == 0
                              select new Dropdownlist
                              {

@@ -201,10 +201,10 @@ namespace BL
 
 
                 Row.CreateCell(0).SetCellValue("Nombre Usuario");
-                Row.CreateCell(0).SetCellValue("Nombre Completo");
-                Row.CreateCell(0).SetCellValue("Rol");
-                Row.CreateCell(0).SetCellValue("Empresa");
-                Row.CreateCell(0).SetCellValue("Tipo Empresa");
+                Row.CreateCell(1).SetCellValue("Nombre Completo");
+                Row.CreateCell(2).SetCellValue("Rol");
+                Row.CreateCell(3).SetCellValue("Empresa");
+                Row.CreateCell(4).SetCellValue("Tipo Empresa");
                 foreach (var Usuario in Lista)
                 {
                     index++;
