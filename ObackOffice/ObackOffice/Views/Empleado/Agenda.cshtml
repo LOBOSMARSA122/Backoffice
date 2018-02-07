@@ -33,24 +33,22 @@
                         <div class="form-group">
                             <label for="">Evento</label>
                             <select name="evento" id="evento" class="form-control">
-                                <option value="1">Evento 1</option>
-                                <option value="2">Evento 2</option>
+                                <option value="-1">--Seleccionar--</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                         <div class="form-group">
                             <label for="">Curso</label>
-                            <select name="evento" id="evento" class="form-control">
-                                <option value="1">Evento 1</option>
-                                <option value="2">Evento 2</option>
+                            <select name="curso" id="curso" class="form-control">
+                                <option value="-1">--Seleccionar--</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                         <div class="form-group">
                             <label for=""></label>
-                            <button class="btn-info boton form-control">
+                            <button class="btn-warning boton form-control">
                                 <i class="fa fa-search"></i> Filtrar
                             </button>
                         </div>
@@ -121,28 +119,52 @@
                         $('#myModal').modal();
                     }
                 });
-            }
+            }        
 
-            $('#sede').on('change', function () {
+            $('#sede').on('change', loadEvento);
+            $('#evento').on('change', loadCurso);
+
+            function loadEvento() {
                 $.ajax(
                     {
-                        url: '/Empleado/GetddlEventoBySedeId?sedeId=' + $('#sede').val(),
-                        type: 'GET',                       
+                        url: '/Empleado/GetEvento?sedeId=' + $('#sede').val(),
+                        type: 'GET',
                         success: function (json) {
-                            var listItems ='';
-                            var $select = $('#evento');  
+                            var listItems = '';
+                            var $select = $('#evento');
                             $select.find('option').remove();
                             for (var i = 0; i < json.length; i++) {
                                 listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                             }
                             $select.html(listItems);
-                            console.log('json, ' ,json);
+                            loadCurso();
                         },
                         error: function () {
                             alert('Error');
                         }
                     })
-            });
+            }
+
+            function loadCurso() {
+                $.ajax(
+                    {
+                        url: '/Empleado/GetCurso?eventoId=' + $('#evento').val(),
+                        type: 'GET',
+                        success: function (json) {
+                            var listItems = '';
+                            var $select = $('#curso');
+                            $select.find('option').remove();
+                            for (var i = 0; i < json.length; i++) {
+                                listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
+                            }
+                            $select.html(listItems);
+                            console.log('json, ', json);
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    })
+            }
         });
     </script>
 }

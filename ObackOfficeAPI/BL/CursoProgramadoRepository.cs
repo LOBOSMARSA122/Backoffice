@@ -1,4 +1,5 @@
 ﻿using BE.Administracion;
+using BE.Comun;
 using DAL;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace BL
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Eventos on a.EventoId equals b.EventoId
                              join c in ctx.Parametros on new {a=a.CursoId , b= 103 } equals new {a= c.ParametroId , b=c.GrupoId}
-                             where a.EventoId == eventoId
+                             where a.EventoId == eventoId && a.EsEliminado == 0
                              select new Agenda
                              {
                                  CursoProgramadoId = a.CursoProgramadoId,
@@ -40,16 +41,17 @@ namespace BL
           
         }
 
-       public List<ddlCursoProgramdo> ddlCursoProgramdos(int eventoId)
+       public List<Dropdownlist> ddlCursoProgramdos(int eventoId)
         {
             try
             {
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Cursos on a.CursoId equals   b.CursoId
-                             select new ddlCursoProgramdo
+                             where a.EventoId == eventoId && a.EsEliminado == 0
+                             select new Dropdownlist
                              {
-                                 CursoId = a.CursoId,
-                                 Nombre = b.NombreCurso
+                                 Id = a.CursoId,
+                                 Value = b.NombreCurso
                              }).ToList();
                 return query;
             }
