@@ -406,6 +406,7 @@
     <Content Include="Views\Evento\BandejaEvento.cshtml" />
     <Content Include="Views\Acceso\BandejaUsuarios.cshtml" />
     <Content Include="Views\Shared\_BandejaUsuariosPartial.cshtml" />
+    <Content Include="Views\Home\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

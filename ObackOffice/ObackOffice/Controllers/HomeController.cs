@@ -47,5 +47,11 @@ namespace ObackOffice.Controllers
 
             return View("index");
         }
+
+        public ActionResult Chart()
+        {
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            return View();
+        }
     }
 }

@@ -31,7 +31,6 @@
     <div id="RenderBandejaUsuarios">
         @Html.Partial("_BandejaUsuariosPartial")
     </div>
-
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
 
         <div>
@@ -111,65 +110,52 @@
             success: function (response) {
                 var base64 = JSON.parse(response);
                 var binaryString = window.atob(base64._buffer);
+
                 var binaryLen = binaryString.length;
                 var bytes = new Uint8Array(binaryLen);
                 for (var i = 0; i < binaryLen; i++) {
                     var ascii = binaryString.charCodeAt(i);
                     bytes[i] = ascii;
                 }
-
-                var blob = new Blob([bytes]);
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
                 var d = new Date();
                 var fileName = "Listado Usuarios " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
-                link.download = fileName;
-                link.click();
+                var blob = new Blob([bytes], { type: 'application/vnd.ms-excel' });
+
+                if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
+                {
+
+                    window.navigator.msSaveOrOpenBlob(blob, fileName);
+
+                } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
+
+                    var url = window.URL.createObjectURL(blob);
+
+                    var anchorElem = document.createElement("a");
+                    anchorElem.style = "display: none";
+                    anchorElem.href = url;
+                    anchorElem.download = fileName;
+
+                    document.body.appendChild(anchorElem);
+                    anchorElem.click();
+
+                    document.body.removeChild(anchorElem);
+
+                    // On Edge, revokeObjectURL should be called only after
+                    // a.click() has completed, atleast on EdgeHTML 15.15048
+                    setTimeout(function () {
+                        window.URL.revokeObjectURL(url);
+                    }, 1000);
+
+                } else { // tested on chrome and Opera
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                }
             },
             error: function (error) {
                 console.log(error);
             }
         });
-
-        //var tab_text = "<table border='2px'><tr style='text-align:center'><td colspan='5'>Listado Usuarios</td></tr><tr bgcolor='#87AFC6'>";
-        //var textRange; var j = 0;
-        //tab = document.getElementById('TablaAExportar'); // id of table
-
-        //for (j = 0; j < tab.rows.length; j++) {
-        //    if (j > 0)
-        //        tab_text = tab_text + "<tr>";
-        //    tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
-        //}
-
-        //tab_text = tab_text + "</table>";
-        //tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-        //tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
-        //tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-        //tab_text = tab_text.replace(/<th(.*?) class=\"NoImprimir\"(.*?)\/th>/gi, "");
-        //tab_text = tab_text.replace(/<td(.*?) class=\"NoImprimir\"(.*?)\/td>/gi, "");
-
-        //var ua = window.navigator.userAgent;
-        //var msie = ua.indexOf("MSIE "); 
-        //var sa;
-
-        //if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-        //{
-        //    txtArea1.document.open("txt/html", "replace");
-        //    txtArea1.document.write(tab_text);
-        //    txtArea1.document.close();
-        //    txtArea1.focus();
-        //    sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
-        //}
-        //else {
-        //    //other browser not tested on IE 11
-        //    //sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text), "Prueba1", );
-        //    var downloadLink = document.createElement("a");
-        //    downloadLink.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' + encodeURIComponent(tab_text);
-        //    var d = new Date();
-        //    downloadLink.download = "Listado Usuarios " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xls";
-        //    downloadLink.click();
-        //}
-
-        //return (sa);
     }
 </script>
