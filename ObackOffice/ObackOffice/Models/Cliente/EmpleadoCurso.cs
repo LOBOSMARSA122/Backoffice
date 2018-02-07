@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace BE.Cliente
+namespace ObackOffice.Models.Cliente
 {
-    [Table("tblEmpleadoCursos")]
-    public class EmpleadoCurso { 
+    public class EmpleadoCurso
+    {
         public int EmpleadoCursoId { get; set; }
         public int EmpleadoId { get; set; }
         public int SalonProgramadoId { get; set; }
@@ -27,7 +25,7 @@ namespace BE.Cliente
     {
         public int PersonaId { get; set; }
         public string NombreCompleto { get; set; }
-        public string TipoDocumento { get; set; }
+        public string TipoDocumento { get; set; }        
         public string NroDocumento { get; set; }
     }
 }

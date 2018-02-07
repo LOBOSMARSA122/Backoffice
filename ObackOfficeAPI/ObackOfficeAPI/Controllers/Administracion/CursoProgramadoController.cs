@@ -1,4 +1,5 @@
 ﻿using BE.Administracion;
+using BE.Cliente;
 using BE.Comun;
 using BL;
 using System;
@@ -21,6 +22,12 @@ namespace ObackOfficeAPI.Controllers.Administracion
             return Ok(result);
         }
 
+        [HttpGet]
+        public IHttpActionResult GetEmpleadosCurso(int salonProgramadoId)
+        {
+            List<EmpleadoInscrito> result = cpr.GetEmpleadosCurso(salonProgramadoId);
+            return Ok(result);
+        }
 
         [HttpGet]
         public IHttpActionResult ddlCursoProgramdos(int eventoId)
@@ -29,6 +36,12 @@ namespace ObackOfficeAPI.Controllers.Administracion
             return Ok(result);
         }
 
+        [HttpGet]
+        public IHttpActionResult ddlSalonProgramado(int cursoProgramadoId)
+        {
+            List<Dropdownlist> result = cpr.ddlSalonProgramado(cursoProgramadoId);
+            return Ok(result);
+        }
 
     }
 }

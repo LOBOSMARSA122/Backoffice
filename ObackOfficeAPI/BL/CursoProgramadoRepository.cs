@@ -1,4 +1,5 @@
 ﻿using BE.Administracion;
+using BE.Cliente;
 using BE.Comun;
 using DAL;
 using System;
@@ -43,6 +44,34 @@ namespace BL
 
         }
 
+        public List<EmpleadoInscrito> GetEmpleadosCurso(int salonProgramadoId)
+        {
+            try
+            {
+                var query = (from a in ctx.EmpleadoCursos
+                             join b in ctx.Empleados on a.EmpleadoId equals b.EmpleadoId
+                             join c in ctx.Personas on b.PersonaId equals c.PersonaId
+                             join d in ctx.SalonProgramados on a.SalonProgramadoId equals d.SalonProgramadoId
+                             join e in ctx.CursosProgramados on d.CursoProgramadoId equals e.CursoProgramadoId
+                             join f in ctx.Parametros on new { a = c.TipoDocumentoId, b = 101 } equals new { a = f.ParametroId, b = f.GrupoId }
+                             where a.SalonProgramadoId == salonProgramadoId
+                             select new EmpleadoInscrito
+                             {
+                                 PersonaId = c.PersonaId,
+                                 NombreCompleto = c.Nombres + " " + c.ApellidoPaterno + " " + c.ApellidoMaterno,
+                                 TipoDocumento = f.Valor1,
+                                 NroDocumento = c.NroDocumento
+                             }
+                             ).ToList();
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
 
         public List<Dropdownlist> ddlCursoProgramdos(int eventoId)
         {
@@ -90,6 +119,26 @@ namespace BL
                 throw;
             }
 
+        }
+
+        public List<Dropdownlist> ddlSalonProgramado(int cursoProgramadoId)
+        {
+            try
+            {
+                var query = (from a in ctx.SalonProgramados
+                             join b in ctx.EventoSalones on a.EventoSalonId equals b.EventoSalonId
+                             where a.CursoProgramadoId == cursoProgramadoId && a.EsEliminado == 0
+                             select new Dropdownlist
+                             {
+                                 Id = a.SalonProgramadoId,
+                                 Value = b.Nombre
+                             }).ToList();
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
     }
