@@ -32,4 +32,10 @@ namespace BE.Administracion
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
     }
+
+    public class ddlCursoProgramdo
+    {
+        public int CursoId { get; set; }
+        public string Nombre { get; set; }
+    }
 }

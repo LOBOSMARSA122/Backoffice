@@ -22,7 +22,7 @@
                                     <select name="sede" id="sede" class="form-control">
                                         @foreach (var item in ViewBag.EVENTOS)
                                         {
-                                        <option value="@item.ParametroId">@item.Valor1</option>
+                                        <option value="@item.Id" onchange="">@item.Value</option>
                                         }
                                     </select>
                                 }
@@ -70,6 +70,7 @@
     <script>
         $(document).ready(function () {
             var events = [];
+
             $.ajax({
                 type: "GET",
                 url: "/Evento/GetAgenda?eventoId=1",
@@ -91,6 +92,7 @@
                 }
 
             });
+
             function GenerateCalender(events) {
                 $('#calendar').fullCalendar('destroy');
                 $('#calendar').fullCalendar({
@@ -120,6 +122,27 @@
                     }
                 });
             }
+
+            $('#sede').on('change', function () {
+                $.ajax(
+                    {
+                        url: '/Empleado/GetddlEventoBySedeId?sedeId=' + $('#sede').val(),
+                        type: 'GET',                       
+                        success: function (json) {
+                            var listItems ='';
+                            var $select = $('#evento');  
+                            $select.find('option').remove();
+                            for (var i = 0; i < json.length; i++) {
+                                listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
+                            }
+                            $select.html(listItems);
+                            console.log('json, ' ,json);
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    })
+            });
         });
     </script>
 }

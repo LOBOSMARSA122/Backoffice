@@ -20,12 +20,17 @@ namespace BE.Administracion
         public DateTime? FechaActualiza { get; set; }
     }
 
+    public class ddlEvento
+    {
+        public int EventoId { get; set; }
+        public string Nombre { get; set; }       
+    }
+
     public class BandejaEventos
     {
         public int EventoId { get; set; }
-        public int EmpresaId { get; set; }
-        public string Empresa { get; set; }
-        public string Ruc { get; set; }
-        public string Nombre { get; set; }       
+        public string Nombre { get; set; }
+        public int SedeId { get; set; }
+        public string Sede { get; set; }
     }
 }

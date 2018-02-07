@@ -1,4 +1,5 @@
 ﻿using ObackOffice.Models;
+using ObackOffice.Models.Administracion;
 using ObackOffice.Models.Comun;
 using ObackOffice.Utils;
 using System;
@@ -11,7 +12,6 @@ namespace ObackOffice.Controllers.Registro
 {
     public class EmpleadoController : Controller
     {
-        // GET: Empleado
         public ActionResult Agenda()
         {
             Api API = new Api();
@@ -21,8 +21,21 @@ namespace ObackOffice.Controllers.Registro
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() },
                 { "accion",Constantes.Select },
             };
-            ViewBag.EVENTOS = API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args);
+            ViewBag.EVENTOS = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.Select);
+
             return View();
+        }
+
+        public JsonResult GetddlEventoBySedeId(string sedeId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "sedeId",sedeId },
+                { "accion",Constantes.Select },
+            };
+            List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Eventos/ddlEventos", args), Constantes.Select);            
+            return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }

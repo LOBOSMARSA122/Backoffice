@@ -32,7 +32,7 @@ namespace BE.Comun
 
     public class Dropdownlist
     {
-        public int ParametroId { get; set; }
-        public string Valor1 { get; set; }
+        public int Id { get; set; }
+        public string Value { get; set; }
     }
 }

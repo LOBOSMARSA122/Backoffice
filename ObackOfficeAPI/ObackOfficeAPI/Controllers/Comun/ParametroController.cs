@@ -13,9 +13,9 @@ namespace ObackOfficeAPI.Controllers.Comun
     {
         private ParametroRepository pr = new ParametroRepository();
         [HttpGet]
-        public IHttpActionResult GetParametroByGrupoId(int grupoId, string accion)
+        public IHttpActionResult GetParametroByGrupoId(int grupoId)
         {
-            List<Dropdownlist> result = pr.GetParametroByGrupoId(grupoId, accion);
+            List<Dropdownlist> result = pr.GetParametroByGrupoId(grupoId);
             return Ok(result);
         }
     }
