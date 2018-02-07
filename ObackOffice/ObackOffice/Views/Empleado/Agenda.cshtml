@@ -66,7 +66,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container-fluid">
+                    <div class="container-fluid" id="tabs">
                         <div class="row">
                             <div class="col">
                                 <ul class="nav nav-tabs">
@@ -107,8 +107,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tabInformacion" role="tabpanel">
-                                @Html.Partial("_InformacionCursoPartial")
+                            <div class="tab-pane" id="InformacionCurso" role="tabpanel">
+                                <div>
+                                    @Html.Partial("_InformacionCursoPartial")
+                                </div>                                
                             </div>
                         </div>
                        
@@ -177,35 +179,15 @@
                 events: events,
                 eventClick: function (calEvent, jsEvent, view) {      
                     loadSalon();
-                    //$.ajax(
-                    //    {
-                    //        url: '/Empleado/EmpleadosInscritos?cursoId=' + $('#curso').val(),
-                    //        type: 'GET',
-                    //        success: function (html) {
-                                
-                    //            $('#GrillaEmpleado').html(html);
-                    //        },
-                    //        error: function () {
-                    //            alert('error');
-                    //        }
-                    //    })
-                    //alert('hola');
-                    $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title + " " + calEvent.description);
-                    $('#CursoProgramadoId').val(calEvent.description);
-                    //var $description = $('<div/>');
-                    //$description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
-                    //if (calEvent.end != null) {
-                    //    $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
-                    //}
-                    //$description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
-                    //$('#ModalInscripcion #pDetails').empty().html($description);
-
+                    $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title );
+                    $('#CursoProgramadoId').val(calEvent.description);  
                     $('#ModalInscripcion').modal();
                 }
             });
         }       
 
-        function loadEvento() {
+        function loadEvento() {      
+           
             $.ajax(
                 {
                     url: '/Empleado/GetEvento?sedeId=' + $('#sede').val(),
@@ -218,7 +200,8 @@
                             listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                         }
                         $select.html(listItems);
-                        loadCurso();
+                        loadCurso();    
+                        clearddl();
                     },
                     error: function () {
                         alert('Error');
@@ -239,6 +222,7 @@
                             listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                         }
                         $select.html(listItems);
+                        clearddl();
                     },
                     error: function () {
                         alert('Error');
@@ -259,6 +243,7 @@
                             listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                         }
                         $select.html(listItems);
+                        loadEmpleados();
                     },
                     error: function () {
                         alert('Error');
@@ -280,15 +265,33 @@
                 })
         }
 
-        $(document).ready(function () {           
-
+        function clearddl(){
+            $('#curso').val('-1');
             LoadAgenda();
+        }
 
+        $(document).ready(function () {           
+            LoadAgenda();
             $('#sede').on('change', loadEvento);
             $('#evento').on('change', loadCurso);
             $('#salon').on('change', loadEmpleados);            
+            $('#curso').on('change', LoadAgenda);
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-          
+                var target = $(e.target).attr("href") // activated tab
+                if (target == '#tabInformacion') {
+                    $.ajax({
+                        url: 'Empleado/InformacionCurso?salonProgramadoId=' + $('#salon').val(),
+                        type: 'GET',
+                        success: function (html) {
+                            $('#InformacionCurso').html(html);
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    })
+                }
+            });
         });
     </script>
 }

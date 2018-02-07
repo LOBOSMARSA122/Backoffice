@@ -27,14 +27,18 @@ namespace ObackOffice.Controllers.Registro
             return View();
         }
 
-        public JsonResult GetCursosProgramados(int cursoId)
+        public JsonResult GetCursosProgramados(string cursoId)
         {
-            Api API = new Api();
-            string url = "CursoProgramado/CursosProgramados";
-            Dictionary<string, string> args = new Dictionary<string, string>();
-            args.Add("cursoId", cursoId.ToString());
-            List<Agenda> result = API.Get<List<Agenda>>(url, args);
-            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            if (cursoId != "-1")
+            {
+                Api API = new Api();
+                string url = "CursoProgramado/CursosProgramados";
+                Dictionary<string, string> args = new Dictionary<string, string>();
+                args.Add("cursoId", cursoId);
+                List<Agenda> result = API.Get<List<Agenda>>(url, args);
+                return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            return new JsonResult { Data = new List<Agenda>(), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public JsonResult GetEvento(string sedeId)
@@ -73,15 +77,35 @@ namespace ObackOffice.Controllers.Registro
 
         public ActionResult EmpleadosInscritos(string salonProgramadoId)
         {
+            if (salonProgramadoId != "-1")
+            {
+                Api API = new Api();
+                ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+                Dictionary<string, string> args = new Dictionary<string, string>
+                {
+                    { "salonProgramadoId", salonProgramadoId}
+                };
+                ViewBag.EMPLEADOSINSCRITOS = API.Get<List<EmpleadoInscrito>>("CursoProgramado/GetEmpleadosCurso", args);
+                              
+            }
+            else
+            {
+                ViewBag.EMPLEADOSINSCRITOS = null;
+            }
+
+            return PartialView("_ListaEmpleadosIsncritosPartial");
+        }
+
+        public ActionResult InformacionCurso(string salonProgramadoId)
+        {
             Api API = new Api();
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             Dictionary<string, string> args = new Dictionary<string, string>
-            {
-                { "salonProgramadoId", salonProgramadoId}
-            };
-            ViewBag.EMPLEADOSINSCRITOS = API.Get<List<EmpleadoInscrito>>("CursoProgramado/GetEmpleadosCurso", args);
-
-            return PartialView("_ListaEmpleadosIsncritosPartial");
+                {
+                    { "salonProgramadoId", salonProgramadoId}
+                };
+            ViewBag.INFORMACIONCURSO = API.Get<List<EmpleadoInscrito>>("CursoProgramado/getInformacionCurso", args);
+            return PartialView("_InformacionCursoPartial");
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿<div class="container-fluid">
-    @if (ViewBag.EMPLEADOSINSCRITOS != null)
-    {
+ 
 
     <table class="table table-hover">
         <thead>
@@ -12,15 +11,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in ViewBag.EMPLEADOSINSCRITOS)
+            @if (ViewBag.EMPLEADOSINSCRITOS != null)
             {
-            <tr>
-                <td>@item.NombreCompleto</td>
-                <td>@item.TipoDocumento</td>
-                <td>@item.NroDocumento</td>
-                <td><a><span class="icon-trash"></span></a></td>
-            </tr>
-            }    
+                foreach (var item in ViewBag.EMPLEADOSINSCRITOS)
+                {
+                    <tr>
+                        <td>@item.NombreCompleto</td>
+                        <td>@item.TipoDocumento</td>
+                        <td>@item.NroDocumento</td>
+                        <td><a><span class="icon-trash"></span></a></td>
+                    </tr>
+                }
+
+            }
         </tbody>
     </table>
     <div class="paginacion-tabla d-flex justify-content-center">
@@ -42,5 +45,5 @@
         </div>
     </div>
 
-    }
+  
 </div>
