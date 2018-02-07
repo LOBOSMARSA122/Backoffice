@@ -26,7 +26,7 @@ namespace ObackOffice.Controllers.Registro
             return View();
         }
 
-        public JsonResult GetddlEventoBySedeId(string sedeId)
+        public JsonResult GetEvento(string sedeId)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
@@ -35,6 +35,18 @@ namespace ObackOffice.Controllers.Registro
                 { "accion",Constantes.Select },
             };
             List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Eventos/ddlEventos", args), Constantes.Select);            
+            return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult GetCurso(string eventoId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "eventoId",eventoId },
+                { "accion",Constantes.Select },
+            };
+            List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("CursoProgramado/ddlCursoProgramdos", args), Constantes.Select);
             return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }

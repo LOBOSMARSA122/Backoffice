@@ -41,7 +41,7 @@ namespace ObackOffice.Controllers.Reportes
                         {
                             { "eventoId", valor }
                         };
-                        response = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Eventos/ddlCursoProgramdos", args), Constantes.All);
+                        response = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("CursoProgramado/ddlCursoProgramdos", args), Constantes.All);
                         break;
                     }
             }

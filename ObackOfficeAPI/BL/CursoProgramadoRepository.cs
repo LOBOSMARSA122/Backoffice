@@ -17,10 +17,11 @@ namespace BL
         {
             try
             {
+                int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Eventos on a.EventoId equals b.EventoId
                              join c in ctx.Parametros on new {a=a.CursoId , b= 103 } equals new {a= c.ParametroId , b=c.GrupoId}
-                             where a.EventoId == eventoId
+                             where a.EventoId == eventoId && a.EsEliminado == NoEsEliminado
                              select new Agenda
                              {
                                  CursoProgramadoId = a.CursoProgramadoId,
@@ -45,8 +46,10 @@ namespace BL
         {
             try
             {
+                int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Cursos on a.CursoId equals   b.CursoId
+                             where a.EventoId == eventoId && a.EsEliminado == NoEsEliminado
                              select new Dropdownlist
                              {
                                  Id = a.CursoId,

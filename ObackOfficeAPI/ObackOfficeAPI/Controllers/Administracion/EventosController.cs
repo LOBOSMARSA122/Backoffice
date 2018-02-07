@@ -35,12 +35,6 @@ namespace ObackOfficeAPI.Controllers.Administracion
             List<Dropdownlist> result = er.ddlEventos(sedeId);
             return Json(result);
         }
-
-        [HttpGet]
-        public IHttpActionResult ddlCursoProgramdos(int eventoId)
-        {
-            List<Dropdownlist> result = cpr.ddlCursoProgramdos(eventoId);
-            return Ok(result);
-        }
+    
     }
 }

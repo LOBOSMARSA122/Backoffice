@@ -517,6 +517,11 @@ table tbody tr td {
     margin-top:8px;
 }
 
+.btn-warning{
+    background:#ED9507;
+    color:#fff;
+}
+
 .form-control::-moz-placeholder,
 .form-control:-ms-input-placeholder,
 .form-control::-webkit-input-placeholder {
