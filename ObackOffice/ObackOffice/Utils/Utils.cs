@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObackOffice.Models.Comun;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -20,5 +21,22 @@ namespace ObackOffice.Utils
         }
         #endregion
 
+
+        public static List<Dropdownlist> LoadDropDownList(List<Dropdownlist> lista, string accion)
+        {
+            Dropdownlist oParametro = new Dropdownlist();
+            oParametro.Id = -1;
+            if (accion == "Seleccionar")
+            {
+                oParametro.Value = "--Seleccionar--";
+            }
+            else
+            {
+                oParametro.Value = "--Todos--";
+            }
+
+            lista.Insert(0, oParametro);
+            return lista;
+        }
     }
 }

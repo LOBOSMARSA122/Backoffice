@@ -40,5 +40,23 @@ namespace BL
           
         }
 
+       public List<ddlCursoProgramdo> ddlCursoProgramdos(int eventoId)
+        {
+            try
+            {
+                var query = (from a in ctx.CursosProgramados
+                             join b in ctx.Cursos on a.CursoId equals   b.CursoId
+                             select new ddlCursoProgramdo
+                             {
+                                 CursoId = a.CursoId,
+                                 Nombre = b.NombreCurso
+                             }).ToList();
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

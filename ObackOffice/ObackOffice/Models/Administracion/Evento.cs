@@ -25,4 +25,10 @@ namespace ObackOffice.Models.Administracion
         public string Ruc { get; set; }
         public string Nombre { get; set; }
     }
+
+    public class ddlEvento
+    {
+        public int EventoId { get; set; }
+        public string Nombre { get; set; }
+    }
 }
