@@ -70,6 +70,7 @@
     <Compile Include="PerfilesRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReporteAcademicoRepository.cs" />
     <Compile Include="UsuarioRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,12 @@ namespace ObackOffice.Controllers.Reportes
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
             };
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+            args = new Dictionary<string, string>
+            {
+                { "Index", "1" },
+                { "Take", "10" }
+            };
+            ViewBag.REGISTROS = API.Post<BandejaReporteAcademico>("ReporteAcademico/BandejaReporteAcademico", args);
             return View("ReporteAcademico");
         }
 
@@ -47,6 +53,21 @@ namespace ObackOffice.Controllers.Reportes
             }
             
             return Json(response);
+        }
+
+        public ActionResult FiltrarDataBandeja()
+        {
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "SedeId", "0" },
+                { "EventoId", "0" },
+                { "CursoId", "0" },
+                { "NombreEmpleado", "0" },
+                { "SedeId", "0" },
+                { "Index", "1" },
+                { "Take", "10" }
+            };
+            return PartialView();
         }
     }
 }

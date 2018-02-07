@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace BE.Comun
+namespace ObackOffice.Models
 {
     public class Bandejas
     {
@@ -17,18 +16,18 @@ namespace BE.Comun
     {
         public string NombreUsuario { get; set; }
         public string NombrePersona { get; set; }
-
+        
         public List<BandejaUsuarioLista> Lista { get; set; }
     }
 
     public class BandejaUsuarioLista
     {
-        public int UsuarioId { get; set; }
-        public string NombreUsuario { get; set; }
-        public string NombreCompleto { get; set; }
-        public string Rol { get; set; }
-        public string Empresa { get; set; }
-        public string TipoEmpresa { get; set; }
+       public int UsuarioId { get; set; }
+       public string NombreUsuario { get; set; }
+       public string NombreCompleto { get; set; }
+       public string Rol { get; set; }
+       public string Empresa { get; set; }
+       public string TipoEmpresa { get; set; }
     }
 
     public class BandejaReporteAcademico : Bandejas
@@ -58,7 +57,7 @@ namespace BE.Comun
         public List<ReporteAcademicoListClase> ListaCursos { get; set; }
         public List<ReporteAcademicoListTaller> ListaTalleres { get; set; }
     }
-    
+
     public class ReporteAcademicoListClase
     {
         public DateTime FechaClase { get; set; }

@@ -27,5 +27,6 @@ namespace DAL
         public DbSet<EmpleadoCurso> EmpleadoCursos { get; set; }
         public DbSet<EmpleadoAsistencia> EmpleadoAsistencias { get; set; }
         public DbSet<EmpleadoTaller> EmpleadoTalleres { get; set; }
+        public DbSet<SalonClases> SalonClases { get; set; }
     }
 }

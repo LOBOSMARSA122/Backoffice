@@ -192,6 +192,7 @@
     <Compile Include="Controllers\Person\PersonController.cs" />
     <Compile Include="Controllers\Prueba\ExcelController.cs" />
     <Compile Include="Controllers\Prueba\ObackOfficePruebaController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
     <Compile Include="Controllers\Usuario\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
