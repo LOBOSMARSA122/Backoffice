@@ -22,8 +22,6 @@ namespace BL
                 int ConsidionGroupId = (int)Enumeradores.GrupoParametros.Condición;
                 int PreguntasGroupId = (int)Enumeradores.GrupoParametros.PreguntasTaller;
 
-                var parametros = ctx.Parametros.ToList();
-
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Eventos on a.EventoId equals b.EventoId
                              join c in ctx.Cursos on a.CursoId equals c.CursoId
@@ -33,12 +31,12 @@ namespace BL
                              join h in ctx.EmpleadoAsistencias on g.EmpleadoCursoId equals h.EmpleadoCursoId
                              join i in ctx.Empleados on g.EmpleadoId equals i.EmpleadoId
                              join j in ctx.Personas on i.PersonaId equals j.PersonaId
-                             join k in parametros on new { a = j.TipoDocumentoId, b = TipoDocumentoGroupId } equals new { a = k.ParametroId, b = k.GrupoId}
-                             join l in parametros on new { a = b.SedeId, b = SedeGroupId } equals new { a = l.ParametroId, b = l.GrupoId }
-                             join m in parametros on new { a = g.CondicionId, b = ConsidionGroupId } equals new { a = m.ParametroId, b = m.GrupoId }
+                             join k in ctx.Parametros on new { a = j.TipoDocumentoId, b = TipoDocumentoGroupId } equals new { a = k.ParametroId, b = k.GrupoId }
+                             join l in ctx.Parametros on new { a = b.SedeId, b = SedeGroupId } equals new { a = l.ParametroId, b = l.GrupoId }
+                             join m in ctx.Parametros on new { a = g.CondicionId, b = ConsidionGroupId } equals new { a = m.ParametroId, b = m.GrupoId }
                              join n in ctx.EventoSalones on b.EventoId equals n.EventoId
                              join o in ctx.EmpleadoTalleres on g.EmpleadoCursoId equals o.EmpleadoCursoId
-                             join p in parametros on new { a = o.PreguntaId, b = PreguntasGroupId } equals new { a = p.ParametroId, b = p.GrupoId }
+                             join p in ctx.Parametros on new { a = o.PreguntaId, b = PreguntasGroupId } equals new { a = p.ParametroId, b = p.GrupoId }
                              where 
                              (data.SedeId == -1 || data.SedeId == b.SedeId) &&
                              (data.EventoId == -1 || data.EventoId == b.EventoId) &&
