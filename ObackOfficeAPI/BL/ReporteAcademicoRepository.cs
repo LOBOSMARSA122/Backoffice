@@ -83,11 +83,12 @@ namespace BL
                                    join c in ctx.EmpleadoCursos on a.SalonProgramadoId equals c.SalonProgramadoId
                                    join d in ctx.EmpleadoAsistencias on c.EmpleadoCursoId equals d.EmpleadoCursoId
                                    join e in ctx.Empleados on c.EmpleadoId equals e.EmpleadoId
+                                   join f in ctx.Parametros on new {a = d.Asistio, b =  109} equals new { a = f.ParametroId, b = f.GrupoId }
                                    where e.PersonaId == PersonaId &&
                                    a.CursoProgramadoId == cursoProgramadoId
                                    select new ReporteAcademicoListClase
                                    {
-                                       Asistencia = d.Asistio == 1,
+                                       Asistencia = f.Valor1,
                                        Salon = b.Nombre,
                                        FechaClase = d.FechaClase
                                    }).ToList();

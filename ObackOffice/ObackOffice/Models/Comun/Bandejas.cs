@@ -61,7 +61,7 @@ namespace ObackOffice.Models
     {
         public DateTime FechaClase { get; set; }
         public string Salon { get; set; }
-        public bool Asistencia { get; set; }
+        public string Asistencia { get; set; }
     }
 
     public class ReporteAcademicoListTaller
