@@ -55,7 +55,7 @@
                                 string P1 = "0";
                                 string P2 = "0";
                                 string P3 = "0";
-                                if(ViewBag.Talleres != null)
+                                if(ViewBag.Talleres.Count > 0)
                                 {
                                     foreach(ObackOffice.Models.Cliente.EmpleadoTaller Taller in ViewBag.Talleres)
                                     {
@@ -63,17 +63,17 @@
                                         {
                                             case 1:
                                                 {
-                                                    P1 = Taller.Valor.ToUpper();
+                                                    P1 = Taller.Valor == null ? "0" : Taller.Valor.ToUpper();
                                                     break;
                                                 }
                                             case 2:
                                                 {
-                                                    P2 = Taller.Valor.ToUpper();
+                                                    P2 = Taller.Valor == null ? "0" : Taller.Valor.ToUpper();
                                                     break;
                                                 }
                                             case 3:
                                                 {
-                                                    P3 = Taller.Valor.ToUpper();
+                                                    P3 = Taller.Valor == null ? "0" : Taller.Valor.ToUpper();
                                                     break;
                                                 }
                                         }
