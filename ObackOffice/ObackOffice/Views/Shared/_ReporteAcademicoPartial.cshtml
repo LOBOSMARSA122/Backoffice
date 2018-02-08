@@ -11,6 +11,19 @@
     }
 }
 
+<style>
+    .no-padding{
+        padding:0px !important;
+    }
+    .Taller-Selected span{
+        background-color: #adebff;
+        font-weight:bolder;
+    }
+    #table-taller span{
+        padding:10px;
+    }
+</style>
+
 <div>
     <span class="informacion">Mostrando @Primer de @Ultimo de un total de @Total entradas</span>
 </div>
@@ -60,7 +73,7 @@
                             <td onclick="ShowDetail(@item.PersonaId,@item.CursoProgramadoId)"><i class="icon-eye"></i></td>
                         </tr>
                         <tr>
-                            <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="11" style="display:none;">
+                            <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="11" style="display:none;" class="no-padding">
                             </td>
                         </tr>
                         }

@@ -1,33 +1,120 @@
 ﻿@{
-    if (ViewBag.DETALLE == null)
-    {
-        <div>Error al conectarse al servido</div>
-    }
-    else
-    {
-        if (ViewBag.DETALLE.Count == 0)
-        {
-            <div>No tiene registros</div>
-        }
-        else
-        {
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Salon</th>
-                        <th>Asistencia</th>
-                    </tr>
-                </thead>
-                @foreach (ObackOffice.Models.ReporteAcademicoListClase clases in ViewBag.DETALLE)
+                if (ViewBag.DETALLE == null)
                 {
-                    <tr>
-                        <td>@clases.FechaClase.ToShortDateString()</td>
-                        <td>@clases.Salon</td>
-                        <td>@(clases.Asistencia ? "Asistió" : "Faltó")</td>
-                    </tr>
+                    <div>Error al conectarse al servido</div>
                 }
-            </table>
-        }
-    }
+                else
+                {
+                    if (ViewBag.DETALLE.Count == 0)
+                    {
+                        <div>No tiene registros</div>
+                    }
+                    else
+                    {
+                        <table class="col-12">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Fecha</th>
+                                    <th>Salon</th>
+                                    <th>Asistencia</th>
+                                </tr>
+                            </thead>
+                            @foreach (ObackOffice.Models.ReporteAcademicoListClase clases in ViewBag.DETALLE)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@clases.FechaClase.ToShortDateString()</td>
+                                    <td>@clases.Salon</td>
+                                    <td>@(clases.Asistencia ? "Asistió" : "Faltó")</td>
+                                </tr>
+                            }
+                        </table>
+                        <table class="col-12" id="table-taller">
+                            @{ 
+                                string Pregunta1 = "N/A";
+                                string Pregunta2 = "N/A";
+                                string Pregunta3 = "N/A";
+                                if(ViewBag.Preguntas != null)
+                                {
+                                    if (ViewBag.Preguntas[0] != null)
+                                    {
+                                        Pregunta1 = ViewBag.Preguntas[0].Value;
+                                    }
+                                    if (ViewBag.Preguntas[1] != null)
+                                    {
+                                        Pregunta2 = ViewBag.Preguntas[1].Value;
+                                    }
+                                    if (ViewBag.Preguntas[2] != null)
+                                    {
+                                        Pregunta3 = ViewBag.Preguntas[2].Value;
+                                    }
+                                }
+                                string P1 = "0";
+                                string P2 = "0";
+                                string P3 = "0";
+                                if(ViewBag.Talleres != null)
+                                {
+                                    foreach(ObackOffice.Models.Cliente.EmpleadoTaller Taller in ViewBag.Talleres)
+                                    {
+                                        switch (Taller.PreguntaId)
+                                        {
+                                            case 1:
+                                                {
+                                                    P1 = Taller.Valor.ToUpper();
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    P2 = Taller.Valor.ToUpper();
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    P3 = Taller.Valor.ToUpper();
+                                                    break;
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                            <thead>
+                                <tr>
+                                    <th>Preguntas</th>
+                                    <th>No Evidencia</th>
+                                    <th>Pocas Veces</th>
+                                    <th>Algunas Veces</th>
+                                    <th>Muchas Veces</th>
+                                    <th>Siempre</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>@Pregunta1</td>
+                                <td class="@(P1 == "A" ? "Taller-Selected":"")"><span>A</span></td>
+                                <td class="@(P1 == "B" ? "Taller-Selected":"")"><span>B</span></td>
+                                <td class="@(P1 == "C" ? "Taller-Selected":"")"><span>C</span></td>
+                                <td class="@(P1 == "D" ? "Taller-Selected":"")"><span>D</span></td>
+                                <td class="@(P1 == "E" ? "Taller-Selected":"")"><span>E</span></td>
+                            </tr>
+                            <tr>
+                                <td>@Pregunta2</td>
+                                <td class="@(P2 == "A" ? "Taller-Selected":"")"><span>A</span></td>
+                                <td class="@(P2 == "B" ? "Taller-Selected":"")"><span>B</span></td>
+                                <td class="@(P2 == "C" ? "Taller-Selected":"")"><span>C</span></td>
+                                <td class="@(P2 == "D" ? "Taller-Selected":"")"><span>D</span></td>
+                                <td class="@(P2 == "E" ? "Taller-Selected":"")"><span>E</span></td>
+                            </tr>
+                            <tr>
+                                <td>@Pregunta3</td>
+                                <td class="@(P3 == "A" ? "Taller-Selected":"")"><span>A</span></td>
+                                <td class="@(P3 == "B" ? "Taller-Selected":"")"><span>B</span></td>
+                                <td class="@(P3 == "C" ? "Taller-Selected":"")"><span>C</span></td>
+                                <td class="@(P3 == "D" ? "Taller-Selected":"")"><span>D</span></td>
+                                <td class="@(P3 == "E" ? "Taller-Selected":"")"><span>E</span></td>
+                            </tr>
+                        </table>
+                                    }
+                                }
 }

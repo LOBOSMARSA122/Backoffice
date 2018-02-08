@@ -64,10 +64,4 @@ namespace BE.Comun
         public string Salon { get; set; }
         public bool Asistencia { get; set; }
     }
-
-    public class ReporteAcademicoListTaller
-    {
-        public string Pregunta { get; set; }
-        public string Valor { get; set; }
-    }
 }

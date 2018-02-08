@@ -25,5 +25,11 @@ namespace ObackOfficeAPI.Controllers.Reportes
         {
             return Ok(rar.DetalleEmpleado(PersonaId, cursoProgramadoId));
         }
+
+        [HttpGet]
+        public IHttpActionResult TallerEmpleado(int PersonaId, int cursoProgramadoId)
+        {
+            return Ok(rar.TallerEmpleado(PersonaId,cursoProgramadoId));
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ObackOffice.Models;
 using ObackOffice.Models.Comun;
+using ObackOffice.Models.Cliente;
 using ObackOffice.Utils;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -84,6 +85,12 @@ namespace ObackOffice.Controllers.Reportes
                 { "cursoProgramadoId", cursoProgramadoId }
             };
             ViewBag.DETALLE = API.Get<List<ReporteAcademicoListClase>>("ReporteAcademico/DetalleEmpleado", args);
+            ViewBag.Talleres = API.Get<List<EmpleadoTaller>>("ReporteAcademico/TallerEmpleado", args);
+            args = new Dictionary<string, string>
+            {
+                { "grupoId", "105" }
+            };
+            ViewBag.Preguntas = API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId",args);
             return PartialView("_ReporteAcademicoDetallePartial");
         }
     }
