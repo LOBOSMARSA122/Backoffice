@@ -20,7 +20,10 @@ namespace ObackOffice.Controllers.Reportes
             args = new Dictionary<string, string>
             {
                 { "Index", "1" },
-                { "Take", "10" }
+                { "Take", "10" },
+                { "SedeId", "-1" },
+                { "EventoId", "-1" },
+                { "CursoId", "-1" }
             };
             ViewBag.REGISTROS = API.Post<BandejaReporteAcademico>("ReporteAcademico/BandejaReporteAcademico", args);
             return View("ReporteAcademico");
@@ -55,19 +58,33 @@ namespace ObackOffice.Controllers.Reportes
             return Json(response);
         }
 
-        public ActionResult FiltrarDataBandeja()
+        public ActionResult FiltrarDataBandeja(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
         {
+            Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "SedeId", "0" },
-                { "EventoId", "0" },
-                { "CursoId", "0" },
-                { "NombreEmpleado", "0" },
-                { "SedeId", "0" },
-                { "Index", "1" },
-                { "Take", "10" }
+                { "SedeId", SedeId },
+                { "EventoId", EventoId },
+                { "CursoId", CursoId },
+                { "NombreEmpleado", NombreEmpleado },
+                { "DNIEmpleado", DNIEmpleado },
+                { "Index", Index },
+                { "Take", Take }
             };
-            return PartialView();
+            ViewBag.REGISTROS = API.Post<BandejaReporteAcademico>("ReporteAcademico/BandejaReporteAcademico", args);
+            return PartialView("_ReporteAcademicoPartial");
+        }
+
+        public ActionResult DetalleEmpleado(string PersonaId, string cursoProgramadoId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "PersonaId", PersonaId },
+                { "cursoProgramadoId", cursoProgramadoId }
+            };
+            ViewBag.DETALLE = API.Get<List<ReporteAcademicoListClase>>("ReporteAcademico/DetalleEmpleado", args);
+            return PartialView("_ReporteAcademicoDetallePartial");
         }
     }
 }

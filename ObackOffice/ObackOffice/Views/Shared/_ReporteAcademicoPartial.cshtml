@@ -3,11 +3,11 @@
     int Primer = 0;
     int Ultimo = 0;
 
-    if (ViewBag.Usuarios != null)
+    if (ViewBag.REGISTROS != null)
     {
-        Total = ViewBag.Usuarios.TotalRegistros;
-        Primer = ((ViewBag.Usuarios.Index - 1) * ViewBag.Usuarios.Take) + 1;
-        Ultimo = Primer + (ViewBag.Usuarios.Lista.Count - 1);
+        Total = 0; // ViewBag.Usuarios.TotalRegistros;
+        Primer = 0; //((ViewBag.Usuarios.Index - 1) * ViewBag.Usuarios.Take) + 1;
+        Ultimo = 0; // Primer + (ViewBag.Usuarios.Lista.Count - 1);
     }
 }
 
@@ -19,38 +19,50 @@
         <table class="table table-hover" id="TablaAExportar">
             <thead>
                 <tr>
-                    <th>Nombre Usuario</th>
-                    <th>Nombre Persona</th>
-                    <th>Rol</th>
-                    <th>Empresa</th>
-                    <th>Tipo Empresa</th>
-                    <th class="NoImprimir">Editar</th>
-                    <th class="NoImprimir">Eliminar</th>
+                    <th>Nombre</th>
+                    <th>Documento</th>
+                    <th>Número</th>
+                    <th>Sede</th>
+                    <th>Evento</th>
+                    <th>Curso</th>
+                    <th>Nota</th>
+                    <th>Condición</th>
+                    <th>Fecha</th>
+                    <th>Observación</th>
+                    <th>Detalle</th>
                 </tr>
             </thead>
             <tbody>
                 @{
-                    if (ViewBag.Usuarios == null)
+                    if (ViewBag.REGISTROS == null)
                     {
                         <tr><td colspan="7" class="text-center">Error al conectarse al servidor</td></tr>
                     }
-                    else if (ViewBag.Usuarios.Lista.Count == 0)
+                    else if (ViewBag.REGISTROS.Lista.Count == 0)
                     {
                         <tr><td colspan="7" class="text-center">No hay resultados</td></tr>
                     }
                     else
                     {
-                        foreach (var item in ViewBag.Usuarios.Lista)
+                        foreach (ObackOffice.Models.ReporteAcademicoList item in ViewBag.REGISTROS.Lista)
                         {
-                            <tr>
-                                <td>@item.NombreUsuario</td>
-                                <td>@item.NombreCompleto</td>
-                                <td>@item.Rol</td>
-                                <td>@item.Empresa</td>
-                                <td>@item.TipoEmpresa</td>
-                                <td class="NoImprimir"><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
-                                <td class="NoImprimir"><a onclick="DeleteUser(@item.UsuarioId)"><span class="icon-trash"></span></a></td>
-                            </tr>
+                        <tr>
+                            <td>@item.Nombre</td>
+                            <td>@item.TipoDocumento</td>
+                            <td>@item.NroDocumento</td>
+                            <td>@item.Sede</td>
+                            <td>@item.Evento</td>
+                            <td>@item.Curso</td>
+                            <td>@item.Nota</td>
+                            <td>@item.Condicion</td>
+                            <td>@item.InicioCurso.ToShortDateString() - @item.FinCurso.ToShortDateString()</td>
+                            <td>@item.Observaciones</td>
+                            <td onclick="ShowDetail(@item.PersonaId,@item.CursoProgramadoId)"><i class="icon-eye"></i></td>
+                        </tr>
+                        <tr>
+                            <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="11" style="display:none;">
+                            </td>
+                        </tr>
                         }
                     }
                 }

@@ -1,0 +1,33 @@
+﻿@{
+    if (ViewBag.DETALLE == null)
+    {
+        <div>Error al conectarse al servido</div>
+    }
+    else
+    {
+        if (ViewBag.DETALLE.Count == 0)
+        {
+            <div>No tiene registros</div>
+        }
+        else
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Salon</th>
+                        <th>Asistencia</th>
+                    </tr>
+                </thead>
+                @foreach (ObackOffice.Models.ReporteAcademicoListClase clases in ViewBag.DETALLE)
+                {
+                    <tr>
+                        <td>@clases.FechaClase.ToShortDateString()</td>
+                        <td>@clases.Salon</td>
+                        <td>@(clases.Asistencia ? "Asistió" : "Faltó")</td>
+                    </tr>
+                }
+            </table>
+        }
+    }
+}

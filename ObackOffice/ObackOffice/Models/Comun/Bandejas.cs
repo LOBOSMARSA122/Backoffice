@@ -42,6 +42,7 @@ namespace ObackOffice.Models
 
     public class ReporteAcademicoList
     {
+        public int CursoProgramadoId { get; set; }
         public int PersonaId { get; set; }
         public string Nombre { get; set; }
         public string TipoDocumento { get; set; }
@@ -54,8 +55,6 @@ namespace ObackOffice.Models
         public DateTime InicioCurso { get; set; }
         public DateTime FinCurso { get; set; }
         public string Observaciones { get; set; }
-        public List<ReporteAcademicoListClase> ListaCursos { get; set; }
-        public List<ReporteAcademicoListTaller> ListaTalleres { get; set; }
     }
 
     public class ReporteAcademicoListClase

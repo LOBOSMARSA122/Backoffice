@@ -40,13 +40,13 @@
                 <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Nombre</label>
-                        <input type="text" id="NombreUsuario" name="NombreUsuario" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Usuario" />
+                        <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre" />
                     </div>
                 </div>
                 <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">DNI</label>
-                        <input type="text" id="NombrePersona" name="NombrePersona" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Persona" />
+                        <input type="text" id="DNI" name="DNI" class="form-control" maxlength="150" placeholder="Ingrese DNI" />
                     </div>
                 </div>
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div id="RenderBandejaUsuarios">
+    <div id="RenderBandejaReporteAcademico">
         @Html.Partial("_ReporteAcademicoPartial")
     </div>
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
@@ -152,26 +152,50 @@
         });
     }
 
-    //function FiltrarUsuarios() {
-    //    data = {
-    //        NombreUsuario: $("#NombreUsuario").val(),
-    //        NombrePersona: $("#NombrePersona").val(),
-    //        Index: 1,
-    //        Take: 10
-    //    };
+    function FiltrarUsuarios() {
+        data = {
+            SedeId: $("#sede").val(),
+            EventoId: $("#evento").val(),
+            CursoId: $("#curso").val(),
+            NombreEmpleado: $("#Nombre").val(),
+            DNIEmpleado: $("#DNI").val(),
+            Index: 1,
+            Take: 10
+        };
 
-    //    $.ajax({
-    //        cache: false,
-    //        dataType: 'html',
-    //        method: 'POST',
-    //        data: data,
-    //        url: '/Acceso/FiltrarUsuario',
-    //        success: function (html) {
-    //            $("#RenderBandejaUsuarios").html(html);
-    //        },
-    //        error: function (error) {
-    //            console.log(error);
-    //        }
-    //    });
-    //}
+        $.ajax({
+            cache: false,
+            dataType: 'html',
+            method: 'POST',
+            data: data,
+            url: '/ReporteAcademico/FiltrarDataBandeja',
+            success: function (html) {
+                $("#RenderBandejaReporteAcademico").html(html);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function ShowDetail(PersonaId, cursoProgramadoId) {
+        data = {
+            PersonaId: PersonaId,
+            cursoProgramadoId: cursoProgramadoId
+        };
+
+        $.ajax({
+            cache: false,
+            dataType: 'html',
+            method: 'POST',
+            data: data,
+            url: '/ReporteAcademico/DetalleEmpleado',
+            success: function (html) {
+                $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).html(html).show();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
 </script>

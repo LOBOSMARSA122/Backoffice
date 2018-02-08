@@ -19,5 +19,11 @@ namespace ObackOfficeAPI.Controllers.Reportes
             data = rar.BandejaReporteAcademico(data);
             return Ok(data);
         }
+
+        [HttpGet]
+        public IHttpActionResult DetalleEmpleado(int PersonaId, int cursoProgramadoId)
+        {
+            return Ok(rar.DetalleEmpleado(PersonaId, cursoProgramadoId));
+        }
     }
 }

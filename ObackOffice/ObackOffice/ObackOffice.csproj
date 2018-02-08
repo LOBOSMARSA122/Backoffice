@@ -424,6 +424,7 @@
     <Content Include="Views\ReporteAcademico\ReporteAcademico.cshtml" />
     <Content Include="Views\Shared\_ReporteAcademicoPartial.cshtml" />
     <Content Include="Views\Shared\_InformacionCursoPartial.cshtml" />
+    <Content Include="Views\Shared\_ReporteAcademicoDetallePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
