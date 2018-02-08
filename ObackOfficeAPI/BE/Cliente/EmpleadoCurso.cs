@@ -25,6 +25,7 @@ namespace BE.Cliente
 
     public class EmpleadoInscrito
     {
+        public int EmpleadoCursoId { get; set; }
         public int PersonaId { get; set; }
         public string NombreCompleto { get; set; }
         public string TipoDocumento { get; set; }

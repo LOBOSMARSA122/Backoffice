@@ -1,7 +1,7 @@
 ﻿<div class="container-fluid">
  
 
-    <table class="table table-hover">
+    <table class="table table-hover" id="tabla-empleados">
         <thead>
             <tr>
                 <th>Nombre Completo</th>
@@ -15,12 +15,12 @@
             {
                 foreach (var item in ViewBag.EMPLEADOSINSCRITOS)
                 {
-                    <tr>
-                        <td>@item.NombreCompleto</td>
-                        <td>@item.TipoDocumento</td>
-                        <td>@item.NroDocumento</td>
-                        <td><a><span class="icon-trash"></span></a></td>
-                    </tr>
+                <tr id="@item.NombreCompleto.Replace(" ","_")-@item.NroDocumento.Replace(" ","_") ">
+                    <td>@item.NombreCompleto</td>
+                    <td>@item.TipoDocumento</td>
+                    <td>@item.NroDocumento</td>
+                    <td><a onclick="EliminarInscripcion(@item.EmpleadoCursoId)" href="#"><span class="icon-trash"></span></a></td>
+                </tr>
                 }
 
             }

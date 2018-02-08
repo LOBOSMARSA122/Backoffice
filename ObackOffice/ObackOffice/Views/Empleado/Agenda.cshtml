@@ -296,17 +296,55 @@
         }
 
         function Inscribir() {
-            $.ajax(
-                {
-                    url: '/Empleado/InscribirEmpleado?empleado=' + $('#dni').val() + '&&salonProgramadoId=' + $('#salon').val(),
-                    type: 'post',
-                    success: function() {
-                        LoadAgenda();
-                    },
-                    error: function() {
-                        alert('error');
+            if ($('#salon').val() == -1) {
+                alert('Seleccione Salón');
+                return;
+            }
+            var x = ValiarEmpleado();
+            if (x == 0) {
+                $.ajax(
+                    {
+                        url: '/Empleado/InscribirEmpleado?empleado=' + $('#dni').val() + '&&salonProgramadoId=' + $('#salon').val(),
+                        type: 'POST',
+                        success: function () {
+                            loadEmpleados();
+                            $('#dni').val('');
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    })
+            }        }
+
+        function ValiarEmpleado() {
+            var count = 0;
+            var id = $('#dni').val().replace(/ /g, '_');
+            $('#tabla-empleados tr').each(function () {
+                var x = $(this).attr("id");
+                if (x != undefined) {
+                    if (x.trim() == id.trim()) {
+                        alert('Registro duplicado');
+                        count += 1;
                     }
-                })
+                }     
+            })
+            //$('#dni').val('');
+            return count;
+        }
+
+        function EliminarInscripcion(empleadoCursoId) {
+            if (confirm('¿Seguro de eliminar el registro?')) {
+                $.ajax({
+                    url: '/Empleado/EliminarInscripcion?empleadoCursoId=' + empleadoCursoId,
+                    type: 'POST',
+                    success: function () {
+                        loadEmpleados();
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
         }
 
         $(document).ready(function () {           

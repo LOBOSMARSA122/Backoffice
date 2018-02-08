@@ -57,5 +57,12 @@ namespace ObackOfficeAPI.Controllers.Administracion
             bool result = epr.InsertarEmpleadoCurso(empleado,salonProgramadoId, userId);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IHttpActionResult EliminarEmpleadoCurso(int empleadoCursoId, int userId)
+        {
+            bool result = epr.EliminarEmpleadoCurso(empleadoCursoId, userId);
+            return Ok(result);
+        }
     }
 }

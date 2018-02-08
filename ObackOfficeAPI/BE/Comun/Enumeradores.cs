@@ -25,5 +25,19 @@ namespace BE.Comun
             No = 0,
             Si = 1
         }
+
+        public enum Condicion
+        {
+            Aprobado = 1,
+            Desaprobado = 2,
+            PorIniciar = 3,
+        }
+
+        public enum Asistencia
+        {
+            PorIniciar = 1,
+            Asistio = 2,
+            Falto = 3,
+        }
     }
 }
