@@ -12,7 +12,7 @@
         </div>
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">         
                 <div class="row">
-                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                         <div class="form-group">
                             <label for="">Sede</label>
                             @{ 
@@ -28,7 +28,7 @@
                             }                          
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                         <div class="form-group">
                             <label for="">Evento</label>
                             <select name="evento" id="evento" class="form-control">
@@ -36,7 +36,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                         <div class="form-group">
                             <label for="">Curso</label>
                             <select name="curso" id="curso" class="form-control">
@@ -85,21 +85,25 @@
                                 <div class="row contenedor-modal">
                                     <div class="col">
                                         <input type="hidden" name="CursoProgramadoId" id="CursoProgramadoId" value="" />
-                                        <form>
-                                            <div class="row form-group">
-                                                <div class="col-12 col-lg-6">
-                                                    <label for="salon">Salón</label>
-                                                    <select name="salon" id="salon" class="form-control">
-                                                        <option value="-1">--Seleccionar--</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-12 col-lg-6 class="ui-widget ui-autocomplete"" >
-                                                        <label for="dni">DNI / Nombres</label>
-                                                        <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
+                                        <div class="row form-group">
+                                            <div class="col-12 col-lg-6 ui-widget ui-autocomplete">
+                                                <label for="dni">DNI / Nombres</label>
+                                                <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <label for="salon">Salón</label>
+                                                <select name="salon" id="salon" class="form-control">
+                                                    <option value="-1">--Seleccionar--</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                            <div class="row form-group  d-flex justify-content-start">
+                                                <div class="col-lg-2">
+                                                    <button class="btn-warning boton form-control " onclick="Inscribir()">Inscribir</button>
                                                 </div>
                                             </div>
-                                        </form>
-                                        <div class="row">
+                                        <div class="row " >
                                             <div class="col" id="GrillaEmpleado">
                                                 @Html.Partial("_ListaEmpleadosIsncritosPartial")
                                             </div>
@@ -270,7 +274,6 @@
         }
 
         function autoComplete() {
-            console.log('ssss');
             $.ajax(
                 {
                     url: '/Empleado/GetEmpleado?valor=' + $('#dni').val() + '&&empresaId=' + @ViewBag.USUARIO.EmpresaId,
@@ -287,6 +290,20 @@
                         });
                     },
                     error: function () {
+                        alert('error');
+                    }
+                })
+        }
+
+        function Inscribir() {
+            $.ajax(
+                {
+                    url: '/Empleado/InscribirEmpleado?empleado=' + $('#dni').val() + '&&salonProgramadoId=' + $('#salon').val(),
+                    type: 'post',
+                    success: function() {
+                        LoadAgenda();
+                    },
+                    error: function() {
                         alert('error');
                     }
                 })
@@ -313,35 +330,8 @@
                         }
                     })
                 }
-            });
-
-            //var availableTags = [
-            //    "ActionScript",
-            //    "AppleScript",
-            //    "Asp",
-            //    "BASIC",
-            //    "C",
-            //    "C++",
-            //    "Clojure",
-            //    "COBOL",
-            //    "ColdFusion",
-            //    "Erlang",
-            //    "Fortran",
-            //    "Groovy",
-            //    "Haskell",
-            //    "Java",
-            //    "JavaScript",
-            //    "Lisp",
-            //    "Perl",
-            //    "PHP",
-            //    "Python",
-            //    "Ruby",
-            //    "Scala",
-            //    "Scheme"
-            //];
-            //$("#dni").autocomplete({
-            //    source: availableTags
-            //});
+            });        
         });
+
     </script>
 }

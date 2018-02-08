@@ -14,6 +14,7 @@ namespace ObackOfficeAPI.Controllers.Administracion
     public class CursoProgramadoController : ApiController
     {
         private CursoProgramadoRepository cpr = new CursoProgramadoRepository();
+        private EmpleadoCursoRepository epr = new EmpleadoCursoRepository();
 
         [HttpGet]
         public IHttpActionResult CursosProgramados(int cursoId)
@@ -47,6 +48,13 @@ namespace ObackOfficeAPI.Controllers.Administracion
         public IHttpActionResult GetInformacionCurso(int salonProgramadoId)
         {
             InformacionSalonProgramado result = cpr.GetInformacionSalonProgramado(salonProgramadoId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IHttpActionResult InsertarEmpleadoCurso(string empleado, int salonProgramadoId, int userId)
+        {
+            bool result = epr.InsertarEmpleadoCurso(empleado,salonProgramadoId, userId);
             return Ok(result);
         }
     }

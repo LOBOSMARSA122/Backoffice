@@ -203,6 +203,8 @@ namespace BL
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
             return (from a in ctx.Personas where a.EsEliminado == NoEliminado && a.PersonaId == id select a).FirstOrDefault();
         }
+
+  
         
     }
 }
