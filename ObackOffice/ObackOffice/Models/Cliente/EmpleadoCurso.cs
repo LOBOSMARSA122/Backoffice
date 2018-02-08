@@ -28,4 +28,23 @@ namespace ObackOffice.Models.Cliente
         public string TipoDocumento { get; set; }        
         public string NroDocumento { get; set; }
     }
+
+    public class InformacionSalonProgramado
+    {
+        public string NombreCapacitador { get; set; }
+        public string EspecialidadCapacitador { get; set; }
+        public byte[] FotoCapacitador { get; set; }
+        public string ExperienciaCapacitador { get; set; }
+        public int CuposDisponibles { get; set; }
+        public int CuposTotales { get; set; }
+        public DateTime FechaInicioCurso { get; set; }
+        public DateTime FechaFinCurso { get; set; }
+        public List<ClasesProgramada> ClasesProgramadas { get; set; }
+    }
+
+    public class ClasesProgramada
+    {
+        public DateTime FechaInicioClase { get; set; }
+        public DateTime FechafinClase { get; set; }
+    }
 }

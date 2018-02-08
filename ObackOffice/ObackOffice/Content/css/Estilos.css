@@ -667,7 +667,9 @@ table tbody tr td {
     border-bottom: 1px solid #444;
 }
 
-
+.ui-autocomplete {
+    z-index: 2147483647;
+}
 
 
 

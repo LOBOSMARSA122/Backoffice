@@ -10,7 +10,8 @@ namespace ObackOffice
         {
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));       
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui-1.12.1.js"));       
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -32,7 +33,8 @@ namespace ObackOffice
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/bootstrap3-typeahead.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                     "~/Scripts/main.js"));
@@ -41,7 +43,8 @@ namespace ObackOffice
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/css/fontello.css",
-                      "~/Content/css/estilos.css"));
+                      "~/Content/css/estilos.css",
+                      "~/Content/themes/base/jquery-ui.css"));
         }
     }
 }

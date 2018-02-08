@@ -104,8 +104,22 @@ namespace ObackOffice.Controllers.Registro
                 {
                     { "salonProgramadoId", salonProgramadoId}
                 };
-            ViewBag.INFORMACIONCURSO = API.Get<List<EmpleadoInscrito>>("CursoProgramado/getInformacionCurso", args);
+            ViewBag.INFORMACIONCURSO = API.Get<InformacionSalonProgramado>("CursoProgramado/GetInformacionCurso", args);
             return PartialView("_InformacionCursoPartial");
+        }
+
+
+        public JsonResult GetEmpleado(string valor, string empresaId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "valor",valor },
+                {"empresaId", empresaId }
+            };
+            List<string> Eventos = API.Get<List<string>>("Empleado/GetEmpleados", args);
+            return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
         }
     }
 }

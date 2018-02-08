@@ -30,4 +30,45 @@ namespace BE.Comun
         public string Empresa { get; set; }
         public string TipoEmpresa { get; set; }
     }
+
+    public class BandejaReporteAcademico : Bandejas
+    {
+        public int SedeId { get; set; }
+        public int EventoId { get; set; }
+        public int CursoId { get; set; }
+        public string NombreEmpleado { get; set; }
+        public string DNIEmpleado { get; set; }
+        public List<ReporteAcademicoList> Lista { get; set; }
+    }
+
+    public class ReporteAcademicoList
+    {
+        public int PersonaId { get; set; }
+        public string Nombre { get; set; }
+        public string TipoDocumento { get; set; }
+        public string NroDocumento { get; set; }
+        public string Sede { get; set; }
+        public string Evento { get; set; }
+        public string Curso { get; set; }
+        public decimal Nota { get; set; }
+        public string Condicion { get; set; }
+        public DateTime InicioCurso { get; set; }
+        public DateTime FinCurso { get; set; }
+        public string Observaciones { get; set; }
+        public List<ReporteAcademicoListClase> ListaCursos { get; set; }
+        public List<ReporteAcademicoListTaller> ListaTalleres { get; set; }
+    }
+    
+    public class ReporteAcademicoListClase
+    {
+        public DateTime FechaClase { get; set; }
+        public string Salon { get; set; }
+        public bool Asistencia { get; set; }
+    }
+
+    public class ReporteAcademicoListTaller
+    {
+        public string Pregunta { get; set; }
+        public string Valor { get; set; }
+    }
 }

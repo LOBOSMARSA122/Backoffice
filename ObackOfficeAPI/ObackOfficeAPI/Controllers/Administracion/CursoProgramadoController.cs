@@ -43,5 +43,11 @@ namespace ObackOfficeAPI.Controllers.Administracion
             return Ok(result);
         }
 
+        [HttpGet]
+        public IHttpActionResult GetInformacionCurso(int salonProgramadoId)
+        {
+            InformacionSalonProgramado result = cpr.GetInformacionSalonProgramado(salonProgramadoId);
+            return Ok(result);
+        }
     }
 }

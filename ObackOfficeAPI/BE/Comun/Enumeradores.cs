@@ -13,8 +13,11 @@ namespace BE.Comun
             Roles = 100,
             TipoDocumentos = 101,
             Generos = 102,
-            Cursos = 103,
-            TipoEmpresas = 104
+            TipoEmpresas = 104,
+            PreguntasTaller = 105,
+            Sedes = 106,
+            Condición = 107,
+            Colores = 108
         }
 
         public enum EsEliminado

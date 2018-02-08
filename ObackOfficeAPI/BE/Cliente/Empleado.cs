@@ -21,4 +21,14 @@ namespace BE.Cliente
         public DateTime? FechaActualiza { get; set; }
 
     }
+
+    public class BusquedaEmpleado
+    {
+        public int EmpleadoId { get; set; }
+        public int PersonaId { get; set; }
+        public int EmpresaId { get; set; }
+        public string NombreCompleto { get; set; }
+        public string NroDocumento { get; set; }
+        
+    }
 }

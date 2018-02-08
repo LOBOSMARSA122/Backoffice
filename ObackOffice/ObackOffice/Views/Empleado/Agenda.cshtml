@@ -44,14 +44,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                    @*<div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                         <div class="form-group">
                             <label for="">.</label>
                             <button class="btn-warning boton form-control" onclick="Filtrar()">
                                 <i class="fa fa-search"></i> Filtrar
                             </button>
                         </div>
-                    </div>
+                    </div>*@
                 </div>            
         </div>
     </div>
@@ -93,9 +93,9 @@
                                                         <option value="-1">--Seleccionar--</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-12 col-lg-6">
-                                                    <label>DNI / Nombres</label>
-                                                    <input type="text" name="dni" id="dni" value="" class="form-control" />
+                                                <div class="col-12 col-lg-6 class="ui-widget ui-autocomplete"" >
+                                                        <label for="dni">DNI / Nombres</label>
+                                                        <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
                                                 </div>
                                             </div>
                                         </form>
@@ -107,8 +107,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="InformacionCurso" role="tabpanel">
-                                <div>
+                            <div class="tab-pane"  role="tabpanel" id="tabInformacion">
+                                <div id="InformacionCurso">
                                     @Html.Partial("_InformacionCursoPartial")
                                 </div>                                
                             </div>
@@ -116,8 +116,7 @@
                        
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success">Agendar</button>
+                <div class="modal-footer">                  
                     <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -270,6 +269,29 @@
             LoadAgenda();
         }
 
+        function autoComplete() {
+            console.log('ssss');
+            $.ajax(
+                {
+                    url: '/Empleado/GetEmpleado?valor=' + $('#dni').val() + '&&empresaId=' + @ViewBag.USUARIO.EmpresaId,
+                    type: 'GET',
+                    success: function (availableTags) {
+                        console.log('dddd');
+                        var lista = [];
+                        for (var i = 0; i < availableTags.length; i++) {
+                            lista.push(availableTags[i])
+                        }
+                        console.log(lista);
+                        $("#dni").autocomplete({
+                            source: lista
+                        });
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                })
+        }
+
         $(document).ready(function () {           
             LoadAgenda();
             $('#sede').on('change', loadEvento);
@@ -277,14 +299,14 @@
             $('#salon').on('change', loadEmpleados);            
             $('#curso').on('change', LoadAgenda);
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-                var target = $(e.target).attr("href") // activated tab
+                var target = $(e.target).attr("href") // activated tab                
                 if (target == '#tabInformacion') {
                     $.ajax({
-                        url: 'Empleado/InformacionCurso?salonProgramadoId=' + $('#salon').val(),
+                        url: '/Empleado/InformacionCurso?salonProgramadoId=' + $('#salon').val(),
                         type: 'GET',
                         success: function (html) {
                             $('#InformacionCurso').html(html);
+                            console.log('html ', html);
                         },
                         error: function () {
                             alert('error');
@@ -292,6 +314,34 @@
                     })
                 }
             });
+
+            //var availableTags = [
+            //    "ActionScript",
+            //    "AppleScript",
+            //    "Asp",
+            //    "BASIC",
+            //    "C",
+            //    "C++",
+            //    "Clojure",
+            //    "COBOL",
+            //    "ColdFusion",
+            //    "Erlang",
+            //    "Fortran",
+            //    "Groovy",
+            //    "Haskell",
+            //    "Java",
+            //    "JavaScript",
+            //    "Lisp",
+            //    "Perl",
+            //    "PHP",
+            //    "Python",
+            //    "Ruby",
+            //    "Scala",
+            //    "Scheme"
+            //];
+            //$("#dni").autocomplete({
+            //    source: availableTags
+            //});
         });
     </script>
 }

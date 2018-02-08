@@ -187,11 +187,13 @@
     <Compile Include="Controllers\Administracion\CursoProgramadoController.cs" />
     <Compile Include="Controllers\Administracion\EmpresasController.cs" />
     <Compile Include="Controllers\Administracion\EventosController.cs" />
+    <Compile Include="Controllers\Comun\EmpleadoController.cs" />
     <Compile Include="Controllers\Comun\ParametroController.cs" />
     <Compile Include="Controllers\Perfiles\PerfilesController.cs" />
     <Compile Include="Controllers\Person\PersonController.cs" />
     <Compile Include="Controllers\Prueba\ExcelController.cs" />
     <Compile Include="Controllers\Prueba\ObackOfficePruebaController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
     <Compile Include="Controllers\Usuario\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

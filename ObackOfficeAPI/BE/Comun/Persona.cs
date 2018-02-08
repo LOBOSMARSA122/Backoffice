@@ -20,10 +20,13 @@ namespace BE.Comun
         public int TipoDocumentoId { get; set; }
         public string CorreoElectronico { get; set; }
         public string NumeroCelular { get; set; }
+        public byte[] Foto { get; set; }
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }
         public DateTime? FechaGraba { get; set; }
         public int? UsuActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
     }
+
+  
 }

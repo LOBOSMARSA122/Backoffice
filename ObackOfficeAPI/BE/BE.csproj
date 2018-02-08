@@ -53,6 +53,7 @@
     <Compile Include="Administracion\SalonClases.cs" />
     <Compile Include="Administracion\SalonProgramado.cs" />
     <Compile Include="Cliente\Empleado.cs" />
+    <Compile Include="Cliente\InformacionSalonProgramado.cs" />
     <Compile Include="Comun\Bandejas.cs" />
     <Compile Include="Comun\Enumeradores.cs" />
     <Compile Include="Comun\MultiDataModel.cs" />

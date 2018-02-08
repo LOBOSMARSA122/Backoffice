@@ -13,7 +13,7 @@ namespace BE.Administracion
         public int CapacitadorId { get; set; }
         public int PersonaId { get; set; }
         public string Curriculo { get; set; }
-
+        public string Especialidad { get; set; }
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }
         public DateTime? FechaGraba { get; set; }

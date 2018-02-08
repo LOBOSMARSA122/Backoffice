@@ -35,6 +35,6 @@ namespace ObackOfficeAPI.Controllers.Administracion
             List<Dropdownlist> result = er.ddlEventos(sedeId);
             return Json(result);
         }
-    
+
     }
 }
