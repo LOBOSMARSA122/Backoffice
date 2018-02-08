@@ -1,5 +1,6 @@
 ﻿using ObackOffice.Models;
 using ObackOffice.Models.Administracion;
+using ObackOffice.Models.Cliente;
 using ObackOffice.Models.Comun;
 using ObackOffice.Utils;
 using System;
@@ -26,14 +27,18 @@ namespace ObackOffice.Controllers.Registro
             return View();
         }
 
-        public JsonResult GetCursosProgramados(int cursoId)
+        public JsonResult GetCursosProgramados(string cursoId)
         {
-            Api API = new Api();
-            string url = "CursoProgramado/CursosProgramados";
-            Dictionary<string, string> args = new Dictionary<string, string>();
-            args.Add("cursoId", cursoId.ToString());
-            List<Agenda> result = API.Get<List<Agenda>>(url, args);
-            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            if (cursoId != "-1")
+            {
+                Api API = new Api();
+                string url = "CursoProgramado/CursosProgramados";
+                Dictionary<string, string> args = new Dictionary<string, string>();
+                args.Add("cursoId", cursoId);
+                List<Agenda> result = API.Get<List<Agenda>>(url, args);
+                return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            return new JsonResult { Data = new List<Agenda>(), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public JsonResult GetEvento(string sedeId)
@@ -41,8 +46,7 @@ namespace ObackOffice.Controllers.Registro
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "sedeId",sedeId },
-                { "accion",Constantes.Select },
+                { "sedeId",sedeId }
             };
             List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Eventos/ddlEventos", args), Constantes.Select);            
             return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -53,11 +57,69 @@ namespace ObackOffice.Controllers.Registro
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "eventoId",eventoId },
-                { "accion",Constantes.Select },
+                { "eventoId",eventoId }
             };
             List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("CursoProgramado/ddlCursoProgramdos", args), Constantes.Select);
             return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult GetSalon(string cursoProgramadoId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "cursoProgramadoId",cursoProgramadoId }
+            };
+            List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("CursoProgramado/ddlSalonProgramado", args), Constantes.Select);
+            return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+
+        public ActionResult EmpleadosInscritos(string salonProgramadoId)
+        {
+            if (salonProgramadoId != "-1")
+            {
+                Api API = new Api();
+                ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+                Dictionary<string, string> args = new Dictionary<string, string>
+                {
+                    { "salonProgramadoId", salonProgramadoId}
+                };
+                ViewBag.EMPLEADOSINSCRITOS = API.Get<List<EmpleadoInscrito>>("CursoProgramado/GetEmpleadosCurso", args);
+                              
+            }
+            else
+            {
+                ViewBag.EMPLEADOSINSCRITOS = null;
+            }
+
+            return PartialView("_ListaEmpleadosIsncritosPartial");
+        }
+
+        public ActionResult InformacionCurso(string salonProgramadoId)
+        {
+            Api API = new Api();
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            Dictionary<string, string> args = new Dictionary<string, string>
+                {
+                    { "salonProgramadoId", salonProgramadoId}
+                };
+            ViewBag.INFORMACIONCURSO = API.Get<InformacionSalonProgramado>("CursoProgramado/GetInformacionCurso", args);
+            return PartialView("_InformacionCursoPartial");
+        }
+
+
+        public JsonResult GetEmpleado(string valor, string empresaId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "valor",valor },
+                {"empresaId", empresaId }
+            };
+            List<string> Eventos = API.Get<List<string>>("Empleado/GetEmpleados", args);
+            return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
         }
     }
 }

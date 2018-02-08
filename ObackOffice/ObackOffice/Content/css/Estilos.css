@@ -638,25 +638,38 @@ table tbody tr td {
 
 
 /*MODAL CALENDAR*/
-.contenedor-modal > div{
-    text-align:center;
+.contenedor-modal {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.datos-capacitador {
+    background: #EDEEEF;
 }
 
 .datos-capacitador .foto img {
-    height: 100px;
+    height: 60px;
     border-radius: 100%;
 }
 
-.datos-capacitador .datos {
-  text-align:start;
+.datos-capacitador .datos,
+.datos-curso .datos p {
+    text-align: start;
 }
 
-.datos-capacitador p {
-    font-size:14px;
-    font-weight:500;
+.datos-capacitador .datos p,
+.datos-curso .datos p {
+    margin: 5px;
 }
 
+.titulo {
+    border-bottom: 1px solid #444;
+}
 
+.ui-autocomplete {
+    z-index: 2147483647;
+}
 
 
 

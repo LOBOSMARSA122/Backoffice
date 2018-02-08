@@ -9,6 +9,7 @@ namespace ObackOffice.Models.Acceso
     {
         public int UsuarioId { get; set; }
         public int PersonaId { get; set; }
+        public int EmpresaId { get; set; }
         public string NombreUsuario { get; set; }
         public string NombreCompleto { get; set; }
         public string Contrasenia { get; set; }

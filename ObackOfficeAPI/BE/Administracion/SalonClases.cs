@@ -24,4 +24,10 @@ namespace BE.Administracion
         public int? UsuActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
     }
+
+    public class ClasesProgramada
+    {
+        public DateTime FechaInicioClase { get; set; }
+        public DateTime FechafinClase { get; set; }
+    }
 }

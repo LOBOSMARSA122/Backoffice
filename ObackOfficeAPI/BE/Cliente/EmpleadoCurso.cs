@@ -22,4 +22,12 @@ namespace BE.Cliente
         public int? UsuActualiza { get; set; }
         public DateTime? FechaActualiza { get; set; }
     }
+
+    public class EmpleadoInscrito
+    {
+        public int PersonaId { get; set; }
+        public string NombreCompleto { get; set; }
+        public string TipoDocumento { get; set; }
+        public string NroDocumento { get; set; }
+    }
 }

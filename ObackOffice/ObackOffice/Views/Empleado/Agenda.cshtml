@@ -44,14 +44,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                    @*<div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                         <div class="form-group">
                             <label for="">.</label>
                             <button class="btn-warning boton form-control" onclick="Filtrar()">
                                 <i class="fa fa-search"></i> Filtrar
                             </button>
                         </div>
-                    </div>
+                    </div>*@
                 </div>            
         </div>
     </div>
@@ -66,7 +66,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container-fluid">
+                    <div class="container-fluid" id="tabs">
                         <div class="row">
                             <div class="col">
                                 <ul class="nav nav-tabs">
@@ -84,117 +84,39 @@
                             <div class="tab-pane active" id="tabRegistro" role="tabpanel">
                                 <div class="row contenedor-modal">
                                     <div class="col">
+                                        <input type="hidden" name="CursoProgramadoId" id="CursoProgramadoId" value="" />
                                         <form>
                                             <div class="row form-group">
                                                 <div class="col-12 col-lg-6">
                                                     <label for="salon">Salón</label>
                                                     <select name="salon" id="salon" class="form-control">
-                                                        <option value="1">Salón 1</option>
-                                                        <option value="2">Salón 2</option>
-                                                        <option value="3">Salón 3</option>
+                                                        <option value="-1">--Seleccionar--</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-12 col-lg-6">
-                                                    <label>DNI / Nombres</label>
-                                                    <input type="text" name="dni" id="dni" value="" class="form-control" />
+                                                <div class="col-12 col-lg-6 class="ui-widget ui-autocomplete"" >
+                                                        <label for="dni">DNI / Nombres</label>
+                                                        <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
                                                 </div>
                                             </div>
                                         </form>
                                         <div class="row">
-                                            <div class="col">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nombre Completo</th>
-                                                            <th>DNI</th>
-                                                            <th>Acción</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                        <tr id="click-registro-prueba">
-                                                            <td>Alejandro Gutierrez Saman</td>
-                                                            <td>42542512</td>
-                                                            <td><a><span class="icon-trash"></span></a></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <div class="paginacion-tabla d-flex justify-content-center">
-                                                    <div>
-                                                        <ul class="pagination">
-                                                            <li class="page-item">
-                                                                <span class="page-link" aria-hidden="true">Anterior</span>
-                                                            </li>
-                                                            <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                                            <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                                            <li class="page-item">
-                                                                <a href="#" class="page-link">
-                                                                    <span aria-hidden="true">Siguiente</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                            <div class="col" id="GrillaEmpleado">
+                                                @Html.Partial("_ListaEmpleadosIsncritosPartial")
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tabInformacion" role="tabpanel">
-                                @Html.Partial("_InformacionCursoPartial")
+                            <div class="tab-pane"  role="tabpanel" id="tabInformacion">
+                                <div id="InformacionCurso">
+                                    @Html.Partial("_InformacionCursoPartial")
+                                </div>                                
                             </div>
                         </div>
                        
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success">Agendar</button>
+                <div class="modal-footer">                  
                     <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -222,7 +144,7 @@
                     $.each(data, function (i, v) {
                         events.push({
                             title: v.Curso,
-                            description: 'nada',
+                            description: v.CursoProgramadoId,
                             start: moment(v.FechaInicio),
                             end: v.FechaFin != null ? moment(v.FechaFin) : null,
                             color: v.Color,
@@ -239,6 +161,7 @@
         }
 
         function GenerateCalender(events) {
+            
             $('#calendar').fullCalendar('destroy');
             $('#calendar').fullCalendar({
                 lang: 'es',
@@ -253,22 +176,17 @@
                 eventLimit: true,
                 eventColor: '#378006',
                 events: events,
-                eventClick: function (calEvent, jsEvent, view) {
-                    $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title);
-                    var $description = $('<div/>');
-                    $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
-                    if (calEvent.end != null) {
-                        $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
-                    }
-                    $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
-                    $('#ModalInscripcion #pDetails').empty().html($description);
-
+                eventClick: function (calEvent, jsEvent, view) {      
+                    loadSalon();
+                    $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title );
+                    $('#CursoProgramadoId').val(calEvent.description);  
                     $('#ModalInscripcion').modal();
                 }
             });
         }       
 
-        function loadEvento() {
+        function loadEvento() {      
+           
             $.ajax(
                 {
                     url: '/Empleado/GetEvento?sedeId=' + $('#sede').val(),
@@ -281,7 +199,8 @@
                             listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                         }
                         $select.html(listItems);
-                        loadCurso();
+                        loadCurso();    
+                        clearddl();
                     },
                     error: function () {
                         alert('Error');
@@ -302,6 +221,7 @@
                             listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                         }
                         $select.html(listItems);
+                        clearddl();
                     },
                     error: function () {
                         alert('Error');
@@ -309,17 +229,119 @@
                 })
         }
 
-        $(document).ready(function () {
-            
+        function loadSalon() {
+            $.ajax(
+                {
+                    url: '/Empleado/GetSalon?cursoProgramadoId=' + $('#curso').val(),
+                    type: 'GET',
+                    success: function (json) {
+                        var listItems = '';
+                        var $select = $('#salon');
+                        $select.find('option').remove();
+                        for (var i = 0; i < json.length; i++) {
+                            listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
+                        }
+                        $select.html(listItems);
+                        loadEmpleados();
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                })
+        }
 
+        function loadEmpleados() {
+            $.ajax(
+                {
+                    url: '/Empleado/EmpleadosInscritos?salonProgramadoId=' + $('#salon').val(),
+                    type: 'GET',
+                    success: function (html) {
+                        $('#GrillaEmpleado').html(html);
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                })
+        }
+
+        function clearddl(){
+            $('#curso').val('-1');
             LoadAgenda();
+        }
 
+        function autoComplete() {
+            console.log('ssss');
+            $.ajax(
+                {
+                    url: '/Empleado/GetEmpleado?valor=' + $('#dni').val() + '&&empresaId=' + @ViewBag.USUARIO.EmpresaId,
+                    type: 'GET',
+                    success: function (availableTags) {
+                        console.log('dddd');
+                        var lista = [];
+                        for (var i = 0; i < availableTags.length; i++) {
+                            lista.push(availableTags[i])
+                        }
+                        console.log(lista);
+                        $("#dni").autocomplete({
+                            source: lista
+                        });
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                })
+        }
+
+        $(document).ready(function () {           
+            LoadAgenda();
             $('#sede').on('change', loadEvento);
             $('#evento').on('change', loadCurso);
+            $('#salon').on('change', loadEmpleados);            
+            $('#curso').on('change', LoadAgenda);
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href") // activated tab                
+                if (target == '#tabInformacion') {
+                    $.ajax({
+                        url: '/Empleado/InformacionCurso?salonProgramadoId=' + $('#salon').val(),
+                        type: 'GET',
+                        success: function (html) {
+                            $('#InformacionCurso').html(html);
+                            console.log('html ', html);
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    })
+                }
+            });
 
-             
-
-          
+            //var availableTags = [
+            //    "ActionScript",
+            //    "AppleScript",
+            //    "Asp",
+            //    "BASIC",
+            //    "C",
+            //    "C++",
+            //    "Clojure",
+            //    "COBOL",
+            //    "ColdFusion",
+            //    "Erlang",
+            //    "Fortran",
+            //    "Groovy",
+            //    "Haskell",
+            //    "Java",
+            //    "JavaScript",
+            //    "Lisp",
+            //    "Perl",
+            //    "PHP",
+            //    "Python",
+            //    "Ruby",
+            //    "Scala",
+            //    "Scheme"
+            //];
+            //$("#dni").autocomplete({
+            //    source: availableTags
+            //});
         });
     </script>
 }

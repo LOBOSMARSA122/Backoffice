@@ -26,6 +26,7 @@ namespace BL
                                 select new UsuarioAutorizado {
                                     UsuarioId = a.UsuarioId,
                                     PersonaId = a.PersonaId,
+                                    EmpresaId = a.EmpresaId,
                                     NombreUsuario = a.NombreUsuario,
                                     NombreCompleto = b.Nombres + " " + b.ApellidoPaterno,
                                     FechaCaduca = a.FechaCaduca,
