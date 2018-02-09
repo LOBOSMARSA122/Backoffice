@@ -93,5 +93,30 @@ namespace ObackOffice.Controllers.Reportes
             ViewBag.Preguntas = API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId",args);
             return PartialView("_ReporteAcademicoDetallePartial");
         }
+
+        public JsonResult CrearExcel(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
+        {
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "SedeId", SedeId },
+                { "EventoId", EventoId },
+                { "CursoId", CursoId },
+                { "NombreEmpleado", NombreEmpleado },
+                { "DNIEmpleado", DNIEmpleado },
+                { "Index", Index },
+                { "Take", Take }
+            };
+            byte[] ms = API.PostDownloadStream("ReporteAcademico/ReporteAcademicoExcel", arg);
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;  filename=Probando.xlsx");
+            Response.BinaryWrite(ms);
+            Response.End();
+
+            return Json(Response);
+        }
     }
 }

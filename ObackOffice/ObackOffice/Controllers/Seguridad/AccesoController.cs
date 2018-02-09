@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using ObackOffice.Models;
 using ObackOffice.Utils;
-using Newtonsoft.Json;
 using ObackOffice.Models.Comun;
-using System.IO;
 
 namespace ObackOffice.Controllers.Seguridad
 {
@@ -182,7 +177,7 @@ namespace ObackOffice.Controllers.Seguridad
             Response.ClearHeaders();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.AddHeader("content-disposition", "attachment;  filename=Probando.xlsx");
-            Response.BinaryWrite(ms.ToArray());//.GetAsByteArray());
+            Response.BinaryWrite(ms);
             Response.End();
 
             return Json(Response);

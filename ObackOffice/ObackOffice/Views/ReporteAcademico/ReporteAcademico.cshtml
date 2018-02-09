@@ -66,7 +66,7 @@
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
 
         <div>
-            <button class="btn-success boton form-control">
+            <button class="btn-success boton form-control" onclick="ExportarAExcel()">
                 <i class="fa fa-search"></i> Exportar a Excel
             </button>
         </div>
@@ -179,19 +179,95 @@
     }
 
     function ShowDetail(PersonaId, cursoProgramadoId) {
+        if ($("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).hasClass("detalle-show")) {
+            $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).removeClass("detalle-show").hide();
+        } else {
+            if ($("#renderDetail-" + PersonaId + "-" + cursoProgramadoId + " #no-borrar-tabla").length == 0) {
+                data = {
+                    PersonaId: PersonaId,
+                    cursoProgramadoId: cursoProgramadoId
+                };
+
+                $.ajax({
+                    cache: false,
+                    dataType: 'html',
+                    method: 'POST',
+                    data: data,
+                    url: '/ReporteAcademico/DetalleEmpleado',
+                    success: function (html) {
+                        $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).html(html).show().addClass("detalle-show");
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).addClass("detalle-show").show();
+            }
+        }        
+    }
+
+    function ExportarAExcel() {
         data = {
-            PersonaId: PersonaId,
-            cursoProgramadoId: cursoProgramadoId
+            SedeId: $("#sede").val(),
+            EventoId: $("#evento").val(),
+            CursoId: $("#curso").val(),
+            NombreEmpleado: $("#Nombre").val(),
+            DNIEmpleado: $("#DNI").val(),
+            Index: 1,
+            Take: 0
         };
 
         $.ajax({
             cache: false,
-            dataType: 'html',
             method: 'POST',
             data: data,
-            url: '/ReporteAcademico/DetalleEmpleado',
-            success: function (html) {
-                $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).html(html).show();
+            url: '/ReporteAcademico/CrearExcel',
+            success: function (response) {
+                var base64 = JSON.parse(response);
+                var binaryString = window.atob(base64._buffer);
+
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                    var ascii = binaryString.charCodeAt(i);
+                    bytes[i] = ascii;
+                }
+                var d = new Date();
+                var fileName = "Reporte Academico " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
+                var blob = new Blob([bytes], { type: 'application/vnd.ms-excel' });
+
+                if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
+                {
+
+                    window.navigator.msSaveOrOpenBlob(blob, fileName);
+
+                } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
+
+                    var url = window.URL.createObjectURL(blob);
+
+                    var anchorElem = document.createElement("a");
+                    anchorElem.style = "display: none";
+                    anchorElem.href = url;
+                    anchorElem.download = fileName;
+
+                    document.body.appendChild(anchorElem);
+                    anchorElem.click();
+
+                    document.body.removeChild(anchorElem);
+
+                    // On Edge, revokeObjectURL should be called only after
+                    // a.click() has completed, atleast on EdgeHTML 15.15048
+                    setTimeout(function () {
+                        window.URL.revokeObjectURL(url);
+                    }, 1000);
+
+                } else { // tested on chrome and Opera
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                }
             },
             error: function (error) {
                 console.log(error);
