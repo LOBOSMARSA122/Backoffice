@@ -4,8 +4,9 @@ using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace BL
 {
@@ -120,6 +121,306 @@ namespace BL
             catch (Exception e)
             {
                 return new List<EmpleadoTaller>();
+            }
+        }
+
+        public MemoryStream ReporteAcademicoExcel(BandejaReporteAcademico data)
+        {
+            try
+            {
+                bool templateDeleted = false;
+                int TituloPersonaIndex = 99;
+                int DatosPersonaIndex = 100;
+                int TituloDetalleIndex = 101;
+
+                FileStream TemplateFile = new FileStream(@"../../../Omeganet/Backoffice/ObackOfficeAPI/ObackOfficeAPI/Plantillas Excel/Plantilla Reporte Academico.xlsx", FileMode.Open, FileAccess.Read);
+
+                IWorkbook TemplateBook = new XSSFWorkbook(TemplateFile);
+                ISheet TemplateSheet = TemplateBook.GetSheet(TemplateBook.GetSheetName(0));
+
+                ICellStyle estiloDetalle0 = TemplateSheet.GetRow(102).GetCell(0).CellStyle;
+                ICellStyle estiloDetalle1 = TemplateSheet.GetRow(102).GetCell(1).CellStyle;
+                ICellStyle estiloDetalle2 = TemplateSheet.GetRow(102).GetCell(2).CellStyle;
+
+                ICellStyle estiloConColor = TemplateSheet.GetRow(102).GetCell(6).CellStyle;
+                ICellStyle estiloSinCoolor = TemplateSheet.GetRow(102).GetCell(5).CellStyle;
+
+                ParametroRepository pr = new ParametroRepository();
+                List<Dropdownlist> Preguntas = pr.GetParametroByGrupoId(105);
+                string Pregunta1 = "N/A";
+                string Pregunta2 = "N/A";
+                string Pregunta3 = "N/A";
+                foreach (var P in Preguntas)
+                {
+                    switch (P.Id)
+                    {
+                        case 1:
+                            {
+                                Pregunta1 = P.Value;
+                                break;
+                            }
+                        case 2:
+                            {
+                                Pregunta2 = P.Value;
+                                break;
+                            }
+                        case 3:
+                            {
+                                Pregunta3 = P.Value;
+                                break;
+                            }
+                    }
+                }
+
+
+                List<ReporteAcademicoList> Lista = BandejaReporteAcademico(data).Lista;
+
+                int index = 0;
+                
+                foreach (var Alumno in Lista)
+                {
+                    IRow TemplateRow = TemplateSheet.CopyRow(TituloPersonaIndex, index);
+                    TituloPersonaIndex = index;
+                    index++;
+
+                    TemplateRow = TemplateSheet.CopyRow(DatosPersonaIndex, index);
+                    DatosPersonaIndex = index;
+
+                    TemplateRow.GetCell(0).SetCellValue(Alumno.Nombre);
+                    TemplateRow.GetCell(1).SetCellValue(Alumno.TipoDocumento);
+                    TemplateRow.GetCell(2).SetCellValue(Alumno.NroDocumento);
+                    TemplateRow.GetCell(3).SetCellValue(Alumno.Sede);
+                    TemplateRow.GetCell(4).SetCellValue(Alumno.Evento);
+                    TemplateRow.GetCell(5).SetCellValue(Alumno.Curso);
+                    TemplateRow.GetCell(6).SetCellValue(Alumno.Nota.ToString());
+                    TemplateRow.GetCell(7).SetCellValue(Alumno.Condicion);
+                    TemplateRow.GetCell(8).SetCellValue(Alumno.InicioCurso);
+                    TemplateRow.GetCell(9).SetCellValue(Alumno.FinCurso);
+                    TemplateRow.GetCell(10).SetCellValue(Alumno.Observaciones);
+                    index++;
+
+                    TemplateRow = TemplateSheet.CopyRow(TituloDetalleIndex, index);
+                    TituloDetalleIndex = index;
+                    index++;
+
+                    int indexDetalle = 0;
+                    List<ReporteAcademicoListClase> ListaDetalle = DetalleEmpleado(Alumno.PersonaId, Alumno.CursoProgramadoId);
+                    if (ListaDetalle.Count == 0)
+                    {
+                        TemplateRow = TemplateSheet.CreateRow(index + indexDetalle);
+
+                        ICell cell = TemplateRow.CreateCell(0);
+                        cell.SetCellValue("No posee Detalle.");
+                        cell.CellStyle = estiloDetalle0;
+
+                        cell = TemplateRow.CreateCell(1);
+                        cell.CellStyle = estiloDetalle1;
+
+                        cell = TemplateRow.CreateCell(2);
+                        cell.CellStyle = estiloDetalle2;
+
+                        indexDetalle++;
+                    }
+                    else
+                    {
+                        foreach (ReporteAcademicoListClase Detalle in ListaDetalle)
+                        {
+                            TemplateRow = TemplateSheet.CreateRow(index + indexDetalle);
+
+                            ICell cell = TemplateRow.CreateCell(0);
+                            cell.SetCellValue(Detalle.FechaClase);
+                            cell.CellStyle = estiloDetalle0;
+
+                            cell = TemplateRow.CreateCell(1);
+                            cell.SetCellValue(Detalle.Salon);
+                            cell.CellStyle = estiloDetalle1;
+
+                            cell = TemplateRow.CreateCell(2);
+                            cell.SetCellValue(Detalle.Asistencia);
+                            cell.CellStyle = estiloDetalle2;
+
+                            indexDetalle++;
+                        }
+                    }
+
+
+                    string R1 = "0";
+                    string R2 = "0";
+                    string R3 = "0";
+
+                    List<EmpleadoTaller> DetalleTaller = TallerEmpleado(Alumno.PersonaId, Alumno.CursoProgramadoId);
+
+                    if (DetalleTaller.Count > 0)
+                    {
+                        foreach (EmpleadoTaller Taller in DetalleTaller)
+                        {
+                            switch (Taller.PreguntaId)
+                            {
+                                case 1:
+                                    {
+                                        R1 = Taller.Valor == null ? "0" : Taller.Valor.ToUpper();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        R2 = Taller.Valor == null ? "0" : Taller.Valor.ToUpper();
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        R3 = Taller.Valor == null ? "0" : Taller.Valor.ToUpper();
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+
+                    int indexTaller = 0;
+
+                    if(TemplateSheet.GetRow(index + indexTaller) == null)
+                    {
+                        TemplateRow = TemplateSheet.CreateRow(index + indexTaller);
+                    }
+                    else
+                    {
+                        TemplateRow = TemplateSheet.GetRow(index + indexTaller);
+                    }
+
+                    ICell cell2 = TemplateRow.CreateCell(5);
+                    cell2.SetCellValue(Pregunta1);
+                    cell2.CellStyle = estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(6);
+                    cell2.SetCellValue("A");
+                    cell2.CellStyle = R1 == "A" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(7);
+                    cell2.SetCellValue("B");
+                    cell2.CellStyle = R1 == "B" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(8);
+                    cell2.SetCellValue("C");
+                    cell2.CellStyle = R1 == "C" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(9);
+                    cell2.SetCellValue("D");
+                    cell2.CellStyle = R1 == "D" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(10);
+                    cell2.SetCellValue("E");
+                    cell2.CellStyle = R1 == "E" ? estiloConColor : estiloSinCoolor;
+
+                    indexTaller++;
+
+                    if (TemplateSheet.GetRow(index + indexTaller) == null)
+                    {
+                        TemplateRow = TemplateSheet.CreateRow(index + indexTaller);
+                    }
+                    else
+                    {
+                        TemplateRow = TemplateSheet.GetRow(index + indexTaller);
+                    }
+
+                    cell2 = TemplateRow.CreateCell(5);
+                    cell2.SetCellValue(Pregunta2);
+                    cell2.CellStyle = estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(6);
+                    cell2.SetCellValue("A");
+                    cell2.CellStyle = R2 == "A" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(7);
+                    cell2.SetCellValue("B");
+                    cell2.CellStyle = R2 == "B" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(8);
+                    cell2.SetCellValue("C");
+                    cell2.CellStyle = R2 == "C" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(9);
+                    cell2.SetCellValue("D");
+                    cell2.CellStyle = R2 == "D" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(10);
+                    cell2.SetCellValue("E");
+                    cell2.CellStyle = R2 == "E" ? estiloConColor : estiloSinCoolor;
+
+                    indexTaller++;
+
+                    if (TemplateSheet.GetRow(index + indexTaller) == null)
+                    {
+                        TemplateRow = TemplateSheet.CreateRow(index + indexTaller);
+                    }
+                    else
+                    {
+                        TemplateRow = TemplateSheet.GetRow(index + indexTaller);
+                    }
+
+                    cell2 = TemplateRow.CreateCell(5);
+                    cell2.SetCellValue(Pregunta3);
+                    cell2.CellStyle = estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(6);
+                    cell2.SetCellValue("A");
+                    cell2.CellStyle = R3 == "A" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(7);
+                    cell2.SetCellValue("B");
+                    cell2.CellStyle = R3 == "B" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(8);
+                    cell2.SetCellValue("C");
+                    cell2.CellStyle = R3 == "C" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(9);
+                    cell2.SetCellValue("D");
+                    cell2.CellStyle = R3 == "D" ? estiloConColor : estiloSinCoolor;
+
+                    cell2 = TemplateRow.CreateCell(10);
+                    cell2.SetCellValue("E");
+                    cell2.CellStyle = R3 == "E" ? estiloConColor : estiloSinCoolor;
+
+                    indexTaller++;
+
+                    index = index + (indexDetalle > indexTaller ? indexDetalle : indexTaller);
+
+                    if (!templateDeleted)
+                    {
+                        TemplateSheet.RemoveRow(TemplateSheet.GetRow(104));
+                        TemplateSheet.RemoveRow(TemplateSheet.GetRow(103));
+                        TemplateSheet.RemoveRow(TemplateSheet.GetRow(102));
+                        TemplateSheet.RemoveRow(TemplateSheet.GetRow(101));
+                        TemplateSheet.RemoveRow(TemplateSheet.GetRow(100));
+                        TemplateSheet.RemoveRow(TemplateSheet.GetRow(99));
+                        templateDeleted = true;
+                    }
+                }
+
+                TemplateSheet.AutoSizeColumn(0);
+                TemplateSheet.AutoSizeColumn(1);
+                TemplateSheet.AutoSizeColumn(2);
+                TemplateSheet.AutoSizeColumn(3);
+                TemplateSheet.AutoSizeColumn(4);
+                TemplateSheet.AutoSizeColumn(5);
+                TemplateSheet.AutoSizeColumn(6);
+                TemplateSheet.AutoSizeColumn(7);
+                TemplateSheet.AutoSizeColumn(8);
+                TemplateSheet.AutoSizeColumn(9);
+                TemplateSheet.AutoSizeColumn(10);
+
+                MemoryStream ms = new MemoryStream();
+                using (MemoryStream tempStream = new MemoryStream())
+                {
+                    TemplateBook.Write(tempStream);
+                    var byteArray = tempStream.ToArray();
+                    ms.Write(byteArray, 0, byteArray.Length);
+                }
+
+                return ms;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }

@@ -31,5 +31,13 @@ namespace ObackOfficeAPI.Controllers.Reportes
         {
             return Ok(rar.TallerEmpleado(PersonaId,cursoProgramadoId));
         }
+
+        [HttpPost]
+        public IHttpActionResult ReporteAcademicoExcel(BandejaReporteAcademico data)
+        {
+            System.IO.MemoryStream response = rar.ReporteAcademicoExcel(data);
+
+            return Ok(response);
+        }
     }
 }
