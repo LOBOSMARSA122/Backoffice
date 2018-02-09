@@ -20,8 +20,6 @@ namespace ObackOffice.Utils
             return Convert.ToBase64String(_encrypt);
         }
         #endregion
-
-
         public static List<Dropdownlist> LoadDropDownList(List<Dropdownlist> lista, string accion)
         {
             Dropdownlist oParametro = new Dropdownlist();
@@ -38,5 +36,6 @@ namespace ObackOffice.Utils
             lista.Insert(0, oParametro);
             return lista;
         }
+        
     }
 }

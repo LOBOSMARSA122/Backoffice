@@ -158,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Administracion\EventoController.cs" />
+    <Compile Include="Controllers\Comun\PersonaController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Registro\EmpleadoController.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Utils\ClientSession.cs" />
     <Compile Include="Utils\Constantes.cs" />
     <Compile Include="Utils\Enums.cs" />
+    <Compile Include="Utils\image.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -476,6 +478,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\static\images\" />
+    <Folder Include="Views\Persona\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

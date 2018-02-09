@@ -189,6 +189,7 @@
     <Compile Include="Controllers\Administracion\EventosController.cs" />
     <Compile Include="Controllers\Comun\EmpleadoController.cs" />
     <Compile Include="Controllers\Comun\ParametroController.cs" />
+    <Compile Include="Controllers\Comun\PersonaController.cs" />
     <Compile Include="Controllers\Perfiles\PerfilesController.cs" />
     <Compile Include="Controllers\Person\PersonController.cs" />
     <Compile Include="Controllers\Prueba\ExcelController.cs" />
