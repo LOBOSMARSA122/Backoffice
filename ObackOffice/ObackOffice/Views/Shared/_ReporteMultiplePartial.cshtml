@@ -1,0 +1,111 @@
+﻿@{
+    int Total = 0;
+    int Primer = 0;
+    int Ultimo = 0;
+    int MaximasAsistencias = 1;
+
+    if (ViewBag.REGISTROS != null)
+    {
+        Total = 0; // ViewBag.Usuarios.TotalRegistros;
+        Primer = 0; //((ViewBag.Usuarios.Index - 1) * ViewBag.Usuarios.Take) + 1;
+        Ultimo = 0; // Primer + (ViewBag.Usuarios.Lista.Count - 1);
+        MaximasAsistencias = ViewBag.REGISTROS.MaximasAsistencias;
+    }
+}
+
+    <div class="container-fluid" style="padding:0px;">
+        <div class="box box-default mt-2" id="acordion">
+            <div class="box-header with-border" id="heading1">
+                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarTabla('table-responsive')"><i class="icon-calendar"></i> Listado de Empleados </h3>
+            </div>
+        </div>
+    </div>
+    <div>
+        <span class="informacion">Mostrando @Primer de @Ultimo de un total de @Total entradas</span>
+    </div>
+    <div class="box box-warning mt-2">
+        <div class="table-responsive">
+            <table class="table table-hover" id="TablaAExportar">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" onclick="CheckAll(this)" /></th>
+                        <th>Alumno</th>
+                        <th>Tipo Documento</th>
+                        <th>Nro Documento</th>
+                        <th>Sede</th>
+                        <th>Evento</th>
+                        <th>Curso</th>
+                        @{
+                            for (int i = 1; i <= MaximasAsistencias; i++)
+                            {
+                                <th>A @i</th>
+                            }
+                        }
+                        <th>Nota</th>
+                        <th>Taller</th>
+                        <th>Condición</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (ViewBag.REGISTROS == null)
+                        {
+                            <tr><td colspan="7" class="text-center">Error al conectarse al servidor</td></tr>
+                        }
+                        else if (ViewBag.REGISTROS.Lista.Count == 0)
+                        {
+                            <tr><td colspan="7" class="text-center">No hay resultados</td></tr>
+                        }
+                        else
+                        {
+                            foreach (ObackOffice.Models.ReporteMultipleList item in ViewBag.REGISTROS.Lista)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" /></td>
+                                    <td>@item.Nombre</td>
+                                    <td>@item.TipoDocumento</td>
+                                    <td>@item.NroDocumento</td>
+                                    <td>@item.Sede</td>
+                                    <td>@item.Evento</td>
+                                    <td>@item.Curso</td>
+                                    @for (int i = 0; i < MaximasAsistencias; i++)
+                                    {
+                                        if (item.Asistencia.Count > i)
+                                        {
+                                            <td>@(item.Asistencia[i])</td>
+                                        }
+                                        else
+                                        {
+                                            <td>N/A</td>
+                                        }
+
+                                    }
+                                    <td>@item.Nota</td>
+                                    <td>@item.NotaTaller</td>
+                                    <td>@item.Condicion</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            <div class="paginacion-tabla d-flex justify-content-center">
+                <div>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true">Anterior</span>
+                        </li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">
+                                <span aria-hidden="true">Siguiente</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

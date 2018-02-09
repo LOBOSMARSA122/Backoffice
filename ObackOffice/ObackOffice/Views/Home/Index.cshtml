@@ -1,1 +1,215 @@
-﻿@ViewBag.RESPONSE
+﻿<style>
+    .button-inactive, .button-inactive:hover, .button-inactive:focus {
+        border-color: #d2d6de;
+        height: 38px;
+        background-color: #8f8f8f;
+        padding: 0.375rem 0.75rem;
+    }
+    .button-active, .button-active:hover,.button-active:focus {
+        border-bottom-color: #d2d6de;
+        height: 38px;
+        background-color: #efb44a;
+        padding: 0.375rem 0.75rem;
+    }
+</style>
+<div class="container-fluid">
+    <div class="box box-default mt-2" id="acordion">
+        <div class="box-header with-border" id="heading1">
+            <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-calendar"></i> Reporte Múltiple </h3>
+        </div>
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
+            <div class="row">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Sede</label>
+                        @if (ViewBag.SEDES != null)
+                        {
+                            <select name="sede" id="sede" class="form-control" onchange="ChangeSelect(this)">
+                                @foreach (var item in ViewBag.SEDES)
+                                {
+                                    <option value="@item.Id">@item.Value</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Evento</label>
+                        <select name="evento" id="evento" class="form-control" onchange="ChangeSelect(this)">
+                            <option value="-1">--Todos--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Curso</label>
+                        <select name="curso" id="curso" class="form-control">
+                            <option value="-1">--Todos--</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Nombre</label>
+                        <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre" />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">DNI</label>
+                        <input type="text" id="DNI" name="DNI" class="form-control" maxlength="150" placeholder="Ingrese DNI" />
+                    </div>
+                </div>
+                <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                    <div class="form-group">
+                        <label for=""></label>
+                        <button class="btn-info boton form-control" onclick="FiltrarUsuarios()">
+                            <i class="fa fa-search"></i> Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="RenderBandejaReporteMultiple">
+        @Html.Partial("_ReporteMultiplePartial")
+    </div>
+    <nav class="d-flex justify-content-end align-items-center flex-wrap">
+        <div>
+            <button class="button-inactive btn-info boton form-control" onclick="activateButton(this)">
+                <i class="fa fa-search"></i> No Hace Nada
+            </button>
+        </div>
+    </nav>
+</div>
+
+<script>
+    var alturaTabla;
+    function ColapsarFiltro(id) {
+        if ($("#" + id).height() == 0) {
+            $("#" + id).animate({ "height": "192px", "padding":"10px" }, 400);
+        } else {
+            $("#" + id).animate({ "height": "0px", "padding":"0px 10px" }, 400);
+        }
+    }
+
+    function ColapsarTabla(id) {
+        if ($("." + id).height() == 0) {
+            $("." + id).animate({ "height": alturaTabla +"px" }, 400);
+        } else {
+            alturaTabla = $("." + id).height();
+            $("." + id).animate({ "height": "0px" }, 400);
+        }
+    }
+
+    function ChangeSelect(combo) {
+        if ($(combo).val() == -1) {
+            switch ($(combo).attr("id")) {
+                case "sede": {
+                    $("#evento").val(-1);
+                    $("#curso").val(-1);
+                    break;
+                }
+                case "evento": {
+                    $("#curso").val(-1);
+                    break;
+                }
+            }
+        } else {
+            GetComboData($(combo).attr("id"),$(combo).val());
+        }
+    }
+
+    function GetComboData(nombre,valor) {
+        $.ajax({
+            cache: false,
+            dataType: 'json',
+            method: 'POST',
+            data: { combo: nombre ,valor:valor},
+            url: '/ReporteAcademico/GetComboData',
+            success: function (json) {
+                switch (nombre) {
+                    case "sede": {
+                        $("#evento").html("");
+                        if (json.length > 0) {
+                            for (var a = 0; a < json.length; a++) {
+                                $("#evento").append($('<option>', {
+                                    value: json[a].Id,
+                                    text: json[a].Value
+                                }));
+                            }
+                        } else {
+                            $("#evento").append($('<option>', {
+                                value: -1,
+                                text: "--Todos--"
+                            }));
+                        }
+                        $("#curso").val(-1);
+                        break;
+                    }
+                    case "evento": {
+                        $("#curso").html("");
+                        if (json.length > 0) {
+                            for (var a = 0; a < json.length; a++) {
+                                $("#curso").append($('<option>', {
+                                    value: json[a].Id,
+                                    text: json[a].Value
+                                }));
+                            }
+                        } else {
+                            $("#curso").append($('<option>', {
+                                value: -1,
+                                text: "--Todos--"
+                            }));
+                        }
+                        break;
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function FiltrarUsuarios() {
+        data = {
+            SedeId: $("#sede").val(),
+            EventoId: $("#evento").val(),
+            CursoId: $("#curso").val(),
+            NombreEmpleado: $("#Nombre").val(),
+            DNIEmpleado: $("#DNI").val(),
+            Index: 1,
+            Take: 10
+        };
+
+        $.ajax({
+            cache: false,
+            dataType: 'html',
+            method: 'POST',
+            data: data,
+            url: '/Home/FiltrarReporteMultiple',
+            success: function (html) {
+                $("#RenderBandejaReporteMultiple").html(html);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function CheckAll(master) {
+        $("#TablaAExportar tbody input").prop("checked", $(master).is(":checked"));
+    }
+
+    function activateButton(button) {
+        if ($(button).hasClass("button-active")) {
+            $(button).removeClass("button-active").addClass("button-inactive");
+        } else{
+            $(button).removeClass("button-inactive").addClass("button-active");
+        }
+    }
+</script>

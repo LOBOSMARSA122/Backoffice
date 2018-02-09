@@ -64,4 +64,29 @@ namespace BE.Comun
         public string Salon { get; set; }
         public string Asistencia { get; set; }
     }
+
+    public class BandejaReporteMultiple : Bandejas
+    {
+        public int SedeId { get; set; }
+        public int EventoId { get; set; }
+        public int CursoId { get; set; }
+        public string NombreEmpleado { get; set; }
+        public string DNIEmpleado { get; set; }
+        public int MaximasAsistencias { get; set; }
+        public List<ReporteMultipleList> Lista { get; set; }
+    }
+
+    public class ReporteMultipleList
+    {
+        public string Nombre { get; set; }
+        public string TipoDocumento { get; set; }
+        public string NroDocumento { get; set; }
+        public string Sede { get; set; }
+        public string Evento { get; set; }
+        public string Curso { get; set; }
+        public decimal Nota { get; set; }
+        public string NotaTaller { get; set; }
+        public string Condicion { get; set; }
+        public List<string> Asistencia { get; set; }
+    }
 }

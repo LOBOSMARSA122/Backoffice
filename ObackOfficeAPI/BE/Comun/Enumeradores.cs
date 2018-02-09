@@ -17,7 +17,8 @@ namespace BE.Comun
             PreguntasTaller = 105,
             Sedes = 106,
             Condición = 107,
-            Colores = 108
+            Colores = 108,
+            Asistencia = 109
         }
 
         public enum EsEliminado

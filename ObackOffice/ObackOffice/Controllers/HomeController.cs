@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ObackOffice.Models;
 using ObackOffice.Utils;
 using Newtonsoft.Json;
+using ObackOffice.Models.Comun;
 
 namespace ObackOffice.Controllers
 {
@@ -52,6 +53,35 @@ namespace ObackOffice.Controllers
         {
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             return View();
+        }
+
+        public ActionResult Index()
+        {
+            Api API = new Api();
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
+            };
+            ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+            return View();
+        }
+
+        public ActionResult FiltrarReporteMultiple(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "SedeId", SedeId },
+                { "EventoId", EventoId },
+                { "CursoId", CursoId },
+                { "NombreEmpleado", NombreEmpleado },
+                { "DNIEmpleado", DNIEmpleado },
+                { "Index", Index },
+                { "Take", Take }
+            };
+            ViewBag.REGISTROS = API.Post<BandejaReporteMultiple>("ReporteAcademico/BandejaReporteMultiple", args);
+            return PartialView("_ReporteMultiplePartial");
         }
     }
 }
