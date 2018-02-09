@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -10,6 +11,7 @@ namespace ObackOffice.Models.Acceso
         public int UsuarioId { get; set; }
         public int PersonaId { get; set; }
         public int EmpresaId { get; set; }
+        public byte[] foto { get; set; }
         public string NombreUsuario { get; set; }
         public string NombreCompleto { get; set; }
         public string Contrasenia { get; set; }

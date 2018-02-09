@@ -1,21 +1,28 @@
-﻿
+﻿@{
+    var imgSrc = "";
+    if (@ViewBag.INFORMACIONCURSO != null)
+    {
+        var base64 = Convert.ToBase64String(@ViewBag.INFORMACIONCURSO.FotoCapacitador);
+        imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+    }
+}
 <div class="container-fluid ">
     <div class="row contenedor-modal mt-2">
-        <div class="col-6">         
+        <div class="col-6">
             <div class="row datos-capacitador d-flex justify-content-around align-items-center">
                 <div class="col-auto">
                     <div class="foto">
-                        <img src="~/Content/img/persona1.jpg" />
+                        <img src="@imgSrc" />
                     </div>
                 </div>
                 <div class="col datos mt-2">
-                    <p><strong>Capacitador:</strong> @(ViewBag.INFORMACIONCURSO == null ? "": ViewBag.INFORMACIONCURSO.NombreCapacitador)</p>
+                    <p><strong>Capacitador:</strong> @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.NombreCapacitador)</p>
                     <p><strong>Especialidad:</strong>  @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.EspecialidadCapacitador)</p>
                 </div>
             </div>
             <div class="text-left titulo mt-2">
                 <strong>Experiencia Profesional</strong>
-            </div>            
+            </div>
             <div class="row mt-2">
                 <div class="col">
                     @{
@@ -33,7 +40,7 @@
                 <div class="col datos mt-2">
                     <p><strong>Cupos Disponibles:</strong>  @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.CuposDisponibles)</p>
                     <p><strong>Cupos Totales:</strong> @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.CuposTotales)</p>
-                    
+
                 </div>
             </div>
             <div class="text-left titulo mt-2">
@@ -41,7 +48,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col">
-                    @{ 
+                    @{
                         if (ViewBag.INFORMACIONCURSO != null)
                         {
                             int count = 1;
@@ -57,10 +64,10 @@
                     }
 
                     @*<p><strong>Clase 1:</strong> 12-Feb 09:00 / 13:00</p>
-                    <p><strong>Clase 2:</strong> 13-Feb 09:00 / 13:00</p>*@
+                        <p><strong>Clase 2:</strong> 13-Feb 09:00 / 13:00</p>*@
                 </div>
             </div>
-               
-            </div>
+
         </div>
+    </div>
 </div>

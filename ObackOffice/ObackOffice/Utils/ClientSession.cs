@@ -16,6 +16,7 @@ namespace ObackOffice.Utils
         public DateTime FechaCaduca { get; set; }
         public int RolId { get; set; }
         public string Rol { get; set; }
+        public byte[] foto { get; set; }
         public List<Autorizacion> Autorizacion { get; set; }
 
     }
