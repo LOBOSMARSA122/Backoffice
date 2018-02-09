@@ -19,7 +19,7 @@ namespace BL
             {
               
                 var query = (from a in ctx.Eventos
-                             where a.SedeId == sedeId
+                             where a.SedeId == sedeId & a.EsEliminado == 0
                              select new Dropdownlist
                              {
                                  Id = a.EventoId,

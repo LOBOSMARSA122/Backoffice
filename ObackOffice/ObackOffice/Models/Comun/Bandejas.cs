@@ -39,7 +39,7 @@ namespace ObackOffice.Models
         public string DNIEmpleado { get; set; }
         public List<ReporteAcademicoList> Lista { get; set; }
     }
-
+    
     public class ReporteAcademicoList
     {
         public int CursoProgramadoId { get; set; }
@@ -69,4 +69,30 @@ namespace ObackOffice.Models
         public string Pregunta { get; set; }
         public string Valor { get; set; }
     }
+
+    public class BandejaRegistroNotas : Bandejas
+    {
+        public DateTime? fechaInicio { get; set; }
+        public DateTime? fechaFin { get; set; }
+        public int capacitadorId { get; set; }
+        public int cursoId { get; set; }
+        public int activoId { get; set; }
+        public List<RegistroNotasList> Lista { get; set; }
+
+    }
+
+    public class RegistroNotasList
+    {
+        public int sedeId { get; set; }
+        public string sede { get; set; }
+        public int eventoId { get; set; }
+        public string evento { get; set; }
+        public int cursoId { get; set; }
+        public string curso { get; set; }
+        public int CapacitadorId { get; set; }
+        public string Capacitador { get; set; }
+        public int estadoId { get; set; }
+        public string estado { get; set; }
+    }
 }
+

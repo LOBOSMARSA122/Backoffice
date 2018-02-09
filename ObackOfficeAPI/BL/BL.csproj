@@ -62,7 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CapacitadorRepository.cs" />
     <Compile Include="CursoProgramadoRepository.cs" />
+    <Compile Include="CursoRepository.cs" />
     <Compile Include="EmpleadoCursoRepository.cs" />
     <Compile Include="EmpleadoRepository.cs" />
     <Compile Include="EmpresasRepositorio.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="PersonaRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistroNotasRepository.cs" />
     <Compile Include="ReporteAcademicoRepository.cs" />
     <Compile Include="UsuarioRepositorio.cs" />
   </ItemGroup>
