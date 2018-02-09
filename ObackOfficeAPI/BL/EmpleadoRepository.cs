@@ -58,5 +58,23 @@ namespace BL
                 throw;
             }
         }
+
+        public Empleado GetEmpleadoByDocumento(string nroDocumento)
+        {
+            try
+            {
+                var query = (from a in ctx.Empleados
+                             join b in ctx.Personas on a.PersonaId equals b.PersonaId
+                             where b.NroDocumento == nroDocumento
+                             select a).FirstOrDefault();
+
+                return query;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

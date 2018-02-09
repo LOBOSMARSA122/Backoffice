@@ -16,6 +16,6 @@ namespace ObackOffice.Models.Cliente
         public int? UsuGraba { get; set; }
         public DateTime? FechaGraba { get; set; }
         public int? UsuActualiza { get; set; }
-        public DateTime? FechaActualiza { get; set; }
+        public DateTime? FechaActualiza { get; set; }//comentatio
     }
 }

@@ -108,7 +108,6 @@ namespace ObackOffice.Controllers.Registro
             return PartialView("_InformacionCursoPartial");
         }
 
-
         public JsonResult GetEmpleado(string valor, string empresaId)
         {
             Api API = new Api();
@@ -119,6 +118,32 @@ namespace ObackOffice.Controllers.Registro
             };
             List<string> Eventos = API.Get<List<string>>("Empleado/GetEmpleados", args);
             return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult InscribirEmpleado(string empleado, string salonProgramadoId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                {"empleado",empleado },
+                {"salonProgramadoId", salonProgramadoId },
+                {"userId",  ((ClientSession)Session["AutBackoffice"]).UsuarioId.ToString() }
+            };
+            bool result = API.Get<bool>("CursoProgramado/InsertarEmpleadoCurso", args);
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+
+        public JsonResult EliminarInscripcion(string empleadoCursoId)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {           
+                {"empleadoCursoId", empleadoCursoId },
+                {"userId",  ((ClientSession)Session["AutBackoffice"]).UsuarioId.ToString() }
+            };
+            bool result = API.Get<bool>("CursoProgramado/EliminarEmpleadoCurso", args);
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
     }
