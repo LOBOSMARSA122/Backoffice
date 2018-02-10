@@ -7,6 +7,7 @@ using System.Linq;
 using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System.Web.Helpers;
 
 namespace BL
 {
@@ -458,6 +459,8 @@ namespace BL
                                    group new { a, b, c,d, e, f, g, i, j, k, l, m, o } by g.EmpleadoCursoId into grp
                                    select new ReporteMultipleList
                                    {
+                                       EmpleadoCursoId = grp.Key,
+                                       PersonaId = grp.FirstOrDefault().j.PersonaId,
                                        Nombre = grp.FirstOrDefault().j.Nombres + " " + grp.FirstOrDefault().j.ApellidoPaterno + " " + grp.FirstOrDefault().j.ApellidoMaterno,
                                        TipoDocumento = grp.FirstOrDefault().k.Valor1,
                                        NroDocumento = grp.FirstOrDefault().j.NroDocumento,
@@ -479,6 +482,125 @@ namespace BL
             {
                 return null;
             }
+        }
+
+        public string ChartAsistencia(List<ReporteMultipleList> Lista)
+        {
+            int AsistieronID = (int)Enumeradores.Asistencia.Asistio;
+            int FaltaronID = (int)Enumeradores.Asistencia.Falto;
+            int PorIniciarID = (int)Enumeradores.Asistencia.PorIniciar;
+
+
+            var listado = (from a in ctx.EmpleadoCursos
+                           join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
+                           join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
+                           join d in ctx.Cursos on c.CursoId equals d.CursoId
+                           join e in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals e.EmpleadoCursoId
+                           group new { a, b, c, d, e } by d.CursoId into grp
+                           select new
+                           {
+                               Curso = grp.FirstOrDefault().d.NombreCurso,
+                               Asistieron = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == AsistieronID).Count(),
+                               Faltaron = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == FaltaronID).Count(),
+                               PorIniciar = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == PorIniciarID).Count()
+                           }).ToList();
+
+            var Chart = new Chart(800, 600);
+            Chart.AddTitle("Asistencias Por Cursos");
+            Chart.AddSeries(name: "Asistieron",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.Asistieron).ToArray());
+
+            Chart.AddSeries(name: "Faltaron",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.Faltaron).ToArray());
+
+            Chart.AddSeries(name: "Por Iniciar",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.PorIniciar).ToArray());
+
+
+            Chart.AddLegend("Leyenda");
+
+            byte[] bytes = Chart.GetBytes();
+
+            string string64 = Convert.ToBase64String(bytes);
+
+
+            return string64;
+        }
+
+        public string ChartAprobados(List<ReporteMultipleList> Lista)
+        {
+            int AprobaronID = (int)Enumeradores.Condicion.Aprobado;
+            int DesaprobaronID = (int)Enumeradores.Condicion.Desaprobado;
+            int PorIniciarID = (int)Enumeradores.Condicion.PorIniciar;
+
+
+            var listado = (from a in ctx.EmpleadoCursos
+                           join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
+                           join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
+                           join d in ctx.Cursos on c.CursoId equals d.CursoId
+                           group new { a, b, c, d } by d.CursoId into grp
+                           select new
+                           {
+                               Curso = grp.FirstOrDefault().d.NombreCurso,
+                               Aprobaron = grp.Where( X => X.a.CondicionId == AprobaronID).Count(),
+                               Desaprobaron = grp.Where(X => X.a.CondicionId == DesaprobaronID).Count(),
+                               PorIniciar = grp.Where(X => X.a.CondicionId == PorIniciarID).Count()
+                           }).ToList();
+
+            var Chart = new Chart(800, 600);
+            Chart.AddTitle("Aprobados Por Cursos");
+            Chart.AddSeries(name: "Aprobaron",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.Aprobaron).ToArray());
+
+            Chart.AddSeries(name: "Desaprobaron",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.Desaprobaron).ToArray());
+
+            Chart.AddSeries(name: "Por Iniciar",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.PorIniciar).ToArray());
+
+            Chart.AddLegend("Leyenda");
+
+            byte[] bytes = Chart.GetBytes();
+
+            string string64 = Convert.ToBase64String(bytes);
+
+
+            return string64;
+        }
+
+        public string ChartPromedio(List<ReporteMultipleList> Lista)
+        {
+
+            var listado = (from a in ctx.EmpleadoCursos
+                           join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
+                           join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
+                           join d in ctx.Cursos on c.CursoId equals d.CursoId
+                           group new { a, b, c, d } by d.CursoId into grp
+                           select new
+                           {
+                               Curso = grp.FirstOrDefault().d.NombreCurso,
+                               Promedio = grp.Select(x => x.a.Nota).Sum() / (decimal)grp.Select(x => x.a.Nota).Count()
+                           }).ToList();
+
+            var Chart = new Chart(800, 600);
+            Chart.AddTitle("Promedio Por Cursos");
+            Chart.AddSeries(name: "Promedio",
+            xValue: listado.Select(x => x.Curso).ToArray(),
+            yValues: listado.Select(x => x.Promedio).ToArray());
+
+
+            byte[] bytes = Chart.GetBytes();
+
+            string string64 = Convert.ToBase64String(bytes);
+
+
+            return string64;
         }
     }
 }

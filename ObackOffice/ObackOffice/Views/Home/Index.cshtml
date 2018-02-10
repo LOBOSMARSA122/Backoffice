@@ -1,15 +1,18 @@
 ﻿<style>
-    .button-inactive, .button-inactive:hover, .button-inactive:focus {
+    .boton-chart {
         border-color: #d2d6de;
         height: 38px;
-        background-color: #8f8f8f;
         padding: 0.375rem 0.75rem;
+        color: white;
+        cursor: pointer;
+        outline:none;
+        margin:10px;
     }
-    .button-active, .button-active:hover,.button-active:focus {
-        border-bottom-color: #d2d6de;
-        height: 38px;
+    .button-inactive{
+        background-color: #8f8f8f;
+    }
+    .button-active{
         background-color: #efb44a;
-        padding: 0.375rem 0.75rem;
     }
 </style>
 <div class="container-fluid">
@@ -77,14 +80,30 @@
     <div id="RenderBandejaReporteMultiple">
         @Html.Partial("_ReporteMultiplePartial")
     </div>
-    <nav class="d-flex justify-content-end align-items-center flex-wrap">
+    <nav class="d-flex justify-content-center flex-wrap">
         <div>
-            <button class="button-inactive btn-info boton form-control" onclick="activateButton(this)">
-                <i class="fa fa-search"></i> No Hace Nada
+            <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Asistencia')">
+                <i class="fa fa-search"></i> Asistencia
+            </button>
+            <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Aprobados')">
+                <i class="fa fa-search"></i> Aprobados
+            </button>
+            <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Promedio')">
+                <i class="fa fa-search"></i> Promedios
             </button>
         </div>
     </nav>
+    <div id="container-Asistencia">
+        <img />
+    </div>
+    <div id="container-Aprobados">
+        <img />
+    </div>
+    <div id="container-Promedio">
+        <img />
+    </div>
 </div>
+
 
 <script>
     var alturaTabla;
@@ -205,11 +224,44 @@
         $("#TablaAExportar tbody input").prop("checked", $(master).is(":checked"));
     }
 
-    function activateButton(button) {
-        if ($(button).hasClass("button-active")) {
-            $(button).removeClass("button-active").addClass("button-inactive");
-        } else{
-            $(button).removeClass("button-inactive").addClass("button-active");
+    function activateChartButton(Button, Action) {
+        if ($(Button).hasClass("button-active")) {
+            $(Button).removeClass("button-active").addClass("button-inactive");
+            CloseChart(Action);
+        } else {
+            if ($("#TablaAExportar tbody input:checked").length > 0) {
+                $(Button).removeClass("button-inactive").addClass("button-active");
+                OpenChart(Action);
+            }
+            else{
+                alert("debe seleccionar al menos un registro");
+            }
         }
+    }
+
+    function OpenChart(Action) {
+        var stringArray = new Array();
+
+        for (i = 0; i < $("#TablaAExportar tbody input:checked").length; i++) {
+            stringArray[i] = $($("#TablaAExportar tbody input:checked")[i]).parent().parent().children("#data").html();
+        }
+
+        $.ajax({
+            cache: false,
+            dataType: 'json',
+            method: 'POST',
+            data: { Data: stringArray, Action: Action },
+            url: '/Home/Chart',
+            success: function (json) {
+                $("#container-" + Action + " img").attr("src", "data:img;base64," + json);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function CloseChart(Action) {
+        $("#container-" + Action + " img").removeAttr("src");
     }
 </script>

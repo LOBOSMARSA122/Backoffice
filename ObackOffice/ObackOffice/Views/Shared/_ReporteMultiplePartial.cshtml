@@ -61,6 +61,7 @@
                             foreach (ObackOffice.Models.ReporteMultipleList item in ViewBag.REGISTROS.Lista)
                             {
                                 <tr>
+                                    <td style="display:none" id="data">@item.EmpleadoCursoId-@item.PersonaId</td>
                                     <td><input type="checkbox" /></td>
                                     <td>@item.Nombre</td>
                                     <td>@item.TipoDocumento</td>

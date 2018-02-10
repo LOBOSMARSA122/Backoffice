@@ -7,6 +7,7 @@ using System.Net;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace ObackOfficeAPI.Controllers.Reportes
 {
@@ -48,6 +49,31 @@ namespace ObackOfficeAPI.Controllers.Reportes
         {
             BandejaReporteMultiple response = rar.BandejaReporteMultiple(data);
             return Ok(response);
+        }
+
+        [HttpPost]
+        public IHttpActionResult Chart(MultiDataModel data)
+        {
+            string Action = data.String1;
+            List<ReporteMultipleList> Lista = JsonConvert.DeserializeObject<List<ReporteMultipleList>>(data.String2);
+
+            switch (Action)
+            {
+                case "Asistencia":
+                    {
+                        return Ok(rar.ChartAsistencia(Lista));
+                    }
+                case "Aprobados":
+                    {
+                        return Ok(rar.ChartAprobados(Lista));
+                    }
+                case "Promedio":
+                    {
+                        return Ok(rar.ChartPromedio(Lista));
+                    }
+            }
+
+            return BadRequest("No se encontró la acción dentro del controlador.");
         }
     }
 }

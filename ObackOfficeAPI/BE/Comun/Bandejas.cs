@@ -78,6 +78,8 @@ namespace BE.Comun
 
     public class ReporteMultipleList
     {
+        public int EmpleadoCursoId { get; set; }
+        public int PersonaId { get; set; }
         public string Nombre { get; set; }
         public string TipoDocumento { get; set; }
         public string NroDocumento { get; set; }

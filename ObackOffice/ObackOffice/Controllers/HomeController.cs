@@ -49,10 +49,28 @@ namespace ObackOffice.Controllers
             return View("index");
         }
 
-        public ActionResult Chart()
+        public JsonResult Chart(string[] Data, string Action)
         {
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
-            return View();
+            Api API = new Api();
+            List<ReporteMultipleList> Listado = new List<ReporteMultipleList>();
+            
+            foreach(string D in Data)
+            {
+                Listado.Add(new ReporteMultipleList()
+                {
+                    EmpleadoCursoId = int.Parse(D.Split('-')[0]),
+                    PersonaId = int.Parse(D.Split('-')[1])
+                });
+            }
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", Action },
+                { "String2", JsonConvert.SerializeObject(Listado) }
+            };
+
+            string base64 = API.Post<string>("ReporteAcademico/Chart", args);
+
+            return Json(base64);
         }
 
         public ActionResult Index()
