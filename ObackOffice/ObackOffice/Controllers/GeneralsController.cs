@@ -61,6 +61,7 @@ namespace ObackOffice.Controllers
                     oclientSession.UsuarioId = ViewBag.USUARIO.UsuarioId;
                     oclientSession.PersonaId = ViewBag.USUARIO.PersonaId;
                     oclientSession.EmpresaId = ViewBag.USUARIO.EmpresaId;
+                    oclientSession.foto = ViewBag.USUARIO.foto;
                     oclientSession.NombreUsuario = ViewBag.USUARIO.NombreUsuario;
                     oclientSession.NombreCompleto = ViewBag.USUARIO.NombreCompleto;
                     oclientSession.FechaCaduca = ViewBag.USUARIO.FechaCaduca;

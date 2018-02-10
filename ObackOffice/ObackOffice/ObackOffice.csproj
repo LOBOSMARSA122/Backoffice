@@ -162,6 +162,7 @@
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Registro\EmpleadoController.cs" />
+    <Compile Include="Controllers\Registro\RegistroNotasController.cs" />
     <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
     <Compile Include="Controllers\Seguridad\AccesoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -475,6 +476,8 @@
     <Content Include="Views\Shared\_InformacionCursoPartial.cshtml" />
     <Content Include="Views\Shared\_ReporteAcademicoDetallePartial.cshtml" />
     <Content Include="Views\Shared\_ListaEmpleadosIsncritosPartial.cshtml" />
+    <Content Include="Views\RegistroNotas\BandejaRegistroNotas.cshtml" />
+    <Content Include="Views\Shared\_BandejaRegistroNotasPartial.cshtml" />
     <Content Include="Views\Shared\_ReporteMultiplePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

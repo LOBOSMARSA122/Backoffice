@@ -31,6 +31,7 @@ namespace BL
                                     NombreCompleto = b.Nombres + " " + b.ApellidoPaterno,
                                     FechaCaduca = a.FechaCaduca,
                                     RolId = a.RolId,
+                                    foto = b.Foto,
                                     Rol = c.Valor1
 
                              }).FirstOrDefault();

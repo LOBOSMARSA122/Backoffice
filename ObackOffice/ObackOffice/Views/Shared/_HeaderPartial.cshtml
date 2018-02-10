@@ -1,4 +1,8 @@
-﻿<header class="fixed-top">
+﻿@{
+    var base64 = Convert.ToBase64String(@ViewBag.USUARIO.foto);
+    var imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+}
+<header class="fixed-top">
     <div class="row align-items-center menu">
         <div class="col-auto align-self-stretch boton-menu ">
             <a href="#" class="bt-menu"><span class="icon-menu icono-menu"></span></a>
@@ -11,13 +15,13 @@
         </div>
         <div>
             <nav class="col ">
-                <a href="#" class="imagen"><img src="../Content/img/persona3.jpg" width="35" height="35" alt="" /></a>
+                <a href="#" class="imagen">  <img src="@imgSrc" width="35" height="35" /></a>
                 <a href="#" class="nombre-usuario dropdown-toggle" data-toggle="dropdown">(@ViewBag.USUARIO.Rol) @ViewBag.USUARIO.NombreCompleto</a>
                 <ul class="dropdown-menu">
-                    <li  class="user-header">
+                    <li class="user-header">
                         <div class="text-center">
                             <a href="@Url.Content("~/salir")" class="btn btn-danger">Salir</a>
-                        </div>                        
+                        </div>
                     </li>
                 </ul>
             </nav>

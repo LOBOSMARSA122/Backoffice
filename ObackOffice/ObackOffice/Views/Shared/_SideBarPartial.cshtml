@@ -1,22 +1,26 @@
-﻿<div id="sidebar-wrapper" class="barra-lateral">
+﻿@{
+    var base64 = Convert.ToBase64String(@ViewBag.USUARIO.foto);
+    var imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+}
+<div id="sidebar-wrapper" class="barra-lateral">
     <div class="datos-usuario d-flex justify-content-around align-items-center">
-        <img src="@Url.Content("~/Persona/getFoto?personaId=6")" />
+        <img src="@imgSrc" />
         <a href="#">(@ViewBag.USUARIO.Rol)  @ViewBag.USUARIO.NombreCompleto</a>
     </div>
     <nav class="menu d-flex d-sm-block">
-            <ul>
-                @foreach (var menu in ViewBag.USUARIO.Autorizacion)
-                {
-                    <li class="submenu">
-                        <a href="#"><i class="@menu.Icono"></i><span>@menu.Descripcion<span class="caret icon-down-dir"></span></span></a>
-                        <ul class="children">
-                            @foreach (var submenu in menu.SubMenus)
-                            {
-                                <li><a href="@Url.Content("~/")@submenu.Uri"><i class="@submenu.Icono"></i>@submenu.Descripcion</a></li>
-                            }
-                        </ul>
-                    </li>
-                }
-            </ul>
-        </nav>
+        <ul>
+            @foreach (var menu in ViewBag.USUARIO.Autorizacion)
+            {
+                <li class="submenu">
+                    <a href="#"><i class="@menu.Icono"></i><span>@menu.Descripcion<span class="caret icon-down-dir"></span></span></a>
+                    <ul class="children">
+                        @foreach (var submenu in menu.SubMenus)
+                        {
+                            <li><a href="@Url.Content("~/")@submenu.Uri"><i class="@submenu.Icono"></i>@submenu.Descripcion</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>
