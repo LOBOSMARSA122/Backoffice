@@ -1,14 +1,18 @@
 ﻿@{
+    int Take = 0;
     int Total = 0;
     int Primer = 0;
     int Ultimo = 0;
+    int Index = 0;
     int MaximasAsistencias = 1;
 
     if (ViewBag.REGISTROS != null)
     {
-        Total = 0; // ViewBag.Usuarios.TotalRegistros;
-        Primer = 0; //((ViewBag.Usuarios.Index - 1) * ViewBag.Usuarios.Take) + 1;
-        Ultimo = 0; // Primer + (ViewBag.Usuarios.Lista.Count - 1);
+        Take = ViewBag.REGISTROS.Take;
+        Index = ViewBag.REGISTROS.Index;
+        Total = ViewBag.REGISTROS.TotalRegistros;
+        Primer = ((Index - 1) * Take) + 1;
+        Ultimo = Primer + (ViewBag.REGISTROS.Lista.Count - 1);
         MaximasAsistencias = ViewBag.REGISTROS.MaximasAsistencias;
     }
 }
@@ -16,12 +20,21 @@
     <div class="container-fluid" style="padding:0px;">
         <div class="box box-default mt-2" id="acordion">
             <div class="box-header with-border" id="heading1">
-                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarTabla('table-responsive')"><i class="icon-calendar"></i> Listado de Empleados </h3>
+                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarTabla('table-responsive')"><i class="icon-list-numbered"></i> Listado de Empleados </h3>
             </div>
         </div>
     </div>
     <div>
         <span class="informacion">Mostrando @Primer de @Ultimo de un total de @Total entradas</span>
+        <div class="float-lg-right">
+            Total de registros: 
+            <select id="take">
+                <option value="10" @(Take == 10 ? "selected" : "")>10</option>
+                <option value="25" @(Take == 25 ? "selected" : "")>25</option>
+                <option value="50" @(Take == 50 ? "selected" : "")>50</option>
+                <option value="0" @(Take == 0 ? "selected" : "")>TODOS</option>
+            </select>
+        </div>
     </div>
     <div class="box box-warning mt-2">
         <div class="table-responsive">
@@ -50,11 +63,11 @@
                     @{
                         if (ViewBag.REGISTROS == null)
                         {
-                            <tr><td colspan="7" class="text-center">Error al conectarse al servidor</td></tr>
+                            <tr><td colspan="11" class="text-center">Error al conectarse al servidor</td></tr>
                         }
                         else if (ViewBag.REGISTROS.Lista.Count == 0)
                         {
-                            <tr><td colspan="7" class="text-center">No hay resultados</td></tr>
+                            <tr><td colspan="11" class="text-center">No hay resultados</td></tr>
                         }
                         else
                         {
@@ -93,18 +106,29 @@
             <div class="paginacion-tabla d-flex justify-content-center">
                 <div>
                     <ul class="pagination">
-                        <li class="page-item">
-                            <span class="page-link" aria-hidden="true">Anterior</span>
-                        </li>
-                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">
-                                <span aria-hidden="true">Siguiente</span>
-                            </a>
-                        </li>
+                        @{ 
+                            if(Index > 1)
+                            {
+                                <li class="page-item" onclick="FiltrarUsuarios(@(Index - 1))">
+                                    <span class="page-link" aria-hidden="true">Anterior</span>
+                                </li>
+                            }
+                            int pagina = 0;
+                            if(Take > 0)
+                            {
+                                for(int i = 0; i < Total; i = i + Take)
+                                {
+                                    pagina++;
+                                    <li @(pagina == Index ? "class=pagination-active" : "onclick=FiltrarUsuarios(" + pagina + ")")><span class="page-link" aria-hidden="true">@pagina</span></li>
+                                }
+                            }
+                            if(pagina > Index)
+                            {
+                                <li class="page-item" onclick="FiltrarUsuarios(@(Index + 1))">
+                                    <span class="page-link" aria-hidden="true">Siguiente</span>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

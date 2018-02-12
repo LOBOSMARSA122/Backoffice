@@ -61,19 +61,31 @@ namespace ObackOfficeAPI.Controllers.Reportes
             {
                 case "Asistencia":
                     {
-                        return Ok(rar.ChartAsistencia(Lista));
+                        return Ok(Convert.ToBase64String(rar.ChartAsistencia(Lista)));
                     }
                 case "Aprobados":
                     {
-                        return Ok(rar.ChartAprobados(Lista));
+                        return Ok(Convert.ToBase64String(rar.ChartAprobados(Lista)));
                     }
                 case "Promedio":
                     {
-                        return Ok(rar.ChartPromedio(Lista));
+                        return Ok(Convert.ToBase64String(rar.ChartPromedio(Lista)));
                     }
             }
 
             return BadRequest("No se encontró la acción dentro del controlador.");
+        }
+
+        [HttpPost]
+        public IHttpActionResult BandejaReporteMultipleExcel(MultiDataModel multi)
+        {
+            string fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/Plantilla Reporte Academico.xlsx");
+            FileStream TemplateFile = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
+            BandejaReporteMultiple data = JsonConvert.DeserializeObject<BandejaReporteMultiple>(multi.String1);
+
+            MemoryStream response = rar.BandejaReporteMultipleExcel(data, TemplateFile);
+
+            return Ok(response);
         }
     }
 }

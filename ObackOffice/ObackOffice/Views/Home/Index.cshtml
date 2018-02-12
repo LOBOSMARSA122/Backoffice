@@ -14,11 +14,19 @@
     .button-active{
         background-color: #efb44a;
     }
+
+    .pagination-active span{
+        color:#f39c12 !important;
+    }
+
+    #containers img,#containers div{
+        width:100%;
+    }
 </style>
 <div class="container-fluid">
     <div class="box box-default mt-2" id="acordion">
         <div class="box-header with-border" id="heading1">
-            <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-calendar"></i> Reporte Múltiple </h3>
+            <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-menu"></i> Reporte Múltiple </h3>
         </div>
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
             <div class="row">
@@ -69,7 +77,7 @@
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                     <div class="form-group">
                         <label for=""></label>
-                        <button class="btn-info boton form-control" onclick="FiltrarUsuarios()">
+                        <button class="btn-info boton form-control" onclick="FiltrarUsuarios(1)">
                             <i class="fa fa-search"></i> Filtrar
                         </button>
                     </div>
@@ -80,27 +88,37 @@
     <div id="RenderBandejaReporteMultiple">
         @Html.Partial("_ReporteMultiplePartial")
     </div>
-    <nav class="d-flex justify-content-center flex-wrap">
-        <div>
-            <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Asistencia')">
-                <i class="fa fa-search"></i> Asistencia
-            </button>
-            <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Aprobados')">
-                <i class="fa fa-search"></i> Aprobados
-            </button>
-            <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Promedio')">
-                <i class="fa fa-search"></i> Promedios
-            </button>
+    <div class="box box-default mt-2" id="acordion">
+        <div class="box-header with-border" id="heading1">
+            <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse2')"><i class="icon-chart-bar"></i> Charts </h3>
         </div>
-    </nav>
-    <div id="container-Asistencia">
-        <img />
+        <div id="collapse2" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
+            <div class="row">
+                <nav class="d-flex justify-content-center flex-wrap">
+                    <div>
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Asistencia')">
+                            <i class="fa fa-search"></i> Asistencia
+                        </button>
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Aprobados')">
+                            <i class="fa fa-search"></i> Aprobados
+                        </button>
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Promedio')">
+                            <i class="fa fa-search"></i> Promedios
+                        </button>
+                    </div>
+                </nav>
+            </div>
+            <div class="row" id="containers"></div>
+        </div>
     </div>
-    <div id="container-Aprobados">
-        <img />
-    </div>
-    <div id="container-Promedio">
-        <img />
+    <div>
+        <nav class="d-flex justify-content-end flex-wrap">
+            <div>
+                <button class="btn-success boton form-control" onclick="ExportarExcel()">
+                    <i class="fa fa-search"></i> Exportar a Excel
+                </button>
+            </div>
+        </nav>
     </div>
 </div>
 
@@ -108,11 +126,19 @@
 <script>
     var alturaTabla;
     function ColapsarFiltro(id) {
-        if ($("#" + id).height() == 0) {
-            $("#" + id).animate({ "height": "192px", "padding":"10px" }, 400);
-        } else {
-            $("#" + id).animate({ "height": "0px", "padding":"0px 10px" }, 400);
-        }
+        setTimeout(function () {
+            var height = 10;
+
+            for (i = 0; i < $("#" + id + " .row").length; i++) {
+                height = height + $($("#" + id + " .row")[i]).height();
+            }
+
+            if ($("#" + id).height() == 0) {
+                $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+            } else {
+                $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
+            }
+        }, 200);
     }
 
     function ColapsarTabla(id) {
@@ -194,15 +220,15 @@
         });
     }
 
-    function FiltrarUsuarios() {
+    function FiltrarUsuarios(index) {
         data = {
             SedeId: $("#sede").val(),
             EventoId: $("#evento").val(),
             CursoId: $("#curso").val(),
             NombreEmpleado: $("#Nombre").val(),
             DNIEmpleado: $("#DNI").val(),
-            Index: 1,
-            Take: 10
+            Index: index,
+            Take: $("#take").val()
         };
 
         $.ajax({
@@ -213,6 +239,7 @@
             url: '/Home/FiltrarReporteMultiple',
             success: function (html) {
                 $("#RenderBandejaReporteMultiple").html(html);
+                $("#containers").html("");
             },
             error: function (error) {
                 console.log(error);
@@ -253,7 +280,19 @@
             data: { Data: stringArray, Action: Action },
             url: '/Home/Chart',
             success: function (json) {
+                var div = "<div class=\"col-12 col-sm-6 col-md-4 col-lg-3\" id=\"container-" + Action + "\"><img/></div>";
+                $("#collapse2 #containers").append(div);
                 $("#container-" + Action + " img").attr("src", "data:img;base64," + json);
+
+                setTimeout(function () {
+                    var height = 10;
+
+                    for (i = 0; i < $("#collapse2 .row").length; i++) {
+                        height = height + $($("#collapse2 .row")[i]).height();
+                    }
+
+                    $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
+                }, 200);
             },
             error: function (error) {
                 console.log(error);
@@ -262,6 +301,105 @@
     }
 
     function CloseChart(Action) {
-        $("#container-" + Action + " img").removeAttr("src");
+        $("#container-" + Action).remove();
+
+        setTimeout(function () {
+            var height = 10;
+
+            for (i = 0; i < $("#collapse2 .row").length; i++) {
+                height = height + $($("#collapse2 .row")[i]).height();
+            }
+
+            $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
+        }, 200);
+    }
+
+    function ExportarExcel() {
+        if ($("#TablaAExportar tbody input:checked").length > 0) {
+
+            var stringArray = new Array();
+
+            for (i = 0; i < $("#TablaAExportar tbody input:checked").length; i++) {
+                stringArray[i] = $($("#TablaAExportar tbody input:checked")[i]).parent().parent().children("#data").html();
+            }
+
+            var index = $(".pagination .pagination-active span").html() == undefined ? "0" : $(".pagination .pagination-active span").html();
+
+            var charts = new Array();
+            
+            for (i = 0; i < $("#collapse2 .button-active").length; i++) {
+                charts.push($($("#collapse2 .button-active")[i]).html().split("</i>")[1].trim());
+            }
+
+            data = {
+                SedeId: $("#sede").val(),
+                EventoId: $("#evento").val(),
+                CursoId: $("#curso").val(),
+                NombreEmpleado: $("#Nombre").val(),
+                DNIEmpleado: $("#DNI").val(),
+                Lista: stringArray,
+                charts: charts,
+                Index: index,
+                Take: $("#take").val()
+            };
+
+            $.ajax({
+                cache: false,
+                method: 'POST',
+                data: data,
+                url: '/Home/CrearExcel',
+                success: function (response) {
+                    var base64 = JSON.parse(response);
+                    var binaryString = window.atob(base64._buffer);
+
+                    var binaryLen = binaryString.length;
+                    var bytes = new Uint8Array(binaryLen);
+                    for (var i = 0; i < binaryLen; i++) {
+                        var ascii = binaryString.charCodeAt(i);
+                        bytes[i] = ascii;
+                    }
+                    var d = new Date();
+                    var fileName = "Reporte Multiple " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
+                    var blob = new Blob([bytes], { type: 'application/vnd.ms-excel' });
+
+                    if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
+                    {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+
+                    } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
+
+                        var url = window.URL.createObjectURL(blob);
+
+                        var anchorElem = document.createElement("a");
+                        anchorElem.style = "display: none";
+                        anchorElem.href = url;
+                        anchorElem.download = fileName;
+
+                        document.body.appendChild(anchorElem);
+                        anchorElem.click();
+
+                        document.body.removeChild(anchorElem);
+
+                        // On Edge, revokeObjectURL should be called only after
+                        // a.click() has completed, atleast on EdgeHTML 15.15048
+                        setTimeout(function () {
+                            window.URL.revokeObjectURL(url);
+                        }, 1000);
+
+                    } else { // tested on chrome and Opera
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = fileName;
+                        link.click();
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        } else {
+            alert("debe seleccionar al menos un registro");
+        }
     }
 </script>

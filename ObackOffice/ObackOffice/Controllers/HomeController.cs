@@ -101,5 +101,49 @@ namespace ObackOffice.Controllers
             ViewBag.REGISTROS = API.Post<BandejaReporteMultiple>("ReporteAcademico/BandejaReporteMultiple", args);
             return PartialView("_ReporteMultiplePartial");
         }
+
+        public JsonResult CrearExcel(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Lista, string[] Charts, int Index, int Take)
+        {
+            Api API = new Api();
+            
+            List<ReporteMultipleList> List = new List<ReporteMultipleList>();
+
+            foreach(string L in Lista)
+            {
+                List.Add(new ReporteMultipleList()
+                {
+                    EmpleadoCursoId = int.Parse(L.Split('-')[0]),
+                    PersonaId = int.Parse(L.Split('-')[1])
+                });
+            }
+            BandejaReporteMultiple data = new BandejaReporteMultiple()
+            {
+                Index = Index,
+                Take = Take,
+                Charts = Charts,
+                Lista = List,
+                SedeId = SedeId,
+                EventoId = EventoId,
+                CursoId = CursoId,
+                NombreEmpleado = NombreEmpleado,
+                DNIEmpleado = DNIEmpleado
+            };
+
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", JsonConvert.SerializeObject(data) }
+            };
+
+            byte[] ms = API.PostDownloadStream("ReporteAcademico/BandejaReporteMultipleExcel", args);
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;  filename=Probando.xlsx");
+            Response.BinaryWrite(ms);
+            Response.End();
+
+            return Json(Response);
+        }
     }
 }

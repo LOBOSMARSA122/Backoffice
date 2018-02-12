@@ -73,6 +73,7 @@ namespace BE.Comun
         public string NombreEmpleado { get; set; }
         public string DNIEmpleado { get; set; }
         public int MaximasAsistencias { get; set; }
+        public string[] Charts { get; set; }
         public List<ReporteMultipleList> Lista { get; set; }
     }
 
