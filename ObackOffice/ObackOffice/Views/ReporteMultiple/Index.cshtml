@@ -22,6 +22,12 @@
     #containers img,#containers div{
         width:100%;
     }
+
+    .headerOnTop {
+        text-align: center;
+        border-left: 2px solid #dee2e6;
+        border-right: 2px solid #dee2e6;
+    }
 </style>
 <div class="container-fluid">
     <div class="box box-default mt-2" id="acordion">
@@ -102,7 +108,7 @@
                         <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Aprobados')">
                             <i class="fa fa-search"></i> Aprobados
                         </button>
-                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Promedio')">
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Promedios')">
                             <i class="fa fa-search"></i> Promedios
                         </button>
                     </div>
@@ -236,7 +242,7 @@
             dataType: 'html',
             method: 'POST',
             data: data,
-            url: '/Home/FiltrarReporteMultiple',
+            url: '/ReporteMultiple/FiltrarReporteMultiple',
             success: function (html) {
                 $("#RenderBandejaReporteMultiple").html(html);
                 $("#containers").html("");
@@ -278,7 +284,7 @@
             dataType: 'json',
             method: 'POST',
             data: { Data: stringArray, Action: Action },
-            url: '/Home/Chart',
+            url: '/ReporteMultiple/Chart',
             success: function (json) {
                 var div = "<div class=\"col-12 col-sm-6 col-md-4 col-lg-3\" id=\"container-" + Action + "\"><img/></div>";
                 $("#collapse2 #containers").append(div);
@@ -347,7 +353,7 @@
                 cache: false,
                 method: 'POST',
                 data: data,
-                url: '/Home/CrearExcel',
+                url: '/ReporteMultiple/CrearExcel',
                 success: function (response) {
                     var base64 = JSON.parse(response);
                     var binaryString = window.atob(base64._buffer);

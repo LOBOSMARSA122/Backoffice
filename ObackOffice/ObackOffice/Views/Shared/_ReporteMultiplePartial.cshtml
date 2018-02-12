@@ -13,7 +13,11 @@
         Total = ViewBag.REGISTROS.TotalRegistros;
         Primer = ((Index - 1) * Take) + 1;
         Ultimo = Primer + (ViewBag.REGISTROS.Lista.Count - 1);
-        MaximasAsistencias = ViewBag.REGISTROS.MaximasAsistencias;
+        MaximasAsistencias = ViewBag.REGISTROS.MaximasAsistencias == 0 ? 1 : ViewBag.REGISTROS.MaximasAsistencias;
+    }
+    else
+    {
+        Take = 10;
     }
 }
 
@@ -41,6 +45,10 @@
             <table class="table table-hover" id="TablaAExportar">
                 <thead>
                     <tr>
+                        <th colspan="7"></th>
+                        <th class="headerOnTop" colspan="@MaximasAsistencias">Asistencias</th>
+                    </tr>
+                    <tr>
                         <th><input type="checkbox" onclick="CheckAll(this)" /></th>
                         <th>Alumno</th>
                         <th>Tipo Documento</th>
@@ -51,7 +59,7 @@
                         @{
                             for (int i = 1; i <= MaximasAsistencias; i++)
                             {
-                                <th>A @i</th>
+                                <th class="headerOnTop">A @i</th>
                             }
                         }
                         <th>Nota</th>

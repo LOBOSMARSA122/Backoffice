@@ -164,6 +164,7 @@
     <Compile Include="Controllers\Registro\EmpleadoController.cs" />
     <Compile Include="Controllers\Registro\RegistroNotasController.cs" />
     <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteMultipleController.cs" />
     <Compile Include="Controllers\Seguridad\AccesoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -446,7 +447,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\ReporteMultiple\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
