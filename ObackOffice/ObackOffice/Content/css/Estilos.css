@@ -7,6 +7,7 @@ body {
 /*LOGIN*/
 .login-page {
     background: url('../img/fondo_login.jpg')no-repeat fixed center;
+    /*border:1px solid blue;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -529,114 +530,6 @@ table tbody tr td {
     opacity: 1;
 }
 
-/*MEDIA QUERYS*/
-@media only screen and (max-width: 640px) and (orientation: landscape) {
-    .login-page {
-        background: url('../img/login-mobile_ho.jpg')no-repeat fixed center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 470px;
-        width: 100%;
-    }
-
-    .absolute-center {
-        margin-top: 15px;
-    }
-
-    .formulario-login > div {
-        line-height: 1.0;
-    }
-
-    .olvidar-ocultar {
-        display: none;
-    }
-
-    .cuenta-ocultar {
-        display: none;
-    }
-
-    /*body{
-        border:1px solid red;
-    }*/
-}
-
-@media only screen and (max-width: 450px) and (orientation: portrait) {
-    .login-page .mirar-div > div {
-        /*border:1px solid red;*/
-    }
-
-    .login-page .absolute-center.is-responsive {
-        min-width: 360px;
-        /*max-width: 600px;*/
-        /*background: #808080;*/
-    }
-
-    .login-page {
-        background: url('../img/login-mobile_ve.jpg')no-repeat fixed center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 100%;
-        width: 100%;
-        /*border:1px solid blue;*/
-    }
-
-
-    .absolute-center {
-        margin-top: 20px;
-    }
-
-    .formulario-login > div {
-        line-height: 1.1;
-    }
-
-    body {
-        width:100vh;
-    }
-
-    .table-responsive {
-        overflow: auto;
-    }
-
-        .table-responsive > .table tr th,
-        .table-responsive > .table tr td {
-            white-space: normal !important;
-        }
-
-}
-
-@media screen and (max-width:800px) {
-       
-.barra-lateral {
-    top: 85px;
-    width: 50%;
-    margin:auto;
-    position: absolute;
-}
-  
-.barra-lateral .menu a:hover {
-    background: #1176b6;
-    text-decoration: none;
-}
-
-.barra-lateral nav ul {
-    width: 100%;
-}
-
-.barra-lateral .menu ul li:hover .children {
-    display: none;
-}
-
-.barra-lateral .menu ul li {
-    display: block;
-}
-
-}
-
-
 /*MODAL CALENDAR*/
 .contenedor-modal {
     padding: 0;
@@ -679,23 +572,44 @@ table tbody tr td {
 
 
 
+/*MEDIA QUERYS*/
 
+@media (max-width: 480px) {
 
+    .login-page {
+        background: url('../img/login-mobile_ve.jpg');
+    }
+          
+    .absolute-center.is-responsive {     
+        min-width: 350px;      
+    }   
 
+}
 
-
-
-
-
-    /*BORDES Y OTROS DE PRUEBA*/
-    .mirar-div {
-        /*border: 1px solid red;*/
-        /*height: 85px;*/
+@media only screen and (max-width: 640px) and (orientation: landscape) {
+    .login-page {
+        background: url('../img/login-mobile_ho.jpg')no-repeat fixed center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 470px;
+        width: 100%;
     }
 
-        .mirar-div > div {
-            /*border: 1px solid red;*/
+    /*.absolute-center {
+            margin-top: 15px;
         }
 
+        .formulario-login > div {
+            line-height: 1.0;
+        }
 
+        .olvidar-ocultar {
+            display: none;
+        }
 
+        .cuenta-ocultar {
+            display: none;
+        }*/
+}
