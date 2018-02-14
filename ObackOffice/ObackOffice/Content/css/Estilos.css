@@ -14,6 +14,7 @@ body {
     background-size: cover;
     height: 100%;
     width: 100%;
+    
 }
 
 .absolute-center {
@@ -26,15 +27,18 @@ body {
 }
 
 .absolute-center.is-responsive {
-    width: 50%;
+    width: 80%;
     height: 70%;
     min-width: 400px;
     max-width: 600px;
 }
 
+.tamanio-logo {
+    height: 200px;
+}
 
 .IniciarSesion {
-    font-size: 15px;
+    font-size: 18px;
     color: #fff;
     font-family: 'Roboto', sans-serif;
 }
@@ -42,7 +46,7 @@ body {
 .login-page form label {
     color: #EE9F00;
     font-family: 'Roboto', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .login-page form input[type=text],
@@ -57,7 +61,7 @@ body {
     .login-page form input[type=text]::-webkit-input-placeholder {
         color: #e5e5e5;
         font-family: 'Roboto', sans-serif;
-        font-size: 12px;
+        font-size: 15px;
         font-style: italic;
     }
 
@@ -119,7 +123,7 @@ header .boton-menu a .icono-menu {
 }
 
 header .logo img {
-    height: 70px;
+    height: 50px;
 }
 
 header .menu .imagen img {
@@ -133,14 +137,16 @@ header .menu .nombre-usuario {
 
 
 .dropdown-menu {
-    position: absolute;
     background: #3C3C3B;
-    background-color: rgba(60,60, 59, .5);
+    background-color: rgba(60,60, 59,0);
+
 }
 
 .dropdown-menu a{
     width:100px;
 }
+
+
 
 /*--SIDEBAR--*/
 #wrapper {
@@ -208,12 +214,16 @@ header .menu .nombre-usuario {
    
 }
 
+.barra-lateral .menu a span span{
+    float:right;
+}
+
 .barra-lateral .menu ul {
     list-style: none;
 }
 
 .barra-lateral .menu a:hover {
-    background: #35ae6b;
+    background: #5b5b59;
     text-decoration: none;
 }
 
@@ -311,6 +321,7 @@ body footer {
     flex-wrap:wrap;
     justify-content:center;
     align-items:center;
+    width:200px;
     /*border:1px solid red;*/
 }
 
@@ -518,9 +529,10 @@ table tbody tr td {
     margin-top:8px;
 }
 
-.btn-warning{
-    background:#ED9507;
-    color:#fff;
+.btn-warning {
+    background: #ED9507;
+    color: #fff;
+    max-width: 150px;
 }
 
 .form-control::-moz-placeholder,
@@ -582,8 +594,44 @@ table tbody tr td {
           
     .absolute-center.is-responsive {     
         min-width: 350px;      
-    }   
+    }
 
+    .absolute-center.is-responsive div img {
+        height: 100px;
+    }
+
+    .barra-lateral .datos-usuario img {
+        height: 50px;
+        border-radius: 100%;
+    }
+
+    #sidebar-wrapper {
+        margin-left: -330px;
+        left: 0px;
+        width: 250px;
+        background: #3C3C3B;
+        position: fixed;
+        height: 100%;
+        z-index: 1000;
+        transition: all .4s ease 0s;
+        overflow: scroll;
+        height: calc(100% - 80px);
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .barra-lateral .datos-usuario {
+        background: url(../img/fondo-datos-usuario.jpg);
+        height: 105px;
+    }
+
+    header .logo a img {
+        height: 35px;
+    }
+
+    .barra-lateral .menu ul{
+        width:100%;
+    }
 }
 
 @media only screen and (max-width: 640px) and (orientation: landscape) {
@@ -595,6 +643,43 @@ table tbody tr td {
         background-size: cover;
         height: 470px;
         width: 100%;
+    }
+
+    .absolute-center.is-responsive div img {
+        height: 100px;
+    }
+
+    .absolute-center.is-responsive {
+        min-width: 350px;
+    }
+
+    .barra-lateral .datos-usuario img {
+        height: 50px;
+        border-radius: 100%;
+    }
+
+    #sidebar-wrapper {
+        margin-left: -330px;
+        left: 0px;
+        width: 250px;
+        background: #3C3C3B;
+        position: fixed;
+        height: 100%;
+        z-index: 1000;
+        transition: all .4s ease 0s;
+        overflow: scroll;
+        height: calc(100% - 80px);
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .barra-lateral .datos-usuario {
+        background: url(../img/fondo-datos-usuario.jpg);
+        height: 105px;
+    }
+
+    header .logo img {
+        height: 50px;
     }
 
     /*.absolute-center {

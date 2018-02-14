@@ -1,5 +1,11 @@
 ﻿$(document).ready(main);
 
+function resize() {
+    if ($(window).width() < 480) {
+        $("#wrapper").removeClass("active");
+    }   
+}
+
 function main() {
 
     //Mostramos y ocultamos submenus
@@ -17,7 +23,8 @@ function main() {
         $(".subtable").toggleClass("mostrar-tabla");
     });
 
-
+    $(window).resize(resize);
+    resize();
 
 }
 

@@ -36,7 +36,7 @@
         </div>
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
             <div class="row">
-                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">Sede</label>
                         @if (ViewBag.SEDES != null)
@@ -50,7 +50,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">Evento</label>
                         <select name="evento" id="evento" class="form-control" onchange="ChangeSelect(this)">
@@ -58,7 +58,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">Curso</label>
                         <select name="curso" id="curso" class="form-control">
@@ -68,22 +68,22 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">Nombre</label>
                         <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">DNI</label>
                         <input type="text" id="DNI" name="DNI" class="form-control" maxlength="150" placeholder="Ingrese DNI" />
                     </div>
                 </div>
-                <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                <div class="col-6 col-sm-4 col-lg-2 col-xl-2">
                     <div class="form-group">
                         <label for=""></label>
-                        <button class="btn-info boton form-control" onclick="FiltrarUsuarios(1)">
+                        <button class="btn-warning boton form-control" onclick="FiltrarUsuarios(1)">
                             <i class="fa fa-search"></i> Filtrar
                         </button>
                     </div>

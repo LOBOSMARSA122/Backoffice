@@ -226,7 +226,6 @@
     <Content Include="Content\img\logoHeader.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logoHeader_.png" />
-    <Content Include="Content\img\logoLogin_.png" />
     <Content Include="Content\img\perfil.jpg" />
     <Content Include="Content\img\persona1.jpg" />
     <Content Include="Content\img\persona3.jpg" />
@@ -482,6 +481,7 @@
     <Content Include="Views\RegistroNotas\BandejaRegistroNotas.cshtml" />
     <Content Include="Views\Shared\_BandejaRegistroNotasPartial.cshtml" />
     <Content Include="Views\Shared\_ReporteMultiplePartial.cshtml" />
+    <Content Include="Views\Shared\_InformacionImportantePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

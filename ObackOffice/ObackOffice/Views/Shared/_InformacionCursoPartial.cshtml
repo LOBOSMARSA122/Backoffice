@@ -8,7 +8,7 @@
 }
 <div class="container-fluid ">
     <div class="row contenedor-modal mt-2">
-        <div class="col-6">
+        <div class="col-12 col-md-6">
             <div class="row datos-capacitador d-flex justify-content-around align-items-center">
                 <div class="col-auto">
                     <div class="foto">
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
             <div class="row datos-curso d-flex justify-content-around align-items-center">
                 <div class="col datos mt-2">
                     <p><strong>Cupos Disponibles:</strong>  @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.CuposDisponibles)</p>
@@ -54,7 +54,7 @@
                             int count = 1;
                             foreach (var item in ViewBag.INFORMACIONCURSO.ClasesProgramadas)
                             {
-                                var fecha = item.FechaInicioClase.ToString("dd. MM");
+                                var fecha = item.FechaInicioClase.ToString("dd. MMM");
                                 var HInicio = item.FechaInicioClase.ToString("HH:mm");
                                 var HFinal = item.FechafinClase.ToString("HH:mm");
                                 <p><strong>Clase @count: </strong> @fecha <strong>Horario: </strong> @HInicio - @HFinal </p>

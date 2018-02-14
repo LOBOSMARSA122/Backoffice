@@ -8,23 +8,26 @@
             <a href="#" class="bt-menu"><span class="icon-menu icono-menu"></span></a>
         </div>
 
-        <div class="col logo d-none d-md-block">
-            <a href="http://alphabusinessc.com/">
+        <div class="col logo">
+            <a href="@Url.Content("~/backoffice")">
                 <img src="~/Content/img/logoHeader.png" />
             </a>
         </div>
-        <div>
+        <div class="d-none d-lg-block">
             <nav class="col ">
                 <a href="#" class="imagen">  <img src="@imgSrc" width="35" height="35" /></a>
                 <a href="#" class="nombre-usuario dropdown-toggle" data-toggle="dropdown">(@ViewBag.USUARIO.Rol) @ViewBag.USUARIO.NombreCompleto</a>
                 <ul class="dropdown-menu">
-                    <li class="user-header">
+                    <li class="user-header " >
                         <div class="text-center">
                             <a href="@Url.Content("~/salir")" class="btn btn-danger">Salir</a>
                         </div>
                     </li>
                 </ul>
             </nav>
-        </div>
+        </div> 
+        @*<div class="d-md-none d-sm-block mr-2">
+            <a href="@Url.Content("~/salir")" style="color:white; font-weight:200; "><i class="icon-logout"></i></a>
+        </div>*@
     </div>
 </header>

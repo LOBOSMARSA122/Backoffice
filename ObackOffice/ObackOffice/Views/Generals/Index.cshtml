@@ -10,23 +10,24 @@
 
     <div class="acceso-rapido">
         <div class="boton">
-            <div class="boton-titulo"><a href="#">Registrar Asistencia</a></div>
+            <div class="boton-titulo"><a href="@Url.Content("~/Empleado/Agenda")">Registrar Empleado</a></div>
             <div class="boton-icono"><i class="icon-users"></i></div>            
         </div>
         <div class="boton">
-            <div class="boton-titulo"><a href="#">Programar Evento</a></div>
+            <div class="boton-titulo"><a href="@Url.Content("~/Evento/BandejaEvento")">Programar Evento</a></div>
             <div class="boton-icono"><i class="icon-calendar"></i></div>
         </div>
         <div class="boton">
-            <div class="boton-titulo"><a href="#">Horas Desarrolladas</a></div>
-            <div class="boton-icono"><i class="icon-clock"></i></div>
+            <div class="boton-titulo"><a href="@Url.Content("~/ReporteMultiple")">Reportes Estadísticos</a></div>
+            <div class="boton-icono"><i class="icon-chart-bar"></i></div>
         </div>
         <div class="boton">
-            <div class="boton-titulo"><a href="#">Historial de Notas</a></div>
+            <div class="boton-titulo"><a href="@Url.Content("~/ReporteAcademico")">Reporte Académico</a></div>
             <div class="boton-icono"><i class="icon-book-open"></i></div>
         </div>
     </div>
-    <div class="busqueda-empleado">
+
+    @*<div class="busqueda-empleado">
         <div class="row">
             <div class="col">
                 <form action="/" method="post" class="form-inline mb-3">        
@@ -96,5 +97,5 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>

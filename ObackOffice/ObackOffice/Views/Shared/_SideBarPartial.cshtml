@@ -5,7 +5,15 @@
 <div id="sidebar-wrapper" class="barra-lateral">
     <div class="datos-usuario d-flex justify-content-around align-items-center">
         <img src="@imgSrc" />
-        <a href="#">(@ViewBag.USUARIO.Rol)  @ViewBag.USUARIO.NombreCompleto</a>
+        @*<a href="#">(@ViewBag.USUARIO.Rol)  @ViewBag.USUARIO.NombreCompleto</a>*@
+        <a href="#" class="nombre-usuario dropdown-toggle" data-toggle="dropdown">(@ViewBag.USUARIO.Rol) @ViewBag.USUARIO.NombreCompleto</a>
+        <ul class="dropdown-menu">
+            <li class="user-header ">
+                <div class="text-center">
+                    <a href="@Url.Content("~/salir")" class="btn btn-danger">Salir</a>
+                </div>
+            </li>
+        </ul>
     </div>
     <nav class="menu d-flex d-sm-block">
         <ul>

@@ -74,7 +74,10 @@
                                         <a href="#tabRegistro" class="nav-link active" data-toggle="tab">Registros</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#tabInformacion" class="nav-link" data-toggle="tab">Información del Curso</a>
+                                        <a href="#tabInformacion" class="nav-link" data-toggle="tab">Información General</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#tabImportante" class="nav-link" data-toggle="tab">Importante</a>
                                     </li>
                                 </ul>
                             </div>
@@ -98,12 +101,12 @@
                                             </div>
 
                                         </div>
-                                            <div class="row form-group  d-flex justify-content-start">
-                                                <div class="col-lg-2">
-                                                    <button class="btn-warning boton form-control " onclick="Inscribir()">Inscribir</button>
-                                                </div>
+                                        <div class="row form-group  d-flex justify-content-start">
+                                            <div class="col-lg-2">
+                                                <button class="btn-warning boton form-control " onclick="Inscribir()">Inscribir</button>
                                             </div>
-                                        <div class="row " >
+                                        </div>
+                                        <div class="row ">
                                             <div class="col" id="GrillaEmpleado">
                                                 @Html.Partial("_ListaEmpleadosIsncritosPartial")
                                             </div>
@@ -111,10 +114,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane"  role="tabpanel" id="tabInformacion">
+                            <div class="tab-pane" role="tabpanel" id="tabInformacion">
                                 <div id="InformacionCurso">
                                     @Html.Partial("_InformacionCursoPartial")
-                                </div>                                
+                                </div>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="tabImportante">
+                                <div id="InformacionImportante">
+                                    @Html.Partial("_InformacionImportantePartial")
+                                </div>
                             </div>
                         </div>
                        
