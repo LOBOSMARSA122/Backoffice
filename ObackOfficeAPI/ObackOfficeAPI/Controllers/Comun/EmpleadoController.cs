@@ -19,5 +19,12 @@ namespace ObackOfficeAPI.Controllers.Comun
             List<string> result = er.GetEmpleadosString(valor, empresaId);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IHttpActionResult DatosEmppleado(string nroDocumento)
+        {
+            Empleado result = er.GetEmpleadoByDocumento(nroDocumento);
+            return Ok(result);
+        }
     }
 }

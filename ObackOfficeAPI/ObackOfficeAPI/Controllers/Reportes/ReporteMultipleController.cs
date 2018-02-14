@@ -86,6 +86,19 @@ namespace ObackOfficeAPI.Controllers.Reportes
             return Ok(response);
         }
 
-       
+        [HttpPost]
+        public IHttpActionResult DownloadFileValidacion()
+        {
+            string fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/Validacion.xlsx");     
+
+            byte[] binaryData;
+            FileStream inFile = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
+            binaryData = new Byte[inFile.Length];
+            inFile.Read(binaryData, 0, (int)inFile.Length);
+            MemoryStream response = new MemoryStream();
+            response.Write(binaryData, 0, (int)inFile.Length);
+
+            return Ok(response);
+        }
     }
 }

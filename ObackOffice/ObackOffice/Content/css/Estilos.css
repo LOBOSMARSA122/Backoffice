@@ -582,7 +582,23 @@ table tbody tr td {
 }
 
 
+.tabla-campo  td{
+    padding:15px;
+}
 
+.tabla-campo .grupo{
+    background:#000000;
+    color: #fff;
+}
+
+.tabla-campo .obs {
+width:100%;
+}
+
+textarea {
+    width: 500px;
+    height: 50px;
+}
 
 /*MEDIA QUERYS*/
 

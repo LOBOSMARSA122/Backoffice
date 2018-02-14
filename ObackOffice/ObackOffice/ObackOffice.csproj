@@ -162,6 +162,7 @@
     <Compile Include="Controllers\Comun\PersonaController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Registro\CampoController.cs" />
     <Compile Include="Controllers\Registro\EmpleadoController.cs" />
     <Compile Include="Controllers\Registro\RegistroNotasController.cs" />
     <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Models\Cliente\EmpleadoCurso.cs" />
     <Compile Include="Models\Cliente\EmpleadoTaller.cs" />
     <Compile Include="Models\Comun\Bandejas.cs" />
+    <Compile Include="Models\Comun\Empleado.cs" />
     <Compile Include="Models\Comun\Parametro.cs" />
     <Compile Include="Models\Comun\Persona.cs" />
     <Compile Include="Models\TreeView.cs" />
@@ -484,6 +486,7 @@
     <Content Include="Views\Shared\_ReporteMultiplePartial.cshtml" />
     <Content Include="Views\Shared\_InformacionImportantePartial.cshtml" />
     <Content Include="Views\ProgramacionCursos\Index.cshtml" />
+    <Content Include="Views\Campo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
