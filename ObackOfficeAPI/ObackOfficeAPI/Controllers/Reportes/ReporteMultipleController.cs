@@ -69,30 +69,23 @@ namespace ObackOfficeAPI.Controllers.Reportes
         }
 
 
-        [HttpGet]
-        public IHttpActionResult ArchivoDiploma()
+        [HttpPost]
+        public IHttpActionResult DownloadFile(data data)
         {
-            string fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/diploma.pdf");
+            string fullPath ="";
+            if (data.documento == "Diploma") fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/diploma.pdf");
+            else fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/examen.pdf");
+
             byte[] binaryData;
-            string base64String;
             FileStream inFile = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
             binaryData = new Byte[inFile.Length];
-            base64String = System.Convert.ToBase64String(binaryData, 0, binaryData.Length);
+            inFile.Read(binaryData, 0, (int)inFile.Length);
+            MemoryStream response = new MemoryStream();
+            response.Write(binaryData, 0, (int)inFile.Length);
             
-            return Ok(base64String);
+            return Ok(response);
         }
 
-        [HttpGet]
-        public IHttpActionResult ArchivoExamen()
-        {
-            string fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/examen.pdf");
-            byte[] binaryData;
-            string base64String;
-            FileStream inFile = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
-            binaryData = new Byte[inFile.Length];
-            base64String = System.Convert.ToBase64String(binaryData, 0, binaryData.Length);
-
-            return Ok(base64String);
-        }
+       
     }
 }

@@ -55,7 +55,7 @@ namespace ObackOffice.Controllers.Reportes
                         break;
                     }
             }
-            
+
             return Json(response);
         }
 
@@ -90,7 +90,7 @@ namespace ObackOffice.Controllers.Reportes
             {
                 { "grupoId", "105" }
             };
-            ViewBag.Preguntas = API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId",args);
+            ViewBag.Preguntas = API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args);
             return PartialView("_ReporteAcademicoDetallePartial");
         }
 
@@ -118,5 +118,27 @@ namespace ObackOffice.Controllers.Reportes
 
             return Json(Response);
         }
+
+        public JsonResult DownloadFile(string documento)
+        {
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "documento", documento },               
+            };
+
+            byte[] ms = API.PostDownloadStream("ReporteMultiple/DownloadFile", arg);
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("Content-Disposition","attachment; filename=FileName.pdf");
+            Response.BinaryWrite(ms);
+            Response.End();
+
+            return Json(Response);
+        }
+
+
     }
 }

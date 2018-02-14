@@ -43,17 +43,19 @@
                     <th>Fecha</th>
                     <th>Observación</th>
                     <th>Detalle</th>
+                    <th>Examen</th>
+                    <th>Diploma</th>
                 </tr>
             </thead>
             <tbody>
                 @{
                     if (ViewBag.REGISTROS == null)
                     {
-                        <tr><td colspan="7" class="text-center">Error al conectarse al servidor</td></tr>
+                        <tr><td colspan="13" class="text-center">Error al conectarse al servidor</td></tr>
                     }
                     else if (ViewBag.REGISTROS.Lista.Count == 0)
                     {
-                        <tr><td colspan="7" class="text-center">No hay resultados</td></tr>
+                        <tr><td colspan="13" class="text-center">No hay resultados</td></tr>
                     }
                     else
                     {
@@ -71,6 +73,8 @@
                             <td>@item.InicioCurso.ToString("dd-MMM-yyyy") - @item.FinCurso.ToString("dd-MMM-yyyy")</td>
                             <td>@item.Observaciones</td>
                             <td onclick="ShowDetail(@item.PersonaId,@item.CursoProgramadoId)"><i class="icon-eye"></i></td>
+                            <td onclick="DownloadFile('Examen')"><i class="icon-check"></i></td>
+                            <td onclick="DownloadFile('Diploma')"><i class="icon-graduation-cap"></i></td>
                         </tr>
                         <tr>
                             <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="11" style="display:none;" class="no-padding">

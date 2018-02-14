@@ -237,8 +237,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Plantillas Excel\Plantilla Reporte Academico.xlsx" />
-    <Content Include="Plantillas Excel\examen.pdf" />
     <Content Include="Plantillas Excel\diploma.pdf" />
+    <Content Include="Plantillas Excel\examen.pdf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

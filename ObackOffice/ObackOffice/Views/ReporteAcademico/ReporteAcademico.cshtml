@@ -274,4 +274,67 @@
             }
         });
     }
+
+    function DownloadFile(documento) {
+
+        data = {
+            documento: documento           
+        };
+
+        $.ajax({
+            cache: false,
+            method: 'POST',
+            data: data,
+            url: '/ReporteAcademico/DownloadFile',
+            success: function (response) {
+                var base64 = JSON.parse(response);
+                var binaryString = window.atob(base64._buffer);
+
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                    var ascii = binaryString.charCodeAt(i);
+                    bytes[i] = ascii;
+                }
+                var d = new Date();
+                var fileName = documento + ".pdf";
+                var blob = new Blob([bytes], { type: 'application/pdf' });
+
+                if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
+                {
+
+                    window.navigator.msSaveOrOpenBlob(blob, fileName);
+
+                } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
+
+                    var url = window.URL.createObjectURL(blob);
+
+                    var anchorElem = document.createElement("a");
+                    anchorElem.style = "display: none";
+                    anchorElem.href = url;
+                    anchorElem.download = fileName;
+
+                    document.body.appendChild(anchorElem);
+                    anchorElem.click();
+
+                    document.body.removeChild(anchorElem);
+
+                    // On Edge, revokeObjectURL should be called only after
+                    // a.click() has completed, atleast on EdgeHTML 15.15048
+                    setTimeout(function () {
+                        window.URL.revokeObjectURL(url);
+                    }, 1000);
+
+                } else { // tested on chrome and Opera
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
 </script>
