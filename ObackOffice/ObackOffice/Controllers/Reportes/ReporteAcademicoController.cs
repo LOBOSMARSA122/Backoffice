@@ -18,15 +18,8 @@ namespace ObackOffice.Controllers.Reportes
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
             };
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
-            args = new Dictionary<string, string>
-            {
-                { "Index", "1" },
-                { "Take", "10" },
-                { "SedeId", "-1" },
-                { "EventoId", "-1" },
-                { "CursoId", "-1" }
-            };
-            ViewBag.REGISTROS = API.Post<BandejaReporteAcademico>("ReporteAcademico/BandejaReporteAcademico", args);
+
+            ViewBag.REGISTROS = new BandejaReporteAcademico() { Lista = new List<ReporteAcademicoList>(), Take = 10};
             return View("ReporteAcademico");
         }
 
@@ -94,7 +87,7 @@ namespace ObackOffice.Controllers.Reportes
             return PartialView("_ReporteAcademicoDetallePartial");
         }
 
-        public JsonResult CrearExcel(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
+        public JsonResult CrearExcel(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado)
         {
             Api API = new Api();
             Dictionary<string, string> arg = new Dictionary<string, string>()
@@ -103,9 +96,7 @@ namespace ObackOffice.Controllers.Reportes
                 { "EventoId", EventoId },
                 { "CursoId", CursoId },
                 { "NombreEmpleado", NombreEmpleado },
-                { "DNIEmpleado", DNIEmpleado },
-                { "Index", Index },
-                { "Take", Take }
+                { "DNIEmpleado", DNIEmpleado }
             };
             byte[] ms = API.PostDownloadStream("ReporteAcademico/ReporteAcademicoExcel", arg);
 

@@ -63,7 +63,7 @@ namespace BL
                                        Asistencia = grp.GroupBy(x => x.d.EmpleadoAsistenciaId).Select(x => x.FirstOrDefault().o.Valor1).ToList()
                                    }).ToList();
 
-                int TotalRegistros = return_data.Count;
+                data.TotalRegistros = return_data.Count;
 
                 if (data.Take > 0)
                     return_data = return_data.Skip(skip).Take(data.Take).ToList();
@@ -73,7 +73,6 @@ namespace BL
 
                 data.Lista = return_data;
                 data.MaximasAsistencias = maximo.HasValue ? maximo.Value : 1;
-                data.TotalRegistros = TotalRegistros;
 
                 return data;
             }

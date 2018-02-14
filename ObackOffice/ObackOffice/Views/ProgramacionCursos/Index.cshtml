@@ -101,164 +101,156 @@
 </div>
 
 @section Scripts{
-<script>
-    $(document).ready(function () {
-        $('#calendar').fullCalendar();
-    });
+    <script>
+        $(document).ready(function () {
+            $('#calendar').fullCalendar();
+        });
 
 
-    function ColapsarFiltro(id) {
-        setTimeout(function () {
-            var height = 10;
+        function ColapsarFiltro(id) {
+            setTimeout(function () {
+                var height = 10;
 
-            for (i = 0; i < $("#" + id + " .row").length; i++) {
-                height = height + $($("#" + id + " .row")[i]).height();
-            }
-
-            if ($("#" + id).height() == 0) {
-                $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
-            } else {
-                $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
-            }
-        }, 200);
-    }
-
-    function ChangeSelect(combo) {
-        if ($(combo).val() == -1) {
-            switch ($(combo).attr("id")) {
-                case "sede": {
-                    $("#evento").val(-1);
-                    $("#curso").val(-1);
-                    break;
+                for (i = 0; i < $("#" + id + " .row").length; i++) {
+                    height = height + $($("#" + id + " .row")[i]).height();
                 }
-                case "evento": {
-                    $("#curso").val(-1);
-                    break;
+
+                if ($("#" + id).height() == 0) {
+                    $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+                } else {
+                    $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
                 }
-            }
-        } else {
-            GetComboData($(combo).attr("id"), $(combo).val());
+            }, 200);
         }
-    }
 
-    function GetComboData(nombre, valor) {
-        $.ajax({
-            cache: false,
-            dataType: 'json',
-            method: 'POST',
-            data: { combo: nombre, valor: valor },
-            url: '/ReporteAcademico/GetComboData',
-            success: function (json) {
-                switch (nombre) {
+        function ChangeSelect(combo) {
+            if ($(combo).val() == -1) {
+                switch ($(combo).attr("id")) {
                     case "sede": {
-                        $("#evento").html("");
-                        if (json.length > 0) {
-                            for (var a = 0; a < json.length; a++) {
-                                $("#evento").append($('<option>', {
-                                    value: json[a].Id,
-                                    text: json[a].Value
-                                }));
-                            }
-                        } else {
-                            $("#evento").append($('<option>', {
-                                value: -1,
-                                text: "--Todos--"
-                            }));
-                        }
+                        $("#evento").val(-1);
                         $("#curso").val(-1);
                         break;
                     }
                     case "evento": {
-                        $("#curso").html("");
-                        if (json.length > 0) {
-                            for (var a = 0; a < json.length; a++) {
-                                $("#curso").append($('<option>', {
-                                    value: json[a].Id,
-                                    text: json[a].Value
-                                }));
-                            }
-                        } else {
-                            $("#curso").append($('<option>', {
-                                value: -1,
-                                text: "--Todos--"
-                            }));
-                        }
+                        $("#curso").val(-1);
                         break;
                     }
                 }
-            },
-            error: function (error) {
-                console.log(error);
+            } else {
+                GetComboData($(combo).attr("id"), $(combo).val());
             }
-        });
-    }
+        }
 
-    function FiltrarCursos(index) {
-        var moment = $('#calendar').fullCalendar('getDate');
-
-        data = {
-            SedeId: $("#sede").val(),
-            EventoId: $("#evento").val(),
-            CursoId: $("#curso").val(),
-            year: moment.format().split("-")[0],
-            month: moment.format().split("-")[1]
-        };
-
-        $.ajax({
-            cache: false,
-            dataType: 'json',
-            method: 'POST',
-            data: data,
-            url: '/ProgramacionCursos/FiltrarCalendario',
-            success: function (json) {
-                var events = [];
-                $.each(json, function (i, v) {
-                    events.push({
-                        title: v.Curso,
-                        description: 'nada',
-                        start: moment(v.FechaInicio),
-                        end: v.End != null ? moment(v.FechaFin) : null,
-                        color: v.Color,
-                        allDay: true
-                    })
-                });
-                GenerateCalender(events);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function GenerateCalender(events) {
-        $('#calendar').fullCalendar('destroy');
-        $('#calendar').fullCalendar({
-            lang: 'es',
-            contentHeight: 600,
-            defaultDate: new Date(),
-            timeFormat: 'h(:mm)a',
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,basicWeek,basicDay,agenda'
-            },
-            eventLimit: true,
-            eventColor: '#378006',
-            events: events,
-            eventClick: function (calEvent, jsEvent, view) {
-                $('#myModal #eventTitle').text("Programación de: " + calEvent.title);
-                var $description = $('<div/>');
-                $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
-                if (calEvent.end != null) {
-                    $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+        function GetComboData(nombre, valor) {
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                method: 'POST',
+                data: { combo: nombre, valor: valor },
+                url: '/ReporteAcademico/GetComboData',
+                success: function (json) {
+                    switch (nombre) {
+                        case "sede": {
+                            $("#evento").html("");
+                            if (json.length > 0) {
+                                for (var a = 0; a < json.length; a++) {
+                                    $("#evento").append($('<option>', {
+                                        value: json[a].Id,
+                                        text: json[a].Value
+                                    }));
+                                }
+                            } else {
+                                $("#evento").append($('<option>', {
+                                    value: -1,
+                                    text: "--Todos--"
+                                }));
+                            }
+                            $("#curso").val(-1);
+                            break;
+                        }
+                        case "evento": {
+                            $("#curso").html("");
+                            if (json.length > 0) {
+                                for (var a = 0; a < json.length; a++) {
+                                    $("#curso").append($('<option>', {
+                                        value: json[a].Id,
+                                        text: json[a].Value
+                                    }));
+                                }
+                            } else {
+                                $("#curso").append($('<option>', {
+                                    value: -1,
+                                    text: "--Todos--"
+                                }));
+                            }
+                            break;
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
                 }
-                $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
-                $('#myModal #pDetails').empty().html($description);
+            });
+        }
 
-                $('#myModal').modal();
-            }
-        });
-    }
+        function FiltrarCursos(index) {
+            var Datemoment = $('#calendar').fullCalendar('getDate');
 
-</script>
+            data = {
+                SedeId: $("#sede").val(),
+                EventoId: $("#evento").val(),
+                CursoId: $("#curso").val(),
+                year: Datemoment.format().split("-")[0],
+                month: Datemoment.format().split("-")[1]
+            };
+
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                method: 'POST',
+                data: data,
+                url: '/ProgramacionCursos/FiltrarCalendario',
+                success: function (json) {
+                    var events = [];
+                    $.each(json, function (i, v) {
+                        events.push({
+                            id: 1,
+                            title: v.Curso,
+                            description: 'nada',
+                            start: moment(v.FechaInicio),
+                            end: moment(v.FechaFin),
+                            color: v.Color,
+                            allDay: true
+                        });
+                    });
+                    GenerateCalender(events);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function GenerateCalender(events) {
+            $('#calendar').fullCalendar('destroy');
+            $('#calendar').fullCalendar({
+                lang: 'es',
+                defaultDate: new Date(),
+                timeFormat: 'h(:mm)a',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay,agenda'
+                },
+                eventLimit: true,
+                events: events,
+                eventClick: function (calEvent, jsEvent, view) {
+                    console.log("calEvent", calEvent);
+                    console.log("jsevent", jsEvent);
+                    console.log("view", view);
+                }
+            });
+        }
+
+    </script>
 }

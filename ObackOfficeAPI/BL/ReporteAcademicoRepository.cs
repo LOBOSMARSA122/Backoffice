@@ -24,6 +24,7 @@ namespace BL
                 int ConsidionGroupId = (int)Enumeradores.GrupoParametros.Condición;
                 string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
                 string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+                int skip = (data.Index - 1) * data.Take;
 
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Eventos on a.EventoId equals b.EventoId
@@ -63,11 +64,14 @@ namespace BL
                                  Observaciones = grp.FirstOrDefault().g.Observacion
                              }).ToList();
 
-                BandejaReporteAcademico return_data = new BandejaReporteAcademico()
-                {
-                    Lista = query
-                };
-                return return_data;
+                data.TotalRegistros = query.Count;
+
+                if (data.Take > 0)
+                    query = query.Skip(skip).Take(data.Take).ToList();
+
+                data.Lista = query;
+
+                return data;
             }
             catch(Exception e)
             {

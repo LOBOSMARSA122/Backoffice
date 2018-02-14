@@ -36,7 +36,7 @@ namespace ObackOffice.Controllers.Reportes
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
             };
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
-            ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>()};
+            ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>(),Take = 10};
             return View();
         }
 

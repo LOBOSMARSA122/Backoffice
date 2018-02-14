@@ -33,11 +33,11 @@ namespace BL
                                        Curso = c.NombreCurso,
                                        FechaInicio = a.FechaInicio,
                                        FechaFin = a.FechaFin,
-                                       Color = d.Valor1
+                                       Color = d.Valor2
                                    }).ToList();
 
 
-                return null;
+                return return_data;
             }
             catch(Exception e)
             {

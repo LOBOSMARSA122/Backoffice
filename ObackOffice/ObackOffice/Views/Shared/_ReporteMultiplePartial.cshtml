@@ -14,6 +14,9 @@
         Primer = ((Index - 1) * Take) + 1;
         Ultimo = Primer + (ViewBag.REGISTROS.Lista.Count - 1);
         MaximasAsistencias = ViewBag.REGISTROS.MaximasAsistencias == 0 ? 1 : ViewBag.REGISTROS.MaximasAsistencias;
+
+        Primer = Primer < 0 ? 0 : Primer;
+        Ultimo = Ultimo < 0 ? 0 : Ultimo;
     }
     else
     {
@@ -29,7 +32,7 @@
         </div>
     </div>
     <div>
-        <span class="informacion">Mostrando @Primer de @Ultimo de un total de @Total entradas</span>
+        <span class="informacion">Mostrando desde N° @Primer hasta @Ultimo de un total de @Total entradas</span>
         <div class="float-lg-right">
             Total de registros: 
             <select id="take">
