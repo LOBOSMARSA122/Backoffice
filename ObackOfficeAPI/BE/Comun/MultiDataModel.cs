@@ -13,4 +13,9 @@ namespace BE.Comun
         public int Int1 { get; set; }
         public int Int2 { get; set; }
     }
+
+    public class data
+    {
+        public string documento { get; set; }
+    }
 }
