@@ -118,6 +118,7 @@ namespace BL
                                PorIniciar = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == PorIniciarID).Count()
                            }).ToList();
 
+
             var Chart = new Chart(800, 600, ChartTheme.Green);
             Chart.AddTitle("Asistencias Por Cursos");
             Chart.AddSeries(name: "Asistieron",
