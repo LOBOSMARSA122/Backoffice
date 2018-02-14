@@ -32,7 +32,6 @@ namespace BL
                                    join c in ctx.Cursos on a.CursoId equals c.CursoId
                                    join e in ctx.SalonProgramados on a.CursoProgramadoId equals e.CursoProgramadoId
                                    join g in ctx.EmpleadoCursos on e.SalonProgramadoId equals g.SalonProgramadoId
-                                   join f in ctx.SalonClases on e.SalonProgramadoId equals f.SalonProgramadoId
                                    join d in ctx.EmpleadoAsistencias on g.EmpleadoCursoId equals d.EmpleadoCursoId
                                    join i in ctx.Empleados on g.EmpleadoId equals i.EmpleadoId
                                    join j in ctx.Personas on i.PersonaId equals j.PersonaId
@@ -46,8 +45,7 @@ namespace BL
                                    (data.CursoId == -1 || data.CursoId == a.CursoId) &&
                                    (NombreEmpleado == null || (j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno).Contains(NombreEmpleado)) &&
                                    (DNIEmpleado == null || j.NroDocumento.Contains(DNIEmpleado)) &&
-                                   a.EsEliminado == NoEsEliminado &&
-                                   f.SalonProgramadoId == e.SalonProgramadoId
+                                   a.EsEliminado == NoEsEliminado
                                    group new { b, c, d, g, j, k, l, m, o } by g.EmpleadoCursoId into grp
                                    select new ReporteMultipleList
                                    {
@@ -85,10 +83,11 @@ namespace BL
             }
         }
 
-        public byte[] ChartAsistencia(List<ReporteMultipleList> Lista)
+        public byte[] ChartAsistencia(BandejaReporteMultiple data)
         {
-            var ListaCurso = Lista.Select(x => x.EmpleadoCursoId).ToArray();
-            var ListaPersona = Lista.Select(x => x.PersonaId).ToArray();
+            string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
+            string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+            int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
 
             int AsistieronID = (int)Enumeradores.Asistencia.Asistio;
             int FaltaronID = (int)Enumeradores.Asistencia.Falto;
@@ -101,8 +100,15 @@ namespace BL
                            join d in ctx.Cursos on c.CursoId equals d.CursoId
                            join e in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals e.EmpleadoCursoId
                            join f in ctx.Empleados on a.EmpleadoId equals f.EmpleadoId
-                           where ListaCurso.Contains(a.EmpleadoCursoId) &&
-                           ListaPersona.Contains(f.PersonaId)
+                           join g in ctx.Eventos on c.EventoId equals g.EventoId
+                           join h in ctx.Personas on f.PersonaId equals h.PersonaId
+                           where 
+                           (data.CursoId == -1 || d.CursoId == data.CursoId) &&
+                           (data.EventoId == -1 || c.EventoId == data.EventoId) &&
+                           (data.SedeId == -1 || g.SedeId == data.SedeId) &&
+                           (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado)) &&
+                           (DNIEmpleado == null || h.NroDocumento.Contains(DNIEmpleado)) &&
+                           a.EsEliminado == NoEsEliminado
                            group new { d, e } by d.CursoId into grp
                            select new
                            {
@@ -135,21 +141,31 @@ namespace BL
             return bytes;
         }
 
-        public byte[] ChartAprobados(List<ReporteMultipleList> Lista)
+        public byte[] ChartAprobados(BandejaReporteMultiple data)
         {
+            string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
+            string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+            int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
+
             int AprobaronID = (int)Enumeradores.Condicion.Aprobado;
             int DesaprobaronID = (int)Enumeradores.Condicion.Desaprobado;
             int PorIniciarID = (int)Enumeradores.Condicion.PorIniciar;
-            var ListaCurso = Lista.Select(x => x.EmpleadoCursoId).ToArray();
-            var ListaPersona = Lista.Select(x => x.PersonaId).ToArray();
+
 
             var listado = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
                            join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
                            join d in ctx.Cursos on c.CursoId equals d.CursoId
                            join e in ctx.Empleados on a.EmpleadoId equals e.EmpleadoId
-                           where ListaCurso.Contains(a.EmpleadoCursoId) &&
-                           ListaPersona.Contains(e.PersonaId)
+                           join f in ctx.Eventos on c.EventoId equals f.EventoId
+                           join g in ctx.Personas on e.PersonaId equals g.PersonaId
+                           where
+                           (data.CursoId == -1 || d.CursoId == data.CursoId) &&
+                           (data.EventoId == -1 || c.EventoId == data.EventoId) &&
+                           (data.SedeId == -1 || f.SedeId == data.SedeId) &&
+                           (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
+                           (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
+                           a.EsEliminado == NoEsEliminado
                            group new { a, d } by d.CursoId into grp
                            select new
                            {
@@ -181,18 +197,26 @@ namespace BL
             return bytes;
         }
 
-        public byte[] ChartPromedio(List<ReporteMultipleList> Lista)
+        public byte[] ChartPromedio(BandejaReporteMultiple data)
         {
-            var ListaCurso = Lista.Select(x => x.EmpleadoCursoId).ToArray();
-            var ListaPersona = Lista.Select(x => x.PersonaId).ToArray();
+            string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
+            string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+            int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
 
             var listado = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
                            join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
                            join d in ctx.Cursos on c.CursoId equals d.CursoId
                            join e in ctx.Empleados on a.EmpleadoId equals e.EmpleadoId
-                           where ListaCurso.Contains(a.EmpleadoCursoId) &&
-                           ListaPersona.Contains(e.PersonaId)
+                           join f in ctx.Eventos on c.EventoId equals f.EventoId
+                           join g in ctx.Personas on e.PersonaId equals g.PersonaId
+                           where
+                           (data.CursoId == -1 || d.CursoId == data.CursoId) &&
+                           (data.EventoId == -1 || c.EventoId == data.EventoId) &&
+                           (data.SedeId == -1 || f.SedeId == data.SedeId) &&
+                           (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
+                           (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
+                           a.EsEliminado == NoEsEliminado
                            group new { a, d } by d.CursoId into grp
                            select new
                            {
@@ -224,17 +248,9 @@ namespace BL
                 ICell CeldaTitulo = TemplateSheet.GetRow(99).GetCell(0);
                 ICell CeldaNormal = TemplateSheet.GetRow(100).GetCell(0);
 
-                List<ReporteMultipleList> dataChartList = data.Lista.Select(x => new ReporteMultipleList() { EmpleadoCursoId = x.EmpleadoCursoId, PersonaId = x.PersonaId }).ToList();
                 string[] chartList = data.Charts == null ? new List<string>().ToArray() : data.Charts;
 
-                List<int> ListaCurso = data.Lista.Select(x => x.EmpleadoCursoId).ToList();
-                List<int> ListaPersona = data.Lista.Select(x => x.PersonaId).ToList();
-
                 data = BandejaReporteMultiple(data);
-
-
-
-                data.Lista = data.Lista.Where(x => ListaCurso.Contains(x.EmpleadoCursoId) && ListaPersona.Contains(x.PersonaId)).ToList();
 
                 int index = 0;
                 int indexcell = 0;
@@ -276,7 +292,7 @@ namespace BL
                 {
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                    TemplateCell.SetCellValue("A " + indexcell);
+                    TemplateCell.SetCellValue("A " + i);
                     indexcell++;
                 }
 
@@ -379,17 +395,17 @@ namespace BL
                     {
                         case "Asistencia":
                             {
-                                Image = ChartAsistencia(dataChartList);
+                                Image = ChartAsistencia(data);
                                 break;
                             }
                         case "Aprobados":
                             {
-                                Image = ChartAprobados(dataChartList);
+                                Image = ChartAprobados(data);
                                 break;
                             }
                         case "Promedios":
                             {
-                                Image = ChartPromedio(dataChartList);
+                                Image = ChartPromedio(data);
                                 break;
                             }
                     }

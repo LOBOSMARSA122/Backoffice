@@ -22,25 +22,34 @@ namespace ObackOfficeAPI.Controllers.Reportes
             return Ok(response);
         }
 
-        [HttpPost]
-        public IHttpActionResult Chart(MultiDataModel data)
+        [HttpGet]
+        public IHttpActionResult Chart(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
         {
-            string Action = data.String1;
-            List<ReporteMultipleList> Lista = JsonConvert.DeserializeObject<List<ReporteMultipleList>>(data.String2);
+            if (SedeId == 0 || EventoId == 0 || CursoId == 0 || string.IsNullOrWhiteSpace(Action))
+                return BadRequest("Alguno de los parámetros es incorrecto");
+
+            BandejaReporteMultiple data = new BE.Comun.BandejaReporteMultiple()
+            {
+                SedeId = SedeId,
+                EventoId = EventoId,
+                CursoId = CursoId,
+                NombreEmpleado = NombreEmpleado,
+                DNIEmpleado = DNIEmpleado
+            };
 
             switch (Action)
             {
                 case "Asistencia":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartAsistencia(Lista)));
+                        return Ok(Convert.ToBase64String(rmr.ChartAsistencia(data)));
                     }
                 case "Aprobados":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartAprobados(Lista)));
+                        return Ok(Convert.ToBase64String(rmr.ChartAprobados(data)));
                     }
                 case "Promedios":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartPromedio(Lista)));
+                        return Ok(Convert.ToBase64String(rmr.ChartPromedio(data)));
                     }
             }
 

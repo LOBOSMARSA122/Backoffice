@@ -9,26 +9,20 @@ namespace ObackOffice.Controllers.Reportes
 {
     public class ReporteMultipleController : Controller
     {
-        public JsonResult Chart(string[] Data, string Action)
+        public JsonResult Chart(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
         {
             Api API = new Api();
-            List<ReporteMultipleList> Listado = new List<ReporteMultipleList>();
-
-            foreach (string D in Data)
-            {
-                Listado.Add(new ReporteMultipleList()
-                {
-                    EmpleadoCursoId = int.Parse(D.Split('-')[0]),
-                    PersonaId = int.Parse(D.Split('-')[1])
-                });
-            }
             Dictionary<string, string> args = new Dictionary<string, string>
-            {
-                { "String1", Action },
-                { "String2", JsonConvert.SerializeObject(Listado) }
+            { 
+                { "SedeId", SedeId },
+                { "EventoId", EventoId },
+                { "CursoId", CursoId },
+                { "NombreEmpleado", NombreEmpleado },
+                { "DNIEmpleado", DNIEmpleado },
+                { "Action", Action }
             };
 
-            string base64 = API.Post<string>("ReporteMultiple/Chart", args);
+            string base64 = API.Get<string>("ReporteMultiple/Chart", args);
 
             return Json(base64);
         }
@@ -42,7 +36,7 @@ namespace ObackOffice.Controllers.Reportes
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
             };
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
-
+            ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>()};
             return View();
         }
 
@@ -63,26 +57,15 @@ namespace ObackOffice.Controllers.Reportes
             return PartialView("_ReporteMultiplePartial");
         }
 
-        public JsonResult CrearExcel(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Lista, string[] Charts, int Index, int Take)
+        public JsonResult CrearExcel(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Charts)
         {
             Api API = new Api();
 
-            List<ReporteMultipleList> List = new List<ReporteMultipleList>();
-
-            foreach (string L in Lista)
-            {
-                List.Add(new ReporteMultipleList()
-                {
-                    EmpleadoCursoId = int.Parse(L.Split('-')[0]),
-                    PersonaId = int.Parse(L.Split('-')[1])
-                });
-            }
             BandejaReporteMultiple data = new BandejaReporteMultiple()
             {
-                Index = Index,
-                Take = Take,
+                Index = 1,
+                Take = 0,
                 Charts = Charts,
-                Lista = List,
                 SedeId = SedeId,
                 EventoId = EventoId,
                 CursoId = CursoId,
