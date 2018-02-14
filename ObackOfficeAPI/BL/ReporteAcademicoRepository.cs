@@ -289,24 +289,24 @@ namespace BL
                     cell2.CellStyle = estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(6);
-                    cell2.SetCellValue("A");
-                    cell2.CellStyle = R1 == "A" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("1");
+                    cell2.CellStyle = R1 == "1" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(7);
-                    cell2.SetCellValue("B");
-                    cell2.CellStyle = R1 == "B" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("2");
+                    cell2.CellStyle = R1 == "2" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(8);
-                    cell2.SetCellValue("C");
-                    cell2.CellStyle = R1 == "C" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("3");
+                    cell2.CellStyle = R1 == "3" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(9);
-                    cell2.SetCellValue("D");
-                    cell2.CellStyle = R1 == "D" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("4");
+                    cell2.CellStyle = R1 == "4" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(10);
-                    cell2.SetCellValue("E");
-                    cell2.CellStyle = R1 == "E" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("5");
+                    cell2.CellStyle = R1 == "5" ? estiloConColor : estiloSinCoolor;
 
                     indexTaller++;
 
@@ -324,24 +324,24 @@ namespace BL
                     cell2.CellStyle = estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(6);
-                    cell2.SetCellValue("A");
-                    cell2.CellStyle = R2 == "A" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("1");
+                    cell2.CellStyle = R2 == "1" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(7);
-                    cell2.SetCellValue("B");
-                    cell2.CellStyle = R2 == "B" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("2");
+                    cell2.CellStyle = R2 == "2" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(8);
-                    cell2.SetCellValue("C");
-                    cell2.CellStyle = R2 == "C" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("3");
+                    cell2.CellStyle = R2 == "3" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(9);
-                    cell2.SetCellValue("D");
-                    cell2.CellStyle = R2 == "D" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("4");
+                    cell2.CellStyle = R2 == "4" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(10);
-                    cell2.SetCellValue("E");
-                    cell2.CellStyle = R2 == "E" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("5");
+                    cell2.CellStyle = R2 == "5" ? estiloConColor : estiloSinCoolor;
 
                     indexTaller++;
 
@@ -359,24 +359,24 @@ namespace BL
                     cell2.CellStyle = estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(6);
-                    cell2.SetCellValue("A");
-                    cell2.CellStyle = R3 == "A" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("1");
+                    cell2.CellStyle = R3 == "1" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(7);
-                    cell2.SetCellValue("B");
-                    cell2.CellStyle = R3 == "B" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("2");
+                    cell2.CellStyle = R3 == "2" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(8);
-                    cell2.SetCellValue("C");
-                    cell2.CellStyle = R3 == "C" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("3");
+                    cell2.CellStyle = R3 == "3" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(9);
-                    cell2.SetCellValue("D");
-                    cell2.CellStyle = R3 == "D" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("4");
+                    cell2.CellStyle = R3 == "4" ? estiloConColor : estiloSinCoolor;
 
                     cell2 = TemplateRow.CreateCell(10);
-                    cell2.SetCellValue("E");
-                    cell2.CellStyle = R3 == "E" ? estiloConColor : estiloSinCoolor;
+                    cell2.SetCellValue("5");
+                    cell2.CellStyle = R3 == "5" ? estiloConColor : estiloSinCoolor;
 
                     indexTaller++;
 

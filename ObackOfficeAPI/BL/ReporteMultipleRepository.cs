@@ -298,12 +298,12 @@ namespace BL
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Nota");
+                TemplateCell.SetCellValue("Nota Cuantitativa");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Taller");
+                TemplateCell.SetCellValue("Nota Cualitativa");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
