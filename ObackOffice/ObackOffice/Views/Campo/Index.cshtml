@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Evento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <table border="1" class="tabla-campo mt-5">
+        <tr>
+            <td colspan="6" style="text-align:center; background:#000000; color:#fff; font-size:20px;">
+                VALIDACIÓN DE EFICACIA DE LA CAPACITACIÓN DE RRCC
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+                <table>
+                    <tr>
+                        <td style="text-align:right">Nro Documento / Nombres</td>
+                        <td colspan="6"><input type="text" id="dni" class="form-control" onkeyup="autoComplete()" /></td>   
+                        <td> <button onclick="ObtenerDatos()"> Obtener Datos</button></td>
+                        <td> <button onclick="Descargar()">Descargar Ficha</button></td>
+                    </tr>
+                    <tr style="background:#e1dada">
+                        <td colspan="5" style="font-size:15px">
+                            <label id="nombres"></label>
+                        </td>
+                        <td style="font-size:15px">
+                            DNI:
+                        </td>
+                        <td style="font-size:15px">
+                            <label id="nroDocumento"></label>
+                        </td>
+                        <td style="font-size:15px">
+                            <span>Cargo:</span>
+                        </td>
+                        <td style="font-size:15px">
+                            <label id="cargo"></label>
+                        </td>
+                    </tr>
+                </table>
+            </th>
+            <th style="text-align:center;"><p>1</p><p>No hubo cambios</p></th>
+            <th style="text-align:center;"><p>2</p><p>Cambió parcialmente</p></th>
+            <th style="text-align:center;"><p>3</p><p>Mejoró consistentemente</p></th>
+            <th style="text-align:center;"><p>4</p><p>Hizo mejora en sus procesos</p></th>
+        </tr>
+        <tr>
+            <td rowspan="2" class="grupo" >IPERC</td>
+            <td>¿Realiza un correcto llenado del IPERC?</td>
+            <td style="text-align:center;"><input type="radio" name="p1" value="" id="p1_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p1" value="" id="p1_2"/></td>
+            <td style="text-align:center;"><input type="radio" name="p1" value="" id="p1_3"/></td>
+            <td style="text-align:center;"><input type="radio" name="p1" value="" id="p1_4"/></td>
+        </tr>
+        <tr>
+            <td>¿Exige a su gestor la revision de su IPERC y realiza preguntas al respecto?</td>
+            <td style="text-align:center;"><input type="radio" name="p2" value="" id="p2_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p2" value="" id="p2_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p2" value="" id="p2_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p2" value="" id="p2_4" /></td>
+        </tr>
+        <tr>
+            <td class="grupo">DERECHO A DECIR NO</td>
+            <td>De ser inseguro un trabajo el colaborador dice "NO" al trabajo y proporciona acciones correctivas.</td>
+            <td style="text-align:center;"><input type="radio" name="p3" value="" id="p3_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p3" value="" id="p3_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p3" value="" id="p3_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p3" value="" id="p3_4" /></td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="grupo">PETS</td>
+            <td>¿Conoce, entiende y cumple los procedimientos de Seguridad exigidos por la actividad?</td>
+            <td style="text-align:center;"><input type="radio" name="p4" value="" id="p4_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p4" value="" id="p4_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p4" value="" id="p4_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p4" value="" id="p4_4" /></td>
+        </tr>
+        <tr>
+            <td>¿El empleado busca conocer más sobre los procedimientos de trabajo acorde a su función?</td>
+            <td style="text-align:center;"><input type="radio" name="p5" value="" id="p5_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p5" value="" id="p5_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p5" value="" id="p5_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p5" value="" id="p5_4" /></td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="grupo">ORDEN DE TRABAJO</td>
+            <td>¿Valida y/o hace preguntas respecto a la orden de trabajo del día?</td>
+            <td style="text-align:center;"><input type="radio" name="p6" value="" id="p6_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p6" value="" id="p6_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p6" value="" id="p6_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p6" value="" id="p6_4" /></td>
+        </tr>
+        <tr>
+            <td>¿Cumple lo indicado en su orden de trabajo y de haber algún desvío lo coordina anticipadamente?</td>
+            <td style="text-align:center;"><input type="radio" name="p7" value="" id="p7_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p7" value="" id="p7_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p7" value="" id="p7_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p7" value="" id="p7_4" /></td>
+        </tr>
+        <tr>
+            <td class="grupo">CONOCIMIENTO TÉCNICO</td>
+            <td>¿El empleado utiliza eficientemente los equipos, máquinas, herramientas y/u otros asignados?</td>
+            <td style="text-align:center;"><input type="radio" name="p8" value="" id="p8_1" /></td>
+            <td style="text-align:center;"><input type="radio" name="p8" value="" id="p8_2" /></td>
+            <td style="text-align:center;"><input type="radio" name="p8" value="" id="p8_3" /></td>
+            <td style="text-align:center;"><input type="radio" name="p8" value="" id="p8_4" /></td>
+        </tr>
+        <tr>
+            <td class="grupo">CUMPLE CON LOS CONOCIMIENTOS DE SEGURIDAD</td>
+            <td>
+                <table>
+                    <tr>
+                        <td>SI</td>
+                        <td><input type="radio" name="p9" value="" id="p9_SI" /></td>
+                        <td>NO</td>
+                        <td><input type="radio" name="p9" value="" id="p9_NO" /></td>
+                    </tr>
+                </table>
+            </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td class="grupo">
+                OBSERVACIONES
+            </td>
+            <td colspan="7">
+                <textarea ></textarea>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+
+    function autoComplete() {
+    $.ajax(
+        {
+            url: '/Empleado/GetEmpleado?valor=' + $('#dni').val() + '&&empresaId=' + @ViewBag.USUARIO.EmpresaId,
+            type: 'GET',
+            success: function (availableTags) {
+                var lista = [];
+                for (var i = 0; i < availableTags.length; i++) {
+                    lista.push(availableTags[i])
+                }
+                console.log(lista);
+                $("#dni").autocomplete({
+                    source: lista
+                });
+            },
+            error: function () {
+                alert('error');
+            }
+        })
+    }
+
+    function ObtenerDatos() {
+
+        var datos = $('#dni').val().split('-');
+        console.log(datos);
+
+        $.ajax({
+            url: '/ReporteAcademico/ObtenerDatosEmpleado?nroDocumento=' + datos[1],
+            type: 'GET',
+            success: function (Data) {
+                console.log('datos: ', Data);
+                $('#nombres').text(datos[0]);
+                $('#nroDocumento').text(datos[1]);
+                $('#cargo').text(Data.Cargo);
+            },
+            error: function () {
+                alert('error');
+            }
+        })
+        
+    }
+
+
+    function Descargar() {
+
+        $.ajax({
+            cache: false,
+            method: 'POST',
+            url: '/ReporteAcademico/FichaValidacion',
+            success: function (response) {
+                var base64 = JSON.parse(response);
+                var binaryString = window.atob(base64._buffer);
+
+                var binaryLen = binaryString.length;
+                var bytes = new Uint8Array(binaryLen);
+                for (var i = 0; i < binaryLen; i++) {
+                    var ascii = binaryString.charCodeAt(i);
+                    bytes[i] = ascii;
+                }
+                var d = new Date();
+                var fileName = "Validación de Eficacia " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
+                var blob = new Blob([bytes], { type: 'application/vnd.ms-excel' });
+
+                if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
+                {
+
+                    window.navigator.msSaveOrOpenBlob(blob, fileName);
+
+                } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
+
+                    var url = window.URL.createObjectURL(blob);
+
+                    var anchorElem = document.createElement("a");
+                    anchorElem.style = "display: none";
+                    anchorElem.href = url;
+                    anchorElem.download = fileName;
+
+                    document.body.appendChild(anchorElem);
+                    anchorElem.click();
+
+                    document.body.removeChild(anchorElem);
+
+                    // On Edge, revokeObjectURL should be called only after
+                    // a.click() has completed, atleast on EdgeHTML 15.15048
+                    setTimeout(function () {
+                        window.URL.revokeObjectURL(url);
+                    }, 1000);
+
+                } else { // tested on chrome and Opera
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+</script>

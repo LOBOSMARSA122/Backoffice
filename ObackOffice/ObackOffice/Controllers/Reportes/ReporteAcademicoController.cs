@@ -139,6 +139,33 @@ namespace ObackOffice.Controllers.Reportes
             return Json(Response);
         }
 
+        public JsonResult FichaValidacion()
+        {
+            Api API = new Api();
+          
+            byte[] ms = API.PostDownloadStream("ReporteMultiple/DownloadFileValidacion", null);
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;  filename=Probando.xlsx");
+            Response.BinaryWrite(ms);
+            Response.End();
+
+            return Json(Response);
+        }
+
+        public JsonResult ObtenerDatosEmpleado(string nroDocumento)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+                        {
+                            { "nroDocumento", nroDocumento }
+                        };
+          var oEmpleado = API.Get<Empleado>("Empleado/DatosEmppleado", args);
+
+            return new JsonResult { Data = oEmpleado, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
 
     }
 }
