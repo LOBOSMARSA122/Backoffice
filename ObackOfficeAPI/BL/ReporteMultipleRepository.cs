@@ -118,7 +118,7 @@ namespace BL
                                PorIniciar = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == PorIniciarID).Count()
                            }).ToList();
 
-            var Chart = new Chart(800, 600);
+            var Chart = new Chart(800, 600, ChartTheme.Green);
             Chart.AddTitle("Asistencias Por Cursos");
             Chart.AddSeries(name: "Asistieron",
             xValue: listado.Select(x => x.Curso).ToArray(),
@@ -175,7 +175,7 @@ namespace BL
                                PorIniciar = grp.Where(X => X.a.CondicionId == PorIniciarID).Count()
                            }).ToList();
 
-            var Chart = new Chart(800, 600);
+            var Chart = new Chart(800, 600, ChartTheme.Green);
             Chart.AddTitle("Aprobados Por Cursos");
             Chart.AddSeries(name: "Aprobaron",
             xValue: listado.Select(x => x.Curso).ToArray(),
@@ -224,7 +224,7 @@ namespace BL
                                Promedio = grp.Select(x => x.a.Nota).Sum() / (decimal)grp.Select(x => x.a.Nota).Count()
                            }).ToList();
 
-            var Chart = new Chart(800, 600);
+            var Chart = new Chart(800, 600, ChartTheme.Green);
             Chart.AddTitle("Promedio Por Cursos");
             Chart.AddSeries(name: "Promedio",
             xValue: listado.Select(x => x.Curso).ToArray(),
