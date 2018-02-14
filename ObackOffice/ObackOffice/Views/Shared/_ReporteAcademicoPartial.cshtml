@@ -68,7 +68,7 @@
                             <td>@item.Curso</td>
                             <td>@item.Nota</td>
                             <td>@item.Condicion</td>
-                            <td>@item.InicioCurso.ToShortDateString() - @item.FinCurso.ToShortDateString()</td>
+                            <td>@item.InicioCurso.ToString("dd-MMM-yyyy") - @item.FinCurso.ToString("dd-MMM-yyyy")</td>
                             <td>@item.Observaciones</td>
                             <td onclick="ShowDetail(@item.PersonaId,@item.CursoProgramadoId)"><i class="icon-eye"></i></td>
                         </tr>

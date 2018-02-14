@@ -192,8 +192,8 @@ namespace BL
                     TemplateRow.GetCell(5).SetCellValue(Alumno.Curso);
                     TemplateRow.GetCell(6).SetCellValue(Alumno.Nota.ToString());
                     TemplateRow.GetCell(7).SetCellValue(Alumno.Condicion);
-                    TemplateRow.GetCell(8).SetCellValue(Alumno.InicioCurso);
-                    TemplateRow.GetCell(9).SetCellValue(Alumno.FinCurso);
+                    TemplateRow.GetCell(8).SetCellValue(Alumno.InicioCurso.ToString("dd-MMM-yyyy"));
+                    TemplateRow.GetCell(9).SetCellValue(Alumno.FinCurso.ToString("dd-MMM-yyyy"));
                     TemplateRow.GetCell(10).SetCellValue(Alumno.Observaciones);
                     index++;
 
@@ -226,7 +226,7 @@ namespace BL
                             TemplateRow = TemplateSheet.CreateRow(index + indexDetalle);
 
                             ICell cell = TemplateRow.CreateCell(0);
-                            cell.SetCellValue(Detalle.FechaClase);
+                            cell.SetCellValue(Detalle.FechaClase.ToString("dd-MMM-yyyy"));
                             cell.CellStyle = estiloDetalle0;
 
                             cell = TemplateRow.CreateCell(1);
@@ -381,6 +381,7 @@ namespace BL
                     indexTaller++;
 
                     index = index + (indexDetalle > indexTaller ? indexDetalle : indexTaller);
+                    index++;
 
                     if (!templateDeleted)
                     {

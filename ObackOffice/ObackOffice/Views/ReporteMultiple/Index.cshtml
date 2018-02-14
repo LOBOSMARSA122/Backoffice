@@ -253,37 +253,36 @@
         });
     }
 
-    function CheckAll(master) {
-        $("#TablaAExportar tbody input").prop("checked", $(master).is(":checked"));
-    }
-
     function activateChartButton(Button, Action) {
         if ($(Button).hasClass("button-active")) {
             $(Button).removeClass("button-active").addClass("button-inactive");
             CloseChart(Action);
         } else {
-            if ($("#TablaAExportar tbody input:checked").length > 0) {
+            if ($("#TablaAExportar tbody tr").length > 0) {
                 $(Button).removeClass("button-inactive").addClass("button-active");
                 OpenChart(Action);
             }
             else{
-                alert("debe seleccionar al menos un registro");
+                alert("Debe haber al menos un registro");
             }
         }
     }
 
     function OpenChart(Action) {
-        var stringArray = new Array();
-
-        for (i = 0; i < $("#TablaAExportar tbody input:checked").length; i++) {
-            stringArray[i] = $($("#TablaAExportar tbody input:checked")[i]).parent().parent().children("#data").html();
-        }
+        data = {
+            SedeId: $("#sede").val(),
+            EventoId: $("#evento").val(),
+            CursoId: $("#curso").val(),
+            NombreEmpleado: $("#Nombre").val(),
+            DNIEmpleado: $("#DNI").val(),
+            Action: Action
+        };
 
         $.ajax({
             cache: false,
             dataType: 'json',
             method: 'POST',
-            data: { Data: stringArray, Action: Action },
+            data: data,
             url: '/ReporteMultiple/Chart',
             success: function (json) {
                 var div = "<div class=\"col-12 col-sm-6 col-md-4 col-lg-3\" id=\"container-" + Action + "\"><img/></div>";
@@ -321,15 +320,7 @@
     }
 
     function ExportarExcel() {
-        if ($("#TablaAExportar tbody input:checked").length > 0) {
-
-            var stringArray = new Array();
-
-            for (i = 0; i < $("#TablaAExportar tbody input:checked").length; i++) {
-                stringArray[i] = $($("#TablaAExportar tbody input:checked")[i]).parent().parent().children("#data").html();
-            }
-
-            var index = $(".pagination .pagination-active span").html() == undefined ? "0" : $(".pagination .pagination-active span").html();
+        if ($("#TablaAExportar tbody tr").length > 0) {
 
             var charts = new Array();
             
@@ -343,10 +334,7 @@
                 CursoId: $("#curso").val(),
                 NombreEmpleado: $("#Nombre").val(),
                 DNIEmpleado: $("#DNI").val(),
-                Lista: stringArray,
-                charts: charts,
-                Index: index,
-                Take: $("#take").val()
+                charts: charts
             };
 
             $.ajax({
@@ -405,7 +393,7 @@
                 }
             });
         } else {
-            alert("debe seleccionar al menos un registro");
+            alert("Debe haber al menos un registro");
         }
     }
 </script>

@@ -1,0 +1,264 @@
+﻿<style>
+    .boton-chart {
+        border-color: #d2d6de;
+        height: 38px;
+        padding: 0.375rem 0.75rem;
+        color: white;
+        cursor: pointer;
+        outline: none;
+        margin: 10px;
+    }
+
+    .button-inactive {
+        background-color: #8f8f8f;
+    }
+
+    .button-active {
+        background-color: #efb44a;
+    }
+
+    .pagination-active span {
+        color: #f39c12 !important;
+    }
+
+    #containers img, #containers div {
+        width: 100%;
+    }
+
+    .headerOnTop {
+        text-align: center;
+        border-left: 2px solid #dee2e6;
+        border-right: 2px solid #dee2e6;
+    }
+</style>
+<link href="~/Content/fullcalendar.css" rel="stylesheet" />
+<link href="~/Content/css/FullCalendar-custom.css" rel="stylesheet" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="box box-default mt-2 col-12" id="acordion">
+            <div class="box-header with-border" id="heading1">
+                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-menu"></i> Programación de Cursos </h3>
+            </div>
+            <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Sede</label>
+                            @if (ViewBag.SEDES != null)
+                            {
+                                <select name="sede" id="sede" class="form-control" onchange="ChangeSelect(this)">
+                                    @foreach (var item in ViewBag.SEDES)
+                                    {
+                                        <option value="@item.Id">@item.Value</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Evento</label>
+                            <select name="evento" id="evento" class="form-control" onchange="ChangeSelect(this)">
+                                <option value="-1">--Todos--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                        <div class="form-group">
+                            <label for="">Curso</label>
+                            <select name="curso" id="curso" class="form-control">
+                                <option value="-1">--Todos--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <button class="btn-info boton form-control" onclick="FiltrarCursos()">
+                                <i class="fa fa-search"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="box box-default mt-2 col-12" id="acordion">
+            <div class="box-header with-border" id="heading1">
+                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse2')"><i class="icon-calendar"></i> Cursos Por Fecha </h3>
+            </div>
+            <div id="collapse2" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="calendar" class="calendar-custom mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $('#calendar').fullCalendar();
+    });
+
+
+    function ColapsarFiltro(id) {
+        setTimeout(function () {
+            var height = 10;
+
+            for (i = 0; i < $("#" + id + " .row").length; i++) {
+                height = height + $($("#" + id + " .row")[i]).height();
+            }
+
+            if ($("#" + id).height() == 0) {
+                $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+            } else {
+                $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
+            }
+        }, 200);
+    }
+
+    function ChangeSelect(combo) {
+        if ($(combo).val() == -1) {
+            switch ($(combo).attr("id")) {
+                case "sede": {
+                    $("#evento").val(-1);
+                    $("#curso").val(-1);
+                    break;
+                }
+                case "evento": {
+                    $("#curso").val(-1);
+                    break;
+                }
+            }
+        } else {
+            GetComboData($(combo).attr("id"), $(combo).val());
+        }
+    }
+
+    function GetComboData(nombre, valor) {
+        $.ajax({
+            cache: false,
+            dataType: 'json',
+            method: 'POST',
+            data: { combo: nombre, valor: valor },
+            url: '/ReporteAcademico/GetComboData',
+            success: function (json) {
+                switch (nombre) {
+                    case "sede": {
+                        $("#evento").html("");
+                        if (json.length > 0) {
+                            for (var a = 0; a < json.length; a++) {
+                                $("#evento").append($('<option>', {
+                                    value: json[a].Id,
+                                    text: json[a].Value
+                                }));
+                            }
+                        } else {
+                            $("#evento").append($('<option>', {
+                                value: -1,
+                                text: "--Todos--"
+                            }));
+                        }
+                        $("#curso").val(-1);
+                        break;
+                    }
+                    case "evento": {
+                        $("#curso").html("");
+                        if (json.length > 0) {
+                            for (var a = 0; a < json.length; a++) {
+                                $("#curso").append($('<option>', {
+                                    value: json[a].Id,
+                                    text: json[a].Value
+                                }));
+                            }
+                        } else {
+                            $("#curso").append($('<option>', {
+                                value: -1,
+                                text: "--Todos--"
+                            }));
+                        }
+                        break;
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function FiltrarCursos(index) {
+        var moment = $('#calendar').fullCalendar('getDate');
+
+        data = {
+            SedeId: $("#sede").val(),
+            EventoId: $("#evento").val(),
+            CursoId: $("#curso").val(),
+            year: moment.format().split("-")[0],
+            month: moment.format().split("-")[1]
+        };
+
+        $.ajax({
+            cache: false,
+            dataType: 'json',
+            method: 'POST',
+            data: data,
+            url: '/ProgramacionCursos/FiltrarCalendario',
+            success: function (json) {
+                var events = [];
+                $.each(json, function (i, v) {
+                    events.push({
+                        title: v.Curso,
+                        description: 'nada',
+                        start: moment(v.FechaInicio),
+                        end: v.End != null ? moment(v.FechaFin) : null,
+                        color: v.Color,
+                        allDay: true
+                    })
+                });
+                GenerateCalender(events);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function GenerateCalender(events) {
+        $('#calendar').fullCalendar('destroy');
+        $('#calendar').fullCalendar({
+            lang: 'es',
+            contentHeight: 600,
+            defaultDate: new Date(),
+            timeFormat: 'h(:mm)a',
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay,agenda'
+            },
+            eventLimit: true,
+            eventColor: '#378006',
+            events: events,
+            eventClick: function (calEvent, jsEvent, view) {
+                $('#myModal #eventTitle').text("Programación de: " + calEvent.title);
+                var $description = $('<div/>');
+                $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                if (calEvent.end != null) {
+                    $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                }
+                $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                $('#myModal #pDetails').empty().html($description);
+
+                $('#myModal').modal();
+            }
+        });
+    }
+
+</script>
+}
