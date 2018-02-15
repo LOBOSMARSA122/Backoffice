@@ -41,5 +41,12 @@ namespace ObackOffice.Controllers.Registro
             return PartialView("_BandejaRegistroNotasPartial");
         }
 
+        public ActionResult RegistarNotas(int salonProgramadoId)
+        {
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            ViewBag.SALONPROGRAMADO = salonProgramadoId;
+            return View();
+        }
+
     }
 }

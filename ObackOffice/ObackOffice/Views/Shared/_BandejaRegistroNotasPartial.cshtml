@@ -46,7 +46,7 @@
                                 <td>@item.curso</td>
                                 <td>@item.Capacitador</td>
                                 <td>Activo</td>
-                                <td ><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.sedeId })"><span class="icon-edit"></span></a></td>
+                                <td ><a href="@Url.Action("RegistarNotas","RegistroNotas",new {salonProgramadoId = item.salonProgramadoId })"><span class="icon-edit"></span></a></td>
                             </tr>
                         }
                     }

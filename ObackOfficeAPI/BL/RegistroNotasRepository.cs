@@ -1,4 +1,5 @@
 ﻿using BE.Administracion;
+using BE.RegistroNotas;
 using BE.Comun;
 using DAL;
 using System;
@@ -30,6 +31,8 @@ namespace BL
                                     a.EsEliminado == 0
                              select new RegistroNotasList()
                              {
+                                 cursoProgramadoId = a.CursoProgramadoId,
+                                 salonProgramadoId = b.SalonProgramadoId,
                                  sedeId = c.EventoId,
                                  sede = d.Valor1,
                                  eventoId = c.EventoId,
@@ -52,6 +55,43 @@ namespace BL
             }
             catch (Exception ex)
             {
+                throw;
+            }
+        }
+
+        public List<RegistroNotas> GetRegistroNotas(int salonProgramadoId)
+        {
+            try
+            {
+                var query = (from a in ctx.EmpleadoCursos
+                             join b in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals b.EmpleadoCursoId
+                             join c in ctx.Empleados on a.EmpleadoId equals c.EmpleadoId
+                             join d in ctx.Personas on c.PersonaId equals d.PersonaId
+                             join e in ctx.Parametros on new { a = a.CondicionId, b = 107 } equals new { a = e.ParametroId, b = e.GrupoId }
+                             join f in ctx.EmpleadoTalleres on a.EmpleadoCursoId equals f.EmpleadoCursoId
+                             where a.SalonProgramadoId == salonProgramadoId
+                             group new { a, b, d, e, f } by new { a.EmpleadoId, a.SalonProgramadoId } into grp
+                             select new RegistroNotas
+                             {
+                                 SalonProgramadoId = grp.FirstOrDefault().a.SalonProgramadoId,
+                                 EmpleadoId = grp.Key.EmpleadoId,
+                                 PersonaId = grp.FirstOrDefault().d.PersonaId,
+                                 NombreCompletoEmpleado = grp.FirstOrDefault().d.Nombres + " " + grp.FirstOrDefault().d.ApellidoPaterno + " " + grp.FirstOrDefault().d.ApellidoMaterno,
+                                 Nota = grp.FirstOrDefault().a.Nota,
+                                 Taller = grp.FirstOrDefault().a.NotaTaller,
+                                 Condicion = grp.FirstOrDefault().e.Valor1,
+                                 Observacion = grp.FirstOrDefault().a.Observacion,
+                                 EmpleadoAsistencia = grp.Select(x => new Asistencia { EmpleadoAsistenciaId = x.b.EmpleadoAsistenciaId, EmpleadoCursoId = x.b.EmpleadoCursoId, FechaClase = x.b.FechaClase, Asistio = x.b.Asistio }).GroupBy(x => x.EmpleadoAsistenciaId).Select(g => g.FirstOrDefault()).ToList(),
+                                 EmpleadoTaller = grp.Select(x => new Taller { EmpleadoTallerId = x.f.EmpleadoTallerId, EmpleadoCursoId = x.f.EmpleadoCursoId, PreguntaId = x.f.PreguntaId, Valor = x.f.Valor }).GroupBy(x => x.EmpleadoTallerId).Select(g => g.FirstOrDefault()).ToList()
+                             }
+                             ).ToList();
+
+                return query;
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

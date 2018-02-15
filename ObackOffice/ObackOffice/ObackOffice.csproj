@@ -177,8 +177,11 @@
     <Compile Include="Models\Acceso\UsuarioLogin.cs" />
     <Compile Include="Models\Administracion\Agenda.cs" />
     <Compile Include="Models\Administracion\CursoProgramado.cs" />
+    <Compile Include="Models\Administracion\EmpleadoAsistencia.cs" />
+    <Compile Include="Models\Administracion\EmpleadoTaller.cs" />
     <Compile Include="Models\Administracion\Empresa.cs" />
     <Compile Include="Models\Administracion\Evento.cs" />
+    <Compile Include="Models\Administracion\RegistroNotas.cs" />
     <Compile Include="Models\API.cs" />
     <Compile Include="Models\Cliente\EmpleadoCurso.cs" />
     <Compile Include="Models\Cliente\EmpleadoTaller.cs" />
@@ -487,6 +490,7 @@
     <Content Include="Views\Shared\_InformacionImportantePartial.cshtml" />
     <Content Include="Views\ProgramacionCursos\Index.cshtml" />
     <Content Include="Views\Campo\Index.cshtml" />
+    <Content Include="Views\RegistroNotas\RegistarNotas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
