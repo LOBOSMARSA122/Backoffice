@@ -23,7 +23,7 @@ namespace BL
             try
             {
                 //Obtener Id Empleado
-                var datosEmpleado = empleado.Split('-');
+                var datosEmpleado = empleado.Split('*');
                 var empleadoId = oEmpleadoRepository.GetEmpleadoByDocumento(datosEmpleado[1].ToString()).EmpleadoId;
 
                 //Insertar en tabla EmpleadoCurso

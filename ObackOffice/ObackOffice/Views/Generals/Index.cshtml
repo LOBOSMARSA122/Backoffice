@@ -11,11 +11,7 @@
     <div class="acceso-rapido">
         <div class="boton">
             <div class="boton-titulo"><a href="@Url.Content("~/Empleado/Agenda")">Registrar Empleado</a></div>
-            <div class="boton-icono"><i class="icon-users"></i></div>            
-        </div>
-        <div class="boton">
-            <div class="boton-titulo"><a href="@Url.Content("~/Evento/BandejaEvento")">Programar Evento</a></div>
-            <div class="boton-icono"><i class="icon-calendar"></i></div>
+            <div class="boton-icono"><i class="icon-users"></i></div>
         </div>
         <div class="boton">
             <div class="boton-titulo"><a href="@Url.Content("~/ReporteMultiple")">Reportes Estadísticos</a></div>
@@ -25,6 +21,14 @@
             <div class="boton-titulo"><a href="@Url.Content("~/ReporteAcademico")">Reporte Académico</a></div>
             <div class="boton-icono"><i class="icon-book-open"></i></div>
         </div>
+        @if (@ViewBag.USUARIO.RolId == 1)
+        {
+            <div class="boton">
+                <div class="boton-titulo"><a href="@Url.Content("~/Evento/BandejaEvento")">Programar Evento</a></div>
+                <div class="boton-icono"><i class="icon-calendar"></i></div>
+            </div>
+        }
+
     </div>
 
     @*<div class="busqueda-empleado">

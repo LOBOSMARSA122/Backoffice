@@ -26,5 +26,12 @@ namespace ObackOfficeAPI.Controllers.Comun
             Empleado result = er.GetEmpleadoByDocumento(nroDocumento);
             return Ok(result);
         }
+
+        [HttpPost]
+        public IHttpActionResult GrabarEmpleado(dataEmpleado data)
+        {
+            bool result = er.GrabarEmpleado(data);
+            return Ok(result);
+        }
     }
 }

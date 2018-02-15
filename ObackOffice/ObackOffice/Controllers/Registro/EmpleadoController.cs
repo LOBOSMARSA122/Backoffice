@@ -146,5 +146,27 @@ namespace ObackOffice.Controllers.Registro
             return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
+
+        public JsonResult GrabarEmpleado(dataEmpleado data)
+        {
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "PersonaId",data.PersonaId.ToString() },
+                { "EmpresaId", ViewBag.USUARIO.EmpresaId.ToString()},
+                { "Cargo",data.Cargo.ToString()},
+                { "UsuGraba", ViewBag.USUARIO.UsuarioId.ToString()},
+
+                { "Nombres", data.Nombres.ToString()},
+                { "ApePaterno", data.ApePaterno.ToString()},
+                { "ApeMaterno", data.ApeMaterno.ToString()},
+                { "TipoDocumentoId", data.TipoDocumentoId.ToString()},
+                { "NroDocumento", data.NroDocumento.ToString()},
+            };
+            var result= API.Post<bool>("Empleado/GrabarEmpleado", arg);
+
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
     }
 }

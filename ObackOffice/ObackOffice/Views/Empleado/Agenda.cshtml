@@ -89,9 +89,14 @@
                                     <div class="col">
                                         <input type="hidden" name="CursoProgramadoId" id="CursoProgramadoId" value="" />
                                         <div class="row form-group">
-                                            <div class="col-12 col-lg-6 ui-widget ui-autocomplete">
+                                            <div class="col-12 col-lg-6 ui-autocomplete">
                                                 <label for="dni">DNI / Nombres</label>
-                                                <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
+                                                <div class="input-group ">
+                                                    <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-primary" onclick="RegistrarEmpleado()"><i class="icon-user-plus"></i></button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-12 col-lg-6">
                                                 <label for="salon">Salón</label>
@@ -100,6 +105,63 @@
                                                 </select>
                                             </div>
 
+                                        </div>
+                                        <div id="esconder-form">
+                                            <div class="row" id="formularioEmpleado">
+                                                <div class="box-header with-border col-12">
+                                                    <h3 class="box-title"><i class="icon-user-plus"></i> Registrar Nuevo Empleado</h3>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                            <div class="form-group row">
+                                                                <div class="col-12 col-md-4">
+                                                                    <label for="Nombres">Nombres</label>
+                                                                    <input type="text" name="nombres" id="nombres" value="" class="form-control" />
+                                                                </div>
+                                                                <div class="col-12 col-md-4">
+                                                                    <label for="ApePaterno">Apellido Paterno</label>
+                                                                    <input type="text" name="apePaterno" value="" id="apePaterno" class="form-control" />
+                                                                </div>
+                                                                <div class="col-12 col-md-4">
+                                                                    <label for="ApeMaterno">Apellido Materno</label>
+                                                                    <input type="text" name="apeMaterno" id="apeMaterno" value="" class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-12 col-md-4">
+                                                                    <label for="tipodocumento">Tipo Documento</label>
+                                                                    <select class="form-control" id="tipodocumento">
+                                                                        <option value="-1">--Seleccionar--</option>
+                                                                        <option value="1">DNI</option>
+                                                                        <option value="2">PASAPORTE</option>
+                                                                        <option value="3">PTP</option>
+                                                                        <option value="4">CARNET DE EXTRANJERÍA</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-12 col-md-4">
+                                                                    <label for="NroDocumento">Nro. Documento</label>
+                                                                    <input type="text" name="nroDocumento" value="" id="nroDocumento" class="form-control" />
+                                                                </div>
+                                                                <div class="col-12 col-md-4">
+                                                                    <label for="Cargo">Cargo</label>
+                                                                    <input type="text" name="cargo" value="" id="cargo" class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row  justify-content-between m-0">
+                                                                <div class="col-12 col-md-2 p-0">
+                                                                    <div>
+                                                                        <button class="btn btn-danger btn-block" onclick="EsconderFormulario()">Cancelar</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 col-md-3 p-0">
+                                                                    <div>
+                                                                        <button class="btn btn-primary btn-block" onclick="GrabarEmpleado()">Grabar e Inscribir</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row form-group  d-flex justify-content-start">
                                             <div class="col-lg-2">
@@ -321,7 +383,25 @@
                             alert('error');
                         }
                     })
-            }        }
+            }
+        }
+
+
+        function InscribirEmpleado( dni, salon) {
+           
+            $.ajax(
+                {
+                    url: '/Empleado/InscribirEmpleado?empleado=' + dni + '&&salonProgramadoId=' + salon,
+                    type: 'POST',
+                    success: function () {
+                        loadEmpleados();
+                        $('#dni').val('');
+                    },
+                    error: function () {
+                        alert('aquí error');
+                    }
+                });
+        }
 
         function ValiarEmpleado() {
             var count = 0;
@@ -335,7 +415,6 @@
                     }
                 }     
             })
-            //$('#dni').val('');
             return count;
         }
 
@@ -352,6 +431,71 @@
                     }
                 });
             }
+        }
+
+        function RegistrarEmpleado() {
+            updateAccordionHeight();
+        }
+
+        function EsconderFormulario() {
+            setTimeout(function () {
+                $("#esconder-form").animate({
+                    height:- $("#esconder-form > .row").height() + 34 + "px"
+                }, 600);
+            }, 200);
+
+            LimpiarNuevoEmpleado();
+        }
+
+        function updateAccordionHeight() {
+            setTimeout(function () {
+                $("#esconder-form").animate({
+                    height: $("#esconder-form > .row").height() + 34 + "px"
+                }, 600);
+            }, 200);
+        }
+
+        function LimpiarNuevoEmpleado() {
+            $('#nombres').val('');
+            $('#apePaterno').val('');
+            $('#apeMaterno').val('');
+            $('#tipodocumento').val('-1');
+            $('#nroDocumento').val('');
+            $('#cargo').val('');
+        }
+
+        function GrabarEmpleado() {
+            if ($('#salon').val() == -1) {
+                alert('Seleccione Salón');
+                return;
+            }
+            data = {
+                Nombres: $('#nombres').val(),
+                ApePaterno: $('#apePaterno').val(),
+                ApeMaterno: $('#apeMaterno').val(),
+                TipoDocumentoId: $('#tipodocumento').val(),
+                NroDocumento: $('#nroDocumento').val(),
+                Cargo: $('#cargo').val()
+            };
+
+            $.ajax({
+                cache: false,
+                datatype: 'html',               
+                method: 'POST',
+                data: data,
+                url: '/Empleado/GrabarEmpleado',
+                success: function () {
+                    var Nombres = $('#nombres').val() + ' ' + $('#apePaterno').val() + ' ' + $('#apeMaterno').val() + '*' + $('#nroDocumento').val();
+
+                    InscribirEmpleado(Nombres, $('#salon').val());             
+                    EsconderFormulario();
+                    alert('se grabó correctamente');
+                },
+                error: function() {
+                    alert('error');
+                }
+            
+            });
         }
 
         $(document).ready(function () {           
@@ -377,6 +521,5 @@
                 }
             });        
         });
-
     </script>
 }
