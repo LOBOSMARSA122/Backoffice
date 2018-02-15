@@ -82,34 +82,69 @@ namespace BL
         {
             try
             {
-                Persona oPersona = new Persona();
-                oPersona.Nombres = data.Nombres;
-                oPersona.ApellidoPaterno = data.ApePaterno;
-                oPersona.ApellidoMaterno = data.ApeMaterno;
-                oPersona.TipoDocumentoId = data.TipoDocumentoId;
-                oPersona.NroDocumento = data.NroDocumento;
-                oPersona.GeneroId = -1;
-                oPersona.EsEliminado = 0;
-                oPersona.UsuGraba = data.UsuGraba;
-                ctx.Personas.Add(oPersona);
-                 ctx.SaveChanges();
-                int personaId = oPersona.PersonaId;
+                //Verificar si el empleado existe en la empresa por TipoDocumento y NroDocumento
 
+                var result = (from a in ctx.Empleados
+                              join b in ctx.Personas on a.PersonaId equals b.PersonaId
+                              where b.TipoDocumentoId == data.TipoDocumentoId && b.NroDocumento == data.NroDocumento && a.EmpresaId == data.EmpresaId
+                              select a).ToList();
 
-                Empleado oEmpleado = new Empleado();
-                oEmpleado.PersonaId = personaId;
-                oEmpleado.EmpresaId = data.EmpresaId;
-                oEmpleado.Cargo = data.Cargo;
-                oEmpleado.Area = data.Area;
-                oEmpleado.EsEliminado = 0;
-                oEmpleado.UsuGraba = data.UsuGraba;
-                oEmpleado.FechaGraba = DateTime.Now;
+                if (result.Count() > 0)
+                {
+                    return false;
+                }
+
+                //Validar si la persona ya se encuetra registrada en el sistema
+                var validaPersona = (from a in ctx.Personas where a.NroDocumento == data.NroDocumento && a.TipoDocumentoId == data.TipoDocumentoId select a).ToList();
+
+                if (validaPersona.Count() == 0)
+                {
+                    Persona oPersona = new Persona();
+                    oPersona.Nombres = data.Nombres;
+                    oPersona.ApellidoPaterno = data.ApePaterno;
+                    oPersona.ApellidoMaterno = data.ApeMaterno;
+                    oPersona.TipoDocumentoId = data.TipoDocumentoId;
+                    oPersona.NroDocumento = data.NroDocumento;
+                    oPersona.GeneroId = -1;
+                    oPersona.EsEliminado = 0;
+                    oPersona.UsuGraba = data.UsuGraba;
+                    ctx.Personas.Add(oPersona);
+                    ctx.SaveChanges();
+                    int personaId = oPersona.PersonaId;
+
+                    Empleado oEmpleado = new Empleado();
+                    oEmpleado.PersonaId = personaId;
+                    oEmpleado.EmpresaId = data.EmpresaId;
+                    oEmpleado.Cargo = data.Cargo;
+                    oEmpleado.Area = data.Area;
+                    oEmpleado.EsEliminado = 0;
+                    oEmpleado.UsuGraba = data.UsuGraba;
+                    oEmpleado.FechaGraba = DateTime.Now;
+
+                    ctx.Empleados.Add(oEmpleado);
+                    int rows = ctx.SaveChanges();
+                    if (rows > 0)
+                        return true;
+                    else return false;
+                }
+                else
+                {
+                    Empleado oEmpleado = new Empleado();
+                    oEmpleado.PersonaId = validaPersona[0].PersonaId;
+                    oEmpleado.EmpresaId = data.EmpresaId;
+                    oEmpleado.Cargo = data.Cargo;
+                    oEmpleado.Area = data.Area;
+                    oEmpleado.EsEliminado = 0;
+                    oEmpleado.UsuGraba = data.UsuGraba;
+                    oEmpleado.FechaGraba = DateTime.Now;
+
+                    ctx.Empleados.Add(oEmpleado);
+                    int rows = ctx.SaveChanges();
+                    if (rows > 0)
+                        return true;
+                    else return false;
+                }
                 
-                ctx.Empleados.Add(oEmpleado);
-                int rows = ctx.SaveChanges();
-                if (rows >0)
-                    return true;
-                else return false;
             }
             catch (Exception ex)
             {

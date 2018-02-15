@@ -484,12 +484,19 @@
                 method: 'POST',
                 data: data,
                 url: '/Empleado/GrabarEmpleado',
-                success: function () {
-                    var Nombres = $('#nombres').val() + ' ' + $('#apePaterno').val() + ' ' + $('#apeMaterno').val() + '*' + $('#nroDocumento').val();
-
-                    InscribirEmpleado(Nombres, $('#salon').val());             
-                    EsconderFormulario();
-                    alert('se grabó correctamente');
+                success: function (result) {
+                    console.log(result);
+                    if (result == false) {
+                        alert('Este empleado ya se encuentra registrado en la empresa');
+                        return;
+                    }
+                    else {
+                        var Nombres = $('#nombres').val() + ' ' + $('#apePaterno').val() + ' ' + $('#apeMaterno').val() + '*' + $('#nroDocumento').val();
+                        InscribirEmpleado(Nombres, $('#salon').val());
+                        EsconderFormulario();
+                        alert('se grabó correctamente');
+                    }
+             
                 },
                 error: function() {
                     alert('error');
