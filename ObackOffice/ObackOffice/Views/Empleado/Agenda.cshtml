@@ -116,15 +116,15 @@
                                                             <div class="form-group row">
                                                                 <div class="col-12 col-md-4">
                                                                     <label for="Nombres">Nombres</label>
-                                                                    <input type="text" name="nombres" id="nombres" value="" class="form-control" />
+                                                                    <input type="text" name="nombres" id="nombres" value="" class="form-control" required />
                                                                 </div>
                                                                 <div class="col-12 col-md-4">
                                                                     <label for="ApePaterno">Apellido Paterno</label>
-                                                                    <input type="text" name="apePaterno" value="" id="apePaterno" class="form-control" />
+                                                                    <input type="text" name="apePaterno" value="" id="apePaterno" class="form-control" required />
                                                                 </div>
                                                                 <div class="col-12 col-md-4">
                                                                     <label for="ApeMaterno">Apellido Materno</label>
-                                                                    <input type="text" name="apeMaterno" id="apeMaterno" value="" class="form-control" />
+                                                                    <input type="text" name="apeMaterno" id="apeMaterno" value="" class="form-control" required />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
@@ -156,6 +156,7 @@
                                                                 <div class="col-12 col-md-3 p-0">
                                                                     <div>
                                                                         <button class="btn btn-primary btn-block" onclick="GrabarEmpleado()">Grabar e Inscribir</button>
+                                                                        @*<input type="submit" name="btnGrabareInscribir" class="btn btn-primary btn-block" onclick="GrabarEmpleado()" value="Grabar e Inscribir" />*@
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -465,6 +466,7 @@
         }
 
         function GrabarEmpleado() {
+            
             if ($('#salon').val() == -1) {
                 alert('Seleccione Salón');
                 return;
