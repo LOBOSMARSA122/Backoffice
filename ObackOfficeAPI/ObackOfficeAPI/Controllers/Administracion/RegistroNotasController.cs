@@ -15,9 +15,16 @@ namespace ObackOfficeAPI.Controllers.Administracion
         private RegistroNotasRepository rr = new RegistroNotasRepository();
 
         [HttpPost]
-        public IHttpActionResult GetRegistroNotas(BandejaRegistroNotas data)
+        public IHttpActionResult GetBandejaRegistroNotas(BandejaRegistroNotas data)
         {
             BandejaRegistroNotas result = rr.BandejaRegistroNotas(data);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetRegistroNotas(int salonProgramadoId)
+        {
+            List<RegistroNotas> result = rr.GetRegistroNotas(salonProgramadoId);
             return Ok(result);
         }
     }

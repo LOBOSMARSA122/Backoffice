@@ -50,6 +50,7 @@
     <Compile Include="Administracion\Empresa.cs" />
     <Compile Include="Administracion\Evento.cs" />
     <Compile Include="Administracion\EventoSalon.cs" />
+    <Compile Include="Administracion\RegistroNotas.cs" />
     <Compile Include="Administracion\ProgramacionCursos.cs" />
     <Compile Include="Administracion\SalonClases.cs" />
     <Compile Include="Administracion\SalonProgramado.cs" />

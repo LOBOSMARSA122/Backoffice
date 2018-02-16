@@ -14,7 +14,7 @@ namespace BE.Comun
         public string Nombres { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public int GeneroId { get; set; }
         public string NroDocumento { get; set; }
         public int TipoDocumentoId { get; set; }

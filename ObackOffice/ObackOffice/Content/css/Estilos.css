@@ -600,6 +600,23 @@ textarea {
     height: 50px;
 }
 
+#esconder-form{
+overflow:hidden;
+height:0px;
+padding:0;
+margin:0;
+} 
+
+#formularioEmpleado {
+    background: rgba(91, 91, 89, 0.12);
+    margin: 10px;
+    padding: 10px;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
+
+
 /*MEDIA QUERYS*/
 
 @media (max-width: 480px) {

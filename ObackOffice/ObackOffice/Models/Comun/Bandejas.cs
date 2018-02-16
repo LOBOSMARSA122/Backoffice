@@ -111,6 +111,8 @@ namespace ObackOffice.Models
 
     public class RegistroNotasList
     {
+        public int cursoProgramadoId { get; set; }
+        public int salonProgramadoId { get; set; }
         public int sedeId { get; set; }
         public string sede { get; set; }
         public int eventoId { get; set; }
