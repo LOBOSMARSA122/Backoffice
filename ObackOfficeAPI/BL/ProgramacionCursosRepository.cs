@@ -69,7 +69,7 @@ namespace BL
                                                       SedeId = curso.FirstOrDefault().b.SedeId,
                                                       EventoId = curso.FirstOrDefault().a.EventoId,
                                                       CursoId = curso.FirstOrDefault().a.CursoId,
-                                                      Salones = curso.GroupBy(y => y.c.CursoProgramadoId)
+                                                      Salones = curso.GroupBy(y => y.c.SalonProgramadoId)
                                                       .Select(x => new ProgramacionCursosSalones() {
                                                           RecordType = NoTemporal,
                                                           RecordStatus = Grabado,

@@ -66,7 +66,7 @@
                             <label for="">Sede</label>
                             @if (ViewBag.SEDES != null)
                             {
-                                <select name="sede" id="sede" class="form-control" onchange="ChangeSelect(this)">
+                                <select name="sede" id="sede" class="form-control" onchange="ChangeSelect(this);">
                                     @foreach (var item in ViewBag.SEDES)
                                     {
                                         <option value="@item.Id">@item.Value</option>
@@ -127,11 +127,12 @@
                 <div id="collapse2" class="box-body collapse show col-12" aria-labelledby="heading1" style="overflow:hidden;">
                     <div class="row">
                         <div class="col-12">
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;padding">
+                            <div style="display:none;"><div id="Curso-RecordType"></div><div id="Curso-RecordStatus"></div><div id="Curso-CursoProgramadoId"></div></div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
                                 <label for="">Sede</label>
                                 @if (ViewBag.SEDES != null)
                                 {
-                                    <select name="sede" id="sede-detalle" class="form-control" onchange="ChangeSelect(this)">
+                                    <select name="sede" id="sede-detalle" class="form-control" onchange="ChangeSelect(this); CursoChanged();">
                                         @foreach (var item in ViewBag.SEDES)
                                         {
                                             <option value="@item.Id">@item.Value</option>
@@ -142,7 +143,7 @@
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
                                 <div class="form-group">
                                     <label for="">Evento</label>
-                                    <select name="evento" id="evento-detalle" class="form-control" onchange="ChangeSelect(this)">
+                                    <select name="evento" id="evento-detalle" class="form-control" onchange="ChangeSelect(this);CursoChanged();">
                                         <option value="-1">--Todos--</option>
                                     </select>
                                 </div>
@@ -150,7 +151,7 @@
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
                                 <div class="form-group">
                                     <label for="">Curso</label>
-                                    <select name="curso" id="curso-detalle" class="form-control">
+                                    <select name="curso" id="curso-detalle" class="form-control" onchange="CursoChanged();">
                                         <option value="-1">--Todos--</option>
                                     </select>
                                 </div>
@@ -158,13 +159,13 @@
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
                                 <div class="form-group">
                                     <label for="">Fecha Inicio</label>
-                                    <input type="date" id="F-inicio"/>
+                                    <input type="date" id="F-inicio" onchange="CursoChanged();"/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
                                 <div class="form-group">
                                     <label for="">Fecha Fin</label>
-                                    <input type="date" id="F-fin"/>
+                                    <input type="date" id="F-fin" onchange="CursoChanged();"/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
@@ -180,6 +181,11 @@
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
                                 <button class="btn-info boton form-control" onclick="ValidateData()">
                                     <i class="icon-book"></i> Guardar
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <button class="btn-info boton form-control" onclick="DeleteCurso()">
+                                    <i class="icon-trash"></i> Eliminar
                                 </button>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
@@ -201,9 +207,12 @@
             <table id="salon-0">
                 <tbody>
                     <tr>
+                        <td style="display:none;" id="Salon-SalonId">0</td>
+                        <td style="display:none;" id="Salon-RecordType">1</td>
+                        <td style="display:none;" id="Salon-RecordStatus">2</td>
                         <td>Salón N° 1</td>
                         <td>Capacitador 
-                        <select>
+                        <select onchange="SalonChanged($(this).parent().parent())">
                         @{ 
                             if(ViewBag.CAPACITADOR != null)
                             {
@@ -214,7 +223,7 @@
                             }
                         }     
                         </select></td>
-                        <td>Cupos: <input /></td>
+                        <td>Cupos: <input onkeydown="SalonChanged($(this).parent().parent())"/></td>
                         <td>Agregar Clase</td>
                         <td>Eliminar</td>
                     </tr>
@@ -237,8 +246,11 @@
     <table>
         <tbody id="Clase-Base">
             <tr>
-                <td>Hora Inicio <input type="datetime-local" id="HoraInicio"/></td>
-                <td>Hora Fin <input type="datetime-local" id="HoraFin"/></td>
+                <td style="display:none;" id="Clase-ClaseId">0</td>
+                <td style="display:none;" id="Clase-RecordType">1</td>
+                <td style="display:none;" id="Clase-RecordStatus">2</td>
+                <td>Hora Inicio <input type="datetime-local" id="HoraInicio" onchange="ClaseChanged($(this).parent().parent())"/></td>
+                <td>Hora Fin <input type="datetime-local" id="HoraFin" onchange="ClaseChanged($(this).parent().parent())"/></td>
                 <td onclick="DeleteClase(this)">Eliminar</td>
             </tr>
         </tbody>
@@ -495,6 +507,9 @@
                 success: function (json) {
                     console.log(json);
 
+                    $("#Curso-CursoProgramadoId").html(json.CursoProgramadoId);
+                    $("#Curso-RecordType").html(json.RecordType);
+                    $("#Curso-RecordStatus").html(json.RecordStatus);
                     $("#calendarData #F-inicio").val(moment(json.FechaInicio).format("YYYY-MM-DD"));
                     $("#calendarData #F-fin").val(moment(json.FechaFin).format("YYYY-MM-DD"));
                     $("#calendarData #sede-detalle").val(json.SedeId);
@@ -505,6 +520,27 @@
                             $("#Loading").hide();
                         });
                     });
+
+
+                    for (var i = 0; i < json.Salones.length; i++) {
+                        AddSalon();
+                        $("#salon-" + (i + 1) + " select").val(json.Salones[i].CapacitadorId);
+                        $("#salon-" + (i + 1) + " input").val(json.Salones[i].Cupos);
+                        $("#salon-" + (i + 1) + " #Salon-RecordType").html(json.Salones[i].RecordType);
+                        $("#salon-" + (i + 1) + " #Salon-RecordStatus").html(json.Salones[i].RecordStatus);
+                        $("#salon-" + (i + 1) + " #Salon-SalonId").html(json.Salones[i].SalonId);
+
+                        for (var h = 0; h < json.Salones[i].Clases.length;h++){
+                            AddClase(i + 1);
+
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDThh:mm"));
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDThh:mm"));
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("Clase-RecordType").html(json.Salones[i].Clases[h].RecordType);
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("Clase-RecordStatus").html(json.Salones[i].Clases[h].RecordStatus);
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("Clase-ClaseId").html(json.Salones[i].Clases[h].ClaseId);
+                        }
+                    }
+
                 },
                 error: function (error) {
                     $("#Loading").hide();
@@ -516,6 +552,9 @@
 
         function NewCalendar(date) {
             $("#calendarData #F-inicio").val(date.format("YYYY-MM-DD"));
+            $("#Curso-RecordType").html(1);
+            $("#Curso-RecordStatus").html(2);
+            $("#Curso-CursoProgramadoId").html(0);
         }
 
         function OpenCursoPannel() {
@@ -571,6 +610,14 @@
             }, 200);
         }
 
+        function DeleteCurso() {
+            if ($("#Curso-RecordStatus").html() == 2) {
+                CloseCursoPannel();
+            } else if ($("#Curso-RecordStatus").html() == 1 || $("#Curso-RecordStatus").html() == 3) {
+                //AJAX AQUI
+            }
+        }
+
         function AddSalon() {
             var numero = $("#Contenedor-Salones .salones").length;
             if (numero > 2) {
@@ -580,8 +627,8 @@
                 numero++;
                 $("#Contenedor-Salones #salon-0").attr("id", "salon-" + numero);
                 $($("#salon-" + numero + " tbody tr td")[0]).html("Salón N° " + numero);
-                $($("#salon-" + numero + " tbody tr td")[3]).attr("onclick", "AddClase('" + numero + "')");
-                $($("#salon-" + numero + " tbody tr td")[4]).attr("onclick", "DeleteSalon('" + numero + "')");
+                $($("#salon-" + numero + " tbody tr td")[6]).attr("onclick", "AddClase('" + numero + "')");
+                $($("#salon-" + numero + " tbody tr td")[7]).attr("onclick", "DeleteSalon('" + numero + "')");
             }
             ResizeCalendarDetail();
         }
@@ -594,8 +641,8 @@
                 }
                 if (i > numero) {
                     $($("#salon-" + i + " tbody tr td")[0]).html("Salón N° " + (i - 1));
-                    $($("#salon-" + i + " tbody tr td")[3]).attr("onclick", "AddClase('" + (i - 1) + "')");
-                    $($("#salon-" + i + " tbody tr td")[4]).attr("onclick", "DeleteSalon('" + (i - 1) + "')");
+                    $($("#salon-" + i + " tbody tr td")[6]).attr("onclick", "AddClase('" + (i - 1) + "')");
+                    $($("#salon-" + i + " tbody tr td")[7]).attr("onclick", "DeleteSalon('" + (i - 1) + "')");
                     $("#Contenedor-Salones #salon-" + i).attr("id", "salon-" + (i - 1));
                 }
             }
@@ -626,9 +673,9 @@
 
         function ValidateData() {
             var data = {
-                RecordType: 1,
-                RecordStatus : 2,
-                CursoProgramadoId : 0,
+                RecordType: $("#Curso-RecordType").html(),
+                RecordStatus: $("#Curso-RecordStatus").html(),
+                CursoProgramadoId: $("#Curso-CursoProgramadoId").html(),
                 SedeId : $("#calendarData #sede-detalle").val(),
                 EventoId : $("#calendarData #evento-detalle").val(),
                 CursoId : $("#calendarData #curso-detalle").val(),
@@ -639,9 +686,9 @@
 
             for (i = 1; i <= $("#Contenedor-Salones .salones").length; i++){
                 var Salon = {
-                    RecordType: 1,
-                    RecordStatus: 2,
-                    SalonId: 0,
+                    RecordType: $("#salon-" + i + " #Salon-RecordType").html(),
+                    RecordStatus: $("#salon-" + i + " #Salon-RecordStatus").html(),
+                    SalonId: $("#salon-" + i + " #Salon-SalonId").html(),
                     CapacitadorId: $("#Contenedor-Salones #salon-" + i + " select").val(),
                     Cupos: $("#Contenedor-Salones #salon-" + i + " input").val(),
                     Clases: new Array()
@@ -649,9 +696,9 @@
 
                 for (z = 0; z < $("#Contenedor-Salones #salon-" + i + " table tbody > tr").length; z++) {
                     var Clase = {
-                        RecordType: 1,
-                        RecordStatus: 2,
-                        ClaseId: 0,
+                        RecordType: $($("#salon-" + i + " table tr")[z]).children("Clase-RecordType").html(),
+                        RecordStatus: $($("#salon-" + i + " table tr")[z]).children("Clase-RecordStatus").html(),
+                        ClaseId: $($("#salon-" + i + " table tr")[z]).children("Clase-ClaseId").html(),
                         HoraInicio: $($("#Contenedor-Salones #salon-" + i + " table tbody > tr")[z]).children("td").children("#HoraInicio").val(),
                         HoraFin: $($("#Contenedor-Salones #salon-" + i + " table tbody > tr")[z]).children("td").children("#HoraFin").val()
                     };
@@ -686,6 +733,21 @@
                     console.log(error);
                 }
             });
+        }
+
+        function CursoChanged() {
+            if ($("#Curso-RecordStatus").html() == 1)
+                $("#Curso-RecordStatus").html(3);
+        }
+
+        function SalonChanged(tr) {
+            if ($(tr).children("#Salon-RecordStatus").html() == 1)
+                $(tr).children("#Salon-RecordStatus").html(3);
+        }
+
+        function ClaseChanged(tr) {
+            if ($(tr).children("#Clase-RecordStatus").html() == 1)
+                $(tr).children("#Clase-RecordStatus").html(3);
         }
     </script>
 }
