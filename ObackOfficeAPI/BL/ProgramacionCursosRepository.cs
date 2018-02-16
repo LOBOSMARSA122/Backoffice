@@ -56,16 +56,34 @@ namespace BL
 
                 ProgramacionCursos return_data = (from a in ctx.CursosProgramados
                                                   join b in ctx.Eventos on a.EventoId equals b.EventoId
+                                                  join c in ctx.SalonProgramados on a.CursoProgramadoId equals c.CursoProgramadoId
+                                                  join d in ctx.SalonClases on c.SalonProgramadoId equals d.SalonProgramadoId
+                                                  group new { a,b,c,d } by a.CursoProgramadoId into curso
                                                   select new ProgramacionCursos()
                                                   {
                                                       RecordType = NoTemporal,
                                                       RecordStatus = Grabado,
-                                                      CursoProgramadoId = a.CursoProgramadoId,
-                                                      FechaInicio = a.FechaInicio,
-                                                      FechaFin = a.FechaFin,
-                                                      SedeId = b.SedeId,
-                                                      EventoId = a.EventoId,
-                                                      CursoId = a.CursoId
+                                                      CursoProgramadoId = curso.FirstOrDefault().a.CursoProgramadoId,
+                                                      FechaInicio = curso.FirstOrDefault().a.FechaInicio,
+                                                      FechaFin = curso.FirstOrDefault().a.FechaFin,
+                                                      SedeId = curso.FirstOrDefault().b.SedeId,
+                                                      EventoId = curso.FirstOrDefault().a.EventoId,
+                                                      CursoId = curso.FirstOrDefault().a.CursoId,
+                                                      Salones = curso.GroupBy(y => y.c.CursoProgramadoId)
+                                                      .Select(x => new ProgramacionCursosSalones() {
+                                                          RecordType = NoTemporal,
+                                                          RecordStatus = Grabado,
+                                                          CapacitadorId = x.FirstOrDefault().c.CapacitadorId,
+                                                          SalonId = x.FirstOrDefault().c.SalonProgramadoId,
+                                                          Cupos = x.FirstOrDefault().c.NroCupos,
+                                                          Clases = x.Select( z => new ProgramacionCursosClases() {
+                                                              RecordType = NoTemporal,
+                                                              RecordStatus = Grabado,
+                                                              ClaseId = z.d.SalonClaseId,
+                                                              HoraInicio = z.d.FechaInicio,
+                                                              HoraFin = z.d.FechaFin
+                                                          }).ToList()
+                                                      }).ToList()
                                                   }).FirstOrDefault();
 
                 return return_data;

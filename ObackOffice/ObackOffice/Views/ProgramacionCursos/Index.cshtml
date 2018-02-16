@@ -287,7 +287,7 @@
             }, 200);
         }
 
-        function ChangeSelect(combo) {
+        function ChangeSelect(combo, callback) {
             if ($(combo).val() == -1) {
                 switch ($(combo).attr("id")) {
                     case "sede": {
@@ -310,11 +310,11 @@
                     }
                 }
             } else {
-                GetComboData($(combo).attr("id"), $(combo).val());
+                GetComboData($(combo).attr("id"), $(combo).val(), callback);
             }
         }
 
-        function GetComboData(nombre, valor) {
+        function GetComboData(nombre, valor,callback) {
             var width = $(window).width();
             var height = $(window).height();
             $("#Loading").show().css("width", width + "px").css("height", height + "px");
@@ -399,6 +399,9 @@
                             }
                             break;
                         }
+                    }
+                    if (callback != undefined) {
+                        callback();
                     }
                 },
                 error: function (error) {
@@ -490,12 +493,18 @@
                 data: { id:id },
                 url: '/ProgramacionCursos/GetCalendarEvent',
                 success: function (json) {
-                    $("#Loading").hide();
                     console.log(json);
 
                     $("#calendarData #F-inicio").val(moment(json.FechaInicio).format("YYYY-MM-DD"));
                     $("#calendarData #F-fin").val(moment(json.FechaFin).format("YYYY-MM-DD"));
                     $("#calendarData #sede-detalle").val(json.SedeId);
+                    ChangeSelect($("#calendarData #sede-detalle"), function () {
+                        $("#calendarData #evento-detalle").val(json.EventoId);
+                        ChangeSelect($("#calendarData #evento-detalle"), function () {
+                            $("#calendarData #curso-detalle").val(json.CursoId);
+                            $("#Loading").hide();
+                        });
+                    });
                 },
                 error: function (error) {
                     $("#Loading").hide();
