@@ -26,6 +26,7 @@ namespace BE.RegistroNotas
     {
         public int EmpleadoTallerId { get; set; }
         public int EmpleadoCursoId { get; set; }
+        public string Pregunta { get; set; }
         public int PreguntaId { get; set; }
         public string Valor { get; set; }
     }

@@ -15,6 +15,7 @@ namespace BE.Administracion
         public int NroCupos { get; set; }
         public string Curso { get; set; }
 
+        public int EmpleadoCursoId { get; set; }
         public int SalonProgramadoId { get; set; }
         public int EmpleadoId { get; set; }
         public int PersonaId { get; set; }

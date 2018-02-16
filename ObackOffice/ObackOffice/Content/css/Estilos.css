@@ -402,6 +402,7 @@ table tbody tr td {
 
 .subtable {
     text-align: center;
+    margin:0;
 }
 
 .mostrar-tabla {
@@ -777,4 +778,10 @@ margin:0;
         .cuenta-ocultar {
             display: none;
         }*/
+}
+
+
+.grillataller {
+    margin:0px;
+    
 }
