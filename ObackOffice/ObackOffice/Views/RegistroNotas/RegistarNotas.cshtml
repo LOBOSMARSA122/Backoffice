@@ -1,8 +1,105 @@
 ﻿
 @{
-    ViewBag.Title = "RegistarNotas";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listaRegistro = ViewBag.REGISTRONOTAS;
+    var NroClases = ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia.Count;
 }
+<div class="container-fluid">
 
-<h2>RegistarNotas  @ViewBag.SALONPROGRAMADO</h2>
+
+    <div class="box box-default mt-2" id="acordion">
+        <div class="box-header with-border" id="heading1">
+            <a href="#collapse1" data-toggle="collapse" data-parent="#acordion" aria-expended="true" aria-controls="collapse1">
+                <h3 class="box-title"><i class="icon-book-open"></i>Datos del Curso</h3>
+            </a>
+        </div>
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <strong> Capacitador: </strong>
+                    <label> @ViewBag.REGISTRONOTAS[0].Capacitador</label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <strong> Fecha Inicio: </strong>
+                    <label> @ViewBag.REGISTRONOTAS[0].FechaInicioCurso.ToString("dd-MMMM")</label>
+                </div>
+                <div class="col-12 col-md-4 col-lg-4">
+                    <strong> Fecha Fin: </strong>
+                    <label> @ViewBag.REGISTRONOTAS[0].FechaFinCurso.ToString("dd-MMMM")</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <strong> Cupos Disponibles: </strong>
+                    <label> @(@ViewBag.REGISTRONOTAS[0].NroCupos - @listaRegistro.Count) </label>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <strong> Total de Alumnos: </strong>
+                    <label> @listaRegistro.Count</label>
+                </div>
+            </div>           
+        </div>
+    </div>
+
+    <div class="box box-warning mt-2">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead style="text-align:center">
+                    <tr>
+                        <th>Empleado</th>
+                        @foreach (var item in ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia)
+                        {
+                             <th>Clase @item.FechaClase.ToString("dd MMM") </th>
+                        }                  
+                        <th>Nota Cuantitativa</th>
+                        <th>Nota Cualitativa</th>
+                        <th>Condición</th>
+                        <th>Observación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var registro in listaRegistro)
+                    {
+                        <tr>
+                            <td>@registro.NombreCompletoEmpleado</td>
+                             @{int contador = 1;}
+                            @foreach (var asistencia in registro.EmpleadoAsistencia)
+                            {
+                              
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId-@contador" @(@asistencia.Asistio == 2 ? "checked" : "" )>
+                                        <label class="custom-control-label" for="@asistencia.EmpleadoAsistenciaId-@contador"></label>
+                                    </div>
+                                </div>                                
+                            </td>
+                                 contador++;
+                            }
+
+                            <td><input type="text" name="name" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control" /></td>
+                            <td>
+                                <input type="button" name="name" class=" @( @registro.Taller == null ? "btn boton-table-warning" :  @registro.Taller == "Eficiente" ? "btn boton-table-success" : "btn boton-table-danger" )" value="@( @registro.Taller == null ? "Por Iniciar" :  @registro.Taller == "Eficiente" ? "Satisfactorio" : "Deficiente" )" />
+                            </td>
+                            <td>
+                                <select  class="custom-select">
+                                    <option value="-1" @(@registro.CondicionId == -1 ? "selected" : "" )>--Seleccionar--</option>
+                                    <option value="1" @(@registro.CondicionId == 1 ? "selected" : "" )>Aprobado</option>
+                                    <option value="2" @(@registro.CondicionId == 2 ? "selected" : "" )>Desaprobado</option>
+                                    <option value="3" @(@registro.CondicionId == 3 ? "selected" : "" )>Por Iniciar</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="name" value="@registro.Observacion" class="form-control" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 

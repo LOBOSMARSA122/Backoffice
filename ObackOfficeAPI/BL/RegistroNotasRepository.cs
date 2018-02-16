@@ -67,19 +67,30 @@ namespace BL
                              join b in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals b.EmpleadoCursoId
                              join c in ctx.Empleados on a.EmpleadoId equals c.EmpleadoId
                              join d in ctx.Personas on c.PersonaId equals d.PersonaId
-                             join e in ctx.Parametros on new { a = a.CondicionId, b = 107 } equals new { a = e.ParametroId, b = e.GrupoId }
+                             //join e in ctx.Parametros on new { a = a.CondicionId, b = 107 } equals new { a = e.ParametroId, b = e.GrupoId }
                              join f in ctx.EmpleadoTalleres on a.EmpleadoCursoId equals f.EmpleadoCursoId
+                             join g in ctx.SalonProgramados on a.SalonProgramadoId equals g.SalonProgramadoId
+                             join h in ctx.Capacitadores on g.CapacitadorId equals h.CapacitadorId
+                             join i in ctx.Personas on h.PersonaId equals i.PersonaId
+                             join j in ctx.CursosProgramados on g.CursoProgramadoId equals j.CursoProgramadoId
+                             join k in ctx.Cursos on j.CursoId equals k.CursoId
                              where a.SalonProgramadoId == salonProgramadoId
-                             group new { a, b, d, e, f } by new { a.EmpleadoId, a.SalonProgramadoId } into grp
+                             group new { a, b, d, f,i,g,j,k } by new { a.EmpleadoId, a.SalonProgramadoId } into grp
                              select new RegistroNotas
                              {
+                                 Capacitador = grp.FirstOrDefault().i.Nombres + " " + grp.FirstOrDefault().i.ApellidoPaterno + " " + grp.FirstOrDefault().i.ApellidoMaterno,
+                                 FechaInicioCurso = grp.FirstOrDefault().j.FechaInicio,
+                                 FechaFinCurso = grp.FirstOrDefault().j.FechaFin,
+                                 NroCupos = grp.FirstOrDefault().g.NroCupos,
+                                 Curso = grp.FirstOrDefault().k.NombreCurso,
+
                                  SalonProgramadoId = grp.FirstOrDefault().a.SalonProgramadoId,
                                  EmpleadoId = grp.Key.EmpleadoId,
                                  PersonaId = grp.FirstOrDefault().d.PersonaId,
                                  NombreCompletoEmpleado = grp.FirstOrDefault().d.Nombres + " " + grp.FirstOrDefault().d.ApellidoPaterno + " " + grp.FirstOrDefault().d.ApellidoMaterno,
                                  Nota = grp.FirstOrDefault().a.Nota,
                                  Taller = grp.FirstOrDefault().a.NotaTaller,
-                                 Condicion = grp.FirstOrDefault().e.Valor1,
+                                 CondicionId = grp.FirstOrDefault().a.CondicionId,
                                  Observacion = grp.FirstOrDefault().a.Observacion,
                                  EmpleadoAsistencia = grp.Select(x => new Asistencia { EmpleadoAsistenciaId = x.b.EmpleadoAsistenciaId, EmpleadoCursoId = x.b.EmpleadoCursoId, FechaClase = x.b.FechaClase, Asistio = x.b.Asistio }).GroupBy(x => x.EmpleadoAsistenciaId).Select(g => g.FirstOrDefault()).ToList(),
                                  EmpleadoTaller = grp.Select(x => new Taller { EmpleadoTallerId = x.f.EmpleadoTallerId, EmpleadoCursoId = x.f.EmpleadoCursoId, PreguntaId = x.f.PreguntaId, Valor = x.f.Valor }).GroupBy(x => x.EmpleadoTallerId).Select(g => g.FirstOrDefault()).ToList()

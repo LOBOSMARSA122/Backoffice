@@ -37,14 +37,19 @@ namespace ObackOffice.Controllers.Registro
                 { "Index", data.Index.ToString()},
                 { "Take", data.Take.ToString()}
             };
-            ViewBag.BandejaRegistro = API.Post<BandejaRegistroNotas>("RegistroNotas/GetRegistroNotas", arg);
+            ViewBag.BandejaRegistro = API.Post<BandejaRegistroNotas>("RegistroNotas/GetBandejaRegistroNotas", arg);
             return PartialView("_BandejaRegistroNotasPartial");
         }
 
         public ActionResult RegistarNotas(int salonProgramadoId)
         {
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                {"salonProgramadoId", salonProgramadoId.ToString() }
+            };
+            ViewBag.REGISTRONOTAS = API.Get<List<RegistroNotas>>("RegistroNotas/GetRegistroNotas", arg);
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
-            ViewBag.SALONPROGRAMADO = salonProgramadoId;
             return View();
         }
 
