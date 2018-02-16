@@ -179,6 +179,7 @@
     <Compile Include="Models\Administracion\CursoProgramado.cs" />
     <Compile Include="Models\Administracion\Empresa.cs" />
     <Compile Include="Models\Administracion\Evento.cs" />
+    <Compile Include="Models\Administracion\ProgramacionCursos.cs" />
     <Compile Include="Models\API.cs" />
     <Compile Include="Models\Cliente\EmpleadoCurso.cs" />
     <Compile Include="Models\Cliente\EmpleadoTaller.cs" />

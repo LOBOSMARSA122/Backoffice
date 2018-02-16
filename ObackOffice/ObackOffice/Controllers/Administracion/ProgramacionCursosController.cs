@@ -20,6 +20,7 @@ namespace ObackOffice.Controllers.Administracion
             };
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
+            ViewBag.CAPACITADOR = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Capacitador/ddlCapacitador"), Constantes.Select);
             return View();
         }
 
@@ -38,6 +39,23 @@ namespace ObackOffice.Controllers.Administracion
             List<Agenda> Result = API.Get<List<Agenda>>("ProgramacionCursos/FiltrarCalendario", args);
 
             return Json(Result);
+        }
+
+        public JsonResult SaveData(string data)
+        {
+            ProgramacionCursos Programa = JsonConvert.DeserializeObject<ProgramacionCursos>(data);
+            return Json("");
+        }
+
+        public JsonResult GetCalendarEvent(string id)
+        {
+            Api API = new Api();
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "id",id }
+            };
+            ProgramacionCursos data = API.Get<ProgramacionCursos>("ProgramacionCursos/GetCalendarEvent", args);
+            return Json(data);
         }
     }
 }

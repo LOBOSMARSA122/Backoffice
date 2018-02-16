@@ -40,5 +40,19 @@ namespace BE.Comun
             Asistio = 2,
             Falto = 3,
         }
+
+        public enum RecordType
+        {
+            Temporal = 1,
+            NoTemporal = 2
+        }
+
+        public enum RecordStatus
+        {
+            Grabado = 1,
+            Agregar = 2,
+            Editar = 3,
+            Eliminar = 4
+        }
     }
 }

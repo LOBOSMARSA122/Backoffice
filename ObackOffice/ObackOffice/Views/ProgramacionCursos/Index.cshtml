@@ -30,6 +30,25 @@
         border-left: 2px solid #dee2e6;
         border-right: 2px solid #dee2e6;
     }
+    #Loading {
+        background-color: rgba(0, 0, 0, 0.60);
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        z-index: 9999;
+    }
+
+    #Loading > img {
+        width: 200px;
+    }
+
+    .salones table{
+        width:80%;
+        margin: 20px 10%;
+    }
+    .salones table tbody{
+        font-size:18px;
+    }
 </style>
 <link href="~/Content/fullcalendar.css" rel="stylesheet" />
 <link href="~/Content/css/FullCalendar-custom.css" rel="stylesheet" />
@@ -37,8 +56,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="box box-default mt-2 col-12" id="acordion">
-            <div class="box-header with-border" id="heading1">
-                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-menu"></i> Programación de Cursos </h3>
+            <div class="box-header with-border" id="heading1" onclick="ColapsarFiltro('collapse1')">
+                <h3 class="box-title" style="cursor:pointer;"><i class="icon-menu"></i> Programación de Cursos </h3>
             </div>
             <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
                 <div class="row">
@@ -86,8 +105,8 @@
     </div>
     <div class="row">
         <div class="box box-default mt-2 col-12" id="acordion">
-            <div class="box-header with-border" id="heading1">
-                <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse2')"><i class="icon-calendar"></i> Cursos Por Fecha </h3>
+            <div class="box-header with-border" id="heading1" onclick="ColapsarFiltro('collapse2')">
+                <h3 class="box-title" style="cursor:pointer;"><i class="icon-calendar"></i> Cursos Por Fecha </h3>
             </div>
             <div id="collapse2" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
                 <div class="row">
@@ -98,12 +117,157 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="box box-default mt-2 col-12" id="calendarData" style="overflow:hidden;height:0px;">
+            <div class="row">
+                <div class="box-header with-border col-12" id="heading1" onclick="CloseCursoPannel()">
+                    <h3 class="box-title" style="cursor:pointer;"><i class="icon-calendar"></i> Detalles del Curso </h3>
+                </div>
+                <div id="collapse2" class="box-body collapse show col-12" aria-labelledby="heading1" style="overflow:hidden;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;padding">
+                                <label for="">Sede</label>
+                                @if (ViewBag.SEDES != null)
+                                {
+                                    <select name="sede" id="sede-detalle" class="form-control" onchange="ChangeSelect(this)">
+                                        @foreach (var item in ViewBag.SEDES)
+                                        {
+                                            <option value="@item.Id">@item.Value</option>
+                                        }
+                                    </select>
+                                }
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <div class="form-group">
+                                    <label for="">Evento</label>
+                                    <select name="evento" id="evento-detalle" class="form-control" onchange="ChangeSelect(this)">
+                                        <option value="-1">--Todos--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <div class="form-group">
+                                    <label for="">Curso</label>
+                                    <select name="curso" id="curso-detalle" class="form-control">
+                                        <option value="-1">--Todos--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <div class="form-group">
+                                    <label for="">Fecha Inicio</label>
+                                    <input type="date" id="F-inicio"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <div class="form-group">
+                                    <label for="">Fecha Fin</label>
+                                    <input type="date" id="F-fin"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <button class="btn-info boton form-control" onclick="AddSalon()">
+                                    <i class="icon-plus"></i> Agregar Salón
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12" id="Contenedor-Salones">
+
+                        </div>
+                        <div class="col-12" style="margin-top:50px;">
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <button class="btn-info boton form-control" onclick="ValidateData()">
+                                    <i class="icon-book"></i> Guardar
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
+                                <button class="btn-info boton form-control" onclick="CloseCursoPannel()">
+                                    <i class="icon-logout"></i> Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Salon-Base" style="display:none;">
+    <div class="row salones">
+        <div class="col-12">
+            <table id="salon-0">
+                <tbody>
+                    <tr>
+                        <td>Salón N° 1</td>
+                        <td>Capacitador 
+                        <select>
+                        @{ 
+                            if(ViewBag.CAPACITADOR != null)
+                            {
+                                foreach(var C in ViewBag.CAPACITADOR)
+                                {
+                                    <option value="@C.Id">@C.Value</option>
+                                }
+                            }
+                        }     
+                        </select></td>
+                        <td>Cupos: <input /></td>
+                        <td>Agregar Clase</td>
+                        <td>Eliminar</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <table>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div style="display:none;">
+    <table>
+        <tbody id="Clase-Base">
+            <tr>
+                <td>Hora Inicio <input type="datetime-local" id="HoraInicio"/></td>
+                <td>Hora Fin <input type="datetime-local" id="HoraFin"/></td>
+                <td onclick="DeleteClase(this)">Eliminar</td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+
+<div id="Loading" style="display:none;">
+    <img src="~/Content/icons/loading.gif" />
 </div>
 
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $('#calendar').fullCalendar();
+            $('#calendar').fullCalendar({
+                lang: 'es',
+                defaultDate: new Date(),
+                timeFormat: 'h(:mm)a',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay,agenda'
+                },
+                eventLimit: true,
+                dayClick: function (date, jsEvent, view) {
+                    OpenCursoPannel();
+                    NewCalendar(date);
+                }
+            });
         });
 
 
@@ -135,6 +299,15 @@
                         $("#curso").val(-1);
                         break;
                     }
+                    case "sede-detalle": {
+                        $("#evento-detalle").val(-1);
+                        $("#curso-detalle").val(-1);
+                        break;
+                    }
+                    case "evento-detalle": {
+                        $("#curso-detalle").val(-1);
+                        break;
+                    }
                 }
             } else {
                 GetComboData($(combo).attr("id"), $(combo).val());
@@ -142,13 +315,19 @@
         }
 
         function GetComboData(nombre, valor) {
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
             $.ajax({
                 cache: false,
                 dataType: 'json',
                 method: 'POST',
-                data: { combo: nombre, valor: valor },
+                data: { combo: nombre.split("-")[0], valor: valor },
                 url: '/ReporteAcademico/GetComboData',
                 success: function (json) {
+                    $("#Loading").hide();
                     switch (nombre) {
                         case "sede": {
                             $("#evento").html("");
@@ -185,9 +364,45 @@
                             }
                             break;
                         }
+                        case "sede-detalle": {
+                            $("#evento-detalle").html("");
+                            if (json.length > 0) {
+                                for (var a = 0; a < json.length; a++) {
+                                    $("#evento-detalle").append($('<option>', {
+                                        value: json[a].Id,
+                                        text: json[a].Value
+                                    }));
+                                }
+                            } else {
+                                $("#evento-detalle").append($('<option>', {
+                                    value: -1,
+                                    text: "--Todos--"
+                                }));
+                            }
+                            $("#curso-detalle").val(-1);
+                            break;
+                        }
+                        case "evento-detalle": {
+                            $("#curso-detalle").html("");
+                            if (json.length > 0) {
+                                for (var a = 0; a < json.length; a++) {
+                                    $("#curso-detalle").append($('<option>', {
+                                        value: json[a].Id,
+                                        text: json[a].Value
+                                    }));
+                                }
+                            } else {
+                                $("#curso-detalle").append($('<option>', {
+                                    value: -1,
+                                    text: "--Todos--"
+                                }));
+                            }
+                            break;
+                        }
                     }
                 },
                 error: function (error) {
+                    $("#Loading").hide();
                     console.log(error);
                 }
             });
@@ -204,6 +419,11 @@
                 month: Datemoment.format().split("-")[1]
             };
 
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
             $.ajax({
                 cache: false,
                 dataType: 'json',
@@ -211,12 +431,13 @@
                 data: data,
                 url: '/ProgramacionCursos/FiltrarCalendario',
                 success: function (json) {
+                    $("#Loading").hide();
+                    CloseCursoPannel();
                     var events = [];
                     $.each(json, function (i, v) {
                         events.push({
-                            id: 1,
+                            id: v.CursoProgramadoId,
                             title: v.Curso,
-                            description: 'nada',
                             start: moment(v.FechaInicio),
                             end: moment(v.FechaFin),
                             color: v.Color,
@@ -226,6 +447,7 @@
                     GenerateCalender(events);
                 },
                 error: function (error) {
+                    $("#Loading").hide();
                     console.log(error);
                 }
             });
@@ -245,12 +467,216 @@
                 eventLimit: true,
                 events: events,
                 eventClick: function (calEvent, jsEvent, view) {
-                    console.log("calEvent", calEvent);
-                    console.log("jsevent", jsEvent);
-                    console.log("view", view);
+                    OpenCursoPannel();
+                    GetCalendarEvent(calEvent.id);
+                },
+                dayClick: function (date, jsEvent, view) {
+                    OpenCursoPannel();
+                    NewCalendar(date);
                 }
             });
         }
 
+        function GetCalendarEvent(id) {
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                method: 'POST',
+                data: { id:id },
+                url: '/ProgramacionCursos/GetCalendarEvent',
+                success: function (json) {
+                    $("#Loading").hide();
+                    console.log(json);
+
+                    $("#calendarData #F-inicio").val(moment(json.FechaInicio).format("YYYY-MM-DD"));
+                    $("#calendarData #F-fin").val(moment(json.FechaFin).format("YYYY-MM-DD"));
+                    $("#calendarData #sede-detalle").val(json.SedeId);
+                },
+                error: function (error) {
+                    $("#Loading").hide();
+                    CloseCursoPannel();
+                    console.log(error);
+                }
+            });
+        }
+
+        function NewCalendar(date) {
+            $("#calendarData #F-inicio").val(date.format("YYYY-MM-DD"));
+        }
+
+        function OpenCursoPannel() {
+            $("#collapse1").animate({ "height": "0px", "padding": "0px 10px" }, 400);
+            $("#collapse2").animate({ "height": "0px", "padding": "0px 10px" }, 400);
+            setTimeout(function () {
+                var height = 10;
+
+                for (i = 0; i < $("#calendarData .row").length; i++) {
+                    height = height + $($("#calendarData .row")[i]).height();
+                }
+
+                $("#calendarData").animate({ "height": height + "px", "padding": "10px" }, 400);
+
+            }, 200);
+            $("#calendarData #F-inicio").val("");
+            $("#calendarData #F-fin").val("");
+            $("#calendarData #curso-detalle").html("");
+            $("#curso-detalle").append($('<option>', {
+                value: -1,
+                text: "--Todos--"
+            }));
+            $("#calendarData #evento-detalle").html("");
+            $("#evento-detalle").append($('<option>', {
+                value: -1,
+                text: "--Todos--"
+            }));
+            $("#calendarData #sede-detalle").val(-1);
+            $("#Contenedor-Salones").html("");
+        }
+
+        function CloseCursoPannel() {
+            $("#calendarData").animate({ "height": "0px", "padding": "0px 10px" }, 400);
+            setTimeout(function () {
+                var height = 10;
+
+                for (i = 0; i < $("#collapse1 .row").length; i++) {
+                    height = height + $($("#collapse1 .row")[i]).height();
+                }
+
+                $("#collapse1").animate({ "height": height + "px", "padding": "10px" }, 400);
+
+            }, 200);
+            setTimeout(function () {
+                var height = 10;
+
+                for (i = 0; i < $("#collapse2 .row").length; i++) {
+                    height = height + $($("#collapse2 .row")[i]).height();
+                }
+
+                $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
+
+            }, 200);
+        }
+
+        function AddSalon() {
+            var numero = $("#Contenedor-Salones .salones").length;
+            if (numero > 2) {
+                alert("No pueden haber más de 3 salones");
+            } else {
+                $("#Contenedor-Salones").append($("#Salon-Base").html());
+                numero++;
+                $("#Contenedor-Salones #salon-0").attr("id", "salon-" + numero);
+                $($("#salon-" + numero + " tbody tr td")[0]).html("Salón N° " + numero);
+                $($("#salon-" + numero + " tbody tr td")[3]).attr("onclick", "AddClase('" + numero + "')");
+                $($("#salon-" + numero + " tbody tr td")[4]).attr("onclick", "DeleteSalon('" + numero + "')");
+            }
+            ResizeCalendarDetail();
+        }
+
+        function DeleteSalon(numero) {
+            var max = $("#Contenedor-Salones .salones").length;
+            for (var i = 1; i <= max; i++) {
+                if (i == numero) {
+                    $($("#Contenedor-Salones .salones")[i - 1]).remove();
+                }
+                if (i > numero) {
+                    $($("#salon-" + i + " tbody tr td")[0]).html("Salón N° " + (i - 1));
+                    $($("#salon-" + i + " tbody tr td")[3]).attr("onclick", "AddClase('" + (i - 1) + "')");
+                    $($("#salon-" + i + " tbody tr td")[4]).attr("onclick", "DeleteSalon('" + (i - 1) + "')");
+                    $("#Contenedor-Salones #salon-" + i).attr("id", "salon-" + (i - 1));
+                }
+            }
+            ResizeCalendarDetail();
+        }
+
+        function AddClase(numero) {
+            $("#Contenedor-Salones #salon-" + numero + " table tbody").append($("#Clase-Base").html());
+            ResizeCalendarDetail();
+        }
+
+        function DeleteClase(X) {
+            $($(X).parent()).remove();
+            ResizeCalendarDetail();
+        }
+
+        function ResizeCalendarDetail() {
+            setTimeout(function () {
+                var height = 10;
+
+                for (i = 0; i < $("#calendarData > .row").length; i++) {
+                    height = height + $($("#calendarData > .row")[i]).height();
+                }
+
+                $("#calendarData").animate({ "height": height + "px", "padding": "10px" }, 100);;
+            });
+        }
+
+        function ValidateData() {
+            var data = {
+                RecordType: 1,
+                RecordStatus : 2,
+                CursoProgramadoId : 0,
+                SedeId : $("#calendarData #sede-detalle").val(),
+                EventoId : $("#calendarData #evento-detalle").val(),
+                CursoId : $("#calendarData #curso-detalle").val(),
+                FechaInicio : $("#calendarData #F-inicio").val(),
+                FechaFin: $("#calendarData #F-fin").val(),
+                Salones : new Array()
+            };
+
+            for (i = 1; i <= $("#Contenedor-Salones .salones").length; i++){
+                var Salon = {
+                    RecordType: 1,
+                    RecordStatus: 2,
+                    SalonId: 0,
+                    CapacitadorId: $("#Contenedor-Salones #salon-" + i + " select").val(),
+                    Cupos: $("#Contenedor-Salones #salon-" + i + " input").val(),
+                    Clases: new Array()
+                };
+
+                for (z = 0; z < $("#Contenedor-Salones #salon-" + i + " table tbody > tr").length; z++) {
+                    var Clase = {
+                        RecordType: 1,
+                        RecordStatus: 2,
+                        ClaseId: 0,
+                        HoraInicio: $($("#Contenedor-Salones #salon-" + i + " table tbody > tr")[z]).children("td").children("#HoraInicio").val(),
+                        HoraFin: $($("#Contenedor-Salones #salon-" + i + " table tbody > tr")[z]).children("td").children("#HoraFin").val()
+                    };
+
+                    Salon.Clases.push(Clase);
+                }
+
+                data.Salones.push(Salon);
+            }
+
+            SaveData(data);
+        }
+
+        function SaveData(data) {
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                method: 'POST',
+                data: { data: JSON.stringify(data) },
+                url: '/ProgramacionCursos/SaveData',
+                success: function (json) {
+                    $("#Loading").hide();
+                    CloseCursoPannel();
+                },
+                error: function (error) {
+                    $("#Loading").hide();
+                    console.log(error);
+                }
+            });
+        }
     </script>
 }

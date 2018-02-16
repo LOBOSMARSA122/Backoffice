@@ -17,5 +17,19 @@ namespace ObackOffice.Utils
             Sedes =106,
             Condicion = 107,
         }
+
+        public enum RecordType
+        {
+            Temporal = 1,
+            NoTemporal = 2
+        }
+
+        public enum RecordStatus
+        {
+            Grabado = 1,
+            Agregar = 2,
+            Editar = 3,
+            Eliminar = 4
+        }
     }
 }

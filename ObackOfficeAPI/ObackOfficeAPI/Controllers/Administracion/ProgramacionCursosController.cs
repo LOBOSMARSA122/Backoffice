@@ -19,5 +19,16 @@ namespace ObackOfficeAPI.Controllers.Administracion
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetCalendarEvent(int id)
+        {
+            if (id == 0)
+                return BadRequest("Parámetro Incorrecto");
+
+            ProgramacionCursos response = pcr.GetCalendarEvent(id);
+
+            return Ok(response);
+        }
     }
 }
