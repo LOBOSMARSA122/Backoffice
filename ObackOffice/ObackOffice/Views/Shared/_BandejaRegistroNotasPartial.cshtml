@@ -1,17 +1,37 @@
 ﻿@{
+    int Take = 0;
     int Total = 0;
     int Primer = 0;
     int Ultimo = 0;
+    int Index = 0;
 
-    if (ViewBag.Usuarios != null)
+    if (ViewBag.BandejaRegistro != null)
     {
-        Total = ViewBag.Usuarios.TotalRegistros;
-        Primer = ((ViewBag.Usuarios.Index - 1) * ViewBag.Usuarios.Take) + 1;
-        Ultimo = Primer + (ViewBag.Usuarios.Lista.Count - 1);
+        Take = ViewBag.BandejaRegistro.Take;
+        Index = ViewBag.BandejaRegistro.Index;
+        Total = ViewBag.BandejaRegistro.TotalRegistros;
+        Primer = ((Index - 1) * Take) + 1;
+        Ultimo = Primer + (ViewBag.BandejaRegistro.Lista.Count - 1);
+
+        Primer = Primer < 0 ? 0 : Primer;
+        Ultimo = Ultimo < 0 ? 0 : Ultimo;
+    }
+    else
+    {
+        Take = 10;
     }
 }
 <div>
-    <span class="informacion">Mostrando 1 de 9 de un total de 9 entradas</span>
+    <span class="informacion">Mostrando desde N° @Primer hasta @Ultimo de un total de @Total entradas</span>
+    <div class="float-lg-right">
+        Total de registros:
+        <select id="take">
+            <option value="10" @(Take == 10 ? "selected" : "")>10</option>
+            <option value="25" @(Take == 25 ? "selected" : "")>25</option>
+            <option value="50" @(Take == 50 ? "selected" : "")>50</option>
+            <option value="0" @(Take == 0 ? "selected" : "")>TODOS</option>
+        </select>
+    </div>
 </div>
 <div class="box box-warning mt-2">
     <div class="table-responsive">
@@ -30,7 +50,7 @@
                 @{
                     if (ViewBag.BandejaRegistro == null)
                     {
-                        <tr><td colspan="7" class="text-center">Error al conectarse al servidor</td></tr>
+                        <tr><td colspan="7" class="text-center">No hay resultados</td></tr>
                     }
                     else if (ViewBag.BandejaRegistro.Lista.Count == 0)
                     {
@@ -56,18 +76,29 @@
         <div class="paginacion-tabla d-flex justify-content-center">
             <div>
                 <ul class="pagination">
-                    <li class="page-item">
-                        <span class="page-link" aria-hidden="true">Anterior</span>
-                    </li>
-                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">
-                            <span aria-hidden="true">Siguiente</span>
-                        </a>
-                    </li>
+                    @{ 
+                            if(Index > 1)
+                            {
+                                <li class="page-item" onclick="Filtrar(@(Index - 1))">
+                                    <span class="page-link" aria-hidden="true">Anterior</span>
+                                </li>
+                            }
+                            int pagina = 0;
+                            if(Take > 0)
+                            {
+                                for(int i = 0; i < Total; i = i + Take)
+                                {
+                                    pagina++;
+                                    <li @(pagina == Index ? "class=pagination-active" : "onclick=Filtrar(" + pagina + ")")><span class="page-link" aria-hidden="true">@pagina</span></li>
+                                }
+                            }
+                            if(pagina > Index)
+                            {
+                                <li class="page-item" onclick="Filtrar(@(Index + 1))">
+                                    <span class="page-link" aria-hidden="true">Siguiente</span>
+                                </li>
+                            }
+                        }
                 </ul>
             </div>
         </div>

@@ -1,4 +1,5 @@
-﻿using ObackOffice.Models;
+﻿using Newtonsoft.Json;
+using ObackOffice.Models;
 using ObackOffice.Models.Administracion;
 using ObackOffice.Models.Comun;
 using ObackOffice.Utils;
@@ -50,7 +51,31 @@ namespace ObackOffice.Controllers.Registro
             };
             ViewBag.REGISTRONOTAS = API.Get<List<RegistroNotas>>("RegistroNotas/GetRegistroNotas", arg);
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
-            return View();
+            if (ViewBag.REGISTRONOTAS.Count ==0)
+            {
+                return PartialView("_SinAlumnosPartial");
+            }
+            else
+            {
+                return View();
+            }
+            
+        }
+
+        public JsonResult GrabarRegistro(string data)
+        {
+            Api API = new Api();
+            var Usuario = ((ClientSession)Session["AutBackoffice"]);
+            List<RegistroNotas> registros = JsonConvert.DeserializeObject<List<RegistroNotas>>(data);
+          
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", JsonConvert.SerializeObject(registros) }
+              
+            };
+            bool result = API.Post<bool>("RegistroNotas/GrabarRegistro", args);
+
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
     }

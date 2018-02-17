@@ -1,6 +1,7 @@
 ﻿using BE.Administracion;
 using BE.Comun;
 using BL;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,20 @@ namespace ObackOfficeAPI.Controllers.Administracion
         {
             List<RegistroNotas> result = rr.GetRegistroNotas(salonProgramadoId);
             return Ok(result);
+        }
+
+        [HttpPost]
+        public IHttpActionResult GrabarRegistro(MultiDataModel data)
+        {
+            try
+            {
+                List<RegistroNotas> registros = JsonConvert.DeserializeObject<List<RegistroNotas>>(data.String1);
+                return Ok(rr.GrabarRegistro(registros, 1));
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Parámetros incorrectos");
+            }
         }
     }
 }

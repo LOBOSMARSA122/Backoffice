@@ -1,7 +1,6 @@
 ﻿
 @{
-    var listaRegistro = ViewBag.REGISTRONOTAS;
-    var NroClases = ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia.Count;
+    var listaRegistro = ViewBag.REGISTRONOTAS; 
 }
 <div class="container-fluid">
 
@@ -49,6 +48,7 @@
                 <thead style="text-align:center">
                     <tr>
                         <th style="display:none">EmpleadoCursoId</th>
+                        <th style="display:none">RecordStatusEmpleadoCurso</th>
                         <th>Empleado</th>
                         @foreach (var item in ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia)
                         {
@@ -65,34 +65,33 @@
                     {
                         <tr class="info-alumno" id="info-alumno-@registro.EmpleadoCursoId">
                             <td style="display:none">@registro.EmpleadoCursoId</td>
+                            <td style="display:none" id="Clase-RecordStatus">1</td>
                             <td>@registro.NombreCompletoEmpleado</td>
                             @foreach (var asistencia in registro.EmpleadoAsistencia)
                             {
-
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId" @(@asistencia.Asistio == 2 ? "checked" : "" )>
+                                            <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId" @(@asistencia.Asistio == 2 ? "checked" : "" ) onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                             <label class="custom-control-label" for="@asistencia.EmpleadoAsistenciaId"></label>
                                         </div>
                                     </div>
                                 </td>
                             }
-
-                            <td><input type="text" id="@registro.EmpleadoCursoId-Nota" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" /></td>
-                            <td>
+                            <td style="text-align:-webkit-center"><input type="number" id="@registro.EmpleadoCursoId-Nota" min="0" max="20" maxlength="2" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" onkeyup="ClaseChanged($(this).parent().parent())" /></td>
+                            <td style="text-align:-webkit-center">
                                 <input type="button" name="name" class=" @( @registro.Taller == null ? "btn boton-table-warning" :  @registro.Taller == "Eficiente" ? "btn boton-table-success" : "btn boton-table-danger" )" value="@( @registro.Taller == null ? "Por Iniciar" :  @registro.Taller == "Eficiente" ? "Satisfactorio" : "Deficiente" )" onclick="ShowTaller(@registro.EmpleadoCursoId)" />
                             </td>
                             <td>
-                                <select class="custom-select" id="@registro.EmpleadoCursoId-Condicion">
+                                <select class="custom-select" id="@registro.EmpleadoCursoId-Condicion" onchange="ClaseChanged($(this).parent().parent())">
                                     <option value="-1" @(@registro.CondicionId == -1 ? "selected" : "" )>--Seleccionar--</option>
                                     <option value="1" @(@registro.CondicionId == 1 ? "selected" : "" )>Aprobado</option>
                                     <option value="2" @(@registro.CondicionId == 2 ? "selected" : "" )>Desaprobado</option>
                                     <option value="3" @(@registro.CondicionId == 3 ? "selected" : "" )>Por Iniciar</option>
                                 </select>
                             </td>
-                            <td>
-                                <input type="text" id="@registro.EmpleadoCursoId-Obs" value="@registro.Observacion" class="form-control obs" />
+                            <td style="text-align:-webkit-center">
+                                <input type="text" id="@registro.EmpleadoCursoId-Obs" value="@registro.Observacion" class="form-control obs" onkeyup="ClaseChanged($(this).parent().parent())" />
                             </td>
                         </tr>
                         <tr class="info-taller" id="info-taller-@registro.EmpleadoCursoId">
@@ -109,55 +108,57 @@
                                                     <th>Algunas Veces</th>
                                                     <th>Muchas Veces</th>
                                                     <th>Siempre</th>
+                                                    <th style="display:none">RecordStatusTaller</th>
                                                 </tr>
                                             </thead>
-                                            <tbody >
+                                            <tbody>
                                                 @foreach (var Taller in @registro.EmpleadoTaller)
                                                 {
-                                                <tr>
-                                                    <td  style="display:none">@Taller.EmpleadoTallerId</td>
-                                                    <td>@Taller.Pregunta</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P1" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "1" ? "checked" : "" ) value="1">
-                                                                <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P1"></label>
+                                                    <tr>
+                                                        <td style="display:none">@Taller.EmpleadoTallerId</td>
+                                                        <td>@Taller.Pregunta</td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P1" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "1" ? "checked" : "" ) value="1" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
+                                                                    <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P1"></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="custom-control custom-radio">
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P2" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "2" ? "checked" : "" ) value="2">
-                                                                <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P2"></label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P2" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "2" ? "checked" : "" ) value="2" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
+                                                                    <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P2"></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P3" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "3" ? "checked" : "" ) value="3">
-                                                                <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P3"></label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P3" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "3" ? "checked" : "" ) value="3" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
+                                                                    <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P3"></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P4" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "4" ? "checked" : "" ) value="4">
-                                                                <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P4"></label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P4" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "4" ? "checked" : "" ) value="4" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
+                                                                    <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P4"></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P5" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "5" ? "checked" : "" ) value="5">
-                                                                <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P5"></label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P5" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "5" ? "checked" : "" ) value="5" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
+                                                                    <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P5"></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td style="display:none" id="Clase-RecordStatus">1</td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -172,9 +173,17 @@
     </div>
     <div class="row d-flex justify-content-end">
         <div class="col-2">
-            <button class="btn btn-primary btn-block" onclick="Grabar()" >Grabar</button>
+            <button class="btn btn-warning btn-block" onclick="Grabar()">Grabar</button>
         </div>
     </div>
+    <div class="alert alert-success" role="alert" style="display:none;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+        <strong>¡Correcto!</strong> Se grabó correctamente  
+    </div>
+</div>
+
+<div id="Loading" style="display:none;">
+    <img src="~/Content/icons/loading.gif" />
 </div>
 
 @section Scripts{
@@ -195,6 +204,12 @@ function ShowTaller(EmpleadoCursoId) {
 
 function Grabar() {
 
+    var width = $(window).width();
+    var height = $(window).height();
+    console.log(width + ' ' + height);
+    $("#Loading").show().css("width", width + "px").css("height", height + "px");
+    $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
     var filas_InfoAlumno = $('#NotasAlumno > .info-alumno').length;
     var listaRegistroNotas = new Array();
 
@@ -203,11 +218,12 @@ function Grabar() {
         var _EmpleadoCursoId = $($('#NotasAlumno > .info-alumno')[i]).children("td").html();
         var infoAlumno = {
             EmpleadoCursoId: _EmpleadoCursoId,
-            nota: $($('#NotasAlumno > .info-alumno')[i]).find('input:text.nota').val(),
-            condicion: $($('#NotasAlumno > .info-alumno')[i]).find('option:selected').val(),
+            nota: $($('#NotasAlumno > .info-alumno')[i]).find(':input[type="number"].nota').val(),
+            CondicionId: $($('#NotasAlumno > .info-alumno')[i]).find('option:selected').val(),
             observacion: $($('#NotasAlumno > .info-alumno')[i]).find('input:text.obs').val(),
-            ListaAsistencias: new Array(),
-            ListaTaller: new Array()
+            RecordStatus: $($('#NotasAlumno > .info-alumno')[i]).find('#Clase-RecordStatus').html(),
+            EmpleadoAsistencia: new Array(),
+            EmpleadoTaller: new Array()
         };
 
         var NroAsistencias = $($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox').length;
@@ -216,9 +232,9 @@ function Grabar() {
             var asistencias = {
                 EmpleadoAsistenciaId: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).attr('id'),
                 EmpleadoCursoId: _EmpleadoCursoId,
-                Asistio: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).is(':checked')
+                Asistio: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).is(':checked') == true ? 2 :1
             };   
-            infoAlumno.ListaAsistencias.push(asistencias);
+            infoAlumno.EmpleadoAsistencia.push(asistencias);
         }
 
         var filas_TallerAlumno = $('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr').length;
@@ -229,16 +245,39 @@ function Grabar() {
             var pregunta = {
                 EmpleadoTallerId: _EmpleadoTallerId,
                 EmpleadoCursoId: _EmpleadoCursoId,
-                Valor: $($($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('input[name=' + _EmpleadoTallerId +']:checked')).val()
+                Valor: $($($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('input[name=' + _EmpleadoTallerId + ']:checked')).val(),
+                RecordStatus: $($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('#Clase-RecordStatus').html()
             };
-            infoAlumno.ListaTaller.push(pregunta);
+            infoAlumno.EmpleadoTaller.push(pregunta);
         }
 
         listaRegistroNotas.push(infoAlumno);
     }
 
+    $.ajax({
+        cache: false,
+        dataType: 'json',
+        method: 'POST',
+        data: { data: JSON.stringify(listaRegistroNotas) },
+        url: '/RegistroNotas/GrabarRegistro',
+        success: function (result) {
+            console.log(result);
+            $("#Loading").hide();
+            alerta();
+        },
+        error: function () {
+            alert('error');
+            $("#Loading").hide();
+        }
+    });
+
     console.log(listaRegistroNotas);
 }
+
+function ClaseChanged(tr) {
+    if ($(tr).children("#Clase-RecordStatus").html() == 1)
+        $(tr).children("#Clase-RecordStatus").html(3);
+    }
 
   
 </script>

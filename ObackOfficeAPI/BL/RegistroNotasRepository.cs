@@ -43,15 +43,13 @@ namespace BL
                                  Capacitador = g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno,
 
                              }).ToList();
-                int TotalRegistros = query.Count;
-                query = query.Skip(skip).Take(data.Take).ToList();
-                BandejaRegistroNotas returnData = new BandejaRegistroNotas()
-                {
-                    Lista = query,
-                    TotalRegistros = TotalRegistros
-                };
+                data.TotalRegistros = query.Count;
+                if (data.Take > 0)
+                    query = query.Skip(skip).Take(data.Take).ToList();
 
-                return returnData;
+                data.Lista = query;
+
+                return data;
             }
             catch (Exception ex)
             {
@@ -63,7 +61,7 @@ namespace BL
         {
             try
             {
-                int Grabado = (int)Enumeradores.RecordStatus.Agregar;
+                int Grabado = (int)Enumeradores.RecordStatus.Grabado;
                 var query = (from a in ctx.EmpleadoCursos
                              join b in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals b.EmpleadoCursoId
                              join c in ctx.Empleados on a.EmpleadoId equals c.EmpleadoId
@@ -124,6 +122,63 @@ namespace BL
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public bool GrabarRegistro(List<RegistroNotas> data, int UsuId)
+        {
+            try
+            {
+                ctx.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                //Buscar todos los registros que tienen el flag actualizado
+                var listaEmpleadoCurso = data.FindAll(p => p.RecordStatus == (int)Enumeradores.RecordStatus.Editar).ToList();
+                var ListaEmpleadoTaller = data.SelectMany(p => p.EmpleadoTaller).Where(x => x.RecordStatus == (int)Enumeradores.RecordStatus.Editar).ToList();
+
+
+                //Actualizar en TblEmpleadoCurso
+                foreach (var EmpleadoCurso in listaEmpleadoCurso)
+                {
+                    var oEmpleadoCurso = (from a in ctx.EmpleadoCursos where a.EmpleadoCursoId == EmpleadoCurso.EmpleadoCursoId select a).FirstOrDefault();
+
+                    oEmpleadoCurso.Nota = EmpleadoCurso.Nota;
+                    oEmpleadoCurso.CondicionId = EmpleadoCurso.CondicionId;
+                    oEmpleadoCurso.Observacion = EmpleadoCurso.Observacion;
+                    oEmpleadoCurso.NotaTaller = "Iniciado";
+                    oEmpleadoCurso.UsuActualiza = UsuId;
+                    oEmpleadoCurso.FechaActualiza = DateTime.Now;
+
+                    //Actualizar en TblEmpleadoAsistencia
+                    foreach (var Asistencia in EmpleadoCurso.EmpleadoAsistencia)
+                    {
+                        var oEmpleadoAsistencia = (from a in ctx.EmpleadoAsistencias where a.EmpleadoAsistenciaId == Asistencia.EmpleadoAsistenciaId select a).FirstOrDefault();
+
+                        oEmpleadoAsistencia.Asistio = Asistencia.Asistio;
+                        oEmpleadoAsistencia.UsuActualiza = UsuId;
+                        oEmpleadoAsistencia.FechaActualiza = DateTime.Now;
+                    }
+                }
+
+                //Actualizar en EmpleadoTaller
+
+                foreach (var EmpleadoTaller in ListaEmpleadoTaller)
+                {
+                    var oEmpleadoTaller = (from a in ctx.EmpleadoTalleres where a.EmpleadoTallerId == EmpleadoTaller.EmpleadoTallerId select a).FirstOrDefault();
+
+                    oEmpleadoTaller.Valor = EmpleadoTaller.Valor;
+                    oEmpleadoTaller.UsuActualiza = UsuId;
+                    oEmpleadoTaller.FechaActualiza = DateTime.Now;
+                }
+
+                ctx.SaveChanges();
+
+                ctx.Database.CurrentTransaction.Commit();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                ctx.Database.CurrentTransaction.Rollback();
                 throw;
             }
         }

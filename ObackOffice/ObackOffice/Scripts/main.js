@@ -6,6 +6,20 @@ function resize() {
     }   
 }
 
+function alerta() {
+    if ($('.alert').css("display") == "none") {
+        $('.alert').show();
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500).slideUp(500, function () {
+                $(this).hide();
+            });
+        }, 1000);
+    }
+    else {
+        $('.alert').hide();
+    }
+}
+
 function main() {
 
     //Mostramos y ocultamos submenus
