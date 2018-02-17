@@ -67,7 +67,7 @@
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                     <div class="form-group">
                         <label for="">.</label>
-                        <button class="btn-warning boton form-control" onclick="Filtrar()">
+                        <button class="btn-warning boton form-control" onclick="Filtrar(1)">
                             <i class="fa fa-search"></i> Filtrar
                         </button>
                     </div>
@@ -82,15 +82,15 @@
 
     @section Scripts{
         <script>
-            function Filtrar() {
+            function Filtrar(index) {
                 data = {
                     fechaInicio: $("#dpFechaInicio").val(),
                     fechaFin: $("#dpFechaFin").val(),
                     capacitadorId: $("#capacitador").val(),
                     cursoId: $("#curso").val(),
                     activoId: $("#activo").val(),
-                    Index: 1,
-                    Take: 10
+                    Index: index,
+                    Take: $("#take").val()
                 };
                 $.ajax({
                     cache: false,

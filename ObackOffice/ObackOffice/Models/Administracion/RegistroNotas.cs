@@ -19,7 +19,7 @@ namespace ObackOffice.Models.Administracion
         public int EmpleadoId { get; set; }
         public int PersonaId { get; set; }
         public string NombreCompletoEmpleado { get; set; }
-        public decimal Nota { get; set; }
+        public decimal? Nota { get; set; }
         public string Taller { get; set; }
         public int CondicionId { get; set; }
         public string Observacion { get; set; }

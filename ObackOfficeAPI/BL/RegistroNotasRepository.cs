@@ -43,15 +43,13 @@ namespace BL
                                  Capacitador = g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno,
 
                              }).ToList();
-                int TotalRegistros = query.Count;
-                query = query.Skip(skip).Take(data.Take).ToList();
-                BandejaRegistroNotas returnData = new BandejaRegistroNotas()
-                {
-                    Lista = query,
-                    TotalRegistros = TotalRegistros
-                };
+                data.TotalRegistros = query.Count;
+                if (data.Take > 0)
+                    query = query.Skip(skip).Take(data.Take).ToList();
 
-                return returnData;
+                data.Lista = query;
+
+                return data;
             }
             catch (Exception ex)
             {
@@ -132,6 +130,7 @@ namespace BL
         {
             try
             {
+                ctx.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
                 //Buscar todos los registros que tienen el flag actualizado
                 var listaEmpleadoCurso = data.FindAll(p => p.RecordStatus == (int)Enumeradores.RecordStatus.Editar).ToList();
                 var ListaEmpleadoTaller = data.SelectMany(p => p.EmpleadoTaller).Where(x => x.RecordStatus == (int)Enumeradores.RecordStatus.Editar).ToList();
@@ -173,11 +172,13 @@ namespace BL
 
                 ctx.SaveChanges();
 
+                ctx.Database.CurrentTransaction.Commit();
+
                 return true;
             }
             catch (Exception)
             {
-
+                ctx.Database.CurrentTransaction.Rollback();
                 throw;
             }
         }

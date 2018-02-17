@@ -394,6 +394,10 @@ table tbody tr td {
     text-align: left;
 }
 
+/*table tbody tr td input[type=text] {
+    text-align: center;
+}*/
+
 .subtable thead {
     color: #3c3c3b;
     font-family: 'Roboto', sans-serif;
@@ -675,9 +679,9 @@ margin:0;
     z-index: 9999;
 }
 
-    #Loading > img {
-        width: 200px;
-    }
+#Loading > img {
+    width: 200px;
+}
 
 /*MEDIA QUERYS*/
 @media (max-width: 480px) {
@@ -794,6 +798,12 @@ margin:0;
 
 
 .grillataller {
-    margin:0px;
-    
+    margin:0px;    
 }
+
+.alert{
+    position:absolute;
+    top:50px;
+    right:60px;
+}
+
