@@ -54,5 +54,14 @@ namespace BE.Comun
             Editar = 3,
             Eliminar = 4
         }
+
+        public enum Roles
+        {
+            Administrador = 1,
+            Capacitador = 2,
+            ClienteMinera = 3,
+            Representante = 4,
+            Empleado = 5
+        }
     }
 }

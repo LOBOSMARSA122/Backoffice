@@ -1,5 +1,6 @@
 ﻿using BE.Cliente;
 using BE.Comun;
+using BE.Acceso;
 using DAL;
 using System;
 using System.Collections.Generic;
@@ -149,6 +150,82 @@ namespace BL
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        public string VerificaYRegistraEmpleado(string usuario, string email, string cargo, string pass, string telefono)
+        {
+            try
+            {
+                int NoEliminado = (int)Enumeradores.EsEliminado.No;
+                int RolEmpleado = (int)Enumeradores.Roles.Empleado;
+
+                var Persona = (from a in ctx.Personas where a.NroDocumento == usuario select a).FirstOrDefault();
+
+                if (Persona == null)
+                    return "El DNI ingresado no es válido";
+
+                var Empleados = (from a in ctx.Empleados where a.PersonaId == Persona.PersonaId select a).ToList();
+
+                if (Empleados.Count == 0 || Empleados.Where(x => x.EsEliminado == NoEliminado).ToList().Count == 0)
+                    return "Usted no se encuentra activo en ninguna empresa";
+
+                if (Empleados.Where(x => x.EsEliminado == NoEliminado).ToList().Count > 1)
+                    return "Usted se encuentra activo en más de una empresas, no puede continuar con el registro";
+
+                var Empleado = Empleados.Where(x => x.EsEliminado == NoEliminado).FirstOrDefault();
+
+                var Usuario = (from a in ctx.Usuarios where a.PersonaId == Persona.PersonaId select a).FirstOrDefault();
+
+                if (Usuario != null)
+                    return "Usted ya posee una cuenta";
+
+
+                Usuario NewUser = new Usuario()
+                {
+                    Contrasenia = pass,
+                    EmpresaId = Empleado.EmpresaId,
+                    EsEliminado = NoEliminado,
+                    FechaGraba = DateTime.Now,
+                    NombreUsuario = usuario,
+                    PersonaId = Persona.PersonaId,
+                    RolId = RolEmpleado
+                };
+
+                ctx.Usuarios.Add(NewUser);
+                ctx.SaveChanges();
+
+                NewUser.UsuGraba = NewUser.UsuarioId;
+
+
+                if(Persona.CorreoElectronico != email)
+                {
+                    Persona.CorreoElectronico = email;
+                    Persona.UsuActualiza = NewUser.UsuarioId;
+                    Persona.FechaActualiza = DateTime.Now;
+                }
+
+                if (!string.IsNullOrWhiteSpace(telefono) && (Persona.NumeroCelular != telefono))
+                {
+                    Persona.NumeroCelular = telefono;
+                    Persona.UsuActualiza = NewUser.UsuarioId;
+                    Persona.FechaActualiza = DateTime.Now;
+                }
+
+                if (Empleado.Cargo != cargo)
+                {
+                    Empleado.Cargo = cargo;
+                    Empleado.UsuActualiza = NewUser.UsuarioId;
+                    Empleado.FechaActualiza = DateTime.Now;
+                }
+
+                ctx.SaveChanges();
+
+                return "Ok";
+            }
+            catch(Exception e)
+            {
+                return "Sucedió un problema al intentar registrar.";
             }
         }
     }

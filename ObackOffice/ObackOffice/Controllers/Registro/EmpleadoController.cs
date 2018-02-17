@@ -168,5 +168,10 @@ namespace ObackOffice.Controllers.Registro
 
             return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
+        public ActionResult HistorialDeNotas()
+        {
+            return View();
+        }
     }
 }

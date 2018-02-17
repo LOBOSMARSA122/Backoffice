@@ -1,5 +1,6 @@
 ﻿using BE.Cliente;
 using BL;
+using BE.Comun;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,13 @@ namespace ObackOfficeAPI.Controllers.Comun
         {
             bool result = er.GrabarEmpleado(data);
             return Ok(result);
+        }
+
+        [HttpGet]
+        public IHttpActionResult VerificaYRegistraEmpleado(string usuario, string email, string cargo, string pass, string telefono)
+        {
+            string response = er.VerificaYRegistraEmpleado(usuario, email, cargo, pass, telefono);
+            return Ok(response);
         }
     }
 }

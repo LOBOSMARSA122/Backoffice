@@ -61,7 +61,8 @@ namespace BL
                                                   join b in ctx.Eventos on a.EventoId equals b.EventoId
                                                   join c in ctx.SalonProgramados on a.CursoProgramadoId equals c.CursoProgramadoId
                                                   join d in ctx.SalonClases on c.SalonProgramadoId equals d.SalonProgramadoId
-                                                  where a.EsEliminado == EsNoEliminado && d.EsEliminado == EsNoEliminado
+                                                  where a.EsEliminado == EsNoEliminado && d.EsEliminado == EsNoEliminado &&
+                                                    a.CursoProgramadoId == id
                                                   group new { a,b,c,d } by a.CursoProgramadoId into curso
                                                   select new ProgramacionCursos()
                                                   {

@@ -39,6 +39,13 @@ namespace ObackOffice.Controllers
             return View("~/Views/Person/Index.cshtml");
         }
 
+        public ActionResult Register()
+        {
+            if (TempData["Message"] != null)
+                ViewBag.Message = TempData["Message"];
+            return View();
+        }
+
         #region Authentication
 
         public ActionResult Login_authentication(FormCollection collection)
@@ -95,6 +102,47 @@ namespace ObackOffice.Controllers
             Session.Remove("AutBackoffice");
             Session.RemoveAll();
             return View();
+        }
+
+        public ActionResult VerifyRegister(FormCollection collection)
+        {
+            if(string.IsNullOrWhiteSpace(collection.Get("usuario")) || string.IsNullOrWhiteSpace(collection.Get("email")) || string.IsNullOrWhiteSpace(collection.Get("cargo")) || string.IsNullOrWhiteSpace(collection.Get("pass")) || string.IsNullOrWhiteSpace(collection.Get("repass")))
+            {
+                TempData["Message"] = "Debe completar todos los campos marcados con un (*)";
+                return RedirectToAction("Register");
+            }
+
+            if (string.IsNullOrWhiteSpace(collection.Get("terminos")))
+            {
+                TempData["Message"] = "Debe aceptar los términos y condiciones";
+                return RedirectToAction("Register");
+            }
+
+            if(collection.Get("pass") != collection.Get("pass"))
+            {
+                TempData["Message"] = "Las contraseñas deben de coincidir";
+                return RedirectToAction("Register");
+            }
+
+            Api API = new Api();
+
+            Dictionary<string, string> args = new Dictionary<string, string>()
+            {
+                { "usuario", collection.Get("usuario") },
+                { "email", collection.Get("email")},
+                { "cargo" ,collection.Get("cargo")},
+                { "pass",collection.Get("pass") },
+                { "telefono" , collection.Get("telefono")}
+            };
+            string Message = API.Get<string>("Empleado/VerificaYRegistraEmpleado",args);
+
+            if(Message != "Ok")
+            {
+                TempData["Message"] = Message;
+                return RedirectToAction("Register");
+            }
+
+            return RedirectToAction("Login_authentication",new { collection });
         }
 
         #endregion

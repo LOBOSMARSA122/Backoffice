@@ -50,6 +50,8 @@ body {
 }
 
 .login-page form input[type=text],
+.login-page form input[type=tel],
+.login-page form input[type=email],
 .login-page form input[type=password] {
     background: rgba(0, 0, 0, 0);
     border: none;
@@ -58,6 +60,8 @@ body {
 }
 
     .login-page form input[type=password]::-webkit-input-placeholder,
+    .login-page form input[type=tel]::-webkit-input-placeholder,
+    .login-page form input[type=email]::-webkit-input-placeholder,
     .login-page form input[type=text]::-webkit-input-placeholder {
         color: #e5e5e5;
         font-family: 'Roboto', sans-serif;

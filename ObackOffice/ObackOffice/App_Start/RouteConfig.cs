@@ -20,7 +20,13 @@ namespace ObackOffice
                 new { controller = "Generals", action = "Login" },
                 new[] { "ObackOffice.Controllers" }
             );
-       
+
+            routes.MapRoute(
+                     "General_Register", "registrar/",
+                     new { controller = "Generals", action = "Register" },
+                     new[] { "ObackOffice.Controllers" }
+                 );
+
             routes.MapRoute(
                 "General_logout", "salir/",
                 new { controller = "Generals", action = "Logout" },
