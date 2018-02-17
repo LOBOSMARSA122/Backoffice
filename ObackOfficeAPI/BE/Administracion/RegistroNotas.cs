@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BE.Administracion
-{
+{    
     public class RegistroNotas
     {
         public string Capacitador { get; set; }

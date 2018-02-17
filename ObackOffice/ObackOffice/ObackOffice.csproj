@@ -492,6 +492,7 @@
     <Content Include="Views\ProgramacionCursos\Index.cshtml" />
     <Content Include="Views\Campo\Index.cshtml" />
     <Content Include="Views\RegistroNotas\RegistarNotas.cshtml" />
+    <Content Include="Views\Shared\_SinAlumnosPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

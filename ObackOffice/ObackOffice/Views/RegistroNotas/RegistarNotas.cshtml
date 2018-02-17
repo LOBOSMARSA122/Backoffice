@@ -1,7 +1,6 @@
 ﻿
 @{
-    var listaRegistro = ViewBag.REGISTRONOTAS;
-    var NroClases = ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia.Count;
+    var listaRegistro = ViewBag.REGISTRONOTAS; 
 }
 <div class="container-fluid">
 
@@ -206,11 +205,11 @@ function Grabar() {
         var infoAlumno = {
             EmpleadoCursoId: _EmpleadoCursoId,
             nota: $($('#NotasAlumno > .info-alumno')[i]).find('input:text.nota').val(),
-            condicion: $($('#NotasAlumno > .info-alumno')[i]).find('option:selected').val(),
+            CondicionId: $($('#NotasAlumno > .info-alumno')[i]).find('option:selected').val(),
             observacion: $($('#NotasAlumno > .info-alumno')[i]).find('input:text.obs').val(),
             RecordStatus: $($('#NotasAlumno > .info-alumno')[i]).find('#Clase-RecordStatus').html(),
-            ListaAsistencias: new Array(),
-            ListaTaller: new Array()
+            EmpleadoAsistencia: new Array(),
+            EmpleadoTaller: new Array()
         };
 
         var NroAsistencias = $($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox').length;
@@ -219,9 +218,9 @@ function Grabar() {
             var asistencias = {
                 EmpleadoAsistenciaId: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).attr('id'),
                 EmpleadoCursoId: _EmpleadoCursoId,
-                Asistio: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).is(':checked')
+                Asistio: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).is(':checked') == true ? 2 :1
             };   
-            infoAlumno.ListaAsistencias.push(asistencias);
+            infoAlumno.EmpleadoAsistencia.push(asistencias);
         }
 
         var filas_TallerAlumno = $('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr').length;
@@ -235,11 +234,25 @@ function Grabar() {
                 Valor: $($($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('input[name=' + _EmpleadoTallerId + ']:checked')).val(),
                 RecordStatus: $($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('#Clase-RecordStatus').html()
             };
-            infoAlumno.ListaTaller.push(pregunta);
+            infoAlumno.EmpleadoTaller.push(pregunta);
         }
 
         listaRegistroNotas.push(infoAlumno);
     }
+
+    $.ajax({
+        cache: false,
+        dataType: 'json',
+        method: 'POST',
+        data: { data: JSON.stringify(listaRegistroNotas) },
+        url: '/RegistroNotas/GrabarRegistro',
+        success: function (result) {
+            console.log(result);
+        },
+        error: function () {
+            alert('error');
+        }
+    });
 
     console.log(listaRegistroNotas);
 }

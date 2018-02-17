@@ -25,5 +25,7 @@ namespace ObackOffice.Models.Administracion
         public string Observacion { get; set; }
         public List<Asistencia> EmpleadoAsistencia { get; set; }
         public List<Taller> EmpleadoTaller { get; set; }
+
+        public int UsuarioActualizaID { get; set; }
     }
 }

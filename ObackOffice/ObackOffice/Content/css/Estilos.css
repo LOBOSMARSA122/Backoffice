@@ -667,6 +667,18 @@ margin:0;
 }
 
 
+#Loading {
+    background-color: rgba(0, 0, 0, 0.60);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 9999;
+}
+
+    #Loading > img {
+        width: 200px;
+    }
+
 /*MEDIA QUERYS*/
 @media (max-width: 480px) {
     .login-page {
