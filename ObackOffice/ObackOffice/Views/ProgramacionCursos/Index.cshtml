@@ -49,6 +49,10 @@
     .salones table tbody{
         font-size:18px;
     }
+    .Suspendido {
+        background-color: #989898;
+        pointer-events: none;
+    }
 </style>
 <link href="~/Content/fullcalendar.css" rel="stylesheet" />
 <link href="~/Content/css/FullCalendar-custom.css" rel="stylesheet" />
@@ -251,7 +255,7 @@
                 <td style="display:none;" id="Clase-RecordStatus">2</td>
                 <td>Hora Inicio <input type="datetime-local" id="HoraInicio" onchange="ClaseChanged($(this).parent().parent())"/></td>
                 <td>Hora Fin <input type="datetime-local" id="HoraFin" onchange="ClaseChanged($(this).parent().parent())"/></td>
-                <td onclick="DeleteClase(this)">Eliminar</td>
+                <td onclick="DeleteClase($(this).parent())">Eliminar</td>
             </tr>
         </tbody>
     </table>
@@ -529,15 +533,19 @@
                         $("#salon-" + (i + 1) + " #Salon-RecordType").html(json.Salones[i].RecordType);
                         $("#salon-" + (i + 1) + " #Salon-RecordStatus").html(json.Salones[i].RecordStatus);
                         $("#salon-" + (i + 1) + " #Salon-SalonId").html(json.Salones[i].SalonId);
+                        if (json.Salones[i].EsEliminado == 1)
+                            $("#salon-" + (i + 1)).addClass("Suspendido");
 
                         for (var h = 0; h < json.Salones[i].Clases.length;h++){
                             AddClase(i + 1);
 
                             $($("#salon-" + (i + 1) + " table tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDThh:mm"));
                             $($("#salon-" + (i + 1) + " table tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDThh:mm"));
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("Clase-RecordType").html(json.Salones[i].Clases[h].RecordType);
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("Clase-RecordStatus").html(json.Salones[i].Clases[h].RecordStatus);
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("Clase-ClaseId").html(json.Salones[i].Clases[h].ClaseId);
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("#Clase-RecordType").html(json.Salones[i].Clases[h].RecordType);
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("#Clase-RecordStatus").html(json.Salones[i].Clases[h].RecordStatus);
+                            $($("#salon-" + (i + 1) + " table tr")[h]).children("#Clase-ClaseId").html(json.Salones[i].Clases[h].ClaseId);
+                            if (json.Salones[i].Clases[h].EsEliminado == 1)
+                                $($("#salon-" + (i + 1) + " table tr")[h]).addClass("Suspendido");
                         }
                     }
 
@@ -614,7 +622,13 @@
             if ($("#Curso-RecordStatus").html() == 2) {
                 CloseCursoPannel();
             } else if ($("#Curso-RecordStatus").html() == 1 || $("#Curso-RecordStatus").html() == 3) {
-                //AJAX AQUI
+
+                var data = {
+                    RecordType: $("#Curso-RecordType").html(),
+                    RecordStatus: 4,
+                    CursoProgramadoId: $("#Curso-CursoProgramadoId").html()
+                }; 
+                SaveData(data);
             }
         }
 
@@ -634,19 +648,26 @@
         }
 
         function DeleteSalon(numero) {
-            var max = $("#Contenedor-Salones .salones").length;
-            for (var i = 1; i <= max; i++) {
-                if (i == numero) {
-                    $($("#Contenedor-Salones .salones")[i - 1]).remove();
+            if ($("#salon-" + numero + " #Salon-RecordStatus").html() == 2) {
+                var max = $("#Contenedor-Salones .salones").length;
+                for (var i = 1; i <= max; i++) {
+                    if (i == numero) {
+                        $($("#Contenedor-Salones .salones")[i - 1]).remove();
+                    }
+                    if (i > numero) {
+                        $($("#salon-" + i + " tbody tr td")[0]).html("Salón N° " + (i - 1));
+                        $($("#salon-" + i + " tbody tr td")[6]).attr("onclick", "AddClase('" + (i - 1) + "')");
+                        $($("#salon-" + i + " tbody tr td")[7]).attr("onclick", "DeleteSalon('" + (i - 1) + "')");
+                        $("#Contenedor-Salones #salon-" + i).attr("id", "salon-" + (i - 1));
+                    }
                 }
-                if (i > numero) {
-                    $($("#salon-" + i + " tbody tr td")[0]).html("Salón N° " + (i - 1));
-                    $($("#salon-" + i + " tbody tr td")[6]).attr("onclick", "AddClase('" + (i - 1) + "')");
-                    $($("#salon-" + i + " tbody tr td")[7]).attr("onclick", "DeleteSalon('" + (i - 1) + "')");
-                    $("#Contenedor-Salones #salon-" + i).attr("id", "salon-" + (i - 1));
-                }
+                ResizeCalendarDetail();
+            } else if ($("#salon-" + numero + " #Salon-RecordStatus").html() == 1 || $("#salon-" + numero + " #Salon-RecordStatus").html() == 3){
+                $("#salon-" + numero + " #Salon-RecordStatus").html(4);
+                $("#salon-" + numero).addClass("Suspendido");
+                $($("#salon-" + numero + " tbody tr td")[6]).attr("onclick", "");
+                $($("#salon-" + numero + " tbody tr td")[7]).attr("onclick", "");
             }
-            ResizeCalendarDetail();
         }
 
         function AddClase(numero) {
@@ -654,9 +675,15 @@
             ResizeCalendarDetail();
         }
 
-        function DeleteClase(X) {
-            $($(X).parent()).remove();
-            ResizeCalendarDetail();
+        function DeleteClase(padre) {
+            if ($(padre).children("#Clase-RecordStatus").html() == 2) {
+                $(padre).remove();
+                ResizeCalendarDetail();
+            } else if ($(padre).children("#Clase-RecordStatus").html() == 1 || $(padre).children("#Clase-RecordStatus").html() == 3) {
+                $(padre).children("#Clase-RecordStatus").html(4);
+                $(padre).addClass("Suspendido");
+                $($(padre).children("td")[5]).attr("onclick", "");
+            }
         }
 
         function ResizeCalendarDetail() {
@@ -726,7 +753,11 @@
                 url: '/ProgramacionCursos/SaveData',
                 success: function (json) {
                     $("#Loading").hide();
-                    CloseCursoPannel();
+                    if (json == undefined) {
+                        alert("sucedió un error al guardar");
+                    } else {
+                        CloseCursoPannel();
+                    }
                 },
                 error: function (error) {
                     $("#Loading").hide();
