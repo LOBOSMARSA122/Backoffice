@@ -43,8 +43,23 @@ namespace ObackOffice.Controllers.Administracion
 
         public JsonResult SaveData(string data)
         {
-            ProgramacionCursos Programa = JsonConvert.DeserializeObject<ProgramacionCursos>(data);
-            return Json("");
+            Api API = new Api();
+            var Usuario = ((ClientSession)Session["AutBackoffice"]);
+
+            ProgramacionCursos prog = JsonConvert.DeserializeObject<ProgramacionCursos>(data);
+            prog.UsuarioActualizaID = Usuario.UsuarioId;
+
+
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "String1", JsonConvert.SerializeObject(prog) }
+            };
+            bool saved = API.Post<bool>("ProgramacionCursos/ProgramacionCursoDataProcess", args);
+
+            if (saved)
+                return Json(saved);
+            else
+                return Json(null);
         }
 
         public JsonResult GetCalendarEvent(string id)

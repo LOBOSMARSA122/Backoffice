@@ -15,6 +15,7 @@ namespace ObackOffice.Models.Administracion
         public int CursoId { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
+        public int UsuarioActualizaID { get; set; }
         public List<ProgramacionCursosSalones> Salones { get; set; }
     }
 
@@ -25,6 +26,7 @@ namespace ObackOffice.Models.Administracion
         public int SalonId { get; set; }
         public int CapacitadorId { get; set; }
         public int Cupos { get; set; }
+        public int EsEliminado { get; set; }
         public List<ProgramacionCursosClases> Clases { get; set; }
     }
 
@@ -33,6 +35,7 @@ namespace ObackOffice.Models.Administracion
         public int RecordType { get; set; }
         public int RecordStatus { get; set; }
         public int ClaseId { get; set; }
+        public int EsEliminado { get; set; }
         public DateTime HoraInicio { get; set; }
         public DateTime HoraFin { get; set; }
     }

@@ -1,7 +1,10 @@
 ﻿using BL;
+using BE.Comun;
 using BE.Administracion;
 using System.Collections.Generic;
 using System.Web.Http;
+using Newtonsoft.Json;
+using System;
 
 namespace ObackOfficeAPI.Controllers.Administracion
 {
@@ -29,6 +32,20 @@ namespace ObackOfficeAPI.Controllers.Administracion
             ProgramacionCursos response = pcr.GetCalendarEvent(id);
 
             return Ok(response);
+        }
+
+        [HttpPost]
+        public IHttpActionResult ProgramacionCursoDataProcess(MultiDataModel data)
+        {
+            try
+            {
+                ProgramacionCursos programacion = JsonConvert.DeserializeObject<ProgramacionCursos>(data.String1);
+                return Ok(pcr.CursoDataProcess(programacion));
+            }
+            catch(Exception e)
+            {
+                return BadRequest("Parámetros incorrectos");
+            }
         }
     }
 }
