@@ -28,5 +28,6 @@ namespace BE.RegistroNotas
         public int EmpleadoCursoId { get; set; }
         public DateTime FechaClase { get; set; }
         public int Asistio { get; set; }
+        public int RecordStatus { get; set; }        
     }
 }
