@@ -63,7 +63,7 @@ namespace BL
         {
             try
             {
-                int Grabado = (int)Enumeradores.RecordStatus.Agregar;
+                int Grabado = (int)Enumeradores.RecordStatus.Grabado;
                 var query = (from a in ctx.EmpleadoCursos
                              join b in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals b.EmpleadoCursoId
                              join c in ctx.Empleados on a.EmpleadoId equals c.EmpleadoId

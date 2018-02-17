@@ -49,6 +49,7 @@
                 <thead style="text-align:center">
                     <tr>
                         <th style="display:none">EmpleadoCursoId</th>
+                        <th style="display:none">RecordStatusEmpleadoCurso</th>
                         <th>Empleado</th>
                         @foreach (var item in ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia)
                         {
@@ -65,26 +66,25 @@
                     {
                         <tr class="info-alumno" id="info-alumno-@registro.EmpleadoCursoId">
                             <td style="display:none">@registro.EmpleadoCursoId</td>
+                            <td style="display:none" id="Clase-RecordStatus">1</td>
                             <td>@registro.NombreCompletoEmpleado</td>
                             @foreach (var asistencia in registro.EmpleadoAsistencia)
                             {
-
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId" @(@asistencia.Asistio == 2 ? "checked" : "" )>
+                                            <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId" @(@asistencia.Asistio == 2 ? "checked" : "" ) onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                             <label class="custom-control-label" for="@asistencia.EmpleadoAsistenciaId"></label>
                                         </div>
                                     </div>
                                 </td>
                             }
-
-                            <td><input type="text" id="@registro.EmpleadoCursoId-Nota" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" /></td>
+                            <td><input type="text" id="@registro.EmpleadoCursoId-Nota" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" onkeyup="ClaseChanged($(this).parent().parent())" /></td>
                             <td>
                                 <input type="button" name="name" class=" @( @registro.Taller == null ? "btn boton-table-warning" :  @registro.Taller == "Eficiente" ? "btn boton-table-success" : "btn boton-table-danger" )" value="@( @registro.Taller == null ? "Por Iniciar" :  @registro.Taller == "Eficiente" ? "Satisfactorio" : "Deficiente" )" onclick="ShowTaller(@registro.EmpleadoCursoId)" />
                             </td>
                             <td>
-                                <select class="custom-select" id="@registro.EmpleadoCursoId-Condicion">
+                                <select class="custom-select" id="@registro.EmpleadoCursoId-Condicion" onchange="ClaseChanged($(this).parent().parent())">
                                     <option value="-1" @(@registro.CondicionId == -1 ? "selected" : "" )>--Seleccionar--</option>
                                     <option value="1" @(@registro.CondicionId == 1 ? "selected" : "" )>Aprobado</option>
                                     <option value="2" @(@registro.CondicionId == 2 ? "selected" : "" )>Desaprobado</option>
@@ -92,7 +92,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" id="@registro.EmpleadoCursoId-Obs" value="@registro.Observacion" class="form-control obs" />
+                                <input type="text" id="@registro.EmpleadoCursoId-Obs" value="@registro.Observacion" class="form-control obs" onkeyup="ClaseChanged($(this).parent().parent())" />
                             </td>
                         </tr>
                         <tr class="info-taller" id="info-taller-@registro.EmpleadoCursoId">
@@ -109,6 +109,7 @@
                                                     <th>Algunas Veces</th>
                                                     <th>Muchas Veces</th>
                                                     <th>Siempre</th>
+                                                    <th style="display:none">RecordStatusTaller</th>
                                                 </tr>
                                             </thead>
                                             <tbody >
@@ -120,7 +121,7 @@
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P1" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "1" ? "checked" : "" ) value="1">
+                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P1" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "1" ? "checked" : "" ) value="1" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                                                 <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P1"></label>
                                                             </div>
                                                         </div>
@@ -128,7 +129,7 @@
                                                     <td>
                                                         <div class="custom-control custom-radio">
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P2" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "2" ? "checked" : "" ) value="2">
+                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P2" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "2" ? "checked" : "" ) value="2" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                                                 <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P2"></label>
                                                             </div>
                                                         </div>
@@ -136,7 +137,7 @@
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P3" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "3" ? "checked" : "" ) value="3">
+                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P3" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "3" ? "checked" : "" ) value="3" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                                                 <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P3"></label>
                                                             </div>
                                                         </div>
@@ -144,7 +145,7 @@
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P4" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "4" ? "checked" : "" ) value="4">
+                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P4" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "4" ? "checked" : "" ) value="4" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                                                 <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P4"></label>
                                                             </div>
                                                         </div>
@@ -152,11 +153,12 @@
                                                     <td>
                                                         <div class="d-flex justify-content-center">
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P5" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "5" ? "checked" : "" ) value="5">
+                                                                <input type="radio" class="custom-control-input" id="@Taller.EmpleadoTallerId-P5" name="@Taller.EmpleadoTallerId" @(@Taller.Valor == "5" ? "checked" : "" ) value="5" onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                                                 <label class="custom-control-label" for="@Taller.EmpleadoTallerId-P5"></label>
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td style="display:none" id="Clase-RecordStatus">1</td>
                                                 </tr>
                                                 }
                                             </tbody>
@@ -206,6 +208,7 @@ function Grabar() {
             nota: $($('#NotasAlumno > .info-alumno')[i]).find('input:text.nota').val(),
             condicion: $($('#NotasAlumno > .info-alumno')[i]).find('option:selected').val(),
             observacion: $($('#NotasAlumno > .info-alumno')[i]).find('input:text.obs').val(),
+            RecordStatus: $($('#NotasAlumno > .info-alumno')[i]).find('#Clase-RecordStatus').html(),
             ListaAsistencias: new Array(),
             ListaTaller: new Array()
         };
@@ -229,7 +232,8 @@ function Grabar() {
             var pregunta = {
                 EmpleadoTallerId: _EmpleadoTallerId,
                 EmpleadoCursoId: _EmpleadoCursoId,
-                Valor: $($($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('input[name=' + _EmpleadoTallerId +']:checked')).val()
+                Valor: $($($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('input[name=' + _EmpleadoTallerId + ']:checked')).val(),
+                RecordStatus: $($('#NotasAlumno > #info-taller-' + _EmpleadoCursoId + ' table tbody tr')[preg]).find('#Clase-RecordStatus').html()
             };
             infoAlumno.ListaTaller.push(pregunta);
         }
@@ -240,6 +244,10 @@ function Grabar() {
     console.log(listaRegistroNotas);
 }
 
+function ClaseChanged(tr) {
+    if ($(tr).children("#Clase-RecordStatus").html() == 1)
+        $(tr).children("#Clase-RecordStatus").html(3);
+}
   
 </script>
 }
