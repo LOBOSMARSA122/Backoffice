@@ -29,5 +29,6 @@ namespace BE.RegistroNotas
         public string Pregunta { get; set; }
         public int PreguntaId { get; set; }
         public string Valor { get; set; }
+        public int RecordStatus { get; set; }        
     }
 }

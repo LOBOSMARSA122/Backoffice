@@ -14,6 +14,7 @@ namespace BE.Administracion
         public DateTime? FechaFinCurso { get; set; }
         public int NroCupos { get; set; }
         public string Curso { get; set; }
+        public int RecordStatus { get; set; }
 
         public int EmpleadoCursoId { get; set; }
         public int SalonProgramadoId { get; set; }

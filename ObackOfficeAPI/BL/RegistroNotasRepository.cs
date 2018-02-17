@@ -63,6 +63,7 @@ namespace BL
         {
             try
             {
+                int Grabado = (int)Enumeradores.RecordStatus.Agregar;
                 var query = (from a in ctx.EmpleadoCursos
                              join b in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals b.EmpleadoCursoId
                              join c in ctx.Empleados on a.EmpleadoId equals c.EmpleadoId
@@ -94,13 +95,23 @@ namespace BL
                                  Taller = grp.FirstOrDefault().a.NotaTaller,
                                  CondicionId = grp.FirstOrDefault().a.CondicionId,
                                  Observacion = grp.FirstOrDefault().a.Observacion,
-                                 EmpleadoAsistencia = grp.Select(x => new Asistencia { EmpleadoAsistenciaId = x.b.EmpleadoAsistenciaId, EmpleadoCursoId = x.b.EmpleadoCursoId, FechaClase = x.b.FechaClase, Asistio = x.b.Asistio }).GroupBy(x => x.EmpleadoAsistenciaId).Select(g => g.FirstOrDefault()).ToList(),
+                                 RecordStatus = Grabado,
+                                 EmpleadoAsistencia = grp.Select(x => new Asistencia
+                                                                {   EmpleadoAsistenciaId = x.b.EmpleadoAsistenciaId,
+                                                                    EmpleadoCursoId = x.b.EmpleadoCursoId,
+                                                                    FechaClase = x.b.FechaClase,
+                                                                    Asistio = x.b.Asistio,
+                                                                    RecordStatus = Grabado
+                                                                })
+                                                                    .GroupBy(x => x.EmpleadoAsistenciaId)
+                                                                    .Select(g => g.FirstOrDefault()).ToList(),
                                  EmpleadoTaller = grp.Select(x => new Taller
                                                                 {   EmpleadoTallerId = x.f.EmpleadoTallerId,
                                                                     EmpleadoCursoId = x.f.EmpleadoCursoId,
                                                                     PreguntaId = x.f.PreguntaId,
                                                                     Pregunta = x.fp.Valor1,
-                                                                    Valor = x.f.Valor
+                                                                    Valor = x.f.Valor,
+                                                                     RecordStatus = Grabado
                                                                 })
                                                                 .GroupBy(x => x.EmpleadoTallerId)
                                                                 .Select(g => g.FirstOrDefault()).ToList()
