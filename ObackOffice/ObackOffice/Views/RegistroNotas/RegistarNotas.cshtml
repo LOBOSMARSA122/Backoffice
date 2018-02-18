@@ -72,7 +72,7 @@
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId" @(@asistencia.Asistio == 2 ? "checked" : "" ) onchange="ClaseChanged($(this).parent().parent().parent().parent())">
+                                            <input type="checkbox" class="custom-control-input" id="@asistencia.EmpleadoAsistenciaId" @(@asistencia.Asistio == 1 ? "checked" : "" ) onchange="ClaseChanged($(this).parent().parent().parent().parent())">
                                             <label class="custom-control-label" for="@asistencia.EmpleadoAsistenciaId"></label>
                                         </div>
                                     </div>
@@ -80,7 +80,7 @@
                             }
                             <td style="text-align:-webkit-center"><input type="number" id="@registro.EmpleadoCursoId-Nota" min="0" max="20" maxlength="2" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" onkeyup="ClaseChanged($(this).parent().parent())" /></td>
                             <td style="text-align:-webkit-center">
-                                <input type="button" name="name" class=" @( @registro.Taller == null ? "btn boton-table-warning" :  @registro.Taller == "Eficiente" ? "btn boton-table-success" : "btn boton-table-danger" )" value="@( @registro.Taller == null ? "Por Iniciar" :  @registro.Taller == "Eficiente" ? "Satisfactorio" : "Deficiente" )" onclick="ShowTaller(@registro.EmpleadoCursoId)" />
+                                <input type="button" name="name" class=" @( @registro.Taller == null ? "btn boton-table-warning" :  @registro.Taller == "Iniciado" ? "btn boton-table-success" : "btn boton-table-danger" )" value="@( @registro.Taller == null ? "Por Iniciar" :  @registro.Taller == "Iniciado" ? "Ver Taller" : "Deficiente" )" onclick="ShowTaller(@registro.EmpleadoCursoId)" />
                             </td>
                             <td>
                                 <select class="custom-select" id="@registro.EmpleadoCursoId-Condicion" onchange="ClaseChanged($(this).parent().parent())">
@@ -232,7 +232,7 @@ function Grabar() {
             var asistencias = {
                 EmpleadoAsistenciaId: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).attr('id'),
                 EmpleadoCursoId: _EmpleadoCursoId,
-                Asistio: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).is(':checked') == true ? 2 :1
+                Asistio: $($($('#NotasAlumno > .info-alumno')[i]).find('input:checkbox')[asist]).is(':checked') == true ? 1 :0
             };   
             infoAlumno.EmpleadoAsistencia.push(asistencias);
         }

@@ -234,7 +234,7 @@ namespace BL
 
                 string body = (from a in parametros where a.ParametroId == parametroBody select a.Campo).FirstOrDefault();
 
-                body = body.Replace("[@NOMBRE_PERSONA@]", string.Format("{0} {1} {2}",Persona.Nombres, Persona.ApellidoPaterno, Persona.ApellidoMaterno)).Replace("[@NOMBRE_USUARIO@]", Usuario.NombreUsuario).Replace("[@PASSWORD@]", pass);
+                body = body.Replace("[@NOMBRE_PERSONA@]", string.Format("{0} {1} {2}",Persona.Nombres, Persona.ApellidoPaterno, Persona.ApellidoMaterno)).Replace("[@NOMBRE_USUARIO@]", NewUser.NombreUsuario).Replace("[@PASSWORD@]", pass);
 
                 string subject = "Registro Exitoso de Usuario";
                 List<string> adresses = new List<string>();

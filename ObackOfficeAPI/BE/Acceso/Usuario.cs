@@ -13,7 +13,7 @@ namespace BE.Acceso
         public string Contrasenia { get; set; }
         public string PreguntaSecreta { get; set; }
         public string RespuestaSecreta { get; set; }
-        public DateTime FechaCaduca { get; set; }
+        public DateTime? FechaCaduca { get; set; }
         public int RolId { get; set; }
         public int EmpresaId { get; set; }
 
@@ -32,7 +32,7 @@ namespace BE.Acceso
         public byte[] foto { get; set; }
         public string NombreUsuario { get; set; }
         public string NombreCompleto { get; set; }
-        public DateTime FechaCaduca { get; set; }
+        public DateTime? FechaCaduca { get; set; }
         public int RolId { get; set; }
         public string Rol { get; set; }
         public List<Autorizacion> Autorizacion { get; set; }

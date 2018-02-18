@@ -21,8 +21,9 @@ namespace BL
                 var query = (from a in ctx.CursosProgramados
                              join b in ctx.Eventos on a.EventoId equals b.EventoId
                              join c in ctx.Cursos on a.CursoId equals c.CursoId
-                             join d in ctx.Parametros on new { a = a.CursoId, b = 108 } equals new { a = d.ParametroId, b = d.GrupoId }
-                             where a.CursoId == cursoId && a.EsEliminado == 0
+                             join d in ctx.Parametros on new { a = c.ColorId, b = 108 } equals new { a = d.ParametroId, b = d.GrupoId }
+                             where a.EsEliminado == 0
+                                    //&& a.CursoId == cursoId  
                              select new Agenda
                              {
                                  CursoProgramadoId = a.CursoProgramadoId,

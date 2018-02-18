@@ -1,6 +1,6 @@
 ﻿@{
-    var base64 = Convert.ToBase64String(@ViewBag.USUARIO.foto);
-    var imgSrc = String.Format("data:image/jpeg;base64,{0}", base64);
+    var base64 = @ViewBag.USUARIO.foto == null ? "" : Convert.ToBase64String(@ViewBag.USUARIO.foto);
+    var imgSrc = base64 != "" ? String.Format("data:image/jpeg;base64,{0}", base64): "/Content/static/images/foto@default.png";
 }
 <header class="fixed-top">
     <div class="row align-items-center menu">

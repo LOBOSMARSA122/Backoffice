@@ -29,7 +29,7 @@ namespace BL
                                     EmpresaId = a.EmpresaId,
                                     NombreUsuario = a.NombreUsuario,
                                     NombreCompleto = b.Nombres + " " + b.ApellidoPaterno,
-                                    FechaCaduca = a.FechaCaduca,
+                                    FechaCaduca = a.FechaCaduca.Value,
                                     RolId = a.RolId,
                                     foto = b.Foto,
                                     Rol = c.Valor1

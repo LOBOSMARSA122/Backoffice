@@ -236,6 +236,7 @@
     <Content Include="Content\img\perfil.jpg" />
     <Content Include="Content\img\persona1.jpg" />
     <Content Include="Content\img\persona3.jpg" />
+    <Content Include="Content\static\images\foto%40default.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -498,7 +499,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\static\images\" />
     <Folder Include="Views\Persona\" />
   </ItemGroup>
   <ItemGroup>
