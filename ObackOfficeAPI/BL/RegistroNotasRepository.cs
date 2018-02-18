@@ -153,7 +153,7 @@ namespace BL
                     {
                         var oEmpleadoAsistencia = (from a in ctx.EmpleadoAsistencias where a.EmpleadoAsistenciaId == Asistencia.EmpleadoAsistenciaId select a).FirstOrDefault();
 
-                        oEmpleadoAsistencia.Asistio = Asistencia.Asistio;
+                        oEmpleadoAsistencia.Asistio = Asistencia.Asistio.Value;
                         oEmpleadoAsistencia.UsuActualiza = UsuId;
                         oEmpleadoAsistencia.FechaActualiza = DateTime.Now;
                     }

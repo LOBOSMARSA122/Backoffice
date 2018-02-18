@@ -33,8 +33,22 @@ body {
     max-width: 600px;
 }
 
+
+
+
+.absolute-center.is-responsive-register {
+    width: 40%;
+    height: 95%;
+    min-width: 400px;
+    max-width: 600px;
+}
+
 .tamanio-logo {
     height: 200px;
+}
+
+.tamanio-logo-register {
+    height: 50px;
 }
 
 .IniciarSesion {
@@ -542,6 +556,7 @@ table tbody tr td {
     background: #ED9507;
     color: #fff;
     max-width: 150px;
+    min-width: 80px;
 }
 
 .form-control::-moz-placeholder,
