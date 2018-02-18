@@ -249,5 +249,48 @@ namespace BL
                 return "Sucedió un problema al intentar registrar.";
             }
         }
+
+        public List<ReporteMultipleList> ObtenerHistorialEmpleado(int UsuarioId)
+        {
+            try
+            {
+                int GrupoCondicion = (int)Enumeradores.GrupoParametros.Condición;
+                int NoEliminado = (int)Enumeradores.EsEliminado.No;
+
+                var return_data = (from a in ctx.Empleados
+                                   join b in ctx.Personas on a.PersonaId equals b.PersonaId
+                                   join c in ctx.Usuarios on b.PersonaId equals c.PersonaId
+                                   join d in ctx.EmpleadoCursos on a.EmpleadoId equals d.EmpleadoId
+                                   join e in ctx.SalonProgramados on d.SalonProgramadoId equals e.SalonProgramadoId
+                                   join f in ctx.CursosProgramados on e.CursoProgramadoId equals f.CursoProgramadoId
+                                   join g in ctx.Cursos on f.CursoId equals g.CursoId
+                                   join h in ctx.Parametros on new {a = GrupoCondicion, b = d.CondicionId} equals new {a = h.GrupoId, b = h.ParametroId}
+                                   join i in ctx.Capacitadores on e.CapacitadorId equals i.CapacitadorId
+                                   join j in ctx.Personas on i.PersonaId equals j.PersonaId
+                                   where 
+                                   a.EsEliminado == NoEliminado &&
+                                   b.EsEliminado == NoEliminado &&
+                                   c.EsEliminado == NoEliminado &&
+                                   d.EsEliminado == NoEliminado &&
+                                   g.EsEliminado == NoEliminado &&
+                                   c.UsuarioId == UsuarioId
+                                   select new ReporteMultipleList()
+                                   {
+                                       Curso = g.NombreCurso,
+                                       InicioCurso = f.FechaInicio,
+                                       FinCurso = f.FechaFin,
+                                       Nota = d.Nota,
+                                       NotaTaller = d.NotaTaller,
+                                       Condicion = h.Valor1,
+                                       Capacitador = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno
+                                   }).ToList();
+
+                return return_data;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+        }
     }
 }
