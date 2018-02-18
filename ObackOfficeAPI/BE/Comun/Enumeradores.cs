@@ -18,7 +18,8 @@ namespace BE.Comun
             Sedes = 106,
             Condición = 107,
             Colores = 108,
-            Asistencia = 109
+            Asistencia = 109,
+            Correo = 110
         }
 
         public enum EsEliminado
@@ -62,6 +63,14 @@ namespace BE.Comun
             ClienteMinera = 3,
             Representante = 4,
             Empleado = 5
+        }
+
+        public enum Correo
+        {
+            HostSMTP = 1,
+            CorreoSistema = 2,
+            ClaveCorreo = 3,
+            MailRegistroEmpleado = 4
         }
     }
 }

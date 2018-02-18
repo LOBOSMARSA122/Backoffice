@@ -1,12 +1,11 @@
 ﻿using BE.Cliente;
 using BE.Comun;
 using BE.Acceso;
+using BE;
 using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL
 {
@@ -183,7 +182,7 @@ namespace BL
 
                 Usuario NewUser = new Usuario()
                 {
-                    Contrasenia = pass,
+                    Contrasenia = Utils.Encrypt(pass),
                     EmpresaId = Empleado.EmpresaId,
                     EsEliminado = NoEliminado,
                     FechaGraba = DateTime.Now,
@@ -221,6 +220,28 @@ namespace BL
 
                 ctx.SaveChanges();
 
+                int grupoEmail = (int)Enumeradores.GrupoParametros.Correo;
+                int parametroBody = (int)Enumeradores.Correo.MailRegistroEmpleado;
+                int parametroCorreo = (int)Enumeradores.Correo.CorreoSistema;
+                int parametroClave = (int)Enumeradores.Correo.ClaveCorreo;
+                int parametroHost = (int)Enumeradores.Correo.HostSMTP;
+
+                var parametros = (from a in ctx.Parametros where a.GrupoId == grupoEmail select a).ToList();
+
+                string CorreoSistema = (from a in parametros where a.ParametroId == parametroCorreo select a.Valor2).FirstOrDefault();
+                string ClaveCorreo = (from a in parametros where a.ParametroId == parametroClave select a.Valor2).FirstOrDefault();
+                string CorreoHost = (from a in parametros where a.ParametroId == parametroHost select a.Valor2).FirstOrDefault();
+
+                string body = (from a in parametros where a.ParametroId == parametroBody select a.Campo).FirstOrDefault();
+
+                body = body.Replace("[@NOMBRE_PERSONA@]", string.Format("{0} {1} {2}",Persona.Nombres, Persona.ApellidoPaterno, Persona.ApellidoMaterno)).Replace("[@NOMBRE_USUARIO@]", Usuario.NombreUsuario).Replace("[@PASSWORD@]", pass);
+
+                string subject = "Registro Exitoso de Usuario";
+                List<string> adresses = new List<string>();
+                adresses.Add(Persona.CorreoElectronico);
+
+                Utils.SendSimpleMail(body,subject,adresses, CorreoSistema, ClaveCorreo, CorreoHost);
+                
                 return "Ok";
             }
             catch(Exception e)
