@@ -39,7 +39,7 @@ body {
 .absolute-center.is-responsive-register {
     width: 40%;
     height: 95%;
-    min-width: 400px;
+    min-width: 350px;
     max-width: 600px;
 }
 
