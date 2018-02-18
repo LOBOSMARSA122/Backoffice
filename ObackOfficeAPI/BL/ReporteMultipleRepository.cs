@@ -27,7 +27,7 @@ namespace BL
                 string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
                 int skip = (data.Index - 1) * data.Take;
 
-                var return_data = (from a in ctx.CursosProgramados
+                var query = (from a in ctx.CursosProgramados
                                    join b in ctx.Eventos on a.EventoId equals b.EventoId
                                    join c in ctx.Cursos on a.CursoId equals c.CursoId
                                    join e in ctx.SalonProgramados on a.CursoProgramadoId equals e.CursoProgramadoId
@@ -38,7 +38,6 @@ namespace BL
                                    join k in ctx.Parametros on new { a = j.TipoDocumentoId, b = TipoDocumentoGroupId } equals new { a = k.ParametroId, b = k.GrupoId }
                                    join l in ctx.Parametros on new { a = b.SedeId, b = SedeGroupId } equals new { a = l.ParametroId, b = l.GrupoId }
                                    join m in ctx.Parametros on new { a = g.CondicionId, b = ConsidionGroupId } equals new { a = m.ParametroId, b = m.GrupoId }
-                                   join o in ctx.Parametros on new { a = d.Asistio, b = AsistenciaGroupId } equals new { a = o.ParametroId, b = o.GrupoId }
                                    where
                                    (data.SedeId == -1 || data.SedeId == b.SedeId) &&
                                    (data.EventoId == -1 || data.EventoId == b.EventoId) &&
@@ -46,21 +45,41 @@ namespace BL
                                    (NombreEmpleado == null || (j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno).Contains(NombreEmpleado)) &&
                                    (DNIEmpleado == null || j.NroDocumento.Contains(DNIEmpleado)) &&
                                    a.EsEliminado == NoEsEliminado
-                                   group new { b, c, d, g, j, k, l, m, o } by g.EmpleadoCursoId into grp
-                                   select new ReporteMultipleList
+                                   select new
+                                   {
+                                       EmpleadoCursoId = g.EmpleadoCursoId,
+                                       PersonaId = j.PersonaId,
+                                       Nombre = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno,
+                                       TipoDocumento = k.Valor1,
+                                       NroDocumento = j.NroDocumento,
+                                       Sede = l.Valor1,
+                                       Evento = b.Nombre,
+                                       Curso = c.NombreCurso,
+                                       Nota = g.Nota,
+                                       NotaTaller = g.NotaTaller,
+                                       Condicion = m.Valor1,
+                                       Asistencia = d.Asistio,
+                                       AsistenciaID = d.EmpleadoAsistenciaId
+                                   }).ToList();
+
+                var parametroAsistencia = (from a in ctx.Parametros where a.GrupoId == AsistenciaGroupId select a).ToList();
+
+                var return_data = (from a in query
+                                   group a by a.EmpleadoCursoId into grp
+                                   select new ReporteMultipleList()
                                    {
                                        EmpleadoCursoId = grp.Key,
-                                       PersonaId = grp.FirstOrDefault().j.PersonaId,
-                                       Nombre = grp.FirstOrDefault().j.Nombres + " " + grp.FirstOrDefault().j.ApellidoPaterno + " " + grp.FirstOrDefault().j.ApellidoMaterno,
-                                       TipoDocumento = grp.FirstOrDefault().k.Valor1,
-                                       NroDocumento = grp.FirstOrDefault().j.NroDocumento,
-                                       Sede = grp.FirstOrDefault().l.Valor1,
-                                       Evento = grp.FirstOrDefault().b.Nombre,
-                                       Curso = grp.FirstOrDefault().c.NombreCurso,
-                                       Nota = grp.FirstOrDefault().g.Nota,
-                                       NotaTaller = grp.FirstOrDefault().g.NotaTaller,
-                                       Condicion = grp.FirstOrDefault().m.Valor1,
-                                       Asistencia = grp.GroupBy(x => x.d.EmpleadoAsistenciaId).Select(x => x.FirstOrDefault().o.Valor1).ToList()
+                                       PersonaId = grp.FirstOrDefault().PersonaId,
+                                       Nombre = grp.FirstOrDefault().Nombre,
+                                       TipoDocumento = grp.FirstOrDefault().TipoDocumento,
+                                       NroDocumento = grp.FirstOrDefault().NroDocumento,
+                                       Sede = grp.FirstOrDefault().Sede,
+                                       Evento = grp.FirstOrDefault().Evento,
+                                       Curso = grp.FirstOrDefault().Curso,
+                                       Nota = grp.FirstOrDefault().Nota,
+                                       NotaTaller = grp.FirstOrDefault().NotaTaller,
+                                       Condicion = grp.FirstOrDefault().Condicion,
+                                       Asistencia = grp.GroupBy(x => x.AsistenciaID).Select( y => y.FirstOrDefault().Asistencia.HasValue ? parametroAsistencia.Where(z => z.ParametroId == y.FirstOrDefault().Asistencia).FirstOrDefault().Valor1 : "Por Iniciar").ToList()
                                    }).ToList();
 
                 data.TotalRegistros = return_data.Count;

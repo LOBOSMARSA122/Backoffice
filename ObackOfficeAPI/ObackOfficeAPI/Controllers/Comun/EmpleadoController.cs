@@ -41,5 +41,15 @@ namespace ObackOfficeAPI.Controllers.Comun
             string response = er.VerificaYRegistraEmpleado(usuario, email, cargo, pass, telefono);
             return Ok(response);
         }
+
+        [HttpGet]
+        public IHttpActionResult ObtenerHistorialEmpleado(int usuarioId)
+        {
+            if (usuarioId == 0)
+                return BadRequest("Parámetro incorrecto");
+
+            List<ReporteMultipleList> data = er.ObtenerHistorialEmpleado(usuarioId);
+            return Ok(data);
+        }
     }
 }

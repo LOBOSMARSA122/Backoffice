@@ -172,7 +172,14 @@ namespace ObackOffice.Controllers.Registro
         public ActionResult HistorialDeNotas()
         {
             ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
-            return View();
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "usuarioId", ViewBag.USUARIO.UsuarioId.ToString() }
+            };
+            List<ReporteMultipleList> data = API.Get<List<ReporteMultipleList>>("Empleado/ObtenerHistorialEmpleado",arg);
+
+            return View(data);
         }
     }
 }

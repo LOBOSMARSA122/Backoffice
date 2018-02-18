@@ -92,9 +92,12 @@ namespace ObackOffice.Models
         public string Sede { get; set; }
         public string Evento { get; set; }
         public string Curso { get; set; }
+        public string Capacitador { get; set; }
         public decimal Nota { get; set; }
         public string NotaTaller { get; set; }
         public string Condicion { get; set; }
+        public DateTime InicioCurso { get; set; }
+        public DateTime FinCurso { get; set; }
         public List<string> Asistencia { get; set; }
     }
 
