@@ -40,11 +40,7 @@ namespace ObackOffice.Controllers.Reportes
                     }
                 case "evento":
                     {
-                        Dictionary<string, string> args = new Dictionary<string, string>
-                        {
-                            { "eventoId", valor }
-                        };
-                        response = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCursos", args), Constantes.All);
+                        response = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
                         break;
                     }
             }
