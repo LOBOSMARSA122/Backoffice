@@ -171,6 +171,7 @@ namespace ObackOffice.Controllers.Registro
 
         public ActionResult HistorialDeNotas()
         {
+            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             return View();
         }
     }
