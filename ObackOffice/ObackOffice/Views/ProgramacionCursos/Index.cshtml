@@ -641,7 +641,7 @@
                 $("#Contenedor-Salones").append($("#Salon-Base").html());
                 numero++;
                 $("#Contenedor-Salones #salon-0").attr("id", "salon-" + numero);
-                $($("#salon-" + numero + " tbody tr td")[0]).html("Salón N° " + numero);
+                $($("#salon-" + numero + " tbody tr td")[3]).html("Salón N° " + numero);
                 $($("#salon-" + numero + " tbody tr td")[6]).attr("onclick", "AddClase('" + numero + "')");
                 $($("#salon-" + numero + " tbody tr td")[7]).attr("onclick", "DeleteSalon('" + numero + "')");
             }
@@ -656,7 +656,7 @@
                         $($("#Contenedor-Salones .salones")[i - 1]).remove();
                     }
                     if (i > numero) {
-                        $($("#salon-" + i + " tbody tr td")[0]).html("Salón N° " + (i - 1));
+                        $($("#salon-" + i + " tbody tr td")[3]).html("Salón N° " + (i - 1));
                         $($("#salon-" + i + " tbody tr td")[6]).attr("onclick", "AddClase('" + (i - 1) + "')");
                         $($("#salon-" + i + " tbody tr td")[7]).attr("onclick", "DeleteSalon('" + (i - 1) + "')");
                         $("#Contenedor-Salones #salon-" + i).attr("id", "salon-" + (i - 1));
