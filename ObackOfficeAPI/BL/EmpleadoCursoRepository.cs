@@ -48,7 +48,7 @@ namespace BL
                     oEmpleadoAsistencia.EmpleadoCursoId = idEmpleadoCurso;
                     oEmpleadoAsistencia.FechaClase = clase.FechaInicio;
                     oEmpleadoAsistencia.EsEliminado = 0;
-                    oEmpleadoAsistencia.Asistio = (int)Enumeradores.Asistencia.PorIniciar;
+                    oEmpleadoAsistencia.Asistio = null;
                     oEmpleadoAsistencia.UsuGraba = userId;
                     oEmpleadoAsistencia.FechaGraba = DateTime.Now;
                     ctx.EmpleadoAsistencias.Add(oEmpleadoAsistencia);
