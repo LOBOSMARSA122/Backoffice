@@ -251,11 +251,12 @@
                 eventLimit: true,
                 eventColor: '#378006',
                 events: events,
-                eventClick: function (calEvent, jsEvent, view) {      
-                    loadSalon();
+                eventClick: function (calEvent, jsEvent, view) {     
+                  
                     $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title );
                     $('#CursoProgramadoId').val(calEvent.description);  
                     $('#ModalInscripcion').modal();
+                    loadSalon();
                 }
             });
         }       
@@ -307,7 +308,7 @@
         function loadSalon() {
             $.ajax(
                 {
-                    url: '/Empleado/GetSalon?cursoProgramadoId=' + $('#curso').val(),
+                    url: '/Empleado/GetSalon?cursoProgramadoId=' + $('#CursoProgramadoId').val(),
                     type: 'GET',
                     success: function (json) {
                         var listItems = '';

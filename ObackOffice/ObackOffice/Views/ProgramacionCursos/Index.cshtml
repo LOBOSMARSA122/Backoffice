@@ -42,13 +42,13 @@
         width: 200px;
     }
 
-    .salones table{
+    /*.salones table{
         width:80%;
         margin: 20px 10%;
     }
     .salones table tbody{
         font-size:18px;
-    }
+    }*/
     .Suspendido {
         background-color: #989898;
         pointer-events: none;
@@ -97,8 +97,8 @@
                     </div>
                     <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                         <div class="form-group">
-                            <label for=""></label>
-                            <button class="btn-info boton form-control" onclick="FiltrarCursos()">
+                            <label for="">.</label>
+                            <button class="btn-warning boton form-control" onclick="FiltrarCursos()">
                                 <i class="fa fa-search"></i> Filtrar
                             </button>
                         </div>
@@ -110,7 +110,7 @@
     <div class="row">
         <div class="box box-default mt-2 col-12" id="acordion">
             <div class="box-header with-border" id="heading1" onclick="ColapsarFiltro('collapse2')">
-                <h3 class="box-title" style="cursor:pointer;"><i class="icon-calendar"></i> Cursos Por Fecha </h3>
+                <h3 class="box-title" style="cursor:pointer;">Cursos Programados </h3>
             </div>
             <div id="collapse2" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
                 <div class="row">
@@ -120,10 +120,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="row">
-        <div class="box box-default mt-2 col-12" id="calendarData" style="overflow:hidden;height:0px;">
+    </div>    
+    <div class="row d-flex justify-content-center">
+        <div class="box box-default mt-2 col-12 col-md-11" id="calendarData" style="overflow:hidden;height:0px;">
             <div class="row">
                 <div class="box-header with-border col-12" id="heading1" onclick="CloseCursoPannel()">
                     <h3 class="box-title" style="cursor:pointer;"><i class="icon-calendar"></i> Detalles del Curso </h3>
@@ -132,91 +131,110 @@
                     <div class="row">
                         <div class="col-12">
                             <div style="display:none;"><div id="Curso-RecordType"></div><div id="Curso-RecordStatus"></div><div id="Curso-CursoProgramadoId"></div></div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <label for="">Sede</label>
-                                @if (ViewBag.SEDES != null)
-                                {
-                                    <select name="sede" id="sede-detalle" class="form-control" onchange="ChangeSelect(this); CursoChanged();">
-                                        @foreach (var item in ViewBag.SEDES)
-                                        {
-                                            <option value="@item.Id">@item.Value</option>
-                                        }
-                                    </select>
-                                }
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <div class="form-group">
-                                    <label for="">Evento</label>
-                                    <select name="evento" id="evento-detalle" class="form-control" onchange="ChangeSelect(this);CursoChanged();">
-                                        <option value="-1">--Todos--</option>
-                                    </select>
+                            <div class="row d-flex flex-wrap">
+                                <div class="col-12 col-sm-4 col-lg-4 col-xl-2" style="display:inline-block;">
+                                    <label for="">Sede</label>
+                                    @if (ViewBag.SEDES != null)
+                                     {
+                                         <select name="sede" id="sede-detalle" class="form-control" onchange="ChangeSelect(this); CursoChanged();">
+                                         @foreach (var item in ViewBag.SEDES)
+                                            {
+                                                <option value="@item.Id">@item.Value</option>
+                                            }
+                                        </select>
+                                    }
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <div class="form-group">
-                                    <label for="">Curso</label>
-                                    <select name="curso" id="curso-detalle" class="form-control" onchange="CursoChanged();">
-                                        <option value="-1">--Todos--</option>
-                                    </select>
+                                <div class="col-12 col-sm-4 col-lg-4 col-xl-2" style="display:inline-block;">
+                                    <div class="form-group">
+                                        <label for="">Evento</label>
+                                        <select name="evento" id="evento-detalle" class="form-control" onchange="ChangeSelect(this);CursoChanged();">
+                                            <option value="-1">--Todos--</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <div class="form-group">
-                                    <label for="">Fecha Inicio</label>
-                                    <input type="date" id="F-inicio" onchange="CursoChanged();"/>
+                                <div class="col-12 col-sm-4 col-lg-4 col-xl-2" style="display:inline-block;">
+                                    <div class="form-group">
+                                        <label for="">Curso</label>
+                                        <select name="curso" id="curso-detalle" class="form-control" onchange="CursoChanged();">
+                                            <option value="-1">--Todos--</option>
+                                        </select>
+                                    </div>
+                                </div>                          
+                                <div class="col-12 col-sm-4 col-lg-4 col-xl-2" style="display:inline-block;">
+                                    <div class="form-group">
+                                        <label for="">Fecha Inicio</label>
+                                        <input type="date" id="F-inicio" onchange="CursoChanged();" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <div class="form-group">
-                                    <label for="">Fecha Fin</label>
-                                    <input type="date" id="F-fin" onchange="CursoChanged();"/>
+                                <div class="col-12 col-sm-4 col-lg-4 col-xl-2" style="display:inline-block;">
+                                    <div class="form-group">
+                                        <label for="">Fecha Fin</label>
+                                        <input type="date" id="F-fin" onchange="CursoChanged();" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <button class="btn-info boton form-control" onclick="AddSalon()">
-                                    <i class="icon-plus"></i> Agregar Salón
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-12" id="Contenedor-Salones">
-
-                        </div>
-                        <div class="col-12" style="margin-top:50px;">
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <button class="btn-info boton form-control" onclick="ValidateData()">
-                                    <i class="icon-book"></i> Guardar
-                                </button>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <button class="btn-info boton form-control" onclick="DeleteCurso()">
-                                    <i class="icon-trash"></i> Eliminar
-                                </button>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-3" style="display:inline-block;">
-                                <button class="btn-info boton form-control" onclick="CloseCursoPannel()">
-                                    <i class="icon-logout"></i> Cerrar
-                                </button>
+                                <div class="col-12 col-sm-4 col-lg-4 col-xl-2">
+                                    <label>.</label>
+                                    <button class="btn-warning boton form-control" onclick="AddSalon()">
+                                        Agregar Salón
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row d-flex">
+                        <div class="col-12" id="Contenedor-Salones">
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-end mb-4 mr-2">
+                        <div class="col-12 col-sm-4 col-lg-2">
+                            <button class="btn-warning boton form-control" onclick="ValidateData()">
+                                Guardar
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-4 col-lg-2">
+                            <button class="btn-warning boton form-control" onclick="DeleteCurso()">
+                                Eliminar
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-4 col-lg-2">
+                            <button class="btn-warning boton form-control" onclick="CloseCursoPannel()">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
                 </div>
+               
             </div>
         </div>
     </div>
 </div>
 
+
+
 <div id="Salon-Base" style="display:none;">
     <div class="row salones">
         <div class="col-12">
-            <table id="salon-0">
+            <table id="salon-0" class="table" m-0>
+                <thead>
+                    <tr>
+                        <th style="display:none;">SalonId</th>
+                        <th style="display:none;">RecordType</th>
+                        <th style="display:none;">RecordStatus</th>
+                        <th>Salón</th>
+                        <th>Capacitador</th>
+                        <th>Cupos</th>
+                        <th>Agregar Clase</th>
+                        <th>Eliminar Clase</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td style="display:none;" id="Salon-SalonId">0</td>
                         <td style="display:none;" id="Salon-RecordType">1</td>
                         <td style="display:none;" id="Salon-RecordStatus">2</td>
-                        <td>Salón N° 1</td>
-                        <td>Capacitador 
-                        <select onchange="SalonChanged($(this).parent().parent())">
+                        <td>N° 1</td>
+                        <td> 
+                        <select class="custom-select" onchange="SalonChanged($(this).parent().parent())">
                         @{ 
                             if(ViewBag.CAPACITADOR != null)
                             {
@@ -227,16 +245,24 @@
                             }
                         }     
                         </select></td>
-                        <td>Cupos: <input onkeydown="SalonChanged($(this).parent().parent())"/></td>
+                        <td><input onkeydown="SalonChanged($(this).parent().parent())" class="form-control" style="width:90px; text-align:center;"/></td>
                         <td>Agregar Clase</td>
                         <td>Eliminar</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td colspan="3">
-                            <table>
-                                <tbody>
-                                </tbody>
+                        <td colspan="8">
+                            <table class="subtable">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">ClaseId</th>
+                                        <th style="display:none;">RecordType</th>
+                                        <th style="display:none;">RecordStatus</th>
+                                        <th>Hora Inicio </th>
+                                        <th>Hora Fin </th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
                             </table>
                         </td>
                     </tr>
@@ -247,14 +273,14 @@
 </div>
 
 <div style="display:none;">
-    <table>
+    <table>       
         <tbody id="Clase-Base">
             <tr>
                 <td style="display:none;" id="Clase-ClaseId">0</td>
                 <td style="display:none;" id="Clase-RecordType">1</td>
                 <td style="display:none;" id="Clase-RecordStatus">2</td>
-                <td>Hora Inicio <input type="datetime-local" id="HoraInicio" onchange="ClaseChanged($(this).parent().parent())"/></td>
-                <td>Hora Fin <input type="datetime-local" id="HoraFin" onchange="ClaseChanged($(this).parent().parent())"/></td>
+                <td><input type="datetime-local" id="HoraInicio" onchange="ClaseChanged($(this).parent().parent())"/></td>
+                <td><input type="datetime-local" id="HoraFin" onchange="ClaseChanged($(this).parent().parent())"/></td>
                 <td onclick="DeleteClase($(this).parent())">Eliminar</td>
             </tr>
         </tbody>
@@ -271,6 +297,7 @@
         $(document).ready(function () {
             $('#calendar').fullCalendar({
                 lang: 'es',
+                contentHeight: 600,
                 defaultDate: new Date(),
                 timeFormat: 'h(:mm)a',
                 header: {

@@ -11,58 +11,64 @@
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/css/estilos.css")" rel="stylesheet" type="text/css" />
 </head>
-<body class="login-page">
+<body>
     <div class="container">
-        <div class="row">
-            <div class="col absolute-center is-responsive">
-                <div class="row justify-content-center">
-                    <img class="tamanio-logo" src="@Url.Content("~/Content/img/logoLogin.png")" />
+        <div class="row" >
+            <div class="col absolute-center is-responsive-register" >
+                <div class="row justify-content-center mb-4">
+                    <img class="tamanio-logo-register" src="@Url.Content("~/Content/img/logoHeader.png")" />
                 </div>
-                <div class="IniciarSesion text-center">
-                    Registro
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-8">
-                        <form action="Generals/VerifyRegister" method="post" class="formulario-login">
-                            <div class="form-group">
-                                <label for="usuario">DNI *</label>
-                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su DNI" />
+                <div class="row" style="border:1px solid #ddd; border-radius:20px;">      
+                    <div class="col-12 ">
+                        <div class="row text-center d-flex justify-content-center m-2" >
+                            <h3>Crear Cuenta</h3>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <form action="Generals/VerifyRegister" method="post" class="formulario-login">
+                                    <div class="form-group">
+                                        <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Nro. Documento <span style="color:red;">*</span></label>
+                                        <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su nro. Documento" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Correo <span style="color:red;">*</span></label>
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su correo" />
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-6">
+                                            <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Cargo <span style="color:red;">*</span></label>
+                                            <input type="text" name="cargo" id="cargo" class="form-control" placeholder="Ingrese su cargo" />
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Teléfono</label>
+                                            <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Ingrese su teléfono" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Contraseña <span style="color:red;">*</span></label>
+                                        <input type="password" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Repetir Contraseña <span style="color:red;">*</span></label>
+                                        <input type="password" name="repass" id="repass" class="form-control" placeholder="Repita su contraseña" />
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label" style="font-weight:500;">
+                                            <input type="checkbox" name="terminos" id="terminos" class="form-check-input"/>Aceptar Términos y Condiciones <span style="color:red;">*</span>
+                                        </label>
+                                    </div>
+                                    @{
+                                        if (ViewBag.Message != null)
+                                        {
+                                            <div style="color:red;">@ViewBag.Message</div>
+                                        }
+                                    }
+                                    <div class="form-group mt-2 d-flex justify-content-center">
+                                        <input type="submit" id="enviar" name="enviar" value="Registrar" class="btn btn-block btn-warning" />
+                                    </div>
+                                </form>
                             </div>
-                            <div class="form-group">
-                                <label for="usuario">Correo *</label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su correo" />
-                            </div>
-                            <div class="form-group">
-                                <label for="usuario">Cargo *</label>
-                                <input type="text" name="cargo" id="cargo" class="form-control" placeholder="Ingrese su cargo" />
-                            </div>
-                            <div class="form-group">
-                                <label for="usuario">Teléfono</label>
-                                <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Ingrese su teléfono" />
-                            </div>
-                            <div class="form-group">
-                                <label for="usuario">Contraseña *</label>
-                                <input type="password" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
-                            </div>
-                            <div class="form-group">
-                                <label for="usuario">Repetir Contraseña *</label>
-                                <input type="password" name="repass" id="repass" class="form-control" placeholder="Repita su contraseña" />
-                            </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" name="terminos" id="terminos" class="form-check-input" />Aceptar Términos y Condiciones *
-                                </label>
-                            </div>
-                            @{ 
-                                if(ViewBag.Message != null)
-                                {
-                                    <div style="color:red;">@ViewBag.Message</div>
-                                }
-                            }
-                            <div class="form-group mt-2">
-                                <input type="submit" id="enviar" name="enviar" value="Registrar" class="btn btn-block" />
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
