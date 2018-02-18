@@ -38,7 +38,7 @@ namespace BL
                                    join k in ctx.Parametros on new { a = j.TipoDocumentoId, b = TipoDocumentoGroupId } equals new { a = k.ParametroId, b = k.GrupoId }
                                    join l in ctx.Parametros on new { a = b.SedeId, b = SedeGroupId } equals new { a = l.ParametroId, b = l.GrupoId }
                                    join m in ctx.Parametros on new { a = g.CondicionId, b = ConsidionGroupId } equals new { a = m.ParametroId, b = m.GrupoId }
-                                   join o in ctx.Parametros on new { a = d.Asistio, b = AsistenciaGroupId } equals new { a = o.ParametroId, b = o.GrupoId }
+                                   join o in ctx.Parametros on new { a = d.Asistio.Value, b = AsistenciaGroupId } equals new { a = o.ParametroId, b = o.GrupoId }
                                    where
                                    (data.SedeId == -1 || data.SedeId == b.SedeId) &&
                                    (data.EventoId == -1 || data.EventoId == b.EventoId) &&
@@ -60,7 +60,7 @@ namespace BL
                                        Nota = grp.FirstOrDefault().g.Nota,
                                        NotaTaller = grp.FirstOrDefault().g.NotaTaller,
                                        Condicion = grp.FirstOrDefault().m.Valor1,
-                                       Asistencia = grp.GroupBy(x => x.d.EmpleadoAsistenciaId).Select(x => x.FirstOrDefault().o.Valor1).ToList()
+                                       //Asistencia = grp.GroupBy(x => x.d.EmpleadoAsistenciaId).Select(x => x.FirstOrDefault().o.Valor1).ToList()
                                    }).ToList();
 
                 data.TotalRegistros = return_data.Count;

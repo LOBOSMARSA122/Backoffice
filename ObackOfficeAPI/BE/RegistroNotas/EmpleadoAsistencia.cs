@@ -13,7 +13,7 @@ namespace BE.RegistroNotas
         public int EmpleadoAsistenciaId { get; set; }
         public int EmpleadoCursoId { get; set; }
         public DateTime FechaClase { get; set; }
-        public int Asistio { get; set; }
+        public int? Asistio { get; set; }
 
         public int EsEliminado { get; set; }
         public int? UsuGraba { get; set; }

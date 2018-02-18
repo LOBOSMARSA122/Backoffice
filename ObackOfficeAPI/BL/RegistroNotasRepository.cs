@@ -66,7 +66,6 @@ namespace BL
                              join b in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals b.EmpleadoCursoId
                              join c in ctx.Empleados on a.EmpleadoId equals c.EmpleadoId
                              join d in ctx.Personas on c.PersonaId equals d.PersonaId
-                             //join e in ctx.Parametros on new { a = a.CondicionId, b = 107 } equals new { a = e.ParametroId, b = e.GrupoId }
                              join f in ctx.EmpleadoTalleres on a.EmpleadoCursoId equals f.EmpleadoCursoId
                              join fp in ctx.Parametros on new { a = f.PreguntaId, b = 105 } equals new { a = fp.ParametroId, b = fp.GrupoId }
                              join g in ctx.SalonProgramados on a.SalonProgramadoId equals g.SalonProgramadoId
@@ -75,53 +74,96 @@ namespace BL
                              join j in ctx.CursosProgramados on g.CursoProgramadoId equals j.CursoProgramadoId
                              join k in ctx.Cursos on j.CursoId equals k.CursoId
                              where a.SalonProgramadoId == salonProgramadoId
-                             group new { a, b, d, f,i,g,j,k,fp } by new { a.EmpleadoId, a.SalonProgramadoId } into grp
-                             select new RegistroNotas
+                             //group new { a, b, d, f,i,g,j,k,fp } by new { a.EmpleadoId, a.SalonProgramadoId } into grp
+                             select new 
                              {
-                                 Capacitador = grp.FirstOrDefault().i.Nombres + " " + grp.FirstOrDefault().i.ApellidoPaterno + " " + grp.FirstOrDefault().i.ApellidoMaterno,
-                                 FechaInicioCurso = grp.FirstOrDefault().j.FechaInicio,
-                                 FechaFinCurso = grp.FirstOrDefault().j.FechaFin,
-                                 NroCupos = grp.FirstOrDefault().g.NroCupos,
-                                 Curso = grp.FirstOrDefault().k.NombreCurso,
-
-                                 EmpleadoCursoId = grp.FirstOrDefault().a.EmpleadoCursoId,
-                                 SalonProgramadoId = grp.FirstOrDefault().a.SalonProgramadoId,
-                                 EmpleadoId = grp.Key.EmpleadoId,
-                                 PersonaId = grp.FirstOrDefault().d.PersonaId,
-                                 NombreCompletoEmpleado = grp.FirstOrDefault().d.Nombres + " " + grp.FirstOrDefault().d.ApellidoPaterno + " " + grp.FirstOrDefault().d.ApellidoMaterno,
-                                 Nota = grp.FirstOrDefault().a.Nota,
-                                 Taller = grp.FirstOrDefault().a.NotaTaller,
-                                 CondicionId = grp.FirstOrDefault().a.CondicionId,
-                                 Observacion = grp.FirstOrDefault().a.Observacion,
+                                 Capacitador = i.Nombres + " " + i.ApellidoPaterno + " " + i.ApellidoMaterno,
+                                 FechaInicioCurso = j.FechaInicio,
+                                 FechaFinCurso = j.FechaFin,
+                                 NroCupos = g.NroCupos,
+                                 Curso = k.NombreCurso,
+                                 EmpleadoCursoId = a.EmpleadoCursoId,
+                                 SalonProgramadoId = a.SalonProgramadoId,
+                                 EmpleadoId = c.EmpleadoId,
+                                 PersonaId = d.PersonaId,
+                                 NombreCompletoEmpleado = d.Nombres + " " + d.ApellidoPaterno + " " + d.ApellidoMaterno,
+                                 Nota = a.Nota,
+                                 Taller = a.NotaTaller,
+                                 CondicionId = a.CondicionId,
+                                 Observacion = a.Observacion,
                                  RecordStatus = Grabado,
-                                 EmpleadoAsistencia = grp.Select(x => new Asistencia
-                                                                {   EmpleadoAsistenciaId = x.b.EmpleadoAsistenciaId,
-                                                                    EmpleadoCursoId = x.b.EmpleadoCursoId,
-                                                                    FechaClase = x.b.FechaClase,
-                                                                    Asistio = x.b.Asistio,
-                                                                    RecordStatus = Grabado
-                                                                })
-                                                                    .GroupBy(x => x.EmpleadoAsistenciaId)
-                                                                    .Select(g => g.FirstOrDefault()).ToList(),
-                                 EmpleadoTaller = grp.Select(x => new Taller
-                                                                {   EmpleadoTallerId = x.f.EmpleadoTallerId,
-                                                                    EmpleadoCursoId = x.f.EmpleadoCursoId,
-                                                                    PreguntaId = x.f.PreguntaId,
-                                                                    Pregunta = x.fp.Valor1,
-                                                                    Valor = x.f.Valor,
-                                                                     RecordStatus = Grabado
-                                                                })
-                                                                .GroupBy(x => x.EmpleadoTallerId)
-                                                                .Select(g => g.FirstOrDefault()).ToList()
+                                 EmpleadoAsistenciaId = b.EmpleadoAsistenciaId,
+                                 FechaClase = b.FechaClase,
+                                 Asistio = b.Asistio,
+                                 EmpleadoTallerId = f.EmpleadoTallerId,
+                                 PreguntaId = f.PreguntaId,
+                                 Pregunta = fp.Valor1,
+                                 Valor = f.Valor
                              }
                              ).ToList();
 
-                return query;
+                var queryGroup = query.GroupBy(g => new { g.EmpleadoId, g.SalonProgramadoId })
+                                .Select(s => s.First())
+                                .OrderBy(o => o.EmpleadoCursoId).ToList();
+
+                List<RegistroNotas> result = new List<RegistroNotas>();
+
+                result = queryGroup
+                        .Select(x => new RegistroNotas
+                        {
+                            Capacitador = x.Capacitador,
+                            FechaInicioCurso = x.FechaInicioCurso,
+                            FechaFinCurso = x.FechaFinCurso,
+                            NroCupos = x.NroCupos,
+                            Curso = x.Curso,
+
+                            EmpleadoCursoId = x.EmpleadoCursoId,
+                            SalonProgramadoId = x.SalonProgramadoId,
+                            EmpleadoId = x.EmpleadoId,
+                            PersonaId = x.PersonaId,
+                            NombreCompletoEmpleado = x.NombreCompletoEmpleado,
+                            Nota = x.Nota,
+                            Taller = x.Taller,
+                            CondicionId = x.CondicionId,
+                            Observacion = x.Observacion,
+                            RecordStatus = Grabado
+                        }).ToList();
+
+                foreach (var item in result)
+                {
+                    item.EmpleadoAsistencia = new List<Asistencia>();
+                    //Lista EmpleadoAsistencia por Alumno
+                    IEnumerable<Asistencia> lAsistencia = query.FindAll(p => p.EmpleadoCursoId == item.EmpleadoCursoId)
+                                    .Select(x => new Asistencia
+                                    {
+                                        EmpleadoAsistenciaId = x.EmpleadoAsistenciaId,
+                                        EmpleadoCursoId = x.EmpleadoCursoId,
+                                        FechaClase = x.FechaClase,
+                                        Asistio = x.Asistio,
+                                        RecordStatus = Grabado
+                                    }).ToList();
+                    item.EmpleadoAsistencia.AddRange(lAsistencia.GroupBy(g => g.EmpleadoAsistenciaId).Select(f => f.First()).ToList());
+
+                    //Lista EmpleadoTaller por Alumno
+                    item.EmpleadoTaller = new List<Taller>();
+                    IEnumerable<Taller> lTaller = query.FindAll(p => p.EmpleadoCursoId == item.EmpleadoCursoId)
+                                   .Select(x => new Taller
+                                   {
+                                       EmpleadoTallerId = x.EmpleadoTallerId,
+                                       EmpleadoCursoId = x.EmpleadoCursoId,
+                                       PreguntaId = x.PreguntaId,
+                                       Pregunta = x.Pregunta,
+                                       Valor = x.Valor,
+                                       RecordStatus = Grabado
+                                   }).ToList();
+                    item.EmpleadoTaller.AddRange(lTaller.GroupBy(g => g.EmpleadoTallerId).Select(f => f.First()).ToList());
+
+                }
+                return result;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
                 throw;
             }
         }
