@@ -38,7 +38,7 @@
         <div class="col-12 col-md-6">
             <div class="row datos-curso d-flex justify-content-around align-items-center">
                 <div class="col datos mt-2">
-                    <p><strong>Cupos Disponibles:</strong>  @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.CuposDisponibles)</p>
+                    <p><strong>Cupos Disponibles:</strong> <span>@(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.CuposDisponibles == 0 ? "SIN CUPOS" : ViewBag.INFORMACIONCURSO.CuposDisponibles )</span></p>
                     <p><strong>Cupos Totales:</strong> @(ViewBag.INFORMACIONCURSO == null ? "" : ViewBag.INFORMACIONCURSO.CuposTotales)</p>
 
                 </div>

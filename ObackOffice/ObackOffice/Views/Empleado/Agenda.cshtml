@@ -222,7 +222,7 @@
                             title: v.Curso,
                             description: v.CursoProgramadoId,
                             start: moment(v.FechaInicio),
-                            end: v.FechaFin != null ? moment(v.FechaFin) : null,
+                            end: v.FechaFin != null ? moment(v.FechaFin).add(1,"day") : null,
                             color: v.Color,
                             allDay: true
                         })
@@ -354,7 +354,7 @@
                     success: function (availableTags) {
                         var lista = [];
                         for (var i = 0; i < availableTags.length; i++) {
-                            lista.push(availableTags[i])
+                            lista.push(availableTags[i]);
                         }
                         console.log(lista);
                         $("#dni").autocomplete({
@@ -372,6 +372,7 @@
                 alert('Seleccione Salón');
                 return;
             }
+            
             var x = ValiarEmpleado();
             if (x == 0) {
                 $.ajax(
@@ -409,11 +410,12 @@
         function ValiarEmpleado() {
             var count = 0;
             var id = $('#dni').val().replace(/ /g, '_');
+            console.log(id);
             $('#tabla-empleados tr').each(function () {
                 var x = $(this).attr("id");
                 if (x != undefined) {
                     if (x.trim() == id.trim()) {
-                        alert('Registro duplicado');
+                        alert('Este empelado ya se encuentra registrado en el curso.');
                         count += 1;
                     }
                 }     

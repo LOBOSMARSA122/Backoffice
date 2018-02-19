@@ -48,7 +48,7 @@ namespace BL
                              && (a.Nombres.Contains(valor) || a.ApellidoPaterno.Contains(valor) || a.ApellidoPaterno.Contains(valor) || a.NroDocumento.Contains(valor))
                              select new 
                              {
-                                 NombreCompleto = a.Nombres + " " + a.ApellidoPaterno + " " + a.ApellidoMaterno + "*" + a.NroDocumento,
+                                 NombreCompleto = a.Nombres.ToUpper() + " " + a.ApellidoPaterno.ToUpper() + " " + a.ApellidoMaterno.ToUpper() + "*" + a.NroDocumento.ToUpper(),
                              
                              }).ToList();
 

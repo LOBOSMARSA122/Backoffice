@@ -15,8 +15,8 @@
             {
                 foreach (var item in ViewBag.EMPLEADOSINSCRITOS)
                 {
-                <tr id="@item.NombreCompleto.Replace(" ","_")-@item.NroDocumento.Replace(" ","_") ">
-                    <td>@item.NombreCompleto</td>
+                <tr id="@item.NombreCompleto.Replace(" ","_")*@item.NroDocumento.Replace(" ","_") ">
+                    <td style=" text-transform:uppercase">@item.NombreCompleto.</td>
                     <td>@item.TipoDocumento</td>
                     <td>@item.NroDocumento</td>
                     <td><a onclick="EliminarInscripcion(@item.EmpleadoCursoId)" href="#"><span class="icon-trash"></span></a></td>
@@ -25,25 +25,5 @@
 
             }
         </tbody>
-    </table>
-    <div class="paginacion-tabla d-flex justify-content-center">
-        <div>
-            <ul class="pagination">
-                <li class="page-item">
-                    <span class="page-link" aria-hidden="true">Anterior</span>
-                </li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item">
-                    <a href="#" class="page-link">
-                        <span aria-hidden="true">Siguiente</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-  
+    </table>  
 </div>
