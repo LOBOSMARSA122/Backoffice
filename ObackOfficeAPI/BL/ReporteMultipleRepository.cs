@@ -47,16 +47,16 @@ namespace BL
                                    a.EsEliminado == NoEsEliminado
                                    select new
                                    {
-                                       EmpleadoCursoId = g.EmpleadoCursoId,
-                                       PersonaId = j.PersonaId,
+                                       g.EmpleadoCursoId,
+                                       j.PersonaId,
                                        Nombre = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno,
                                        TipoDocumento = k.Valor1,
-                                       NroDocumento = j.NroDocumento,
+                                       j.NroDocumento,
                                        Sede = l.Valor1,
                                        Evento = b.Nombre,
                                        Curso = c.NombreCurso,
-                                       Nota = g.Nota,
-                                       NotaTaller = g.NotaTaller,
+                                       g.Nota,
+                                       g.NotaTaller,
                                        Condicion = m.Valor1,
                                        Asistencia = d.Asistio,
                                        AsistenciaID = d.EmpleadoAsistenciaId
@@ -79,7 +79,7 @@ namespace BL
                                        Nota = grp.FirstOrDefault().Nota,
                                        NotaTaller = grp.FirstOrDefault().NotaTaller,
                                        Condicion = grp.FirstOrDefault().Condicion,
-                                       Asistencia = grp.GroupBy(x => x.AsistenciaID).Select( y => y.FirstOrDefault().Asistencia.HasValue ? parametroAsistencia.Where(z => z.ParametroId == y.FirstOrDefault().Asistencia).FirstOrDefault().Valor1 : "Por Iniciar").ToList()
+                                       Asistencia = grp.GroupBy(x => x.AsistenciaID).Select( y => y.FirstOrDefault().Asistencia.HasValue ? parametroAsistencia.Where(z => z.ParametroId == y.FirstOrDefault().Asistencia.Value).FirstOrDefault().Valor1 : "Por Iniciar").ToList()
                                    }).ToList();
 
                 data.TotalRegistros = return_data.Count;
@@ -109,10 +109,9 @@ namespace BL
 
             int AsistieronID = (int)Enumeradores.Asistencia.Asistio;
             int FaltaronID = (int)Enumeradores.Asistencia.Falto;
-            int PorIniciarID = (int)Enumeradores.Asistencia.PorIniciar;
 
 
-            var listado = (from a in ctx.EmpleadoCursos
+            var listado_temp = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
                            join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
                            join d in ctx.Cursos on c.CursoId equals d.CursoId
@@ -127,14 +126,25 @@ namespace BL
                            (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado)) &&
                            (DNIEmpleado == null || h.NroDocumento.Contains(DNIEmpleado)) &&
                            a.EsEliminado == NoEsEliminado
-                           group new { d, e } by d.CursoId into grp
                            select new
                            {
-                               Curso = grp.FirstOrDefault().d.NombreCurso,
-                               Asistieron = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == AsistieronID).Count(),
-                               Faltaron = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == FaltaronID).Count(),
-                               PorIniciar = grp.GroupBy(x => x.e.EmpleadoAsistenciaId).Where(x => x.FirstOrDefault().e.Asistio == PorIniciarID).Count()
+                               Curso = d.NombreCurso,
+                               CursoID = d.CursoId,
+                               e.Asistio,
+                               e.EmpleadoAsistenciaId
                            }).ToList();
+
+
+            var listado = (from a in listado_temp
+                           group a by a.CursoID into grp
+                           select new
+                           {
+                               grp.FirstOrDefault().Curso,
+                               Asistieron = grp.GroupBy( x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.Value == AsistieronID).Count(),
+                               Faltaron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.Value == FaltaronID).Count(),
+                               PorIniciar = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio == null).Count()
+                           }).ToList();
+
 
 
             var Chart = new Chart(800, 600, ChartTheme.Green);
@@ -171,7 +181,7 @@ namespace BL
             int PorIniciarID = (int)Enumeradores.Condicion.PorIniciar;
 
 
-            var listado = (from a in ctx.EmpleadoCursos
+            var listado_temp = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
                            join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
                            join d in ctx.Cursos on c.CursoId equals d.CursoId
@@ -185,13 +195,21 @@ namespace BL
                            (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
                            (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
                            a.EsEliminado == NoEsEliminado
-                           group new { a, d } by d.CursoId into grp
                            select new
                            {
-                               Curso = grp.FirstOrDefault().d.NombreCurso,
-                               Aprobaron = grp.Where(X => X.a.CondicionId == AprobaronID).Count(),
-                               Desaprobaron = grp.Where(X => X.a.CondicionId == DesaprobaronID).Count(),
-                               PorIniciar = grp.Where(X => X.a.CondicionId == PorIniciarID).Count()
+                               Curso = d.NombreCurso,
+                               d.CursoId,
+                               a.CondicionId
+                           }).ToList();
+
+            var listado = (from a in listado_temp
+                           group a by a.CursoId into grp
+                           select new
+                           {
+                               grp.FirstOrDefault().Curso,
+                               Aprobaron = grp.Where(x => x.CondicionId == AprobaronID).Count(),
+                               Desaprobaron = grp.Where(x => x.CondicionId == DesaprobaronID).Count(),
+                               PorIniciar = grp.Where(x => x.CondicionId == PorIniciarID).Count()
                            }).ToList();
 
             var Chart = new Chart(800, 600, ChartTheme.Green);
@@ -222,7 +240,7 @@ namespace BL
             string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
             int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
 
-            var listado = (from a in ctx.EmpleadoCursos
+            var listado_temp = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
                            join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
                            join d in ctx.Cursos on c.CursoId equals d.CursoId
@@ -236,12 +254,21 @@ namespace BL
                            (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
                            (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
                            a.EsEliminado == NoEsEliminado
-                           group new { a, d } by d.CursoId into grp
                            select new
                            {
-                               Curso = grp.FirstOrDefault().d.NombreCurso,
-                               Promedio = grp.Select(x => x.a.Nota).Sum() / (decimal)grp.Select(x => x.a.Nota).Count()
+                               d.CursoId,
+                               Curso = d.NombreCurso,
+                               a.Nota
                            }).ToList();
+
+            var listado = (from a in listado_temp
+                           group a by a.CursoId into grp
+                           select new
+                           {
+                               grp.FirstOrDefault().Curso,
+                               Promedio = grp.Select(x => x.Nota).Sum() / (decimal)grp.Select(x => x.Nota).Count()
+                           }).ToList();
+
 
             var Chart = new Chart(800, 600, ChartTheme.Green);
             Chart.AddTitle("Promedio Por Cursos");
@@ -371,7 +398,7 @@ namespace BL
                     {
                         TemplateCell = TemplateRow.CreateCell(indexcell);
                         TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                        TemplateCell.SetCellValue(Alumno.Asistencia.Count <= i ? "N/A" : Alumno.Asistencia[i]);
+                        TemplateCell.SetCellValue(Alumno.Asistencia.Count <= i ? "" : Alumno.Asistencia[i]);
                         indexcell++;
                     }
 

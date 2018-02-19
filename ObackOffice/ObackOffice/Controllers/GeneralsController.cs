@@ -50,8 +50,12 @@ namespace ObackOffice.Controllers
 
         public ActionResult Login_authentication(FormCollection collection)
         {
+            if (TempData["FormCollection"] != null)
+                collection = (FormCollection)TempData["FormCollection"];
+
             if (collection.Get("usuario").Trim() != string.Empty && collection.Get("pass").Trim() != string.Empty)
             {
+                TempData["FormCollection"] = null;
                 string usuario = collection.Get("usuario").Trim();
                 string contrasenia = Utils.Utils.Encrypt(collection.Get("pass").Trim());
                 //Validar si el usuario existe en el sistema
@@ -141,8 +145,12 @@ namespace ObackOffice.Controllers
                 TempData["Message"] = Message;
                 return RedirectToAction("Register");
             }
+            else
+            {
+                TempData["FormCollection"] = collection;
+            }
 
-            return RedirectToAction("Login_authentication",new { collection });
+            return RedirectToAction("Login_authentication");
         }
 
         #endregion

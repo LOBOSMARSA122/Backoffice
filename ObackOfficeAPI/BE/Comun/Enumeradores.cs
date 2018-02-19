@@ -37,9 +37,8 @@ namespace BE.Comun
 
         public enum Asistencia
         {
-            PorIniciar = 1,
-            Asistio = 2,
-            Falto = 3,
+            Asistio = 1,
+            Falto = 0,
         }
 
         public enum RecordType

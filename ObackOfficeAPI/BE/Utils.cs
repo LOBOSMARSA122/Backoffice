@@ -35,7 +35,9 @@ namespace BE
 
                 SmtpClient Client = new SmtpClient();
                 Client.Host = SMTPHost;
-                Client.Port = 25;
+                Client.EnableSsl = true;
+                Client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                Client.Port = 587;
                 Client.UseDefaultCredentials = false;
                 Client.Credentials = new NetworkCredential(SystemAdress, SystemAdressPassword);
 

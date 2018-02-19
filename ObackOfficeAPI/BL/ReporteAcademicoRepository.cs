@@ -26,7 +26,7 @@ namespace BL
                 string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
                 int skip = (data.Index - 1) * data.Take;
 
-                var query = (from a in ctx.CursosProgramados
+                var query_temp = (from a in ctx.CursosProgramados
                              join b in ctx.Eventos on a.EventoId equals b.EventoId
                              join c in ctx.Cursos on a.CursoId equals c.CursoId
                              join e in ctx.SalonProgramados on a.CursoProgramadoId equals e.CursoProgramadoId
@@ -46,23 +46,44 @@ namespace BL
                              (DNIEmpleado == null || j.NroDocumento.Contains(DNIEmpleado)) &&
                              a.EsEliminado == NoEsEliminado &&
                              f.SalonProgramadoId == e.SalonProgramadoId
-                             group new { a,b,c,e,f,g,i,j,k,l,m} by g.EmpleadoCursoId into grp
-                             select new ReporteAcademicoList
+                             select new
                              {
-                                 CursoProgramadoId = grp.FirstOrDefault().a.CursoProgramadoId,
-                                 PersonaId = grp.FirstOrDefault().j.PersonaId,
-                                 NroDocumento = grp.FirstOrDefault().j.NroDocumento,
-                                 TipoDocumento = grp.FirstOrDefault().k.Valor1,
-                                 Curso = grp.FirstOrDefault().c.NombreCurso,
-                                 Evento = grp.FirstOrDefault().b.Nombre,
-                                 Nombre = grp.FirstOrDefault().j.Nombres + " " + grp.FirstOrDefault().j.ApellidoPaterno + " " + grp.FirstOrDefault().j.ApellidoMaterno,
-                                 Sede = grp.FirstOrDefault().l.Valor1,
-                                 Condicion = grp.FirstOrDefault().m.Valor1,
-                                 Nota = grp.FirstOrDefault().g.Nota,
-                                 InicioCurso = grp.FirstOrDefault().a.FechaInicio,
-                                 FinCurso = grp.FirstOrDefault().a.FechaFin,
-                                 Observaciones = grp.FirstOrDefault().g.Observacion
+                                 CursoProgramadoId = a.CursoProgramadoId,
+                                 PersonaId = j.PersonaId,
+                                 NroDocumento = j.NroDocumento,
+                                 TipoDocumento = k.Valor1,
+                                 Curso = c.NombreCurso,
+                                 Evento = b.Nombre,
+                                 Nombre = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno,
+                                 Sede = l.Valor1,
+                                 Condicion = m.Valor1,
+                                 Nota = g.Nota,
+                                 InicioCurso = a.FechaInicio,
+                                 FinCurso = a.FechaFin,
+                                 Observaciones = g.Observacion,
+                                 EmpleadoCursoId = g.EmpleadoCursoId
                              }).ToList();
+
+
+                var query = (from a in query_temp
+                         group a by a into grp
+                         select new ReporteAcademicoList()
+                         {
+                             CursoProgramadoId = grp.FirstOrDefault().CursoProgramadoId,
+                             PersonaId = grp.FirstOrDefault().PersonaId,
+                             NroDocumento = grp.FirstOrDefault().NroDocumento,
+                             TipoDocumento = grp.FirstOrDefault().TipoDocumento,
+                             Curso = grp.FirstOrDefault().Curso,
+                             Evento = grp.FirstOrDefault().Evento,
+                             Nombre = grp.FirstOrDefault().Nombre,
+                             Sede = grp.FirstOrDefault().Sede,
+                             Condicion = grp.FirstOrDefault().Condicion,
+                             Nota = grp.FirstOrDefault().Nota,
+                             InicioCurso = grp.FirstOrDefault().InicioCurso,
+                             FinCurso = grp.FirstOrDefault().FinCurso,
+                             Observaciones = grp.FirstOrDefault().Observaciones
+                         }).ToList();
+
 
                 data.TotalRegistros = query.Count;
 
@@ -83,19 +104,30 @@ namespace BL
         {
             try
             {
-                var return_data = (from a in ctx.SalonProgramados
+                int ParametroAsistencia = (int)Enumeradores.GrupoParametros.Asistencia;
+
+                var parametros = (from a in ctx.Parametros where a.GrupoId == ParametroAsistencia select a).ToList();
+
+                var data = (from a in ctx.SalonProgramados
                                    join b in ctx.EventoSalones on a.EventoSalonId equals b.EventoSalonId
                                    join c in ctx.EmpleadoCursos on a.SalonProgramadoId equals c.SalonProgramadoId
                                    join d in ctx.EmpleadoAsistencias on c.EmpleadoCursoId equals d.EmpleadoCursoId
                                    join e in ctx.Empleados on c.EmpleadoId equals e.EmpleadoId
-                                   join f in ctx.Parametros on new {a = d.Asistio.Value, b =  109} equals new { a = f.ParametroId, b = f.GrupoId } 
                                    where e.PersonaId == PersonaId &&
                                    a.CursoProgramadoId == cursoProgramadoId
-                                   select new ReporteAcademicoListClase
+                                   select new
                                    {
-                                       Asistencia = f.Valor1,
+                                       d.Asistio,
                                        Salon = b.Nombre,
-                                       FechaClase = d.FechaClase
+                                       d.FechaClase
+                                   }).ToList();
+
+                var return_data = (from a in data
+                                   select new ReporteAcademicoListClase()
+                                   {
+                                       Salon = a.Salon,
+                                       FechaClase = a.FechaClase,
+                                       Asistencia = a.Asistio == null ? "Por Iniciar" : parametros.Where(x => x.ParametroId == a.Asistio.Value).Select(x => x.Valor1).FirstOrDefault()
                                    }).ToList();
 
                 return return_data;
