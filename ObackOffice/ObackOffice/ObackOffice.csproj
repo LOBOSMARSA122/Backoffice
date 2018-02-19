@@ -168,6 +168,7 @@
     <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
     <Compile Include="Controllers\Reportes\ReporteMultipleController.cs" />
     <Compile Include="Controllers\Seguridad\AccesoController.cs" />
+    <Compile Include="Controllers\Seguridad\GeneralSecurityAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -499,7 +500,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Persona\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

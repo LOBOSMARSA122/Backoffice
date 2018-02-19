@@ -1,4 +1,5 @@
-﻿using ObackOffice.Models;
+﻿using ObackOffice.Controllers.Seguridad;
+using ObackOffice.Models;
 using ObackOffice.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,12 @@ namespace ObackOffice.Controllers
     {
         public ActionResult Index()
         {
-
             return RedirectToRoute("General_login");
         }
 
+        [GeneralSecurity(Rol = "")]
         public ActionResult Home()
         {
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             return View("~/Views/Generals/Index.cshtml",ViewBag.MENU);
         }
 
@@ -26,17 +26,12 @@ namespace ObackOffice.Controllers
         {
             Session.Remove("AutBackoffice");           
             Session.RemoveAll();    
-            return RedirectToRoute("General_sessionexpired");
+            return RedirectToRoute("General_login");
         }
 
         public ActionResult Login()
         {
             return View("~/Views/Generals/Login.cshtml");
-        }
-
-        public ActionResult backoffice()
-        {
-            return View("~/Views/Person/Index.cshtml");
         }
 
         public ActionResult Register()
@@ -94,18 +89,14 @@ namespace ObackOffice.Controllers
         
         public ActionResult Notauthorized()
         {
-            Session.Remove("Auth");
-            Session.Remove("AuthBackoffice");
-            Session.Remove("AuthPArent");
-            Session.RemoveAll();
-            return View();
+            return RedirectToAction("backoffice");
         }
 
         public ActionResult SessionExpired()
         {
             Session.Remove("AutBackoffice");
             Session.RemoveAll();
-            return View();
+            return RedirectToRoute("General_login");
         }
 
         public ActionResult VerifyRegister(FormCollection collection)

@@ -122,7 +122,7 @@
         </div>
     </div>    
     <div class="row d-flex justify-content-center">
-        <div class="box box-default mt-2 col-12 col-md-11" id="calendarData" style="overflow:hidden;height:0px;">
+        <div class="box-default mt-2 col-12 col-md-11" id="calendarData" style="overflow:hidden;height:0px;">
             <div class="row">
                 <div class="box-header with-border col-12" id="heading1" onclick="CloseCursoPannel()">
                     <h3 class="box-title" style="cursor:pointer;"><i class="icon-calendar"></i> Detalles del Curso </h3>
@@ -311,6 +311,7 @@
                     NewCalendar(date);
                 }
             });
+            FiltrarCursos();
         });
 
 
@@ -318,8 +319,8 @@
             setTimeout(function () {
                 var height = 10;
 
-                for (i = 0; i < $("#" + id + " .row").length; i++) {
-                    height = height + $($("#" + id + " .row")[i]).height();
+                for (i = 0; i < $("#" + id + " > .row").length; i++) {
+                    height = height + $($("#" + id + " > .row")[i]).height();
                 }
 
                 if ($("#" + id).height() == 0) {
@@ -454,7 +455,7 @@
             });
         }
 
-        function FiltrarCursos(index) {
+        function FiltrarCursos() {
             var Datemoment = $('#calendar').fullCalendar('getDate');
 
             data = {
