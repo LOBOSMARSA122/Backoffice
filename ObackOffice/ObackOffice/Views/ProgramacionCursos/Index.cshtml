@@ -477,7 +477,6 @@
                 data: data,
                 url: '/ProgramacionCursos/FiltrarCalendario',
                 success: function (json) {
-                    console.log("json", json);
                     $("#Loading").hide();
                     CloseCursoPannel();
                     var events = [];
@@ -537,8 +536,6 @@
                 data: { id:id },
                 url: '/ProgramacionCursos/GetCalendarEvent',
                 success: function (json) {
-                    console.log(json);
-
                     $("#Curso-CursoProgramadoId").html(json.CursoProgramadoId);
                     $("#Curso-RecordType").html(json.RecordType);
                     $("#Curso-RecordStatus").html(json.RecordStatus);
@@ -566,14 +563,13 @@
 
                         for (var h = 0; h < json.Salones[i].Clases.length;h++){
                             AddClase(i + 1);
-
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDThh:mm"));
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDThh:mm"));
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("#Clase-RecordType").html(json.Salones[i].Clases[h].RecordType);
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("#Clase-RecordStatus").html(json.Salones[i].Clases[h].RecordStatus);
-                            $($("#salon-" + (i + 1) + " table tr")[h]).children("#Clase-ClaseId").html(json.Salones[i].Clases[h].ClaseId);
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDThh:mm"));
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDThh:mm"));
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("#Clase-RecordType").html(json.Salones[i].Clases[h].RecordType);
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("#Clase-RecordStatus").html(json.Salones[i].Clases[h].RecordStatus);
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("#Clase-ClaseId").html(json.Salones[i].Clases[h].ClaseId);
                             if (json.Salones[i].Clases[h].EsEliminado == 1)
-                                $($("#salon-" + (i + 1) + " table tr")[h]).addClass("Suspendido");
+                                $($("#salon-" + (i + 1) + " table tbody tr")[h]).addClass("Suspendido");
                         }
                     }
 
@@ -751,9 +747,9 @@
 
                 for (z = 0; z < $("#Contenedor-Salones #salon-" + i + " table tbody > tr").length; z++) {
                     var Clase = {
-                        RecordType: $($("#salon-" + i + " table tr")[z]).children("Clase-RecordType").html(),
-                        RecordStatus: $($("#salon-" + i + " table tr")[z]).children("Clase-RecordStatus").html(),
-                        ClaseId: $($("#salon-" + i + " table tr")[z]).children("Clase-ClaseId").html(),
+                        RecordType: $($("#salon-" + i + " table tbody tr")[z]).children("Clase-RecordType").html(),
+                        RecordStatus: $($("#salon-" + i + " table tbody tr")[z]).children("Clase-RecordStatus").html(),
+                        ClaseId: $($("#salon-" + i + " table tbody tr")[z]).children("Clase-ClaseId").html(),
                         HoraInicio: $($("#Contenedor-Salones #salon-" + i + " table tbody > tr")[z]).children("td").children("#HoraInicio").val(),
                         HoraFin: $($("#Contenedor-Salones #salon-" + i + " table tbody > tr")[z]).children("td").children("#HoraFin").val()
                     };
