@@ -1,4 +1,5 @@
-﻿using ObackOffice.Models;
+﻿using ObackOffice.Controllers.Seguridad;
+using ObackOffice.Models;
 using ObackOffice.Models.Comun;
 using ObackOffice.Models.Administracion;
 using Newtonsoft.Json;
@@ -10,10 +11,11 @@ namespace ObackOffice.Controllers.Administracion
 {
     public class ProgramacionCursosController : Controller
     {
+        [GeneralSecurity(Rol = "Administración-Programación de Cursos")]
         public ActionResult Index()
         {
             Api API = new Api();
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
@@ -24,6 +26,7 @@ namespace ObackOffice.Controllers.Administracion
             return View();
         }
 
+        [GeneralSecurity(Rol = "Administración-Programación de Cursos")]
         public JsonResult FiltrarCalendario(string SedeId, string EventoId, string CursoId, string year, string month)
         {
             Api API = new Api();
@@ -41,14 +44,13 @@ namespace ObackOffice.Controllers.Administracion
             return Json(Result);
         }
 
+        [GeneralSecurity(Rol = "Administración-Programación de Cursos")]
         public JsonResult SaveData(string data)
         {
             Api API = new Api();
-            var Usuario = ((ClientSession)Session["AutBackoffice"]);
 
             ProgramacionCursos prog = JsonConvert.DeserializeObject<ProgramacionCursos>(data);
-            prog.UsuarioActualizaID = Usuario.UsuarioId;
-
+            prog.UsuarioActualizaID = ViewBag.USUARIO.UsuarioId;
 
             Dictionary<string, string> args = new Dictionary<string, string>
             {
@@ -62,6 +64,7 @@ namespace ObackOffice.Controllers.Administracion
                 return Json(null);
         }
 
+        [GeneralSecurity(Rol = "Administración-Programación de Cursos")]
         public JsonResult GetCalendarEvent(string id)
         {
             Api API = new Api();

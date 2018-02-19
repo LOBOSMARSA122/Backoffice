@@ -1,4 +1,5 @@
-﻿using ObackOffice.Models;
+﻿using ObackOffice.Controllers.Seguridad;
+using ObackOffice.Models;
 using ObackOffice.Models.Comun;
 using ObackOffice.Models.Cliente;
 using ObackOffice.Utils;
@@ -9,10 +10,11 @@ namespace ObackOffice.Controllers.Reportes
 {
     public class ReporteAcademicoController : Controller
     {
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public ActionResult Index()
         {
             Api API = new Api();
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
@@ -23,6 +25,7 @@ namespace ObackOffice.Controllers.Reportes
             return View("ReporteAcademico");
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public JsonResult GetComboData(string combo, string valor)
         {
             Api API = new Api();
@@ -48,6 +51,7 @@ namespace ObackOffice.Controllers.Reportes
             return Json(response);
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public ActionResult FiltrarDataBandeja(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
         {
             Api API = new Api();
@@ -65,6 +69,7 @@ namespace ObackOffice.Controllers.Reportes
             return PartialView("_ReporteAcademicoPartial");
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public ActionResult DetalleEmpleado(string PersonaId, string cursoProgramadoId)
         {
             Api API = new Api();
@@ -83,6 +88,7 @@ namespace ObackOffice.Controllers.Reportes
             return PartialView("_ReporteAcademicoDetallePartial");
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public JsonResult CrearExcel(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado)
         {
             Api API = new Api();
@@ -106,6 +112,7 @@ namespace ObackOffice.Controllers.Reportes
             return Json(Response);
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public JsonResult DownloadFile(string documento)
         {
             Api API = new Api();
@@ -126,6 +133,7 @@ namespace ObackOffice.Controllers.Reportes
             return Json(Response);
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public JsonResult FichaValidacion()
         {
             Api API = new Api();
@@ -142,6 +150,7 @@ namespace ObackOffice.Controllers.Reportes
             return Json(Response);
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
         public JsonResult ObtenerDatosEmpleado(string nroDocumento)
         {
             Api API = new Api();
@@ -153,6 +162,5 @@ namespace ObackOffice.Controllers.Reportes
 
             return new JsonResult { Data = oEmpleado, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-
     }
 }

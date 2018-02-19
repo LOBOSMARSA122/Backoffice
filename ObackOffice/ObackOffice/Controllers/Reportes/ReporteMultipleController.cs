@@ -1,4 +1,5 @@
-﻿using ObackOffice.Models;
+﻿using ObackOffice.Controllers.Seguridad;
+using ObackOffice.Models;
 using ObackOffice.Models.Comun;
 using Newtonsoft.Json;
 using ObackOffice.Utils;
@@ -9,6 +10,7 @@ namespace ObackOffice.Controllers.Reportes
 {
     public class ReporteMultipleController : Controller
     {
+        [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
         public JsonResult Chart(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
         {
             Api API = new Api();
@@ -27,10 +29,11 @@ namespace ObackOffice.Controllers.Reportes
             return Json(base64);
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
         public ActionResult Index()
         {
             Api API = new Api();
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
@@ -40,6 +43,7 @@ namespace ObackOffice.Controllers.Reportes
             return View();
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
         public ActionResult FiltrarReporteMultiple(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
         {
             Api API = new Api();
@@ -57,6 +61,7 @@ namespace ObackOffice.Controllers.Reportes
             return PartialView("_ReporteMultiplePartial");
         }
 
+        [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
         public JsonResult CrearExcel(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Charts)
         {
             Api API = new Api();

@@ -1,4 +1,5 @@
-﻿using ObackOffice.Models;
+﻿using ObackOffice.Controllers.Seguridad;
+using ObackOffice.Models;
 using ObackOffice.Models.Administracion;
 using ObackOffice.Models.Cliente;
 using ObackOffice.Models.Comun;
@@ -169,9 +170,9 @@ namespace ObackOffice.Controllers.Registro
             return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+        [GeneralSecurity(Rol = "Empleado-Historial de Notas")]
         public ActionResult HistorialDeNotas()
         {
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
             Api API = new Api();
             Dictionary<string, string> arg = new Dictionary<string, string>()
             {

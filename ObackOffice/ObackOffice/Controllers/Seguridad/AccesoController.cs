@@ -8,10 +8,11 @@ namespace ObackOffice.Controllers.Seguridad
 {
     public class AccesoController : Controller
     {
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public ActionResult BandejaUsuarios()
         {
             Api API = new Api();
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+
             Dictionary<string, string> arg = new Dictionary<string, string>()
             {
                 { "Index","1" },
@@ -21,6 +22,7 @@ namespace ObackOffice.Controllers.Seguridad
             return View();
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public ActionResult FiltrarUsuario(BandejaUsuario data)
         {
             Api API = new Api();
@@ -35,10 +37,11 @@ namespace ObackOffice.Controllers.Seguridad
             return PartialView("_BandejaUsuariosPartial");
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public ActionResult CrearUsuario(int? id)
         {
             Api API = new Api();
-            ViewBag.USUARIO = ((ClientSession)Session["AutBackoffice"]);
+
             ViewBag.Genero = API.Get<List<Parametro>>("Person/GetGeneros");
             ViewBag.Roles = API.Get<List<Parametro>>("Person/GetRoles");
             ViewBag.TipoDocumento = API.Get<List<Parametro>>("Person/GetTipoDocumentos");
@@ -52,20 +55,16 @@ namespace ObackOffice.Controllers.Seguridad
             return View();
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public ActionResult GetAccordion(string data)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
             ViewBag.Accordion = data;
             return PartialView("_AccordionPartial");
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult GetTreeData(int data)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>();
             args.Add("id", data.ToString());
@@ -73,94 +72,75 @@ namespace ObackOffice.Controllers.Seguridad
             return Json(Tree);
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult AddNewGender(string input)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
-            ClientSession Usuario = ((ClientSession)Session["AutBackoffice"]);
-
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "String1", input },
-                { "Int1", Usuario.UsuarioId.ToString() }
+                { "Int1", ViewBag.USUARIO.UsuarioId.ToString() }
             };
             Parametro response = API.Post<Parametro>("Person/InsertGenero", args);
             return Json(response);
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult AddNewRol(string input, string tree)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
-            ClientSession Usuario = ((ClientSession)Session["AutBackoffice"]);
-
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "String1", input },
                 { "String2", tree},
-                { "Int1", Usuario.UsuarioId.ToString() }
+                { "Int1", ViewBag.USUARIO.UsuarioId.ToString() }
             };
             Parametro response = API.Post<Parametro>("Perfiles/InsertRol", args);
             return Json(response);
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult InsertNewPerson(string Persona, string Usuario)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
-            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
-
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "String1", Persona },
                 { "String2", Usuario },
-                { "Int1", User.UsuarioId.ToString() }
+                { "Int1", ViewBag.USUARIO.UsuarioId.ToString() }
             };
             bool response = API.Post<bool>("Person/InsertNewPerson", args);
             return Json(response);
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult EditPerson(string Persona, string Usuario)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
-            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
-
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "String1", Persona },
                 { "String2", Usuario },
-                { "Int1", User.UsuarioId.ToString() }
+                { "Int1", ViewBag.USUARIO.UsuarioId.ToString() }
             };
             bool response = API.Post<bool>("Person/EditPerson", args);
             return Json(response);
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult DeleteUser(int id)
         {
-            if (((ClientSession)Session["AutBackoffice"]) == null)
-                return null;
-
-            ClientSession User = ((ClientSession)Session["AutBackoffice"]);
-
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "Int1", id.ToString() },
-                { "Int2", User.UsuarioId.ToString() }
+                { "Int2", ViewBag.USUARIO.UsuarioId.ToString() }
             };
             bool response = API.Post<bool>("Usuario/DeleteUser", args);
             return Json(response);
         }
 
+        [GeneralSecurity(Rol = "Seguridad-Usuario de Sistema")]
         public JsonResult CrearExcel(BandejaUsuario data)
         {
             Api API = new Api();
