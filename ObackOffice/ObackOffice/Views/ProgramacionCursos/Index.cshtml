@@ -245,7 +245,7 @@
                             }
                         }     
                         </select></td>
-                        <td><input onkeydown="SalonChanged($(this).parent().parent())" class="form-control" style="width:90px; text-align:center;"/></td>
+                        <td><input onkeydown="SalonChanged($(this).parent().parent())" class="form-control" style="width:90px; text-align:center;" type="number"/></td>
                         <td>Agregar Clase</td>
                         <td>Eliminar</td>
                     </tr>
@@ -562,10 +562,10 @@
                         if (json.Salones[i].EsEliminado == 1)
                             $("#salon-" + (i + 1)).addClass("Suspendido");
 
-                        for (var h = 0; h < json.Salones[i].Clases.length;h++){
+                        for (var h = 0; h < json.Salones[i].Clases.length; h++){
                             AddClase(i + 1);
-                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDThh:mm"));
-                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDThh:mm"));
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDTHH:mm"));
+                            $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDTHH:mm"));
                             $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("#Clase-RecordType").html(json.Salones[i].Clases[h].RecordType);
                             $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("#Clase-RecordStatus").html(json.Salones[i].Clases[h].RecordStatus);
                             $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("#Clase-ClaseId").html(json.Salones[i].Clases[h].ClaseId);
@@ -585,6 +585,7 @@
 
         function NewCalendar(date) {
             $("#calendarData #F-inicio").val(date.format("YYYY-MM-DD"));
+            $("#calendarData #F-fin").val(date.format("YYYY-MM-DD"));
             $("#Curso-RecordType").html(1);
             $("#Curso-RecordStatus").html(2);
             $("#Curso-CursoProgramadoId").html(0);
@@ -696,7 +697,24 @@
         }
 
         function AddClase(numero) {
+            var HoraInicio = moment($("#F-inicio").val()).format("YYYY-MM-DD") == "Invalid date" ? moment(new Date()).startOf('day').add(9, "Hour").format("YYYY-MM-DDTHH:mm") : moment($("#F-inicio").val()).add(9, "Hour").format("YYYY-MM-DDTHH:mm");
+            var HoraFin = moment($("#F-fin").val()).format("YYYY-MM-DD") == "Invalid date" ? moment(new Date()).startOf('day').add(13, "Hour").format("YYYY-MM-DDTHH:mm") : moment($("#F-fin").val()).add(13, "Hour").format("YYYY-MM-DDTHH:mm");
+
+            for (i = 0; i < $("#Contenedor-Salones #salon-" + numero + " table tbody tr").length; i++) {
+                var ini = $($("#Contenedor-Salones #salon-" + numero + " table tbody > tr")[i]).children("td").children("#HoraInicio").val();
+                var fin = $($("#Contenedor-Salones #salon-" + numero + " table tbody > tr")[i]).children("td").children("#HoraFin").val();
+
+                HoraInicio = moment(ini).format("YYYY-MM-DDTHH:mm") == "Invalid date" ? HoraInicio : moment(ini).add(1, "day").format("YYYY-MM-DDTHH:mm");
+                HoraFin = moment(fin).format("YYYY-MM-DDTHH:mm") == "Invalid date" ? HoraFin : moment(fin).add(1, "day").format("YYYY-MM-DDTHH:mm");
+            }
+
+            
+            var index = $("#Contenedor-Salones #salon-" + numero + " table tbody tr").length;
             $("#Contenedor-Salones #salon-" + numero + " table tbody").append($("#Clase-Base").html());
+
+            $($("#Contenedor-Salones #salon-" + numero + " table tbody > tr")[index]).children("td").children("#HoraInicio").val(HoraInicio);
+            $($("#Contenedor-Salones #salon-" + numero + " table tbody > tr")[index]).children("td").children("#HoraFin").val(HoraFin);
+
             ResizeCalendarDetail();
         }
 
