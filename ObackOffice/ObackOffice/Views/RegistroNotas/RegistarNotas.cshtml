@@ -45,6 +45,7 @@
                         <th style="display:none">EmpleadoCursoId</th>
                         <th style="display:none">RecordStatusEmpleadoCurso</th>
                         <th>Empleado</th>
+                        <th>Empresa</th>
                         @foreach (var item in ViewBag.REGISTRONOTAS[0].EmpleadoAsistencia)
                         {
                             <th>@item.FechaClase.ToString("dd MMM") </th>
@@ -53,6 +54,7 @@
                         <th>Nota Cualitativa</th>
                         <th>Condición</th>
                         <th>Observación</th>
+                        <th>Adjuntar</th>
                     </tr>
                 </thead>
                 <tbody id="NotasAlumno">
@@ -62,6 +64,7 @@
                             <td style="display:none">@registro.EmpleadoCursoId</td>
                             <td style="display:none" id="Clase-RecordStatus">1</td>
                             <td>@registro.NombreCompletoEmpleado</td>
+                            <td style="text-align:center">@registro.Empresa</td>
                             @foreach (var asistencia in registro.EmpleadoAsistencia)
                             {
                                 <td>
@@ -88,6 +91,7 @@
                             <td style="text-align:-webkit-center">
                                 <input type="text" id="@registro.EmpleadoCursoId-Obs" value="@registro.Observacion" class="form-control obs" onkeyup="ClaseChanged($(this).parent().parent())" />
                             </td>
+                            <td><i class="icon-attach"></i></td>
                         </tr>
                         <tr class="info-taller" id="info-taller-@registro.EmpleadoCursoId">
                             <td id="@registro.EmpleadoCursoId" class="grillataller" colspan="7">

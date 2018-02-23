@@ -13,6 +13,7 @@ namespace ObackOffice.Models.Administracion
         public int NroCupos { get; set; }
         public string Curso { get; set; }
         public int RecordStatus { get; set; }
+        public string Empresa { get; set; }
 
         public int EmpleadoCursoId { get; set; }
         public int SalonProgramadoId { get; set; }

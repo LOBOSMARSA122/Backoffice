@@ -73,6 +73,7 @@ namespace BL
                              join i in ctx.Personas on h.PersonaId equals i.PersonaId
                              join j in ctx.CursosProgramados on g.CursoProgramadoId equals j.CursoProgramadoId
                              join k in ctx.Cursos on j.CursoId equals k.CursoId
+                             join l in ctx.Empresas on c.EmpresaId equals l.EmpresaId
                              where a.SalonProgramadoId == salonProgramadoId
                              //group new { a, b, d, f,i,g,j,k,fp } by new { a.EmpleadoId, a.SalonProgramadoId } into grp
                              select new 
@@ -98,7 +99,8 @@ namespace BL
                                  EmpleadoTallerId = f.EmpleadoTallerId,
                                  PreguntaId = f.PreguntaId,
                                  Pregunta = fp.Valor1,
-                                 Valor = f.Valor
+                                 Valor = f.Valor,
+                                 Empresa =  l.RazonSocial
                              }
                              ).ToList();
 
@@ -116,6 +118,7 @@ namespace BL
                             FechaFinCurso = x.FechaFinCurso,
                             NroCupos = x.NroCupos,
                             Curso = x.Curso,
+                            Empresa = x.Empresa,
 
                             EmpleadoCursoId = x.EmpleadoCursoId,
                             SalonProgramadoId = x.SalonProgramadoId,
