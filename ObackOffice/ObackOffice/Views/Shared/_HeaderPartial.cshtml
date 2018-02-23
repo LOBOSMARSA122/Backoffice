@@ -2,6 +2,11 @@
     var base64 = @ViewBag.USUARIO.foto == null ? "" : Convert.ToBase64String(@ViewBag.USUARIO.foto);
     var imgSrc = base64 != "" ? String.Format("data:image/jpeg;base64,{0}", base64): "/Content/static/images/foto@default.png";
 }
+<style>
+    .dropdown-menu{
+        top:30px !important;
+    }
+</style>
 <header class="fixed-top">
     <div class="row align-items-center menu">
         <div class="col-auto align-self-stretch boton-menu ">

@@ -162,7 +162,7 @@ namespace BL
                 var Persona = (from a in ctx.Personas where a.NroDocumento == usuario select a).FirstOrDefault();
 
                 if (Persona == null)
-                    return "El DNI ingresado no es válido";
+                    return "El documento ingresado no es válido";
 
                 var Empleados = (from a in ctx.Empleados where a.PersonaId == Persona.PersonaId select a).ToList();
 

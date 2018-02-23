@@ -127,15 +127,13 @@ namespace BL
 
                 int TotalRegistros = Lista.Count;
 
-                Lista = Lista.Skip(skip).Take(data.Take).ToList();
+                if(data.Take > 0)
+                    Lista = Lista.Skip(skip).Take(data.Take).ToList();
 
-                BandejaUsuario returnData = new BandejaUsuario()
-                {
-                    Lista = Lista,
-                    TotalRegistros = TotalRegistros
-                };
+                data.TotalRegistros = TotalRegistros;
+                data.Lista = Lista;
 
-                return returnData;
+                return data;
             }
             catch (Exception e)
             {

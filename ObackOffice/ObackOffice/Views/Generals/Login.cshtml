@@ -39,6 +39,10 @@
                                     <input type="checkbox" name="recordar" id="recordar" class="form-check-input" />Recordar constraseña
                                 </label>
                             </div>*@
+                            @if(ViewBag.MESSAGE != null)
+                            {
+                                <div style="color:red;">@ViewBag.MESSAGE</div>
+                            }
                             <div class="form-group mt-2">
                                 <input type="submit" id="enviar" name="enviar" value="Ingresar" class="btn btn-block" />
                             </div>
