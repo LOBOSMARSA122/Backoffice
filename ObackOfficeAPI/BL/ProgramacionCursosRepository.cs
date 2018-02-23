@@ -54,7 +54,6 @@ namespace BL
         {
             try
             {
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-PE");
                 int EsNoEliminado = (int)Enumeradores.EsEliminado.No;
                 int NoTemporal = (int)Enumeradores.RecordType.NoTemporal;
                 int Grabado = (int)Enumeradores.RecordStatus.Grabado;
