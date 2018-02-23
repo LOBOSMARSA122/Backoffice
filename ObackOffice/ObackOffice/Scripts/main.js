@@ -19,6 +19,20 @@ function alerta() {
         $('.alert').hide();
     }
 }
+function formatDate(date) {
+    var monthNames = [
+        "Enero", "Febrero", "Marzo",
+        "Abril", "Mayo", "Junio", "Julio",
+        "Agosto", "Setiembre", "Octubre",
+        "Noviembre", "Diciembre"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
 
 function main() {
 
@@ -39,6 +53,6 @@ function main() {
 
     $(window).resize(resize);
     resize();
-
+    
 }
 

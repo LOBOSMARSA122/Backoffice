@@ -563,6 +563,7 @@
                             $("#salon-" + (i + 1)).addClass("Suspendido");
 
                         for (var h = 0; h < json.Salones[i].Clases.length; h++){
+                            console.log(json.Salones[i].Clases[h].HoraInicio);
                             AddClase(i + 1);
                             $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraInicio").val(moment(json.Salones[i].Clases[h].HoraInicio).format("YYYY-MM-DDTHH:mm"));
                             $($("#salon-" + (i + 1) + " table tbody tr")[h]).children("td").children("#HoraFin").val(moment(json.Salones[i].Clases[h].HoraFin).format("YYYY-MM-DDTHH:mm"));

@@ -12,33 +12,28 @@
             </a>
         </div>
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">
-            <div class="row">
-                <div class="col-12 col-md-6">
+            <div class="row d-flex flex-wrap">
+                <div class="col-12 col-sm-4">
                     <strong> Capacitador: </strong>
                     <label> @ViewBag.REGISTRONOTAS[0].Capacitador</label>
                 </div>
-
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-sm-4">
                     <strong> Fecha Inicio: </strong>
-                    <label> @ViewBag.REGISTRONOTAS[0].FechaInicioCurso.ToString("dd-MMMM")</label>
+                    <label>@ViewBag.REGISTRONOTAS[0].FechaInicioCurso.ToString("dd-MMMM")</label>
                 </div>
-                <div class="col-12 col-md-4 col-lg-4">
+                <div class="col-12 col-sm-4">
                     <strong> Fecha Fin: </strong>
                     <label> @ViewBag.REGISTRONOTAS[0].FechaFinCurso.ToString("dd-MMMM")</label>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-sm-4">
                     <strong> Cupos Disponibles: </strong>
                     <label> @(@ViewBag.REGISTRONOTAS[0].NroCupos - @listaRegistro.Count) </label>
                 </div>
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-sm-4">
                     <strong> Total de Alumnos: </strong>
                     <label> @listaRegistro.Count</label>
                 </div>
-            </div>
+            </div>         
         </div>
     </div>
 
@@ -191,6 +186,8 @@
 
 $(document).ready(function () {
     $('.grillataller').hide();
+
+
 });
 
 function ShowTaller(EmpleadoCursoId) {
