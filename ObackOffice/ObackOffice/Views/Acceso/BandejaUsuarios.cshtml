@@ -1,31 +1,47 @@
-﻿<div class="container-fluid">
+﻿<style>
+    #Loading {
+        background-color: rgba(0, 0, 0, 0.60);
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        z-index: 9999;
+    }
+
+        #Loading > img {
+            width: 200px;
+        }
+    .pagination-active span {
+        color: #f39c12 !important;
+    }
+</style>
+<div class="container-fluid">
     <div class="box box-default mt-2" id="acordion">
         <div class="box-header with-border" id="heading1">
             <h3 class="box-title" style="cursor:pointer;" onclick="ColapsarFiltro('collapse1')"><i class="icon-calendar"></i> Banjeda de Usuarios</h3>
         </div>
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
-                <div class="row">
-                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
-                        <div class="form-group">
-                            <label for="">Nombre Usuario</label>
-                            <input type="text" id="NombreUsuario" name="NombreUsuario" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Usuario" />
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
-                        <div class="form-group">
-                            <label for="">Nombre Persona</label>
-                            <input type="text" id="NombrePersona" name="NombrePersona" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Persona" />
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
-                        <div class="form-group">
-                            <label for=""></label>
-                            <button class="btn-warning boton form-control" onclick="FiltrarUsuarios()">
-                                <i class="fa fa-search"></i> Filtrar
-                            </button>
-                        </div>
+            <div class="row">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Nombre Usuario</label>
+                        <input type="text" id="NombreUsuario" name="NombreUsuario" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Usuario" />
                     </div>
                 </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Nombre Persona</label>
+                        <input type="text" id="NombrePersona" name="NombrePersona" class="form-control" maxlength="150" placeholder="Ingrese Nombre de Persona" />
+                    </div>
+                </div>
+                <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                    <div class="form-group">
+                        <label for=""></label>
+                        <button class="btn-warning boton form-control" onclick="FiltrarUsuarios(1)">
+                            <i class="fa fa-search"></i> Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="RenderBandejaUsuarios">
@@ -36,23 +52,57 @@
             <button class="btn-success boton form-control" onclick="ExportExcel()">
                 <i class="fa fa-search"></i> Exportar a Excel
             </button>
+        </div>
+        <div>
             <button class="btn-success boton form-control" onclick="location.href='@Url.Action("CrearUsuario","Acceso")'">
                 <i class="fa fa-search"></i> Nuevo Usuario
             </button>
         </div>
     </nav>
+    <div class="alert alert-success" role="alert" style="display:none;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+        <strong>¡Correcto!</strong> Se grabó correctamente
+    </div>
+</div>
+
+<div id="Loading" style="display:none;">
+    <img src="~/Content/icons/loading.gif" />
 </div>
 
 <script>
     function ColapsarFiltro(id) {
-        if ($("#" + id).height() == 0) {
-            $("#" + id).animate({ "height": "100px", "padding":"10px" }, 400);
+        setTimeout(function () {
+            var height = 10;
+
+            for (i = 0; i < $("#" + id + " .row").length; i++) {
+                height = height + $($("#" + id + " .row")[i]).height();
+            }
+
+            if ($("#" + id).height() == 0) {
+                $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+            } else {
+                $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
+            }
+        }, 200);
+    }
+
+    function ColapsarTabla(id) {
+        var Altura = $("#TablaAExportar").height() + 60;
+
+        if ($("." + id).height() == 0) {
+            $("." + id).animate({ "height": Altura + "px" }, 400);
         } else {
-            $("#" + id).animate({ "height": "0px", "padding":"0px 10px" }, 400);
+            alturaTabla = $("." + id).height();
+            $("." + id).animate({ "height": "0px" }, 400);
         }
     }
 
     function DeleteUser(id) {
+        var width = $(window).width();
+        var height = $(window).height();
+        $("#Loading").show().css("width", width + "px").css("height", height + "px");
+        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
         $.ajax({
             cache: false,
             dataType: 'json',
@@ -60,23 +110,32 @@
             data: { id: id },
             url: '/Acceso/DeleteUser',
             success: function (json) {
+                $("#Loading").hide();
                 if (json) {
-                    FiltrarUsuarios();
+                    FiltrarUsuarios(1);
+                } else {
+                    alerta();
                 }
             },
             error: function (error) {
+                $("#Loading").hide();
                 console.log(error);
             }
         });
     }
 
-    function FiltrarUsuarios() {
+    function FiltrarUsuarios(index) {
         data = {
             NombreUsuario: $("#NombreUsuario").val(),
             NombrePersona: $("#NombrePersona").val(),
-            Index: 1,
-            Take: 10
+            Index: index,
+            Take: $("#take").val()
         };
+
+        var width = $(window).width();
+        var height = $(window).height();
+        $("#Loading").show().css("width", width + "px").css("height", height + "px");
+        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
 
         $.ajax({
             cache: false,
@@ -85,9 +144,11 @@
             data: data,
             url: '/Acceso/FiltrarUsuario',
             success: function (html) {
+                $("#Loading").hide();
                 $("#RenderBandejaUsuarios").html(html);
             },
             error: function (error) {
+                $("#Loading").hide();
                 console.log(error);
             }
         });
@@ -96,10 +157,13 @@
     function ExportExcel() {
         data = {
             NombreUsuario: $("#NombreUsuario").val(),
-            NombrePersona: $("#NombrePersona").val(),
-            Index: 1,
-            Take: 10
+            NombrePersona: $("#NombrePersona").val()
         };
+
+        var width = $(window).width();
+        var height = $(window).height();
+        $("#Loading").show().css("width", width + "px").css("height", height + "px");
+        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
 
         $.ajax({
             cache: false,
@@ -107,6 +171,7 @@
             data: data,
             url: '/Acceso/CrearExcel',
             success: function (response) {
+                $("#Loading").hide();
                 var base64 = JSON.parse(response);
                 var binaryString = window.atob(base64._buffer);
 
@@ -153,6 +218,7 @@
                 }
             },
             error: function (error) {
+                $("#Loading").hide();
                 console.log(error);
             }
         });

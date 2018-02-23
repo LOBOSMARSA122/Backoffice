@@ -12,13 +12,7 @@ namespace ObackOffice.Controllers.Seguridad
         public ActionResult BandejaUsuarios()
         {
             Api API = new Api();
-
-            Dictionary<string, string> arg = new Dictionary<string, string>()
-            {
-                { "Index","1" },
-                { "Take","10"}
-            };
-            ViewBag.Usuarios = API.Post<BandejaUsuario>("Usuario/GetUsuarios", arg);
+            ViewBag.Usuarios = new BandejaUsuario() { Lista = new List<BandejaUsuarioLista>(),Take = 10 };
             return View();
         }
 

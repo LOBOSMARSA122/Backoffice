@@ -93,6 +93,28 @@ namespace BL
                                                       }).ToList()
                                                   }).FirstOrDefault();
 
+                return_data.Salones = (from a in return_data.Salones
+                               select new ProgramacionCursosSalones()
+                               {
+                                   RecordType = a.RecordType,
+                                   RecordStatus = a.RecordStatus,
+                                   CapacitadorId = a.CapacitadorId,
+                                   SalonId = a.SalonId,
+                                   Cupos = a.Cupos,
+                                   EsEliminado = a.EsEliminado,
+                                   Clases = a.Clases.Select(x => new ProgramacionCursosClases() {
+                                       RecordType = x.RecordType,
+                                       RecordStatus = x.RecordStatus,
+                                       ClaseId = x.ClaseId,
+                                       HoraInicio = x.HoraInicio.ToUniversalTime(),
+                                       HoraFin = x.HoraFin.ToUniversalTime(),
+                                       EsEliminado = x.EsEliminado
+                                   }).ToList()
+                               }).ToList();
+
+                return_data.FechaInicio = return_data.FechaInicio.ToUniversalTime();
+                return_data.FechaFin = return_data.FechaFin.ToUniversalTime();
+
                 return return_data;
             }
             catch(Exception e)

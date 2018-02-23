@@ -31,6 +31,10 @@ namespace ObackOffice.Controllers
 
         public ActionResult Login()
         {
+            if(TempData["MESSAGE"] != null)
+            {
+                ViewBag.MESSAGE = TempData["MESSAGE"];
+            }
             return View("~/Views/Generals/Login.cshtml");
         }
 
@@ -80,11 +84,15 @@ namespace ObackOffice.Controllers
                 }
                 else
                 {
-                    return RedirectToRoute("General_NotAuthorized");
+                    TempData["MESSAGE"] = "Usuario o contraseña incorrectos";
+                    return RedirectToRoute("General_Login");
                 }
-
             }
-            return RedirectToRoute("General_NotAuthorized");
+            else
+            {
+                TempData["MESSAGE"] = "Debe ingresar el usuario y la contraseña";
+            }
+            return RedirectToRoute("General_Login");
         }
         
         public ActionResult Notauthorized()
