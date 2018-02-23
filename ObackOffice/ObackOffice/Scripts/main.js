@@ -19,6 +19,7 @@ function alerta() {
         $('.alert').hide();
     }
 }
+
 function formatDate(date) {
     var monthNames = [
         "Enero", "Febrero", "Marzo",
@@ -54,5 +55,16 @@ function main() {
     $(window).resize(resize);
     resize();
     
+}
+
+function validateNumber(evt) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    key = String.fromCharCode(key);
+    var regex = /[0-9]|\./;
+    if (!regex.test(key)) {
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+    }
 }
 

@@ -73,7 +73,7 @@
                                     </div>
                                 </td>
                             }
-                            <td style="text-align:-webkit-center"><input type="number" id="@registro.EmpleadoCursoId-Nota" min="0" max="20" maxlength="2" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" onkeyup="ClaseChanged($(this).parent().parent())" /></td>
+                            <td style="text-align:-webkit-center"><input type="number" id="@registro.EmpleadoCursoId-Nota" min="0" max="20" maxlength="2" value="@registro.Nota" style="width:90px; text-align:center;" class="form-control nota" onkeypress='validateNumber(event)' onkeyup="ClaseChanged($(this).parent().parent())" /></td>
                             <td style="text-align:-webkit-center">
                                 <input type="button" name="name" class=" @( @registro.Taller == null ? "btn boton-table-warning" :  @registro.Taller == "Iniciado" ? "btn boton-table-success" : "btn boton-table-danger" )" value="@( @registro.Taller == null ? "Por Iniciar" :  @registro.Taller == "Iniciado" ? "Ver Taller" : "Deficiente" )" onclick="ShowTaller(@registro.EmpleadoCursoId)" />
                             </td>
@@ -275,8 +275,7 @@ function ClaseChanged(tr) {
     if ($(tr).children("#Clase-RecordStatus").html() == 1)
         $(tr).children("#Clase-RecordStatus").html(3);
     }
-
-  
+    
 </script>
 }
 
