@@ -10,41 +10,41 @@
                 <h3 class="box-title"><i class="icon-calendar"></i>Registro de Empleados</h3>
             </a>
         </div>
-        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">         
-                <div class="row d-none">
-                    <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
-                        <div class="form-group">
-                            <label for="">Sede</label>
-                            @{ 
-                                if (ViewBag.EVENTOS != null)
-                                {
-                                    <select name="sede" id="sede" class="form-control">
-                                        @foreach (var item in ViewBag.EVENTOS)
-                                        {
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1">
+            <div class="row d-none">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="">Sede</label>
+                        @{
+                            if (ViewBag.EVENTOS != null)
+                            {
+                                <select name="sede" id="sede" class="form-control">
+                                    @foreach (var item in ViewBag.EVENTOS)
+                                    {
                                         <option value="@item.Id" onchange="">@item.Value</option>
-                                        }
-                                    </select>
-                                }
-                            }                          
-                        </div>
+                                    }
+                                </select>
+                            }
+                        }
                     </div>
-                    <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
-                        <div class="form-group">
-                            <label for="">Evento</label>
-                            <select name="evento" id="evento" class="form-control">
-                                <option value="-1">--Seleccionar--</option>
-                            </select>
-                        </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="">Evento</label>
+                        <select name="evento" id="evento" class="form-control">
+                            <option value="-1">--Seleccionar--</option>
+                        </select>
                     </div>
-                    <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
-                        <div class="form-group">
-                            <label for="">Curso</label>
-                            <select name="curso" id="curso" class="form-control">
-                                <option value="-1">--Seleccionar--</option>
-                            </select>
-                        </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="">Curso</label>
+                        <select name="curso" id="curso" class="form-control">
+                            <option value="-1">--Seleccionar--</option>
+                        </select>
                     </div>
-                    @*<div class="col-6 col-sm-4 col-lg-2 col-xl-1">
+                </div>
+                @*<div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                         <div class="form-group">
                             <label for="">.</label>
                             <button class="btn-warning boton form-control" onclick="Filtrar()">
@@ -52,7 +52,7 @@
                             </button>
                         </div>
                     </div>*@
-                </div>            
+            </div>
         </div>
     </div>
     <div id="calendar" class="calendar-custom mt-2"></div>
@@ -94,7 +94,7 @@
                                                 <div class="input-group ">
                                                     <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-primary" onclick="RegistrarEmpleado()"><i class="icon-user-plus"></i></button>
+                                                        <button class="btn btn-primary" onclick="RegistrarEmpleado()" id="InscribirEmpleado"><i class="icon-user-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,61 +113,62 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                            <div class="form-group row">
-                                                                <div class="col-12 col-md-4">
-                                                                    <label for="Nombres">Nombres</label>
-                                                                    <input type="text" name="nombres" id="nombres" value="" class="form-control" required />
-                                                                </div>
-                                                                <div class="col-12 col-md-4">
-                                                                    <label for="ApePaterno">Apellido Paterno</label>
-                                                                    <input type="text" name="apePaterno" value="" id="apePaterno" class="form-control" required />
-                                                                </div>
-                                                                <div class="col-12 col-md-4">
-                                                                    <label for="ApeMaterno">Apellido Materno</label>
-                                                                    <input type="text" name="apeMaterno" id="apeMaterno" value="" class="form-control" required />
+                                                        <div class="form-group row">
+                                                            <div class="col-12 col-md-4">
+                                                                <label for="Nombres">Nombres</label>
+                                                                <input type="text" name="nombres" id="nombres" value="" class="form-control" required />
+                                                            </div>
+                                                            <div class="col-12 col-md-4">
+                                                                <label for="ApePaterno">Apellido Paterno</label>
+                                                                <input type="text" name="apePaterno" value="" id="apePaterno" class="form-control" required />
+                                                            </div>
+                                                            <div class="col-12 col-md-4">
+                                                                <label for="ApeMaterno">Apellido Materno</label>
+                                                                <input type="text" name="apeMaterno" id="apeMaterno" value="" class="form-control" required />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-12 col-md-4">
+                                                                <label for="tipodocumento">Tipo Documento</label>
+                                                                <select class="form-control" id="tipodocumento">
+                                                                    <option value="-1">--Seleccionar--</option>
+                                                                    <option value="1">DNI</option>
+                                                                    <option value="2">PASAPORTE</option>
+                                                                    <option value="3">PTP</option>
+                                                                    <option value="4">CARNET DE EXTRANJERÍA</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-12 col-md-4">
+                                                                <label for="NroDocumento">Nro. Documento</label>
+                                                                <input type="text" name="nroDocumento" value="" id="nroDocumento" class="form-control" />
+                                                            </div>
+                                                            <div class="col-12 col-md-4">
+                                                                <label for="Cargo">Cargo</label>
+                                                                <input type="text" name="cargo" value="" id="cargo" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row  justify-content-between m-0">
+                                                            <div class="col-12 col-md-2 p-0">
+                                                                <div>
+                                                                    <button class="btn btn-danger btn-block" onclick="EsconderFormulario()">Cancelar</button>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row">
-                                                                <div class="col-12 col-md-4">
-                                                                    <label for="tipodocumento">Tipo Documento</label>
-                                                                    <select class="form-control" id="tipodocumento">
-                                                                        <option value="-1">--Seleccionar--</option>
-                                                                        <option value="1">DNI</option>
-                                                                        <option value="2">PASAPORTE</option>
-                                                                        <option value="3">PTP</option>
-                                                                        <option value="4">CARNET DE EXTRANJERÍA</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-12 col-md-4">
-                                                                    <label for="NroDocumento">Nro. Documento</label>
-                                                                    <input type="text" name="nroDocumento" value="" id="nroDocumento" class="form-control" />
-                                                                </div>
-                                                                <div class="col-12 col-md-4">
-                                                                    <label for="Cargo">Cargo</label>
-                                                                    <input type="text" name="cargo" value="" id="cargo" class="form-control" />
+                                                            <div class="col-12 col-md-3 p-0">
+                                                                <div>
+                                                                    <button class="btn btn-primary btn-block" onclick="GrabarEmpleado()" >Grabar e Inscribir</button>
+                                                                    @*<input type="submit" name="btnGrabareInscribir" class="btn btn-primary btn-block" onclick="GrabarEmpleado()" value="Grabar e Inscribir" />*@
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row  justify-content-between m-0">
-                                                                <div class="col-12 col-md-2 p-0">
-                                                                    <div>
-                                                                        <button class="btn btn-danger btn-block" onclick="EsconderFormulario()">Cancelar</button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12 col-md-3 p-0">
-                                                                    <div>
-                                                                        <button class="btn btn-primary btn-block" onclick="GrabarEmpleado()">Grabar e Inscribir</button>
-                                                                        @*<input type="submit" name="btnGrabareInscribir" class="btn btn-primary btn-block" onclick="GrabarEmpleado()" value="Grabar e Inscribir" />*@
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row form-group  d-flex justify-content-start">
+                                        <div class="row form-group  d-flex justify-content-start  align-items-center">
                                             <div class="col-lg-2">
-                                                <button class="btn-warning boton form-control " onclick="Inscribir()">Inscribir</button>
+                                                <button class="btn-warning boton form-control " id="btnInscribirEmpleado" onclick="Inscribir()">Inscribir</button>
                                             </div>
+                                            <div id="msgSalonLleno"></div>
                                         </div>
                                         <div class="row ">
                                             <div class="col" id="GrillaEmpleado">
@@ -188,15 +189,22 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
-                <div class="modal-footer">                  
+                <div class="modal-footer">
                     <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+                <div class="alert alert-success" role="alert" style="display:none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                    <strong>¡Correcto!</strong> Empleado Inscrito
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div id="Loading" style="display:none;">
+    <img src="~/Content/icons/loading.gif" />
 </div>
 
 
@@ -211,7 +219,6 @@
         }
 
         function LoadAgenda() {
-            console.log('hola');
             var events = [];
             $.ajax({
                 type: "GET",
@@ -233,11 +240,11 @@
                     alert('Failed');
                 }
 
-            }); 
+            });
         }
 
         function GenerateCalender(events) {
-            
+
             $('#calendar').fullCalendar('destroy');
             $('#calendar').fullCalendar({
                 lang: 'es',
@@ -252,18 +259,18 @@
                 eventLimit: true,
                 eventColor: '#378006',
                 events: events,
-                eventClick: function (calEvent, jsEvent, view) {     
-                  
+                eventClick: function (calEvent, jsEvent, view) {
+                   
                     $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title );
-                    $('#CursoProgramadoId').val(calEvent.description);  
+                    $('#CursoProgramadoId').val(calEvent.description);
                     $('#ModalInscripcion').modal();
                     loadSalon();
                 }
             });
-        }       
+        }
 
-        function loadEvento() {      
-           
+        function loadEvento() {
+
             $.ajax(
                 {
                     url: '/Empleado/GetEvento?sedeId=' + $('#sede').val(),
@@ -276,7 +283,7 @@
                             listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
                         }
                         $select.html(listItems);
-                        loadCurso();    
+                        loadCurso();
                         clearddl();
                     },
                     error: function () {
@@ -334,6 +341,25 @@
                     type: 'GET',
                     success: function (html) {
                         $('#GrillaEmpleado').html(html);
+                        var rowCount = $('#GrillaEmpleado tr').length - 1;
+                        var maxCupos = $('#nroCupos').val();
+                        console.log("nro de cupos ", maxCupos);
+                        var cuposDisponibles = maxCupos - (rowCount);
+                        if (rowCount >= maxCupos) {
+                            $('#InscribirEmpleado').prop('disabled', true);
+                            $('#btnInscribirEmpleado').prop('disabled', true);
+                            $('#msgSalonLleno').html('<span style="color:red;">En este salón ya no hay cupos disponibles</span>');
+                        }
+                        else {
+                            $('#InscribirEmpleado').prop('disabled', false);
+                            $('#btnInscribirEmpleado').prop('disabled', false);    
+                            if ($('#salon').val() == -1) {
+                                $('#msgSalonLleno').html('');
+                            }
+                            else {
+                                $('#msgSalonLleno').html('<span style="color:blue;">Cupos Disponibles: ' + cuposDisponibles + '</span>');
+                            }                          
+                        }
                     },
                     error: function () {
                         alert('error');
@@ -364,7 +390,7 @@
                     error: function () {
                         alert('error');
                     }
-                })
+                });
         }
 
         function Inscribir() {
@@ -372,8 +398,21 @@
                 alert('Seleccione Salón');
                 return;
             }
-            
+
+            if ($('#dni').val() == '') {
+                alert('Seleccione un empleado de la lista');
+                return;
+            }
+
             var x = ValiarEmpleado();
+
+
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+
             if (x == 0) {
                 $.ajax(
                     {
@@ -382,8 +421,11 @@
                         success: function () {
                             loadEmpleados();
                             $('#dni').val('');
+                            $("#Loading").hide();
+                            alerta();
                         },
                         error: function () {
+                            $("#Loading").hide();
                             alert('error');
                         }
                     })
@@ -392,7 +434,7 @@
 
 
         function InscribirEmpleado( dni, salon) {
-           
+
             $.ajax(
                 {
                     url: '/Empleado/InscribirEmpleado?empleado=' + dni + '&&salonProgramadoId=' + salon,
@@ -418,21 +460,28 @@
                         alert('Este empelado ya se encuentra registrado en el curso.');
                         count += 1;
                     }
-                }     
+                }
             })
             return count;
         }
 
         function EliminarInscripcion(empleadoCursoId) {
+
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
             if (confirm('¿Seguro de eliminar el registro?')) {
                 $.ajax({
                     url: '/Empleado/EliminarInscripcion?empleadoCursoId=' + empleadoCursoId,
                     type: 'POST',
                     success: function () {
                         loadEmpleados();
+                        $("#Loading").hide();
                     },
                     error: function () {
-
+                        $("#Loading").hide();
                     }
                 });
             }
@@ -470,7 +519,7 @@
         }
 
         function GrabarEmpleado() {
-            
+
             if ($('#salon').val() == -1) {
                 alert('Seleccione Salón');
                 return;
@@ -486,7 +535,7 @@
 
             $.ajax({
                 cache: false,
-                datatype: 'html',               
+                datatype: 'html',
                 method: 'POST',
                 data: data,
                 url: '/Empleado/GrabarEmpleado',
@@ -502,23 +551,23 @@
                         EsconderFormulario();
                         alert('se grabó correctamente');
                     }
-             
+
                 },
                 error: function() {
                     alert('error');
                 }
-            
+
             });
         }
 
-        $(document).ready(function () {           
+        $(document).ready(function () {
             LoadAgenda();
             $('#sede').on('change', loadEvento);
             $('#evento').on('change', loadCurso);
-            $('#salon').on('change', loadEmpleados);            
+            $('#salon').on('change', loadEmpleados);
             $('#curso').on('change', LoadAgenda);
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var target = $(e.target).attr("href") // activated tab                
+                var target = $(e.target).attr("href") // activated tab
                 if (target == '#tabInformacion') {
                     $.ajax({
                         url: '/Empleado/InformacionCurso?salonProgramadoId=' + $('#salon').val(),
@@ -532,7 +581,7 @@
                         }
                     })
                 }
-            });        
+            });
         });
     </script>
 }

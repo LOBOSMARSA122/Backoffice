@@ -62,7 +62,8 @@ namespace BL
                                  PersonaId = c.PersonaId,
                                  NombreCompleto = c.Nombres + " " + c.ApellidoPaterno + " " + c.ApellidoMaterno,
                                  TipoDocumento = f.Valor1,
-                                 NroDocumento = c.NroDocumento
+                                 NroDocumento = c.NroDocumento,
+                                 NroCupos = d.NroCupos
                              }
                              ).ToList();
 

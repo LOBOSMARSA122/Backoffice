@@ -1,6 +1,10 @@
-﻿<div class="container-fluid">
- 
+﻿@{ 
 
+    var x = ViewBag.EMPLEADOSINSCRITOS == null ? "" : ViewBag.EMPLEADOSINSCRITOS[0].NroCupos;
+}
+
+<div class="container-fluid">
+    <input type="hidden" id="nroCupos" value="@x" />
     <table class="table table-hover" id="tabla-empleados">
         <thead>
             <tr>

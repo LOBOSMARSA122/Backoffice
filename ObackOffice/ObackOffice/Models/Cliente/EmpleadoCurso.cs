@@ -28,6 +28,7 @@ namespace ObackOffice.Models.Cliente
         public string NombreCompleto { get; set; }
         public string TipoDocumento { get; set; }        
         public string NroDocumento { get; set; }
+        public int NroCupos { get; set; }
     }
 
     public class InformacionSalonProgramado
