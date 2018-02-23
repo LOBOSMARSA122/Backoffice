@@ -71,13 +71,13 @@
                             <div class="col">
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">
-                                        <a href="#tabRegistro" class="nav-link active" data-toggle="tab">Registros</a>
+                                        <a href="#tabRegistro" id="a" class="nav-link active" data-toggle="tab">Registros</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#tabInformacion" class="nav-link" data-toggle="tab">Información General</a>
+                                        <a href="#tabInformacion" id="b" class="nav-link" data-toggle="tab">Información General</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#tabImportante" class="nav-link" data-toggle="tab">Importante</a>
+                                        <a href="#tabImportante" id="c" class="nav-link" data-toggle="tab">Importante</a>
                                     </li>
                                 </ul>
                             </div>
@@ -260,7 +260,14 @@
                 eventColor: '#378006',
                 events: events,
                 eventClick: function (calEvent, jsEvent, view) {
-                   
+                    $('#tabInformacion').removeClass("active"); 
+                    $('#tabImportante').removeClass("active"); 
+                    $('#tabRegistro').addClass("active");
+                    
+                    $('#b').removeClass("active");
+                    $('#c').removeClass("active");
+                    $('#a').addClass("active"); 
+
                     $('#ModalInscripcion #eventTitle').text("Inscribir al Curso de: " + calEvent.title );
                     $('#CursoProgramadoId').val(calEvent.description);
                     $('#ModalInscripcion').modal();
@@ -343,7 +350,6 @@
                         $('#GrillaEmpleado').html(html);
                         var rowCount = $('#GrillaEmpleado tr').length - 1;
                         var maxCupos = $('#nroCupos').val();
-                        console.log("nro de cupos ", maxCupos);
                         var cuposDisponibles = maxCupos - (rowCount);
                         if (rowCount >= maxCupos) {
                             $('#InscribirEmpleado').prop('disabled', true);
