@@ -222,8 +222,13 @@
             data: data,
             url: '/ReporteAcademico/FiltrarDataBandeja',
             success: function (html) {
-                $("#Loading").hide();
-                $("#RenderBandejaReporteAcademico").html(html);
+                if (html.indexOf("IniciarSesion") == -1) {
+                    $("#Loading").hide();
+                    $("#RenderBandejaReporteAcademico").html(html);
+                } else {
+                    location.href = "/";
+                }
+                
             },
             error: function (error) {
                 $("#Loading").hide();
@@ -256,12 +261,15 @@
                     data: data,
                     url: '/ReporteAcademico/DetalleEmpleado',
                     success: function (html) {
-                        $("#Loading").hide();
-                        $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).html(html).show().addClass("detalle-show");
+                        if (html.indexOf("IniciarSesion") == -1) {
+                            $("#Loading").hide();
+                            $("#renderDetail-" + PersonaId + "-" + cursoProgramadoId).html(html).show().addClass("detalle-show");
 
-                        var Altura = $("#TablaAExportar").height() + 60;
-                        $(".table-responsive").animate({ "height": Altura + "px" }, 400);
-                        
+                            var Altura = $("#TablaAExportar").height() + 60;
+                            $(".table-responsive").animate({ "height": Altura + "px" }, 400);
+                        } else {
+                            location.href = "/";
+                        }
                     },
                     error: function (error) {
                         $("#Loading").hide();

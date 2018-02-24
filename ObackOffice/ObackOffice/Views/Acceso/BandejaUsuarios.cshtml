@@ -147,8 +147,13 @@
             data: data,
             url: '/Acceso/FiltrarUsuario',
             success: function (html) {
-                $("#Loading").hide();
-                $("#RenderBandejaUsuarios").html(html);
+                if (html.indexOf("IniciarSesion") == -1) {
+                    $("#Loading").hide();
+                    $("#RenderBandejaUsuarios").html(html);
+                } else {
+                    location.href = "/";
+                }
+                
             },
             error: function (error) {
                 alerta("Sucedió un error al conectarse al servidor", "rojo");

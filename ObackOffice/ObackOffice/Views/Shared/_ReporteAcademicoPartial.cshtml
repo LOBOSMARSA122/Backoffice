@@ -62,15 +62,14 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Documento</th>
-                    <th>Número</th>
-                    <th>Sede</th>
-                    <th>Evento</th>
+                    <th class="hidden-xs hidden-sm hidden-md">Documento</th>
+                    <th class="hidden-xs">Número</th>
+                    <th class="hidden-xs hidden-sm">Sede</th>
                     <th>Curso</th>
-                    <th>Nota Cuantitativa</th>
-                    <th>Condición</th>
+                    <th class="hidden-xs hidden-sm">Nota Cuantitativa</th>
+                    <th class="hidden-xs">Condición</th>
                     <th>Fecha</th>
-                    <th>Observación</th>
+                    <th class="hidden-xs hidden-sm hidden-md">Observación</th>
                     <th>Detalle</th>
                     <th>Examen</th>
                     <th>Diploma</th>
@@ -92,21 +91,20 @@
                         {
                             <tr>
                                 <td>@item.Nombre</td>
-                                <td>@item.TipoDocumento</td>
-                                <td>@item.NroDocumento</td>
-                                <td>@item.Sede</td>
-                                <td>@item.Evento</td>
+                                <td class="hidden-xs hidden-sm hidden-md">@item.TipoDocumento</td>
+                                <td class="hidden-xs">@item.NroDocumento</td>
+                                <td class="hidden-xs hidden-sm">@item.Sede</td>
                                 <td>@item.Curso</td>
-                                <td>@item.Nota</td>
-                                <td>@item.Condicion</td>
+                                <td class="hidden-xs hidden-sm">@item.Nota</td>
+                                <td class="hidden-xs">@item.Condicion</td>
                                 <td>@item.InicioCurso.ToString("dd-MMM-yyyy") - @item.FinCurso.ToString("dd-MMM-yyyy")</td>
-                                <td>@item.Observaciones</td>
+                                <td class="hidden-xs hidden-sm hidden-md">@item.Observaciones</td>
                                 <td onclick="ShowDetail(@item.PersonaId,@item.CursoProgramadoId)"><i class="icon-eye"></i></td>
                                 <td onclick="DownloadFile('Examen')"><i class="icon-check"></i></td>
                                 <td onclick="DownloadFile('Diploma')"><i class="icon-graduation-cap"></i></td>
                             </tr>
                             <tr>
-                                <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="11" style="display:none;" class="no-padding"></td>
+                                <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="12" style="display:none;" class="no-padding"></td>
                             </tr>
                         }
                     }

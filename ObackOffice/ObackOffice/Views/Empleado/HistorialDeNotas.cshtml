@@ -19,11 +19,11 @@
                 <thead>
                     <tr>
                         <th>Curso</th>
-                        <th>Capacitador</th>
+                        <th class="hidden-xs">Capacitador</th>
                         <th>Fecha Inicio</th>
-                        <th>Fecha Fin</th>
-                        <th>Nota Cuantitativa</th>
-                        <th>Nota Cualitativa</th>
+                        <th class="hidden-xs">Fecha Fin</th>
+                        <th class="hidden-xs hidden-sm">Nota Cuantitativa</th>
+                        <th class="hidden-xs hidden-sm">Nota Cualitativa</th>
                         <th>Condición</th>
                         <th>Examen</th>
                         <th>Diploma</th>
@@ -45,11 +45,11 @@
                             {
                                 <tr>
                                     <td>@Curso.Curso</td>
-                                    <td>@Curso.Capacitador</td>
+                                    <td class="hidden-xs">@Curso.Capacitador</td>
                                     <td>@Curso.InicioCurso.ToShortDateString()</td>
-                                    <td>@Curso.FinCurso.ToShortDateString()</td>
-                                    <td>@Curso.Nota</td>
-                                    <td>@Curso.NotaTaller</td>
+                                    <td class="hidden-xs">@Curso.FinCurso.ToShortDateString()</td>
+                                    <td class="hidden-xs hidden-sm">@Curso.Nota</td>
+                                    <td class="hidden-xs hidden-sm">@Curso.NotaTaller</td>
                                     <td>@Curso.Condicion</td>
                                     <td onclick="DownloadFile('Examen')"><i class="icon-check"></i></td>
                                     <td onclick="DownloadFile('Diploma')"><i class="icon-graduation-cap"></i></td>

@@ -330,7 +330,7 @@
             return false;
         }
 
-        if (regex.test($("#PersonaCorreo").val().trim())) {
+        if (!regex.test($("#PersonaCorreo").val().trim())) {
             $("#message").show().html("Debe ingresar un correo válido");
             return false;
         }
