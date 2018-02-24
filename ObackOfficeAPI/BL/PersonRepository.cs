@@ -42,11 +42,15 @@ namespace BL
             throw new NotImplementedException();
         }
 
-        public List<Parametro> GetGeneros()
+        public List<Dropdownlist> GetGeneros()
         {
             int grupo = (int)Enumeradores.GrupoParametros.Generos;
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending select a).ToList();
+            List<Dropdownlist> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending
+                                        select new Dropdownlist() {
+                                            Id = a.ParametroId,
+                                            Value = a.Valor1
+                                        }).ToList();
 
             return result;
         }
@@ -93,11 +97,16 @@ namespace BL
             }
         }
 
-        public List<Parametro> GetRoles()
+        public List<Dropdownlist> GetRoles()
         {
             int grupo = (int)Enumeradores.GrupoParametros.Roles;
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending select a).ToList();
+            List<Dropdownlist> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending
+                                      select new Dropdownlist()
+                                      {
+                                          Id = a.ParametroId,
+                                          Value = a.Valor1
+                                      }).ToList();
 
             return result;
         }
@@ -106,7 +115,7 @@ namespace BL
         {
             try
             {
-                if ((from a in ctx.Personas where a.TipoDocumentoId == Persona.TipoDocumentoId select a).FirstOrDefault() != null || (from a in ctx.Usuarios where a.NombreUsuario == Usuario.NombreUsuario select a).FirstOrDefault() != null)
+                if ((from a in ctx.Personas where a.TipoDocumentoId == Persona.TipoDocumentoId && a.NroDocumento == Persona.NroDocumento select a).FirstOrDefault() != null || (from a in ctx.Usuarios where a.NombreUsuario == Usuario.NombreUsuario select a).FirstOrDefault() != null)
                     return false;
 
                 int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
@@ -114,6 +123,7 @@ namespace BL
                 Persona.UsuGraba = UsuarioID;
                 Persona.FechaGraba = DateTime.Now;
                 Persona.EsEliminado = NoEsEliminado;
+                Persona.GeneroId = Persona.GeneroId == -1 ? 0 : Persona.GeneroId;
 
                 ctx.Personas.Add(Persona);
                 int rows = ctx.SaveChanges();
@@ -123,7 +133,6 @@ namespace BL
                 Usuario.EsEliminado = NoEsEliminado;
                 Usuario.FechaCaduca = DateTime.Now.AddYears(1);
                 Usuario.Contrasenia = Utils.Encrypt(Usuario.Contrasenia);
-                Usuario.RespuestaSecreta = Utils.Encrypt(Usuario.RespuestaSecreta);
                 Usuario.PersonaId = Persona.PersonaId;
 
                 ctx.Usuarios.Add(Usuario);
@@ -157,7 +166,7 @@ namespace BL
                 ctxPersona.ApellidoPaterno = Persona.ApellidoPaterno;
                 ctxPersona.ApellidoMaterno = Persona.ApellidoMaterno;
                 ctxPersona.FechaNacimiento = Persona.FechaNacimiento;
-                ctxPersona.GeneroId = Persona.GeneroId;
+                ctxPersona.GeneroId = Persona.GeneroId == -1 ? 0 : Persona.GeneroId;
                 ctxPersona.CorreoElectronico = Persona.CorreoElectronico;
                 ctxPersona.NumeroCelular = Persona.NumeroCelular;
                 ctxPersona.UsuActualiza = UsuarioID;
@@ -189,11 +198,16 @@ namespace BL
             }
         }
 
-        public List<Parametro> GetTipoDocumentos()
+        public List<Dropdownlist> GetTipoDocumentos()
         {
             int grupo = (int)Enumeradores.GrupoParametros.TipoDocumentos;
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            List<Parametro> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending select a).ToList();
+            List<Dropdownlist> result = (from a in ctx.Parametros where a.EsEliminado == NoEliminado && a.GrupoId == grupo orderby a.Orden ascending
+                                         select new Dropdownlist()
+                                         {
+                                             Id = a.ParametroId,
+                                             Value = a.Valor1
+                                         }).ToList();
 
             return result;
         }
@@ -203,8 +217,5 @@ namespace BL
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
             return (from a in ctx.Personas where a.EsEliminado == NoEliminado && a.PersonaId == id select a).FirstOrDefault();
         }
-
-  
-        
     }
 }

@@ -21,10 +21,15 @@ namespace BL
             return result;
         }
 
-        public List<Empresa> GetEmpresas()
+        public List<Dropdownlist> GetEmpresas()
         {
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
-            List<Empresa> result = (from a in ctx.Empresas where a.EsEliminado == NoEliminado select a).ToList();
+            List<Dropdownlist> result = (from a in ctx.Empresas where a.EsEliminado == NoEliminado
+                                         select new Dropdownlist()
+                                         {
+                                             Id = a.EmpresaId,
+                                             Value = a.RazonSocial
+                                         }).ToList();
 
             return result;
         }

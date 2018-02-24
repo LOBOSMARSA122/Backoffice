@@ -821,8 +821,8 @@ margin:0;
 }
 
 .alert{
-    position:absolute;
-    top:50px;
-    right:60px;
+    position:fixed;
+    top:100px;
+    right:40px;
 }
 

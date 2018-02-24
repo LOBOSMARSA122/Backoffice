@@ -36,10 +36,10 @@ namespace ObackOffice.Controllers.Seguridad
         {
             Api API = new Api();
 
-            ViewBag.Genero = API.Get<List<Parametro>>("Person/GetGeneros");
-            ViewBag.Roles = API.Get<List<Parametro>>("Person/GetRoles");
-            ViewBag.TipoDocumento = API.Get<List<Parametro>>("Person/GetTipoDocumentos");
-            ViewBag.Empresas = API.Get<List<Models.Administracion.Empresa>>("Empresas/GetEmpresas");
+            ViewBag.Genero = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Person/GetGeneros"),Constantes.Select);
+            ViewBag.Roles = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Person/GetRoles"),Constantes.Select);
+            ViewBag.TipoDocumento = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Person/GetTipoDocumentos"),Constantes.Select);
+            ViewBag.Empresas = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Empresas/GetEmpresas"),Constantes.Select);
             if (id.HasValue)
             {
                 ViewBag.EditUser = API.Get<Models.Acceso.Usuario>("Usuario/GetUsuario", new Dictionary<string, string> { { "id", id.Value.ToString() } });
