@@ -55,6 +55,7 @@ namespace BL
                              join d in ctx.SalonProgramados on a.SalonProgramadoId equals d.SalonProgramadoId
                              join e in ctx.CursosProgramados on d.CursoProgramadoId equals e.CursoProgramadoId
                              join f in ctx.Parametros on new { a = c.TipoDocumentoId, b = 101 } equals new { a = f.ParametroId, b = f.GrupoId }
+                             join g in ctx.Empresas on a.EmpresaId equals g.EmpresaId
                              where a.SalonProgramadoId == salonProgramadoId && a.EsEliminado==0
                              select new EmpleadoInscrito
                              {
@@ -63,7 +64,8 @@ namespace BL
                                  NombreCompleto = c.Nombres + " " + c.ApellidoPaterno + " " + c.ApellidoMaterno,
                                  TipoDocumento = f.Valor1,
                                  NroDocumento = c.NroDocumento,
-                                 NroCupos = d.NroCupos
+                                 NroCupos = d.NroCupos,
+                                 Empresa =  g.RazonSocial
                              }
                              ).ToList();
 

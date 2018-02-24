@@ -25,6 +25,7 @@ namespace ObackOffice.Models.Cliente
     {
         public int EmpleadoCursoId { get; set; }
         public int PersonaId { get; set; }
+        public string Empresa { get; set; }
         public string NombreCompleto { get; set; }
         public string TipoDocumento { get; set; }        
         public string NroDocumento { get; set; }

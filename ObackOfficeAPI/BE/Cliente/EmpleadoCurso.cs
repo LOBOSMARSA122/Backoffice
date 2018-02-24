@@ -12,6 +12,7 @@ namespace BE.Cliente
         public int EmpleadoCursoId { get; set; }
         public int EmpleadoId { get; set; }
         public int SalonProgramadoId { get; set; }
+        public int EmpresaId { get; set; }
         public decimal Nota { get; set; }
         public int CondicionId { get; set; }
         public string Observacion { get; set; }
@@ -28,6 +29,7 @@ namespace BE.Cliente
     {
         public int EmpleadoCursoId { get; set; }
         public int PersonaId { get; set; }
+        public string Empresa { get; set; }
         public string NombreCompleto { get; set; }
         public string TipoDocumento { get; set; }
         public string NroDocumento { get; set; }
