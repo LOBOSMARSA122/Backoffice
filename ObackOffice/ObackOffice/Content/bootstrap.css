@@ -862,6 +862,33 @@ pre code {
   margin-left: 91.666667%;
 }
 
+@media (min-width: 100px) and (max-width: 575px) {
+    .hidden-xs {
+        display: none;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .hidden-sm {
+        display: none;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .hidden-md {
+        display: none;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .hidden-lg {
+        display: none;
+    }
+}
+@media (min-width: 1200px) {
+    .hidden-xl {
+        display: none;
+    }
+}
+
 @media (min-width: 576px) {
   .col-sm {
     -ms-flex-preferred-size: 0;

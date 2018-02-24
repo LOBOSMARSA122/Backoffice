@@ -36,7 +36,7 @@
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-1">
                     <div class="form-group">
                         <label for=""></label>
-                        <button class="btn-warning boton form-control" onclick="FiltrarUsuarios(1)">
+                        <button class="btn-warning boton form-control" onclick="FiltrarUsuarios(1)" style="cursor:pointer;">
                             <i class="fa fa-search"></i> Filtrar
                         </button>
                     </div>
@@ -49,20 +49,21 @@
     </div>
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
         <div>
-            <button class="btn-success boton form-control" onclick="ExportExcel()">
+            <button class="btn-success boton form-control" onclick="ExportExcel()" style="cursor:pointer;">
                 <i class="fa fa-search"></i> Exportar a Excel
             </button>
         </div>
         <div>
-            <button class="btn-success boton form-control" onclick="location.href='@Url.Action("CrearUsuario","Acceso")'">
+            <button class="btn-success boton form-control" onclick="location.href='@Url.Action("CrearUsuario","Acceso")'" style="cursor:pointer;">
                 <i class="fa fa-search"></i> Nuevo Usuario
             </button>
         </div>
     </nav>
-    <div class="alert alert-success" role="alert" style="display:none;">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-        <strong>¡Correcto!</strong> Se grabó correctamente
-    </div>
+</div>
+
+<div class="alert" role="alert" style="display:none;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+    <span></span>
 </div>
 
 <div id="Loading" style="display:none;">
@@ -112,12 +113,14 @@
             success: function (json) {
                 $("#Loading").hide();
                 if (json) {
+                    alerta("Usuario eliminado!", "verde");
                     FiltrarUsuarios(1);
                 } else {
-                    alerta();
+                    alerta("No se pudo eliminar el usuario","rojo");
                 }
             },
             error: function (error) {
+                alerta("Sucedió un error al conectarse al servidor", "rojo");
                 $("#Loading").hide();
                 console.log(error);
             }
@@ -148,6 +151,7 @@
                 $("#RenderBandejaUsuarios").html(html);
             },
             error: function (error) {
+                alerta("Sucedió un error al conectarse al servidor", "rojo");
                 $("#Loading").hide();
                 console.log(error);
             }
@@ -218,6 +222,7 @@
                 }
             },
             error: function (error) {
+                alerta("Sucedió un error al conectarse al servidor", "rojo");
                 $("#Loading").hide();
                 console.log(error);
             }

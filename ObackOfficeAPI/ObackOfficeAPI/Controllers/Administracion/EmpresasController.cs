@@ -1,5 +1,6 @@
 ﻿using System;
 using BL;
+using BE.Comun;
 using BE.Administracion;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace ObackOfficeAPI.Controllers.Administracion
         [HttpGet]
         public IHttpActionResult GetEmpresas()
         {
-            List<Empresa> result = er.GetEmpresas();
+            List<Dropdownlist> result = er.GetEmpresas();
             return Ok(result);
         }
 

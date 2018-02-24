@@ -48,9 +48,9 @@
                 <tr>
                     <th>Nombre Usuario</th>
                     <th>Nombre Persona</th>
-                    <th>Rol</th>
+                    <th class="hidden-xs">Rol</th>
                     <th>Empresa</th>
-                    <th>Tipo Empresa</th>
+                    <th class="hidden-xs">Tipo Empresa</th>
                     <th class="NoImprimir">Editar</th>
                     <th class="NoImprimir">Eliminar</th>
                 </tr>
@@ -72,9 +72,9 @@
                             <tr>
                                 <td>@item.NombreUsuario</td>
                                 <td>@item.NombreCompleto</td>
-                                <td>@item.Rol</td>
+                                <td class="hidden-xs">@item.Rol</td>
                                 <td>@item.Empresa</td>
-                                <td>@item.TipoEmpresa</td>
+                                <td class="hidden-xs">@item.TipoEmpresa</td>
                                 <td class="NoImprimir"><a href="@Url.Action("CrearUsuario","Acceso",new {id = item.UsuarioId })"><span class="icon-edit"></span></a></td>
                                 <td class="NoImprimir"><a onclick="DeleteUser(@item.UsuarioId)"><span class="icon-trash"></span></a></td>
                             </tr>

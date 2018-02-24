@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using ObackOffice.Utils;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System;
 
 namespace ObackOffice.Controllers.Administracion
 {
@@ -23,6 +24,7 @@ namespace ObackOffice.Controllers.Administracion
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
             ViewBag.CAPACITADOR = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Capacitador/ddlCapacitador"), Constantes.Select);
+
             return View();
         }
 
