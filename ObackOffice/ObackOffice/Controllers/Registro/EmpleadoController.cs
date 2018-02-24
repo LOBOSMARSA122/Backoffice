@@ -76,6 +76,14 @@ namespace ObackOffice.Controllers.Registro
 
         }
 
+        public JsonResult GetEmpresas()
+        {
+            Api API = new Api();
+            List<Dropdownlist> Eventos = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Empresas/ddlEmpresas"), Constantes.Select);
+            return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+
         public ActionResult EmpleadosInscritos(string salonProgramadoId)
         {
             if (salonProgramadoId != "-1")
@@ -109,26 +117,26 @@ namespace ObackOffice.Controllers.Registro
             return PartialView("_InformacionCursoPartial");
         }
 
-        public JsonResult GetEmpleado(string valor, string empresaId)
+        public JsonResult GetEmpleado(string valor)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "valor",valor },
-                {"empresaId", empresaId }
+                { "valor",valor }
             };
             List<string> Eventos = API.Get<List<string>>("Empleado/GetEmpleados", args);
             return new JsonResult { Data = Eventos, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public JsonResult InscribirEmpleado(string empleado, string salonProgramadoId)
+        public JsonResult InscribirEmpleado(string empleado, string salonProgramadoId, string empresaId)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 {"empleado",empleado },
                 {"salonProgramadoId", salonProgramadoId },
-                {"userId",  ((ClientSession)Session["AutBackoffice"]).UsuarioId.ToString() }
+                {"userId",  ((ClientSession)Session["AutBackoffice"]).UsuarioId.ToString() },
+                {"empresaId", empresaId },
             };
             bool result = API.Get<bool>("CursoProgramado/InsertarEmpleadoCurso", args);
             return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -155,7 +163,7 @@ namespace ObackOffice.Controllers.Registro
             Dictionary<string, string> arg = new Dictionary<string, string>()
             {
                 { "PersonaId",data.PersonaId.ToString() },
-                { "EmpresaId", ViewBag.USUARIO.EmpresaId.ToString()},
+                { "EmpresaId", data.EmpresaId.ToString()},
                 { "Cargo",data.Cargo.ToString()},
                 { "UsuGraba", ViewBag.USUARIO.UsuarioId.ToString()},
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using BE.Comun;
 
 namespace ObackOfficeAPI.Controllers.Administracion
 {
@@ -18,6 +19,13 @@ namespace ObackOfficeAPI.Controllers.Administracion
         {
             List<Empresa> result = er.GetEmpresas();
             return Ok(result);
+        }
+
+        [HttpGet]
+        public IHttpActionResult ddlEmpresas()
+        {
+            List<Dropdownlist> result = er.ddlEmpresa();
+            return Json(result);
         }
     }
 }

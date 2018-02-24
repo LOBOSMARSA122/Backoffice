@@ -14,7 +14,7 @@ namespace BL
     {
         private DatabaseContext ctx = new DatabaseContext();
 
-        public bool InsertarEmpleadoCurso(string empleado, int salonProgramadoId, int userId)
+        public bool InsertarEmpleadoCurso(string empleado, int salonProgramadoId, int userId, int empresaId)
         {
             EmpleadoRepository oEmpleadoRepository = new EmpleadoRepository();
             EmpleadoAsistencia oEmpleadoAsistencia = new EmpleadoAsistencia();
@@ -24,7 +24,11 @@ namespace BL
             {
                 //Obtener Id Empleado
                 var datosEmpleado = empleado.Split('*');
-                var empleadoId = oEmpleadoRepository.GetEmpleadoByDocumento(datosEmpleado[1].ToString()).EmpleadoId;
+                var oEmpleado = oEmpleadoRepository.GetEmpleadoByDocumento(datosEmpleado[1].ToString());
+                var empleadoId = oEmpleado.EmpleadoId;
+
+                //Actualizar Empresa
+                oEmpleadoRepository.ActualizarEmpleadoEmpresa(empleadoId, empresaId);
 
                 //Insertar en tabla EmpleadoCurso
                 EmpleadoCurso oEmpleadoCurso = new EmpleadoCurso();

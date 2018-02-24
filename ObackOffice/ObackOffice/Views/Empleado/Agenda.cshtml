@@ -89,7 +89,7 @@
                                     <div class="col">
                                         <input type="hidden" name="CursoProgramadoId" id="CursoProgramadoId" value="" />
                                         <div class="row form-group">
-                                            <div class="col-12 col-lg-6 ui-autocomplete">
+                                            <div class="col-12 col-lg-4 ui-autocomplete">
                                                 <label for="dni">DNI / Nombres</label>
                                                 <div class="input-group ">
                                                     <input type="text" id="dni" class="form-control" onkeyup="autoComplete()" />
@@ -98,13 +98,18 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-6">
+                                            <div class="col-12 col-lg-4">
+                                                <label for="empresa">Empresa</label>
+                                                <select name="salon" id="empresa" class="form-control">
+                                                    <option value="-1">--Seleccionar--</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-lg-4">
                                                 <label for="salon">Salón</label>
                                                 <select name="salon" id="salon" class="form-control">
                                                     <option value="-1">--Seleccionar--</option>
                                                 </select>
                                             </div>
-
                                         </div>
                                         <div id="esconder-form">
                                             <div class="row" id="formularioEmpleado">
@@ -156,7 +161,6 @@
                                                             <div class="col-12 col-md-3 p-0">
                                                                 <div>
                                                                     <button class="btn btn-primary btn-block" onclick="GrabarEmpleado()" >Grabar e Inscribir</button>
-                                                                    @*<input type="submit" name="btnGrabareInscribir" class="btn btn-primary btn-block" onclick="GrabarEmpleado()" value="Grabar e Inscribir" />*@
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -299,6 +303,28 @@
                 })
         }
 
+
+        function loadEmpresa() {
+
+            $.ajax(
+                {
+                    url: '/Empleado/GetEmpresas',
+                    type: 'GET',
+                    success: function (json) {
+                        var listItems = '';
+                        var $select = $('#empresa');
+                        $select.find('option').remove();
+                        for (var i = 0; i < json.length; i++) {
+                            listItems += "<option value='" + json[i].Id + "'>" + json[i].Value + "</option>";
+                        }
+                        $select.html(listItems);                        
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                })
+        }
+
         function loadCurso() {
             $.ajax(
                 {
@@ -349,7 +375,9 @@
                     success: function (html) {
                         $('#GrillaEmpleado').html(html);
                         var rowCount = $('#GrillaEmpleado tr').length - 1;
-                        var maxCupos = $('#nroCupos').val();
+                        var o = $("#salon option:selected").text().split(',Cupos:');
+                        if (o == "--Seleccionar--") return;
+                        var maxCupos = o[1].toString();
                         var cuposDisponibles = maxCupos - (rowCount);
                         if (rowCount >= maxCupos) {
                             $('#InscribirEmpleado').prop('disabled', true);
@@ -381,7 +409,7 @@
         function autoComplete() {
             $.ajax(
                 {
-                    url: '/Empleado/GetEmpleado?valor=' + $('#dni').val() + '&&empresaId=' + @ViewBag.USUARIO.EmpresaId,
+                    url: '/Empleado/GetEmpleado?valor=' + $('#dni').val(),
                     type: 'GET',
                     success: function (availableTags) {
                         var lista = [];
@@ -405,6 +433,11 @@
                 return;
             }
 
+            if ($('#empresa').val() == -1) {
+                alert('Seleccione Empresa');
+                return;
+            }
+
             if ($('#dni').val() == '') {
                 alert('Seleccione un empleado de la lista');
                 return;
@@ -422,7 +455,7 @@
             if (x == 0) {
                 $.ajax(
                     {
-                        url: '/Empleado/InscribirEmpleado?empleado=' + $('#dni').val() + '&&salonProgramadoId=' + $('#salon').val(),
+                        url: '/Empleado/InscribirEmpleado?empleado=' + $('#dni').val() + '&&salonProgramadoId=' + $('#salon').val() + '&&empresaId=' + $('#empresa').val(),
                         type: 'POST',
                         success: function () {
                             loadEmpleados();
@@ -439,11 +472,11 @@
         }
 
 
-        function InscribirEmpleado( dni, salon) {
+        function InscribirEmpleado( dni, salon, empresa) {
 
             $.ajax(
                 {
-                    url: '/Empleado/InscribirEmpleado?empleado=' + dni + '&&salonProgramadoId=' + salon,
+                    url: '/Empleado/InscribirEmpleado?empleado=' + dni + '&&salonProgramadoId=' + salon + '&&empresaId=' + empresa,
                     type: 'POST',
                     success: function () {
                         loadEmpleados();
@@ -530,7 +563,14 @@
                 alert('Seleccione Salón');
                 return;
             }
+
+            if ($('#empresa').val() == -1) {
+                alert('Seleccione Empresa');
+                return;
+            }
+
             data = {
+                EmpresaId: $('#empresa').val(),
                 Nombres: $('#nombres').val(),
                 ApePaterno: $('#apePaterno').val(),
                 ApeMaterno: $('#apeMaterno').val(),
@@ -553,7 +593,7 @@
                     }
                     else {
                         var Nombres = $('#nombres').val() + ' ' + $('#apePaterno').val() + ' ' + $('#apeMaterno').val() + '*' + $('#nroDocumento').val();
-                        InscribirEmpleado(Nombres, $('#salon').val());
+                        InscribirEmpleado(Nombres, $('#salon').val(), $('#empresa').val());
                         EsconderFormulario();
                         alert('se grabó correctamente');
                     }
@@ -568,6 +608,7 @@
 
         $(document).ready(function () {
             LoadAgenda();
+            loadEmpresa();
             $('#sede').on('change', loadEvento);
             $('#evento').on('change', loadCurso);
             $('#salon').on('change', loadEmpleados);

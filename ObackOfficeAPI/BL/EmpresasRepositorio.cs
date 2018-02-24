@@ -42,5 +42,25 @@ namespace BL
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
             return (from a in ctx.Empresas where a.EsEliminado == NoEliminado && a.EmpresaId == ID select a).FirstOrDefault();
         }
+
+        public List<Dropdownlist> ddlEmpresa()
+        {
+            try
+            {
+
+                var query = (from a in ctx.Empresas
+                             where a.EsEliminado == 0
+                             select new Dropdownlist
+                             {
+                                 Id = a.EmpresaId,
+                                 Value = a.RazonSocial
+                             }).ToList();
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

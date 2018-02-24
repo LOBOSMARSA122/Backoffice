@@ -52,9 +52,9 @@ namespace ObackOfficeAPI.Controllers.Administracion
         }
 
         [HttpGet]
-        public IHttpActionResult InsertarEmpleadoCurso(string empleado, int salonProgramadoId, int userId)
+        public IHttpActionResult InsertarEmpleadoCurso(string empleado, int salonProgramadoId, int userId, int empresaId)
         {
-            bool result = epr.InsertarEmpleadoCurso(empleado,salonProgramadoId, userId);
+            bool result = epr.InsertarEmpleadoCurso(empleado,salonProgramadoId, userId, empresaId);
             return Ok(result);
         }
 

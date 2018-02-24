@@ -15,9 +15,9 @@ namespace ObackOfficeAPI.Controllers.Comun
         private EmpleadoRepository er = new EmpleadoRepository();
 
         [HttpGet]
-        public IHttpActionResult GetEmpleados(string valor, int empresaId)
+        public IHttpActionResult GetEmpleados(string valor)
         {
-            List<string> result = er.GetEmpleadosString(valor, empresaId);
+            List<string> result = er.GetEmpleadosString(valor);
             return Ok(result);
         }
 

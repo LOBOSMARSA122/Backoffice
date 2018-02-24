@@ -134,7 +134,7 @@ namespace BL
                              select new Dropdownlist
                              {
                                  Id = a.SalonProgramadoId,
-                                 Value = b.Nombre
+                                 Value = b.Nombre + " ,Cupos: " + a.NroCupos
                              }).ToList();
                 return query;
             }
