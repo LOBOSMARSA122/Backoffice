@@ -48,13 +48,13 @@
         @Html.Partial("_BandejaUsuariosPartial")
     </div>
     <nav class="d-flex justify-content-end align-items-center flex-wrap">
-        <div>
+        @*<div>
             <button class="btn-success boton form-control" onclick="ExportExcel()" style="cursor:pointer;">
                 <i class="fa fa-search"></i> Exportar a Excel
             </button>
-        </div>
+        </div>*@
         <div>
-            <button class="btn-success boton form-control" onclick="location.href='@Url.Action("CrearUsuario","Acceso")'" style="cursor:pointer;">
+            <button class="btn-warning boton form-control" onclick="location.href='@Url.Action("CrearUsuario","Acceso")'" style="cursor:pointer;margin-bottom:20px;">
                 <i class="fa fa-search"></i> Nuevo Usuario
             </button>
         </div>
