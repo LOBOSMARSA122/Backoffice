@@ -108,8 +108,8 @@ namespace BL
                                                RecordType = z.RecordType,
                                                RecordStatus = z.RecordStatus,
                                                ClaseId = z.ClaseId,
-                                               HoraInicio = DateTime.SpecifyKind(z.HoraInicio,DateTimeKind.Utc),
-                                               HoraFin = DateTime.SpecifyKind(z.HoraFin,DateTimeKind.Utc),
+                                               HoraInicio = DateTime.SpecifyKind(z.HoraInicio,DateTimeKind.Local).AddHours(-3),
+                                               HoraFin = DateTime.SpecifyKind(z.HoraFin,DateTimeKind.Local).AddHours(-3),
                                                EsEliminado = z.EsEliminado
                                            }).ToList()
                                        }).ToList();
