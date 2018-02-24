@@ -6,6 +6,7 @@ using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BL
 {
@@ -259,7 +260,8 @@ namespace BL
                 List<string> adresses = new List<string>();
                 adresses.Add(Persona.CorreoElectronico);
 
-                Utils.SendSimpleMail(body,subject,adresses, CorreoSistema, ClaveCorreo, CorreoHost);
+                Task TASK = new Task(() => Utils.SendSimpleMail(body, subject, adresses, CorreoSistema, ClaveCorreo, CorreoHost));
+                TASK.Start();
                 
                 return "Ok";
             }

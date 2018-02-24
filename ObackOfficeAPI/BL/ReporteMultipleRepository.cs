@@ -32,6 +32,7 @@ namespace BL
                                    join c in ctx.Cursos on a.CursoId equals c.CursoId
                                    join e in ctx.SalonProgramados on a.CursoProgramadoId equals e.CursoProgramadoId
                                    join g in ctx.EmpleadoCursos on e.SalonProgramadoId equals g.SalonProgramadoId
+                                   join f in ctx.Empresas on g.EmpresaId equals f.EmpresaId
                                    join d in ctx.EmpleadoAsistencias on g.EmpleadoCursoId equals d.EmpleadoCursoId
                                    join i in ctx.Empleados on g.EmpleadoId equals i.EmpleadoId
                                    join j in ctx.Personas on i.PersonaId equals j.PersonaId
@@ -55,6 +56,7 @@ namespace BL
                                        Sede = l.Valor1,
                                        Evento = b.Nombre,
                                        Curso = c.NombreCurso,
+                                       Empresa = f.RazonSocial,
                                        g.Nota,
                                        g.NotaTaller,
                                        Condicion = m.Valor1,
@@ -76,6 +78,7 @@ namespace BL
                                        Sede = grp.FirstOrDefault().Sede,
                                        Evento = grp.FirstOrDefault().Evento,
                                        Curso = grp.FirstOrDefault().Curso,
+                                       Empresa = grp.FirstOrDefault().Empresa,
                                        Nota = grp.FirstOrDefault().Nota,
                                        NotaTaller = grp.FirstOrDefault().NotaTaller,
                                        Condicion = grp.FirstOrDefault().Condicion,
@@ -326,12 +329,12 @@ namespace BL
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Evento");
+                TemplateCell.SetCellValue("Curso");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Curso");
+                TemplateCell.SetCellValue("Empresa");
                 indexcell++;
 
                 for (int i = 0; i < data.MaximasAsistencias; i++)
@@ -386,12 +389,12 @@ namespace BL
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.Evento);
+                    TemplateCell.SetCellValue(Alumno.Curso);
                     indexcell++;
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.Curso);
+                    TemplateCell.SetCellValue(Alumno.Empresa);
                     indexcell++;
 
                     for (int i = 0; i < data.MaximasAsistencias; i++)

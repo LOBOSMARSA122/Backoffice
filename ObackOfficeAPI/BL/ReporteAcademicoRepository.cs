@@ -32,7 +32,7 @@ namespace BL
                              join e in ctx.SalonProgramados on a.CursoProgramadoId equals e.CursoProgramadoId
                              join g in ctx.EmpleadoCursos on e.SalonProgramadoId equals g.SalonProgramadoId
                              join f in ctx.SalonClases on e.SalonProgramadoId equals f.SalonProgramadoId
-                             
+                             join h in ctx.Empresas on g.EmpresaId equals h.EmpresaId
                              join i in ctx.Empleados on g.EmpleadoId equals i.EmpleadoId
                              join j in ctx.Personas on i.PersonaId equals j.PersonaId
                              join k in ctx.Parametros on new { a = j.TipoDocumentoId, b = TipoDocumentoGroupId } equals new { a = k.ParametroId, b = k.GrupoId }
@@ -54,6 +54,7 @@ namespace BL
                                  TipoDocumento = k.Valor1,
                                  Curso = c.NombreCurso,
                                  Evento = b.Nombre,
+                                 Empresa = h.RazonSocial,
                                  Nombre = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno,
                                  Sede = l.Valor1,
                                  Condicion = m.Valor1,
@@ -75,6 +76,7 @@ namespace BL
                              TipoDocumento = grp.FirstOrDefault().TipoDocumento,
                              Curso = grp.FirstOrDefault().Curso,
                              Evento = grp.FirstOrDefault().Evento,
+                             Empresa = grp.FirstOrDefault().Empresa,
                              Nombre = grp.FirstOrDefault().Nombre,
                              Sede = grp.FirstOrDefault().Sede,
                              Condicion = grp.FirstOrDefault().Condicion,
@@ -214,6 +216,8 @@ namespace BL
                 foreach (var Alumno in Lista)
                 {
                     IRow TemplateRow = TemplateSheet.CopyRow(TituloPersonaIndex, index);
+                    TemplateRow.GetCell(4).SetCellValue("Curso");
+                    TemplateRow.GetCell(5).SetCellValue("Empresa");
                     TituloPersonaIndex = index;
                     index++;
 
@@ -224,8 +228,8 @@ namespace BL
                     TemplateRow.GetCell(1).SetCellValue(Alumno.TipoDocumento);
                     TemplateRow.GetCell(2).SetCellValue(Alumno.NroDocumento);
                     TemplateRow.GetCell(3).SetCellValue(Alumno.Sede);
-                    TemplateRow.GetCell(4).SetCellValue(Alumno.Evento);
-                    TemplateRow.GetCell(5).SetCellValue(Alumno.Curso);
+                    TemplateRow.GetCell(4).SetCellValue(Alumno.Curso);
+                    TemplateRow.GetCell(5).SetCellValue(Alumno.Empresa);
                     TemplateRow.GetCell(6).SetCellValue(Alumno.Nota.ToString());
                     TemplateRow.GetCell(7).SetCellValue(Alumno.Condicion);
                     TemplateRow.GetCell(8).SetCellValue(Alumno.InicioCurso.ToString("dd-MMM-yyyy"));

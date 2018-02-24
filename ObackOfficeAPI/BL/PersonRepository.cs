@@ -5,7 +5,7 @@ using BE.Comun;
 using BE.Acceso;
 using BE;
 using DAL;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace BL
 {
@@ -162,7 +162,8 @@ namespace BL
                 List<string> adresses = new List<string>();
                 adresses.Add(Persona.CorreoElectronico);
 
-                Thread T = new Thread(new ThreadStart(Utils.SendSimpleMail(body, subject, adresses, CorreoSistema, ClaveCorreo, CorreoHost)));
+                Task TASK = new Task(() => Utils.SendSimpleMail(body, subject, adresses, CorreoSistema, ClaveCorreo, CorreoHost));
+                TASK.Start();
 
                 if (rows > 1)
                     return true;
