@@ -5,6 +5,7 @@ using BE.Comun;
 using BE.Acceso;
 using BE;
 using DAL;
+using System.Threading;
 
 namespace BL
 {
@@ -128,6 +129,8 @@ namespace BL
                 ctx.Personas.Add(Persona);
                 int rows = ctx.SaveChanges();
 
+                string pass = Usuario.Contrasenia;
+
                 Usuario.UsuGraba = UsuarioID;
                 Usuario.FechaGraba = DateTime.Now;
                 Usuario.EsEliminado = NoEsEliminado;
@@ -138,6 +141,28 @@ namespace BL
                 ctx.Usuarios.Add(Usuario);
 
                 rows += ctx.SaveChanges();
+
+                int grupoEmail = (int)Enumeradores.GrupoParametros.Correo;
+                int parametroBody = (int)Enumeradores.Correo.MailRegistroEmpleado;
+                int parametroCorreo = (int)Enumeradores.Correo.CorreoSistema;
+                int parametroClave = (int)Enumeradores.Correo.ClaveCorreo;
+                int parametroHost = (int)Enumeradores.Correo.HostSMTP;
+
+                var parametros = (from a in ctx.Parametros where a.GrupoId == grupoEmail select a).ToList();
+
+                string CorreoSistema = (from a in parametros where a.ParametroId == parametroCorreo select a.Valor2).FirstOrDefault();
+                string ClaveCorreo = (from a in parametros where a.ParametroId == parametroClave select a.Valor2).FirstOrDefault();
+                string CorreoHost = (from a in parametros where a.ParametroId == parametroHost select a.Valor2).FirstOrDefault();
+
+                string body = (from a in parametros where a.ParametroId == parametroBody select a.Campo).FirstOrDefault();
+
+                body = body.Replace("[@NOMBRE_PERSONA@]", string.Format("{0} {1} {2}", Persona.Nombres, Persona.ApellidoPaterno, Persona.ApellidoMaterno)).Replace("[@NOMBRE_USUARIO@]", Usuario.NombreUsuario).Replace("[@PASSWORD@]", pass);
+
+                string subject = "Registro Exitoso de Usuario";
+                List<string> adresses = new List<string>();
+                adresses.Add(Persona.CorreoElectronico);
+
+                Thread T = new Thread(new ThreadStart(Utils.SendSimpleMail(body, subject, adresses, CorreoSistema, ClaveCorreo, CorreoHost)));
 
                 if (rows > 1)
                     return true;

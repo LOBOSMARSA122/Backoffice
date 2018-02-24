@@ -48,15 +48,16 @@
             <table class="table table-hover" id="TablaAExportar">
                 <thead>
                     <tr>
-                        <th colspan="6"></th>
+                        <th colspan="2" class="hidden-sm hidden-md hidden-lg hidden-xl"></th>
+                        <th colspan="3" class="hidden-xs hidden-md hidden-lg hidden-xl"></th>
+                        <th colspan="5" class="hidden-xs hidden-sm"></th>
                         <th class="headerOnTop" colspan="@MaximasAsistencias">Asistencias</th>
                     </tr>
                     <tr>
                         <th>Alumno</th>
-                        <th>Tipo Documento</th>
-                        <th>Nro Documento</th>
-                        <th>Sede</th>
-                        <th>Evento</th>
+                        <th class="hidden-xs hidden-sm">Tipo Documento</th>
+                        <th class="hidden-xs">Nro Documento</th>
+                        <th class="hidden-xs hidden-sm">Sede</th>
                         <th>Curso</th>
                         @{
                             for (int i = 1; i <= MaximasAsistencias; i++)
@@ -64,8 +65,8 @@
                                 <th class="headerOnTop">A @i</th>
                             }
                         }
-                        <th>Nota Cuantitativa</th>
-                        <th>Nota Cualitativa</th>
+                        <th class="hidden-xs">Nota Cuantitativa</th>
+                        <th class="hidden-xs hidden-sm">Nota Cualitativa</th>
                         <th>Condición</th>
                     </tr>
                 </thead>
@@ -85,10 +86,9 @@
                             {
                                 <tr>
                                     <td>@item.Nombre</td>
-                                    <td>@item.TipoDocumento</td>
-                                    <td>@item.NroDocumento</td>
-                                    <td>@item.Sede</td>
-                                    <td>@item.Evento</td>
+                                    <td class="hidden-xs hidden-sm">@item.TipoDocumento</td>
+                                    <td class="hidden-xs">@item.NroDocumento</td>
+                                    <td class="hidden-xs hidden-sm">@item.Sede</td>
                                     <td>@item.Curso</td>
                                     @for (int i = 0; i < MaximasAsistencias; i++)
                                     {
@@ -102,8 +102,8 @@
                                         }
 
                                     }
-                                    <td>@item.Nota</td>
-                                    <td>@item.NotaTaller</td>
+                                    <td class="hidden-xs">@item.Nota</td>
+                                    <td class="hidden-xs hidden-sm">@item.NotaTaller</td>
                                     <td>@item.Condicion</td>
                                 </tr>
                             }

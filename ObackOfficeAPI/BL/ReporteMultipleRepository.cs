@@ -140,9 +140,9 @@ namespace BL
                            select new
                            {
                                grp.FirstOrDefault().Curso,
-                               Asistieron = grp.GroupBy( x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.Value == AsistieronID).Count(),
-                               Faltaron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.Value == FaltaronID).Count(),
-                               PorIniciar = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio == null).Count()
+                               Asistieron = grp.GroupBy( x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == AsistieronID : false).Count(),
+                               Faltaron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == FaltaronID : false).Count(),
+                               PorIniciar = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue == false).Count()
                            }).ToList();
 
 
