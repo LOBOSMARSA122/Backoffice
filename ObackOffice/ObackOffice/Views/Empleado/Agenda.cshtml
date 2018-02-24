@@ -460,6 +460,7 @@
                         success: function () {
                             loadEmpleados();
                             $('#dni').val('');
+                            $('#empresa').val(-1);
                             $("#Loading").hide();
                             alerta();
                         },
@@ -468,6 +469,9 @@
                             alert('error');
                         }
                     })
+            }
+            else {
+                $("#Loading").hide();
             }
         }
 

@@ -34,6 +34,7 @@ namespace BL
                 EmpleadoCurso oEmpleadoCurso = new EmpleadoCurso();
                 oEmpleadoCurso.EmpleadoId = empleadoId;
                 oEmpleadoCurso.SalonProgramadoId = salonProgramadoId;
+                oEmpleadoCurso.EmpresaId = empresaId;
                 oEmpleadoCurso.CondicionId = (int)Enumeradores.Condicion.PorIniciar;
                 oEmpleadoCurso.EsEliminado = 0;
                 oEmpleadoCurso.UsuGraba = userId;
