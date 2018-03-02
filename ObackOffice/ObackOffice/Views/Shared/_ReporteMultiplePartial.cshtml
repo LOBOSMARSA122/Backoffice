@@ -120,6 +120,9 @@
                         @{ 
                             if(Index > 1)
                             {
+                                <li class="page-item" onclick="FiltrarUsuarios(1)">
+                                    <span class="page-link" aria-hidden="true">Primero</span>
+                                </li>
                                 <li class="page-item" onclick="FiltrarUsuarios(@(Index - 1))">
                                     <span class="page-link" aria-hidden="true">Anterior</span>
                                 </li>
@@ -130,13 +133,19 @@
                                 for(int i = 0; i < Total; i = i + Take)
                                 {
                                     pagina++;
-                                    <li @(pagina == Index ? "class=pagination-active" : "onclick=FiltrarUsuarios(" + pagina + ")")><span class="page-link" aria-hidden="true">@pagina</span></li>
+                                    if((pagina > (Index - 5)) && pagina < (Index + 5))
+                                    {
+                                        <li @(pagina == Index ? "class=pagination-active" : "onclick=FiltrarUsuarios(" + pagina + ")")><span class="page-link" aria-hidden="true">@pagina</span></li>
+                                    }
                                 }
                             }
                             if(pagina > Index)
                             {
                                 <li class="page-item" onclick="FiltrarUsuarios(@(Index + 1))">
                                     <span class="page-link" aria-hidden="true">Siguiente</span>
+                                </li>
+                                <li class="page-item" onclick="FiltrarUsuarios(@(pagina))">
+                                    <span class="page-link" aria-hidden="true">Ultumo</span>
                                 </li>
                             }
                         }
