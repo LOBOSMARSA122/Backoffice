@@ -10,6 +10,7 @@ namespace ObackOffice.Models.Cliente
         public int EmpleadoCursoId { get; set; }
         public int EmpleadoId { get; set; }
         public int SalonProgramadoId { get; set; }
+        public int? EmpresaId { get; set; }
         public decimal Nota { get; set; }
         public decimal NotaFinal { get; set; }
         public int CondicionId { get; set; }

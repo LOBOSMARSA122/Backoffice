@@ -12,7 +12,7 @@ namespace BE.Administracion
     {
         public int SalonProgramadoId { get; set; }
         public int CursoProgramadoId { get; set; }
-        public int CapacitadorId { get; set; }       
+        public int? CapacitadorId { get; set; }       
         public int EventoSalonId { get; set; }
         public int NroCupos { get; set; }
 

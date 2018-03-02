@@ -79,20 +79,15 @@
 
             $.ajax({
                 cache: false,
-                dataType: 'html',
+                dataType: 'json',
                 method: 'POST',
                 data: data,
                 contentType: false,
                 processData: false,
                 url: '/Acceso/CargaMasivaArchivo',
-                success: function (html) {
-                    if (html.indexOf("IniciarSesion") == -1) {
-                        $("#Loading").hide();
-                        $("#RenderBandejaUsuarios").html(html);
-                    } else {
-                        location.href = "/";
-                    }
-
+                success: function (json) {
+                    $("#Loading").hide();
+                    console.log(json);
                 },
                 error: function (error) {
                     alerta("Sucedió un error al conectarse al servidor", "rojo");

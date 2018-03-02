@@ -13,7 +13,7 @@ namespace BE.Administracion
         public int CursoId { get; set; }
         public string NombreCurso { get; set; }
         public string CodigoCurso { get; set; }
-        public int NroHoras { get; set; }
+        public string NroHoras { get; set; }
         public string Descripcion { get; set; }
         public int ColorId { get; set; }
         public int EsEliminado { get; set; }

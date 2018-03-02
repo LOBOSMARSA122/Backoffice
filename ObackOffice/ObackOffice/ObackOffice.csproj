@@ -189,6 +189,7 @@
     <Compile Include="Models\Cliente\EmpleadoTaller.cs" />
     <Compile Include="Models\Comun\Bandejas.cs" />
     <Compile Include="Models\Comun\Empleado.cs" />
+    <Compile Include="Models\Comun\MultiDataModel.cs" />
     <Compile Include="Models\Comun\Parametro.cs" />
     <Compile Include="Models\Comun\Persona.cs" />
     <Compile Include="Models\TreeView.cs" />

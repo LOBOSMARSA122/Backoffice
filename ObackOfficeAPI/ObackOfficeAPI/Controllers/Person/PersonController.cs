@@ -95,9 +95,9 @@ namespace ObackOfficeAPI.Controllers.Person
             System.Threading.Tasks.Task<byte[]> bytes = Request.Content.ReadAsByteArrayAsync();
 
             MemoryStream stream = new MemoryStream(bytes.Result);
-            bool response = pr.CargaMasivaArchivo(stream);
+            MultiDataModel response = pr.CargaMasivaArchivo(stream);
 
-            return Ok(response);
+            return Ok(JsonConvert.SerializeObject(response));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BE.Administracion
         public int RecordType { get; set; }
         public int RecordStatus { get; set; }
         public int SalonId { get; set; }
-        public int CapacitadorId { get; set; }
+        public int? CapacitadorId { get; set; }
         public int Cupos { get; set; }
         public int EsEliminado { get; set; }
         public List<ProgramacionCursosClases> Clases { get; set; }

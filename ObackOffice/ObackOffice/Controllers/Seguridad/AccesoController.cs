@@ -4,6 +4,7 @@ using ObackOffice.Models;
 using ObackOffice.Utils;
 using ObackOffice.Models.Comun;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace ObackOffice.Controllers.Seguridad
 {
@@ -176,9 +177,9 @@ namespace ObackOffice.Controllers.Seguridad
                 arr = binaryReader.ReadBytes(Request.Files[0].ContentLength);
             }
 
-            string response = API.PostUploadStream("Person/CargaMasivaArchivo", arr);
+            MultiDataModel response = JsonConvert.DeserializeObject<MultiDataModel>(API.PostUploadStream("Person/CargaMasivaArchivo", arr));
 
-            return Json("");
+            return Json(response);
         }
     }
 }
