@@ -1,0 +1,105 @@
+﻿<style>
+    #Loading {
+        background-color: rgba(0, 0, 0, 0.60);
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        z-index: 9999;
+    }
+
+        #Loading > img {
+            width: 200px;
+        }
+
+    input[type=file] {
+        display: inline-block;
+    }
+</style>
+<div class="container-fluid">
+    <div class="box box-default mt-2" id="acordion">
+        <div class="box-header with-border" id="heading1">
+            <h3 class="box-title" style="cursor:pointer;"><i class="icon-calendar"></i> Carga Masiva de Empleados</h3>
+        </div>
+        <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
+            <form>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="">Seleccione Archivo</label>
+                            <input type="file" id="archivo" name="archivo" class="form-control" placeholder="archivo" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group" style="display:inline-flex;">
+                            <label for=""></label>
+                            <button class="btn-warning boton form-control" style="cursor:pointer;">
+                                <i class="fa fa-search"></i> Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="alert" role="alert" style="display:none;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+    <span></span>
+</div>
+
+<div id="Loading" style="display:none;">
+    <img src="~/Content/icons/loading.gif" />
+</div>
+
+@section scripts{
+    <script src="~/Scripts/JqueryFormValidate.js"></script>
+    <script src="~/Scripts/FormValidateFile.js"></script>
+    <link href="~/Content/themes/base/FormValidatorTheme.css" rel="stylesheet" type="text/css" />
+    <script>
+        $.validate({
+            modules: 'file'
+        });
+
+        $('form').submit(function (event) {
+
+            event.preventDefault();
+
+            EnviarFormulario();
+        });
+        function EnviarFormulario() {
+            var data = new FormData();
+
+            data.append("file", document.getElementById("archivo").files[0]);
+
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+            $.ajax({
+                cache: false,
+                dataType: 'html',
+                method: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                url: '/Acceso/CargaMasivaArchivo',
+                success: function (html) {
+                    if (html.indexOf("IniciarSesion") == -1) {
+                        $("#Loading").hide();
+                        $("#RenderBandejaUsuarios").html(html);
+                    } else {
+                        location.href = "/";
+                    }
+
+                },
+                error: function (error) {
+                    alerta("Sucedió un error al conectarse al servidor", "rojo");
+                    $("#Loading").hide();
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+}

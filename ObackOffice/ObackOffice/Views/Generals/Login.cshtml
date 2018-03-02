@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/css/estilos.css")" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/JqueryFormValidate.js"></script>
+    <link href="~/Content/themes/base/FormValidatorTheme.css" rel="stylesheet" type="text/css"/>
 </head>
 <body class="login-page">
     <div class="container">
@@ -25,14 +28,14 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-8">
-                        <form action="Generals/Login_authentication" method="post" class="formulario-login">
+                        <form action="/Generals/Login_authentication" method="post" class="formulario-login">
                             <div class="form-group">
                                 <label for="usuario">Usuario</label>
-                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su usuario" />
+                                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su usuario" data-validation="required"/>
                             </div>
                             <div class="form-group">
                                 <label for="usuario">Contraseña</label>
-                                <input type="password" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
+                                <input type="password" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" data-validation="required"/>
                             </div>
                             @*<div class="form-check">
                                 <label class="form-check-label">
@@ -58,6 +61,9 @@
             </div>
         </div>
     </div>
+    <script>
+        $.validate();
+    </script>
 </body>
 </html>
 

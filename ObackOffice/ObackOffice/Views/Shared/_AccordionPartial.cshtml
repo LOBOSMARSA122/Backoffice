@@ -84,12 +84,12 @@
         <div class="row">
             <div class="col-12 Accordion-Button">
                 <div>
-                    <button class="btn-success boton form-control" onclick="AccordionAdd('@ViewBag.Accordion')" style="cursor:pointer;">
+                    <button class="btn-success boton form-control" onclick="AccordionAdd(event,'@ViewBag.Accordion')" style="cursor:pointer;">
                         <i class="fa fa-search"></i> Agregar
                     </button>
                 </div>
                 <div>
-                    <button class="btn-success boton form-control" onclick="HideAccordion()" style="cursor:pointer;">
+                    <button class="btn-success boton form-control" onclick="HideAccordion(event)" style="cursor:pointer;">
                         <i class="fa fa-search"></i> Cerrar
                     </button>
                 </div>
@@ -106,7 +106,8 @@
         getTree($("#Accordion-Rol-Copia").val());
     });
 
-    function HideAccordion() {
+    function HideAccordion(e) {
+        e.preventDefault();
         $("#Accordion-Container").animate({
             height: "0px"
         }, 800);
@@ -189,9 +190,10 @@
         });
     }
 
-    function AccordionAdd(type) {
+    function AccordionAdd(e, type) {
+        e.preventDefault();
         if ($("#Accordion-Rol").val().trim() == "") {
-            alerta("Debe de escribir el nombre del rol");
+            alerta("Debe de escribir el nombre del rol","rojo");
         } else{
             var width = $(window).width();
             var height = $(window).height();

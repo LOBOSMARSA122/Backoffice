@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using ObackOffice.Models;
 using ObackOffice.Utils;
 using ObackOffice.Models.Comun;
+using System.IO;
 
 namespace ObackOffice.Controllers.Seguridad
 {
@@ -155,6 +156,29 @@ namespace ObackOffice.Controllers.Seguridad
             Response.End();
 
             return Json(Response);
+        }
+
+        [GeneralSecurity(Rol = "Seguridad-Carga Masiva")]
+        public ActionResult CargaMasiva()
+        {
+            return View();
+        }
+
+        [GeneralSecurity(Rol = "Seguridad-Carga Masiva")]
+        public JsonResult CargaMasivaArchivo(FormCollection data)
+        {
+            Api API = new Api();
+
+            byte[] arr = null;
+
+            using (var binaryReader = new BinaryReader(Request.Files[0].InputStream))
+            {
+                arr = binaryReader.ReadBytes(Request.Files[0].ContentLength);
+            }
+
+            string response = API.PostUploadStream("Person/CargaMasivaArchivo", arr);
+
+            return Json("");
         }
     }
 }

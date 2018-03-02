@@ -11,6 +11,7 @@ namespace ObackOffice.Models.Cliente
         public int EmpleadoId { get; set; }
         public int SalonProgramadoId { get; set; }
         public decimal Nota { get; set; }
+        public decimal NotaFinal { get; set; }
         public int CondicionId { get; set; }
         public string Observacion { get; set; }
 

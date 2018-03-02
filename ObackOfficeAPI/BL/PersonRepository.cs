@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using BE.Comun;
 using BE.Acceso;
+using BE.Cliente;
+using BE.Administracion;
+using BE.RegistroNotas;
 using BE;
 using DAL;
 using System.Threading.Tasks;
+using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace BL
 {
@@ -242,6 +248,276 @@ namespace BL
         {
             int NoEliminado = (int)Enumeradores.EsEliminado.No;
             return (from a in ctx.Personas where a.EsEliminado == NoEliminado && a.PersonaId == id select a).FirstOrDefault();
+        }
+
+        public bool CargaMasivaArchivo(MemoryStream ms)
+        {
+            try
+            {
+                IWorkbook book = new XSSFWorkbook(ms);
+                ISheet Sheet = book.GetSheet(book.GetSheetName(0));
+
+                int index = -1;
+                bool indexEncontrado = false;
+
+                while (!indexEncontrado)
+                {
+                    index++;
+                    IRow Row = Sheet.GetRow(index);
+                    if (Row != null)
+                    {
+                        ICell cell = Row.GetCell(1);
+                        if (cell != null)
+                        {
+                            if (cell.StringCellValue == "APELLIDO PATERNO")
+                            {
+                                indexEncontrado = true;
+                            }
+                        }
+                    }
+
+                    if (index > 10)
+                    {
+                        throw new Exception();
+                    }
+                }
+
+                int grupoTipoDocumentos = (int)Enumeradores.GrupoParametros.TipoDocumentos;
+                int grupoCondicion = (int)Enumeradores.GrupoParametros.Condición;
+                int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
+                int EsEliminado = (int)Enumeradores.EsEliminado.Si;
+
+                var ListaTipoDocumentos = (from a in ctx.Parametros where a.GrupoId == grupoTipoDocumentos select new { Nombre = a.Valor1, Valor = a.ParametroId }).ToList();
+                var ListaCondicion = (from a in ctx.Parametros where a.GrupoId == grupoCondicion select new { Nombre = a.Valor1, Valor = a.ParametroId }).ToList();
+                var ListaEmpresas = (from a in ctx.Empresas select new { Nombre = a.RazonSocial, Valor = a.EmpresaId }).ToList();
+                var ListaCapacitadores = (from a in ctx.Capacitadores
+                                          join b in ctx.Personas on a.PersonaId equals b.PersonaId
+                                          select new { Nombre = b.Nombres + " " + b.ApellidoPaterno + " " + b.ApellidoMaterno, Valor = a.CapacitadorId }).ToList();
+                var ListaSalones = (from a in ctx.EventoSalones select new { a.Nombre, Valor = a.EventoSalonId}).ToList();
+
+                bool finArchivo = false;
+                while (!finArchivo)
+                {
+                    try
+                    {
+                        index++;
+                        IRow Row = Sheet.GetRow(index);
+                        if (Row != null)
+                        {
+                            Persona P = new Persona();
+                            Empleado E = new Empleado();
+                            Curso C = new Curso();
+
+                            P.ApellidoPaterno = Row.GetCell(1) != null ? Row.GetCell(1).StringCellValue : "";
+                            P.ApellidoMaterno = Row.GetCell(2) != null ? Row.GetCell(2).StringCellValue : "";
+                            P.Nombres = Row.GetCell(3) != null ? Row.GetCell(3).StringCellValue : "";
+                            P.TipoDocumentoId = Row.GetCell(4) != null ? ListaTipoDocumentos.Where(x => x.Nombre.Contains(Row.GetCell(4).StringCellValue.Split(' ')[0])).FirstOrDefault().Valor : 0;
+                            P.NroDocumento = Row.GetCell(5) != null ? Row.GetCell(5).StringCellValue : "";
+                            P.CorreoElectronico = Row.GetCell(8) != null ? Row.GetCell(8).StringCellValue : "";
+                            P.NumeroCelular = Row.GetCell(9) != null ? Row.GetCell(9).StringCellValue : "";
+
+                            Persona persona = (from a in ctx.Personas
+                                               where a.TipoDocumentoId == P.TipoDocumentoId && a.NroDocumento == P.NroDocumento
+                                               select a).FirstOrDefault();
+
+                            if (persona == null)
+                            {
+                                persona = P;
+                                persona.EsEliminado = NoEsEliminado;
+
+                                ctx.Personas.Add(persona);
+                                ctx.SaveChanges();
+                            }
+                            
+
+                            E.Cargo = Row.GetCell(6) != null ? Row.GetCell(6).StringCellValue : "";
+                            E.Area = Row.GetCell(7) != null ? Row.GetCell(7).StringCellValue : "";
+                            E.EmpresaId = Row.GetCell(10) != null ? ListaEmpresas.Where(x => x.Nombre.Contains(Row.GetCell(10).StringCellValue)).FirstOrDefault().Valor : 0;
+
+                            Empleado empleado = (from a in ctx.Empleados
+                                                 where a.PersonaId == persona.PersonaId && a.EmpresaId == E.EmpresaId
+                                                 select a).FirstOrDefault();
+
+                            if(empleado == null)
+                            {
+                                empleado = E;
+                                empleado.PersonaId = persona.PersonaId;
+                                empleado.EsEliminado = NoEsEliminado;
+
+                                var ListaEmpleados = (from a in ctx.Empleados where a.PersonaId == persona.PersonaId select a).ToList();
+
+                                foreach (var LE in ListaEmpleados)
+                                    LE.EsEliminado = EsEliminado;
+
+                                ctx.Empleados.Add(empleado);
+                                ctx.SaveChanges();
+                            }
+
+                            C.NombreCurso = Row.GetCell(11) != null ? Row.GetCell(11).StringCellValue : "";
+
+                            if (!string.IsNullOrWhiteSpace(C.NombreCurso))
+                            {
+                                Curso curso = (from a in ctx.Cursos where a.NombreCurso == C.NombreCurso select a).FirstOrDefault();
+
+                                if (curso == null)
+                                {
+                                    curso = C;
+                                    curso.EsEliminado = NoEsEliminado;
+
+                                    ctx.Cursos.Add(curso);
+                                    ctx.SaveChanges();
+                                }
+
+
+                                DateTime fecha = Row.GetCell(12) != null ? Row.GetCell(12).DateCellValue : DateTime.Now;
+
+                                CursoProgramado cursoProgramado = (from a in ctx.CursosProgramados
+                                                                   where a.CursoId == curso.CursoId && a.FechaInicio == fecha
+                                                                   select a).FirstOrDefault();
+
+                                if(cursoProgramado == null)
+                                {
+                                    CursoProgramado CP = new CursoProgramado()
+                                    {
+                                        CursoId = curso.CursoId,
+                                        EventoId = 1,
+                                        EsEliminado = NoEsEliminado,
+                                        FechaInicio = fecha,
+                                        FechaFin = fecha
+                                    };
+
+                                    cursoProgramado = CP;
+
+                                    ctx.CursosProgramados.Add(cursoProgramado);
+                                    ctx.SaveChanges();
+                                }
+
+                                string NombreSalon = Row.GetCell(14) != null ? Row.GetCell(14).StringCellValue : "";
+                                var salon = string.IsNullOrWhiteSpace(NombreSalon) ? ListaSalones.FirstOrDefault() : ListaSalones.Where(x => x.Nombre.Contains(Row.GetCell(14).StringCellValue)).FirstOrDefault();
+                                int salonID = 0;
+
+                                if(salon == null)
+                                {
+                                    EventoSalon ES = new EventoSalon()
+                                    {
+                                        EsEliminado = NoEsEliminado,
+                                        EventoId = 1,
+                                        Nombre = NombreSalon
+                                    };
+
+                                    ctx.EventoSalones.Add(ES);
+                                    ctx.SaveChanges();
+                                    salonID = ES.EventoSalonId;
+                                }
+                                else
+                                {
+                                    salonID = salon.Valor;
+                                }
+
+                                int capacitadorId = Row.GetCell(13) != null ? ListaCapacitadores.Where(x => x.Nombre.Contains(Row.GetCell(13).StringCellValue)).FirstOrDefault().Valor : 0;
+
+                                SalonProgramado salonProgramado = (from a in ctx.SalonProgramados
+                                                                   where a.CursoProgramadoId == cursoProgramado.CursoProgramadoId && a.CapacitadorId == capacitadorId
+                                                                   select a).FirstOrDefault();
+
+                                if(salonProgramado == null)
+                                {
+                                    SalonProgramado SP = new SalonProgramado()
+                                    {
+                                        CursoProgramadoId = cursoProgramado.CursoProgramadoId,
+                                        CapacitadorId = capacitadorId,
+                                        EventoSalonId = salonID,
+                                        NroCupos = 40,
+                                        EsEliminado = NoEsEliminado
+                                    };
+
+                                    salonProgramado = SP;
+
+                                    ctx.SalonProgramados.Add(salonProgramado);
+                                    ctx.SaveChanges();
+                                }
+
+                                SalonClases salonClases = (from a in ctx.SalonClases
+                                                           where a.SalonProgramadoId == salonProgramado.SalonProgramadoId
+                                                           select a).FirstOrDefault();
+
+                                if(salonClases == null)
+                                {
+                                    SalonClases SC = new SalonClases()
+                                    {
+                                        EsEliminado = NoEsEliminado,
+                                        SalonProgramadoId = salonProgramado.SalonProgramadoId,
+                                         FechaInicio = fecha,
+                                         FechaFin = fecha
+                                    };
+
+                                    salonClases = SC;
+
+                                    ctx.SalonClases.Add(salonClases);
+                                    ctx.SaveChanges();
+                                }
+
+                                decimal nota = Row.GetCell(16) == null ? 0 : (decimal)Math.Round(Row.GetCell(16).NumericCellValue);
+                                decimal notaFinal = Row.GetCell(20) == null ? 0 : (decimal)Math.Round(Row.GetCell(20).NumericCellValue);
+                                int condicion = Row.GetCell(21) != null ? ListaCondicion.Where(x => x.Nombre.Contains(Row.GetCell(21).StringCellValue)).FirstOrDefault().Valor : 0;
+
+                                EmpleadoCurso empleadoCurso = (from a in ctx.EmpleadoCursos
+                                                               where a.EmpleadoId == empleado.EmpleadoId && a.SalonProgramadoId == salonProgramado.SalonProgramadoId
+                                                               select a).FirstOrDefault();
+
+                                if(empleadoCurso == null)
+                                {
+                                    EmpleadoCurso EC = new EmpleadoCurso()
+                                    {
+                                        EmpleadoId = empleado.EmpleadoId,
+                                        SalonProgramadoId = salonProgramado.SalonProgramadoId,
+                                        Nota = nota,
+                                        CondicionId = condicion,
+                                        NotaFinal = notaFinal
+                                    };
+                                }
+
+
+                                int asistio = Row.GetCell(15) == null ? 0 : Row.GetCell(15).ToString().Split('%')[0] == "100" ? 1 : 0;
+
+                                EmpleadoAsistencia empleadoAsistencia = (from a in ctx.EmpleadoAsistencias
+                                                                         where a.EmpleadoCursoId == empleadoCurso.EmpleadoCursoId
+                                                                         select a).FirstOrDefault();
+
+                                if(empleadoAsistencia == null)
+                                {
+                                    EmpleadoAsistencia EA = new EmpleadoAsistencia()
+                                    {
+                                        EmpleadoCursoId = empleadoCurso.EmpleadoCursoId,
+                                        FechaClase = fecha,
+                                        EsEliminado = NoEsEliminado,
+                                        Asistio = asistio
+                                    };
+
+                                    empleadoAsistencia = EA;
+
+                                    ctx.EmpleadoAsistencias.Add(empleadoAsistencia);
+                                    ctx.SaveChanges();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            finArchivo = true;
+                        }
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
+                }
+
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
     }
 }

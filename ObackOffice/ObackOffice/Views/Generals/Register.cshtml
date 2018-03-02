@@ -28,16 +28,16 @@
                                 <form id="Formulario" action="Generals/VerifyRegister" method="post">
                                     <div class="form-group">
                                         <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Nro. Documento <span style="color:red;">*</span></label>
-                                        <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su nro. Documento" />
+                                        <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ingrese su nro. Documento"  data-validation="required"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Correo <span style="color:red;">*</span></label>
-                                        <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su correo" />
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su correo"  data-validation="email"/>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-12 col-md-6">
                                             <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Cargo <span style="color:red;">*</span></label>
-                                            <input type="text" name="cargo" id="cargo" class="form-control" placeholder="Ingrese su cargo" />
+                                            <input type="text" name="cargo" id="cargo" class="form-control" placeholder="Ingrese su cargo"  data-validation="required"/>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Teléfono</label>
@@ -46,15 +46,15 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Contraseña <span style="color:red;">*</span></label>
-                                        <input type="password" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña" />
+                                        <input type="password" name="pass" id="pass" class="form-control" placeholder="Ingrese su contraseña"  data-validation="required"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="usuario" class="m-0" style="font-weight:500; font-size:14px">Repetir Contraseña <span style="color:red;">*</span></label>
-                                        <input type="password" name="repass" id="repass" class="form-control" placeholder="Repita su contraseña" />
+                                        <input type="password" name="repass" id="repass" class="form-control" placeholder="Repita su contraseña" data-validation="confirmation" data-validation-confirm="pass"/>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label" style="font-weight:500;cursor:pointer;">
-                                            <input type="checkbox" name="terminos" id="terminos" class="form-check-input" style="cursor:pointer;"/>Aceptar Términos y Condiciones <span style="color:red;">*</span>
+                                            <input type="checkbox" name="terminos" id="terminos" class="form-check-input" style="cursor:pointer;"  data-validation="required"/>Aceptar Términos y Condiciones <span style="color:red;">*</span>
                                         </label>
                                     </div>
                                     <div style="color:red;" id="MESSAGE">
@@ -65,7 +65,7 @@
                                             }
                                         }
                                     </div>
-                                    
+
                                     <div class="form-group mt-2 d-flex justify-content-center">
                                         <input type="submit" id="enviar" name="enviar" value="Registrar" class="btn btn-block btn-warning" onclick="Validate(event)" />
                                     </div>
@@ -83,27 +83,11 @@
 </body>
 </html>
 @Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/JqueryFormValidate.js"></script>
+<script src="~/Scripts/FormValidateSecurity.js"></script>
+<link href="~/Content/themes/base/FormValidatorTheme.css" rel="stylesheet" type="text/css" />
 <script>
-    function Validate(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if ($("#usuario").val().trim() == "" || $("#email").val().trim() == "" || $("#cargo").val().trim() == "" || $("#pass").val().trim() == "" || $("#repass").val().trim() == "" || !$("#terminos").is(":checked")) {
-            $("#MESSAGE").html("Los campos marcados con un asterisco (*) son obligatorios");
-            return false;
-        }
-
-        if ($("#pass").val() != $("#repass").val()) {
-            $("#MESSAGE").html("Las contraseñas deben de coincidir");
-            return false;
-        }
-
-        var regex = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!regex.test($("#email").val())) {
-            $("#MESSAGE").html("El correo electrónico debe ser válido");
-            return false;
-        }
-
-        $("#Formulario").submit();
-    }
+    $.validate({
+        modules: 'security'
+    });
 </script>

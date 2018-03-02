@@ -1,49 +1,49 @@
-﻿ @{ 
-     int TipoDocumentoId = 0;
-     string NroDocumento = "";
-     string Nombres = "";
-     string ApellidoPaterno = "";
-     string ApellidoMaterno = "";
-     DateTime? FechaNacimiento = null;
-     int GeneroId = 0;
-     string CorreoElectronico = "";
-     string NumeroCelular = "";
-     int PersonaId = 0;
+﻿@{
+    int TipoDocumentoId = 0;
+    string NroDocumento = "";
+    string Nombres = "";
+    string ApellidoPaterno = "";
+    string ApellidoMaterno = "";
+    DateTime? FechaNacimiento = null;
+    int GeneroId = 0;
+    string CorreoElectronico = "";
+    string NumeroCelular = "";
+    int PersonaId = 0;
 
-     string NombreUsuario = "";
-     int EmpresaId = 0;
-     int RolId = 0;
-     string PreguntaSecreta = "";
-     int UsuarioId = 0;
+    string NombreUsuario = "";
+    int EmpresaId = 0;
+    int RolId = 0;
+    string PreguntaSecreta = "";
+    int UsuarioId = 0;
 
 
-     if (ViewBag.EditUser != null && ViewBag.EditPerson != null)
-     {
-         TipoDocumentoId = ViewBag.EditPerson.TipoDocumentoId;
-         NroDocumento = ViewBag.EditPerson.NroDocumento;
-         Nombres = ViewBag.EditPerson.Nombres;
-         ApellidoPaterno = ViewBag.EditPerson.ApellidoPaterno;
-         ApellidoMaterno = ViewBag.EditPerson.ApellidoMaterno;
-         FechaNacimiento = ViewBag.EditPerson.FechaNacimiento;
-         GeneroId = ViewBag.EditPerson.GeneroId;
-         CorreoElectronico = ViewBag.EditPerson.CorreoElectronico;
-         NumeroCelular = ViewBag.EditPerson.NumeroCelular;
-         PersonaId = ViewBag.EditPerson.PersonaId;
+    if (ViewBag.EditUser != null && ViewBag.EditPerson != null)
+    {
+        TipoDocumentoId = ViewBag.EditPerson.TipoDocumentoId;
+        NroDocumento = ViewBag.EditPerson.NroDocumento;
+        Nombres = ViewBag.EditPerson.Nombres;
+        ApellidoPaterno = ViewBag.EditPerson.ApellidoPaterno;
+        ApellidoMaterno = ViewBag.EditPerson.ApellidoMaterno;
+        FechaNacimiento = ViewBag.EditPerson.FechaNacimiento;
+        GeneroId = ViewBag.EditPerson.GeneroId;
+        CorreoElectronico = ViewBag.EditPerson.CorreoElectronico;
+        NumeroCelular = ViewBag.EditPerson.NumeroCelular;
+        PersonaId = ViewBag.EditPerson.PersonaId;
 
-         NombreUsuario = ViewBag.EditUser.NombreUsuario;
-         EmpresaId = ViewBag.EditUser.EmpresaId;
-         RolId = ViewBag.EditUser.RolId;
-         PreguntaSecreta = ViewBag.EditUser.PreguntaSecreta;
-         UsuarioId = ViewBag.EditUser.UsuarioId;
-     }
- }
- 
+        NombreUsuario = ViewBag.EditUser.NombreUsuario;
+        EmpresaId = ViewBag.EditUser.EmpresaId;
+        RolId = ViewBag.EditUser.RolId;
+        PreguntaSecreta = ViewBag.EditUser.PreguntaSecreta;
+        UsuarioId = ViewBag.EditUser.UsuarioId;
+    }
+}
+
 
 <style>
     .Titulo {
         font-weight: bolder;
         font-size: 20px;
-        text-align:center;
+        text-align: center;
     }
 
     .SubTitulo {
@@ -58,24 +58,25 @@
     .IconoMas {
         cursor: pointer;
         width: 20px;
-        float:right;
+        float: right;
     }
 
-    .botonera{
-        margin:60px 0px;
-    }
-    .botonera > div {
-        display: inline-block;
-        margin-left: 30px;
-        width:150px;
-        margin-top:20px;
+    .botonera {
+        margin: 60px 0px;
     }
 
-        .botonera > div > input {
+        .botonera > div {
+            display: inline-block;
+            margin-left: 30px;
             width: 150px;
-            height: 38px;
-            cursor: pointer;
+            margin-top: 20px;
         }
+
+            .botonera > div > input {
+                width: 150px;
+                height: 38px;
+                cursor: pointer;
+            }
 
     #Loading {
         background-color: rgba(0, 0, 0, 0.60);
@@ -94,201 +95,203 @@
         height: 0px;
     }
 
-    .border{
-        border:1px solid black;
-        border-radius:20px;
+    .border {
+        border: 1px solid black;
+        border-radius: 20px;
         margin: 40px 20px 0px;
-        padding:20px;
+        padding: 20px;
     }
 
-    input,select{
-        width:100%;
-        max-width:100%;
-        height:38px;
+    input, select {
+        width: 100%;
+        max-width: 100%;
+        height: 38px;
     }
 </style>
 
-<div class="container-fluid">
-    <div class="col-12">
+<form style="width:100%;">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-md-5 border">
+                    <div class="row">
+                        <div class="col-12 Titulo">Datos de Persona</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Tipo Documento: </div>
+                            <div>
+                                @{
+                                    if (ViewBag.TipoDocumento != null)
+                                    {
+                                        <select id="PersonaTipoDocumento" data-validation="number" data-validation-allowing="range[1;100]" data-validation-error-msg="Debe seleccionar una opción">
+                                            @foreach (ObackOffice.Models.Comun.Dropdownlist G in ViewBag.TipoDocumento)
+                                            {
+                                                <option value="@G.Id" @(TipoDocumentoId == G.Id ? "selected" : "")>@G.Value</option>
+                                            }
+                                        </select>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Numero Documento: </div>
+                            <div><input type="text" id="PersonaNroDocumento" value="@NroDocumento" data-validation="required"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Nombres: </div>
+                            <div><input type="text" id="PersonaNombre" value="@Nombres" data-validation="required"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Apellido Paterno: </div>
+                            <div><input type="text" id="PersonaApellidoPaterno" value="@ApellidoPaterno" data-validation="required"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Apellido Materno: </div>
+                            <div><input type="text" id="PersonaApellidoMaterno" value="@ApellidoMaterno" data-validation="required"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Fecha Nacimiento: </div>
+                            <div><input type="date" id="PersonaFechaNacimiento" value="@(FechaNacimiento.HasValue ? FechaNacimiento.Value.ToString("yyyy-MM-dd") : "")" /></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Género: </div>
+                            <div>
+                                @{
+                                    if (ViewBag.Genero != null)
+                                    {
+                                        <select id="PersonaGenero">
+                                            @foreach (ObackOffice.Models.Comun.Dropdownlist G in ViewBag.Genero)
+                                            {
+                                                <option value="@G.Id" @(GeneroId == G.Id ? "selected" : "")>@G.Value</option>
+                                            }
+                                        </select>
+                                        @*<img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Gender')" />*@
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Correo: </div>
+                            <div><input type="email" id="PersonaCorreo" value="@CorreoElectronico" data-validation="required"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Teléfono Celular: </div>
+                            <div><input type="tel" id="PersonaCelular" value="@NumeroCelular" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5 border">
+                    <div class="row">
+                        <div class="col-12 Titulo">Datos de Usuario</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Usuario: </div>
+                            <div><input type="text" id="UserName" value="@NombreUsuario" data-validation="required"/></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Contraseña: </div>
+                            <div><input type="password" id="UserPassword" name="UserPassword" @(UsuarioId == 0 ? "data-validation=required" : "") /></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Confirmar Contraseña: </div>
+                            <div><input type="password" id="UserRepeatPassword" @(UsuarioId == 0 ? "data-validation=confirmation data-validation-confirm=UserPassword" : "") /></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo">Empresa: </div>
+                            <div>
+                                @{
+                                    if (ViewBag.Empresas != null)
+                                    {
+                                        <select id="UserEmpresa" data-validation="number" data-validation-allowing="range[1;100]" data-validation-error-msg="Debe seleccionar una opción">
+                                            @foreach (ObackOffice.Models.Comun.Dropdownlist R in ViewBag.Empresas)
+                                            {
+                                                <option value="@R.Id" @(EmpresaId == R.Id ? "selected" : "")>@R.Value</option>
+                                            }
+                                        </select>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="SubTitulo boton-mas">Rol: <img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Rol')" /></div>
+                            <div>
+                                @{
+                                    if (ViewBag.Roles != null)
+                                    {
+                                        <select id="UserRol" data-validation="number" data-validation-allowing="range[1;100]" data-validation-error-msg="Debe seleccionar una opción">
+                                            @foreach (ObackOffice.Models.Comun.Dropdownlist R in ViewBag.Roles)
+                                            {
+                                                <option value="@R.Id" @(RolId == R.Id ? "selected" : "")>@R.Value</option>
+                                            }
+                                        </select>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-12">
+                                <div class="SubTitulo">Pregunta Secreta: </div>
+                                <div><input type="text" id="UserPregunta" value="@PreguntaSecreta"/></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="SubTitulo">Respuesta Secreta: </div>
+                                <div><input type="password" id="UserRespuesta"/></div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-12 col-md-5 border">
-                <div class="row">
-                    <div class="col-12 Titulo">Datos de Persona</div>
+            <div class="col-12" id="Accordion-Container"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center" style="color:red;display:none;" id="message"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center botonera">
+                <div>
+                    <button class="btn-warning boton form-control" style="cursor:pointer;">
+                        <i class="fa fa-search"></i> Guardar
+                    </button>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Tipo Documento: </div>
-                        <div>
-                            @{
-                            if (ViewBag.TipoDocumento != null)
-                            {
-                                <select id="PersonaTipoDocumento">
-                                    @foreach (ObackOffice.Models.Comun.Dropdownlist G in ViewBag.TipoDocumento)
-                                {
-                                    <option value="@G.Id" @(TipoDocumentoId == G.Id ? "selected" : "")>@G.Value</option>
-                            }
-                                </select>
-                        }
-                            }
-                        </div>
-                    </div>
+                <div>
+                    <button class="btn-warning boton form-control" onclick="Return(event,'@Url.Action("BandejaUsuarios","Acceso")')" style="cursor:pointer;">
+                        <i class="fa fa-search"></i> Cancelar
+                    </button>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Numero Documento: </div>
-                        <div><input type="text" id="PersonaNroDocumento" value="@NroDocumento" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Nombres: </div>
-                        <div><input type="text" id="PersonaNombre" value="@Nombres" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Apellido Paterno: </div>
-                        <div><input type="text" id="PersonaApellidoPaterno" value="@ApellidoPaterno" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Apellido Materno: </div>
-                        <div><input type="text" id="PersonaApellidoMaterno" value="@ApellidoMaterno" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Fecha Nacimiento: </div>
-                        <div><input type="date" id="PersonaFechaNacimiento" value="@(FechaNacimiento.HasValue ? FechaNacimiento.Value.ToString("yyyy-MM-dd") : "")" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Género: </div>
-                        <div>
-                            @{
-                            if (ViewBag.Genero != null)
-                            {
-                                <select id="PersonaGenero">
-                                    @foreach (ObackOffice.Models.Comun.Dropdownlist G in ViewBag.Genero)
-                                {
-                                    <option value="@G.Id" @(GeneroId == G.Id ? "selected" : "")>@G.Value</option>
-                            }
-                                </select>
-                                @*<img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Gender')" />*@
-                        }
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Correo: </div>
-                        <div><input type="email" id="PersonaCorreo" value="@CorreoElectronico" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Teléfono Celular: </div>
-                        <div><input type="tel" id="PersonaCelular" value="@NumeroCelular" /></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-5 border">
-                <div class="row">
-                    <div class="col-12 Titulo">Datos de Usuario</div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Usuario: </div>
-                        <div><input type="text" id="UserName" value="@NombreUsuario" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Contraseña: </div>
-                        <div><input type="password" id="UserPassword" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Confirmar Contraseña: </div>
-                        <div><input type="password" id="UserRepeatPassword" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Empresa: </div>
-                        <div>
-                            @{
-                            if (ViewBag.Empresas != null)
-                            {
-                                <select id="UserEmpresa">
-                                    @foreach (ObackOffice.Models.Comun.Dropdownlist R in ViewBag.Empresas)
-                                {
-                                    <option value="@R.Id" @(EmpresaId == R.Id ? "selected" : "")>@R.Value</option>
-                            }
-                                </select>
-                        }
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo boton-mas">Rol: <img src="~/Content/icons/icon-SignoMas-Naranja.png" class="IconoMas" onclick="AddAccordion('Rol')" /></div>
-                        <div>
-                            @{
-                            if (ViewBag.Roles != null)
-                            {
-                                <select id="UserRol">
-                                    @foreach (ObackOffice.Models.Comun.Dropdownlist R in ViewBag.Roles)
-                                {
-                                    <option value="@R.Id" @(RolId == R.Id ? "selected" : "")>@R.Value</option>
-                            }
-                                </select>
-                        }
-                            }
-                        </div>
-                    </div>
-                </div>
-                @*<div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Pregunta Secreta: </div>
-                        <div><input type="text" id="UserPregunta" value="@PreguntaSecreta"/></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="SubTitulo">Respuesta Secreta: </div>
-                        <div><input type="password" id="UserRespuesta"/></div>
-                    </div>
-                </div>*@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12" id="Accordion-Container"></div>
-    </div>
-    <div class="row">
-        <div class="col-12 text-center" style="color:red;display:none;" id="message"></div>
-    </div>
-    <div class="row">
-        <div class="col-12 text-center botonera">
-            <div>
-                <button class="btn-warning boton form-control" onclick="ValidarFormulario()" style="cursor:pointer;">
-                    <i class="fa fa-search"></i> Guardar
-                </button>
-            </div>
-            <div>
-                <button class="btn-warning boton form-control" onclick="location.href='@Url.Action("BandejaUsuarios","Acceso")'" style="cursor:pointer;">
-                    <i class="fa fa-search"></i> Cancelar
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+</form>
 
 <div class="alert" role="alert" style="display:none;">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
@@ -298,68 +301,21 @@
 <div id="Loading" style="display:none;">
     <img src="~/Content/icons/loading.gif" />
 </div>
+@section scripts{
+    <script src="~/Scripts/JqueryFormValidate.js"></script>
+    <script src="~/Scripts/FormValidateSecurity.js"></script>
+    <link href="~/Content/themes/base/FormValidatorTheme.css" rel="stylesheet" type="text/css" />
+    <script>
+        $.validate({
+            modules: 'security'
+        });
 
-<script>
+        $('form').submit(function (event) {
 
-    function ValidarFormulario() {
-        $("#message").hide();
-        var regex = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            event.preventDefault();
 
-        if ($("#PersonaTipoDocumento").val() == -1) {
-            $("#message").show().html("Debe seleccionar el tipo de doocumento");
-            return false;
-        }
-
-        if ($("#PersonaNroDocumento").val().trim() == "") {
-            $("#message").show().html("Debe ingresar el Nro de doocumento");
-            return false;
-        }
-
-        if ($("#PersonaNombre").val().trim() == "") {
-            $("#message").show().html("Debe ingresar el nombre");
-            return false;
-        }
-
-        if ($("#PersonaApellidoPaterno").val().trim() == "") {
-            $("#message").show().html("Debe ingresar el apellido paterno");
-            return false;
-        }
-
-        if ($("#PersonaApellidoMaterno").val().trim() == "") {
-            $("#message").show().html("Debe ingresar el apellido materno");
-            return false;
-        }
-
-        if (!regex.test($("#PersonaCorreo").val().trim())) {
-            $("#message").show().html("Debe ingresar un correo válido");
-            return false;
-        }
-
-        if ($("#UserName").val().trim() == "") {
-            $("#message").show().html("Debe ingresar un nombre de usuario");
-            return false;
-        }
-
-        if ($("#UserPassword").val().trim() == "" || $("#UserRepeatPassword").val().trim() == "") {
-            $("#message").show().html("Debe ingresar la contraseña y la confirmación");
-            return false;
-        } else if ($("#UserPassword").val().trim() != $("#UserRepeatPassword").val().trim()){
-            $("#message").show().html("Las contraseñas deben de coincidir");
-            return false;
-        }
-
-        if ($("#UserEmpresa").val() == -1) {
-            $("#message").show().html("Debe seleccionar la empresa");
-            return false;
-        }
-
-        if ($("#UserRol").val() == -1) {
-            $("#message").show().html("Debe seleccionar el rol");
-            return false;
-        }
-
-        EnviarFormulario();
-    }
+            EnviarFormulario();
+        });
 
     function EnviarFormulario() {
 
@@ -416,9 +372,11 @@
         });
     }
 
-    function Cancelar() {
-        alert("Cancelar");
+    function Return(e,loc) {
+        e.preventDefault();
+        location.href = loc;
     }
+
     function AddAccordion(data) {
         var width = $(window).width();
         var height = $(window).height();
@@ -451,4 +409,5 @@
             }, 600);
         }, 200);
     }
-</script>
+    </script>
+}

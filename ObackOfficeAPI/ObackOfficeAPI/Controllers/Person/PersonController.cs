@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using BE.Comun;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace ObackOfficeAPI.Controllers.Person
 {
@@ -86,6 +87,17 @@ namespace ObackOfficeAPI.Controllers.Person
         {
             Persona result = pr.GetPersona(id);
             return Ok(result);
+        }
+
+        [HttpPost]
+        public IHttpActionResult CargaMasivaArchivo()
+        {
+            System.Threading.Tasks.Task<byte[]> bytes = Request.Content.ReadAsByteArrayAsync();
+
+            MemoryStream stream = new MemoryStream(bytes.Result);
+            bool response = pr.CargaMasivaArchivo(stream);
+
+            return Ok(response);
         }
     }
 }
