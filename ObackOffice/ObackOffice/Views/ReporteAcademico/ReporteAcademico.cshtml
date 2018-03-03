@@ -24,24 +24,14 @@
             <div class="row">
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
-                        <label for="">Sede</label>
-                        @if (ViewBag.SEDES != null)
-                        {
-                            <select name="sede" id="sede" class="form-control" onchange="ChangeSelect(this)">
-                                @foreach (var item in ViewBag.SEDES)
-                                {
-                                <option value="@item.Id">@item.Value</option>
-                                }
-                            </select>
-                        }     
+                        <label for="">Nombre</label>
+                        <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre" />
                     </div>
                 </div>
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
-                        <label for="">Evento</label>
-                        <select name="evento" id="evento" class="form-control" onchange="ChangeSelect(this)">
-                            <option value="-1">--Todos--</option>
-                        </select>
+                        <label for="">DNI</label>
+                        <input type="text" id="DNI" name="DNI" class="form-control" maxlength="150" placeholder="Ingrese DNI" />
                     </div>
                 </div>
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
@@ -56,15 +46,19 @@
             <div class="row">
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
-                        <label for="">Nombre</label>
-                        <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre" />
+                        <label for="">Condición</label>
+                        @if (ViewBag.CONDICION != null)
+                        {
+                            <select name="condicion" id="condicion" class="form-control">
+                                @foreach (var item in ViewBag.CONDICION)
+                                {
+                                    <option value="@item.Id">@item.Value</option>
+                                }
+                            </select>
+                        }
                     </div>
                 </div>
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
-                    <div class="form-group">
-                        <label for="">DNI</label>
-                        <input type="text" id="DNI" name="DNI" class="form-control" maxlength="150" placeholder="Ingrese DNI" />
-                    </div>
                 </div>
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-2">
                     <div class="form-group">
@@ -201,8 +195,7 @@
 
     function FiltrarUsuarios(index) {
         data = {
-            SedeId: $("#sede").val(),
-            EventoId: $("#evento").val(),
+            Condicion: $("#condicion").val(),
             CursoId: $("#curso").val(),
             NombreEmpleado: $("#Nombre").val(),
             DNIEmpleado: $("#DNI").val(),
@@ -287,8 +280,7 @@
     function ExportarAExcel() {
         if ($("#TablaAExportar tbody tr").length > 0) {
             data = {
-                SedeId: $("#sede").val(),
-                EventoId: $("#evento").val(),
+                Condicion: $("#condicion").val(),
                 CursoId: $("#curso").val(),
                 NombreEmpleado: $("#Nombre").val(),
                 DNIEmpleado: $("#DNI").val()

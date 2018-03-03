@@ -16,6 +16,7 @@ namespace ObackOffice.Utils
             PreguntaTaller = 105,
             Sedes =106,
             Condicion = 107,
+            Asistencia = 109
         }
 
         public enum RecordType

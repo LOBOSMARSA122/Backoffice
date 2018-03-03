@@ -11,13 +11,15 @@ namespace ObackOffice.Controllers.Reportes
     public class ReporteMultipleController : Controller
     {
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public JsonResult Chart(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
+        public JsonResult Chart(string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             { 
-                { "SedeId", SedeId },
-                { "EventoId", EventoId },
+                { "SedeId", "1" },
+                { "Condicion", Condicion },
+                { "Asistencia", Asistencia},
+                { "EventoId", "1" },
                 { "CursoId", CursoId },
                 { "NombreEmpleado", NombreEmpleado },
                 { "DNIEmpleado", DNIEmpleado },
@@ -36,21 +38,30 @@ namespace ObackOffice.Controllers.Reportes
 
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
+                { "grupoId", ((int)Enums.Parametros.Condicion).ToString() }
             };
-            ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+            ViewBag.CONDICION = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+
+            args = new Dictionary<string, string>
+            {
+                { "grupoId", ((int)Enums.Parametros.Asistencia).ToString() }
+            };
+            ViewBag.ASISTENCIA = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+
             ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>(),Take = 10};
             return View();
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public ActionResult FiltrarReporteMultiple(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
+        public ActionResult FiltrarReporteMultiple(string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "SedeId", SedeId },
-                { "EventoId", EventoId },
+                { "SedeId", "1" },
+                { "Condicion", Condicion },
+                { "Asistencia", Asistencia },
+                { "EventoId", "1" },
                 { "CursoId", CursoId },
                 { "NombreEmpleado", NombreEmpleado },
                 { "DNIEmpleado", DNIEmpleado },
@@ -62,7 +73,7 @@ namespace ObackOffice.Controllers.Reportes
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public JsonResult CrearExcel(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Charts)
+        public JsonResult CrearExcel(int Condicion, int Asistencia, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Charts)
         {
             Api API = new Api();
 
@@ -71,11 +82,13 @@ namespace ObackOffice.Controllers.Reportes
                 Index = 1,
                 Take = 0,
                 Charts = Charts,
-                SedeId = SedeId,
-                EventoId = EventoId,
+                SedeId = 1,
+                EventoId = 1,
                 CursoId = CursoId,
                 NombreEmpleado = NombreEmpleado,
-                DNIEmpleado = DNIEmpleado
+                DNIEmpleado = DNIEmpleado,
+                Condicion = Condicion,
+                Asistencia = Asistencia
             };
 
             Dictionary<string, string> args = new Dictionary<string, string>

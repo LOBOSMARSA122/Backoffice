@@ -23,7 +23,7 @@ namespace ObackOfficeAPI.Controllers.Reportes
         }
 
         [HttpGet]
-        public IHttpActionResult Chart(int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
+        public IHttpActionResult Chart(int Condicion, int Asistencia, int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
         {
             if (SedeId == 0 || EventoId == 0 || CursoId == 0 || string.IsNullOrWhiteSpace(Action))
                 return BadRequest("Alguno de los parámetros es incorrecto");
@@ -34,7 +34,9 @@ namespace ObackOfficeAPI.Controllers.Reportes
                 EventoId = EventoId,
                 CursoId = CursoId,
                 NombreEmpleado = NombreEmpleado,
-                DNIEmpleado = DNIEmpleado
+                DNIEmpleado = DNIEmpleado,
+                Condicion = Condicion,
+                Asistencia = Asistencia
             };
 
             switch (Action)

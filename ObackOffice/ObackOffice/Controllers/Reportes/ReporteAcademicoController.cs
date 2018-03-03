@@ -17,9 +17,9 @@ namespace ObackOffice.Controllers.Reportes
 
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
+                { "grupoId", ((int)Enums.Parametros.Condicion).ToString() }
             };
-            ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+            ViewBag.CONDICION = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
             ViewBag.REGISTROS = new BandejaReporteAcademico() { Lista = new List<ReporteAcademicoList>(), Take = 10};
             return View("ReporteAcademico");
@@ -52,14 +52,15 @@ namespace ObackOffice.Controllers.Reportes
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
-        public ActionResult FiltrarDataBandeja(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
+        public ActionResult FiltrarDataBandeja(string Condicion, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "SedeId", SedeId },
-                { "EventoId", EventoId },
+                { "SedeId", "1" },
+                { "EventoId", "1" },
                 { "CursoId", CursoId },
+                { "Condicion" , Condicion},
                 { "NombreEmpleado", NombreEmpleado },
                 { "DNIEmpleado", DNIEmpleado },
                 { "Index", Index },
@@ -89,14 +90,15 @@ namespace ObackOffice.Controllers.Reportes
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
-        public JsonResult CrearExcel(string SedeId, string EventoId, string CursoId, string NombreEmpleado, string DNIEmpleado)
+        public JsonResult CrearExcel(string Condicion, string CursoId, string NombreEmpleado, string DNIEmpleado)
         {
             Api API = new Api();
             Dictionary<string, string> arg = new Dictionary<string, string>()
             {
-                { "SedeId", SedeId },
-                { "EventoId", EventoId },
+                { "SedeId", "1" },
+                { "EventoId", "1" },
                 { "CursoId", CursoId },
+                { "Condicion", Condicion},
                 { "NombreEmpleado", NombreEmpleado },
                 { "DNIEmpleado", DNIEmpleado }
             };

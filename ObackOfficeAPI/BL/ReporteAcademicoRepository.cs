@@ -44,6 +44,7 @@ namespace BL
                              (data.CursoId == -1 || data.CursoId == a.CursoId) &&
                              (NombreEmpleado == null || (j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno).Contains(NombreEmpleado)) &&
                              (DNIEmpleado == null || j.NroDocumento.Contains(DNIEmpleado)) &&
+                             (data.Condicion == -1 || data.Condicion == g.CondicionId) &&
                              a.EsEliminado == NoEsEliminado &&
                              f.SalonProgramadoId == e.SalonProgramadoId
                              select new
@@ -218,6 +219,7 @@ namespace BL
                     IRow TemplateRow = TemplateSheet.CopyRow(TituloPersonaIndex, index);
                     TemplateRow.GetCell(4).SetCellValue("Curso");
                     TemplateRow.GetCell(5).SetCellValue("Empresa");
+                    TemplateRow.GetCell(6).SetCellValue("Examen Teorico");
                     TituloPersonaIndex = index;
                     index++;
 

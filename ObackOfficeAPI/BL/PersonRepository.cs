@@ -386,9 +386,9 @@ namespace BL
                                 ctx.SaveChanges();
                             }
 
-                            C.NombreCurso = Row.GetCell(11) != null ? Row.GetCell(11).ToString() : "";
+                            C.CursoId = Row.GetCell(11) != null ? int.Parse(Row.GetCell(11).ToString()) : 0;
 
-                            if (!string.IsNullOrWhiteSpace(C.NombreCurso))
+                            if (C.CursoId != 0)
                             {
                                 //Curso curso = (from a in ListaCursos where a.NombreCurso.ToUpper() == C.NombreCurso.ToUpper() select a).FirstOrDefault();
 
@@ -429,7 +429,7 @@ namespace BL
                                 }
 
                                 string NombreSalon = Row.GetCell(14) != null ? Row.GetCell(14).ToString() : "";
-                                var salon = string.IsNullOrWhiteSpace(NombreSalon) ? ListaSalones.FirstOrDefault() : ListaSalones.Where(x => x.Nombre.ToUpper() == Row.GetCell(14).ToString().ToUpper()).FirstOrDefault();
+                                var salon = string.IsNullOrWhiteSpace(NombreSalon) ? ListaSalones.FirstOrDefault() : ListaSalones.Where(x => x.Nombre.ToUpper().Contains(Row.GetCell(14).ToString().ToUpper())).FirstOrDefault();
                                 int salonID = 0;
 
                                 if(salon == null)
