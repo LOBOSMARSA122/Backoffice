@@ -53,6 +53,7 @@ namespace ObackOffice.Models
         public string Curso { get; set; }
         public string Empresa { get; set; }
         public decimal Nota { get; set; }
+        public decimal NotaFinal { get; set; }
         public string Condicion { get; set; }
         public DateTime InicioCurso { get; set; }
         public DateTime FinCurso { get; set; }
@@ -99,7 +100,9 @@ namespace ObackOffice.Models
         public string Empresa { get; set; }
         public string Capacitador { get; set; }
         public decimal Nota { get; set; }
+        public decimal NotaFinal { get; set; }
         public string NotaTaller { get; set; }
+        public decimal? TallerValor { get; set; }
         public string Condicion { get; set; }
         public DateTime InicioCurso { get; set; }
         public DateTime FinCurso { get; set; }

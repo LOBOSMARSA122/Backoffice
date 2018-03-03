@@ -63,7 +63,9 @@ namespace BL
                                        g.NotaTaller,
                                        Condicion = m.Valor1,
                                        Asistencia = d.Asistio,
-                                       AsistenciaID = d.EmpleadoAsistenciaId
+                                       AsistenciaID = d.EmpleadoAsistenciaId,
+                                       g.NotaFinal,
+                                       g.TallerValor
                                    }).ToList();
 
                 var parametroAsistencia = (from a in ctx.Parametros where a.GrupoId == AsistenciaGroupId select a).ToList();
@@ -84,7 +86,9 @@ namespace BL
                                        Nota = grp.FirstOrDefault().Nota,
                                        NotaTaller = grp.FirstOrDefault().NotaTaller,
                                        Condicion = grp.FirstOrDefault().Condicion,
-                                       Asistencia = grp.GroupBy(x => x.AsistenciaID).Select( y => y.FirstOrDefault().Asistencia.HasValue ? parametroAsistencia.Where(z => z.ParametroId == y.FirstOrDefault().Asistencia.Value).FirstOrDefault().Valor1 : "Por Iniciar").ToList()
+                                       Asistencia = grp.GroupBy(x => x.AsistenciaID).Select( y => y.FirstOrDefault().Asistencia.HasValue ? parametroAsistencia.Where(z => z.ParametroId == y.FirstOrDefault().Asistencia.Value).FirstOrDefault().Valor1 : "Por Iniciar").ToList(),
+                                       NotaFinal = grp.FirstOrDefault().NotaFinal,
+                                       TallerValor = grp.FirstOrDefault().TallerValor
                                    }).ToList();
 
                 data.TotalRegistros = return_data.Count;
@@ -271,7 +275,7 @@ namespace BL
                            {
                                d.CursoId,
                                Curso = d.NombreCurso,
-                               a.Nota
+                               Nota = a.NotaFinal
                            }).ToList();
 
             var listado = (from a in listado_temp
@@ -351,7 +355,7 @@ namespace BL
                 {
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                    TemplateCell.SetCellValue("A " + i);
+                    TemplateCell.SetCellValue("A " + (i + 1));
                     indexcell++;
                 }
 
@@ -363,6 +367,16 @@ namespace BL
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
                 TemplateCell.SetCellValue("Taller");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Nota Taller");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Nota Final");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
@@ -423,6 +437,16 @@ namespace BL
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
                     TemplateCell.SetCellValue(Alumno.NotaTaller);
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.TallerValor.HasValue ? Alumno.TallerValor.Value.ToString() : "");
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.NotaFinal.ToString());
                     indexcell++;
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);

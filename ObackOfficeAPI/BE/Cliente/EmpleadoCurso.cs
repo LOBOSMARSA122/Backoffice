@@ -17,6 +17,7 @@ namespace BE.Cliente
         public int CondicionId { get; set; }
         public string Observacion { get; set; }
         public string NotaTaller { get; set; }
+        public decimal? TallerValor { get; set; }
         public decimal NotaFinal { get; set; }
 
         public int EsEliminado { get; set; }

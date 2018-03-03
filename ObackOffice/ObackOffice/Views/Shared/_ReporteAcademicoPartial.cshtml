@@ -68,6 +68,7 @@
                     <th class="hidden-xs">Empresa</th>
                     <th>Curso</th>
                     <th class="hidden-xs hidden-sm">Examen Teórico</th>
+                    <th>Nota Final</th>
                     <th class="hidden-xs">Condición</th>
                     <th>Fecha</th>
                     <th class="hidden-xs hidden-sm hidden-md">Observación</th>
@@ -98,6 +99,7 @@
                                 <td class="hidden-xs">@item.Empresa</td>
                                 <td>@item.Curso</td>
                                 <td class="hidden-xs hidden-sm">@item.Nota</td>
+                                <td>@item.NotaFinal</td>
                                 <td class="hidden-xs">@item.Condicion</td>
                                 <td>@item.InicioCurso.ToString("dd-MMM-yyyy") - @item.FinCurso.ToString("dd-MMM-yyyy")</td>
                                 <td class="hidden-xs hidden-sm hidden-md">@item.Observaciones</td>
@@ -106,7 +108,7 @@
                                 <td onclick="DownloadFile('Diploma')"><i class="icon-graduation-cap"></i></td>
                             </tr>
                             <tr>
-                                <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="12" style="display:none;" class="no-padding"></td>
+                                <td id="renderDetail-@item.PersonaId-@item.CursoProgramadoId" colspan="13" style="display:none;" class="no-padding"></td>
                             </tr>
                         }
                     }

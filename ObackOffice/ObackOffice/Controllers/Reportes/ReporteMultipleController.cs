@@ -48,6 +48,8 @@ namespace ObackOffice.Controllers.Reportes
             };
             ViewBag.ASISTENCIA = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
+            ViewBag.CURSOS = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
+
             ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>(),Take = 10};
             return View();
         }

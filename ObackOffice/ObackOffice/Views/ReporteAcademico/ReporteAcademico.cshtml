@@ -37,9 +37,15 @@
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">Curso</label>
-                        <select name="curso" id="curso" class="form-control">
-                            <option value="-1">--Todos--</option>
-                        </select>
+                        @if (ViewBag.CURSOS != null)
+                        {
+                            <select name="curso" id="curso" class="form-control">
+                                @foreach (var item in ViewBag.CURSOS)
+                                {
+                                    <option value="@item.Id">@item.Value</option>
+                                }
+                            </select>
+                        }
                     </div>
                 </div>
             </div>
@@ -114,83 +120,6 @@
             alturaTabla = $("." + id).height();
             $("." + id).animate({ "height": "0px" }, 400);
         }
-    }
-
-    function ChangeSelect(combo) {
-        if ($(combo).val() == -1) {
-            switch ($(combo).attr("id")) {
-                case "sede": {
-                    $("#evento").val(-1);
-                    $("#curso").val(-1);
-                    break;
-                }
-                case "evento": {
-                    $("#curso").val(-1);
-                    break;
-                }
-            }
-        } else {
-            GetComboData($(combo).attr("id"),$(combo).val());
-        }
-    }
-
-    function GetComboData(nombre, valor) {
-        var width = $(window).width();
-        var height = $(window).height();
-        $("#Loading").show().css("width", width + "px").css("height", height + "px");
-        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
-
-        $.ajax({
-            cache: false,
-            dataType: 'json',
-            method: 'POST',
-            data: { combo: nombre ,valor:valor},
-            url: '/ReporteAcademico/GetComboData',
-            success: function (json) {
-                $("#Loading").hide();
-                switch (nombre) {
-                    case "sede": {
-                        $("#evento").html("");
-                        if (json.length > 0) {
-                            for (var a = 0; a < json.length; a++) {
-                                $("#evento").append($('<option>', {
-                                    value: json[a].Id,
-                                    text: json[a].Value
-                                }));
-                            }
-                        } else {
-                            $("#evento").append($('<option>', {
-                                value: -1,
-                                text: "--Todos--"
-                            }));
-                        }
-                        $("#curso").val(-1);
-                        break;
-                    }
-                    case "evento": {
-                        $("#curso").html("");
-                        if (json.length > 0) {
-                            for (var a = 0; a < json.length; a++) {
-                                $("#curso").append($('<option>', {
-                                    value: json[a].Id,
-                                    text: json[a].Value
-                                }));
-                            }
-                        } else {
-                            $("#curso").append($('<option>', {
-                                value: -1,
-                                text: "--Todos--"
-                            }));
-                        }
-                        break;
-                    }
-                }
-            },
-            error: function (error) {
-                $("#Loading").hide();
-                console.log(error);
-            }
-        });
     }
 
     function FiltrarUsuarios(index) {

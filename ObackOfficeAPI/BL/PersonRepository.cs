@@ -503,6 +503,10 @@ namespace BL
                                 if (Row.GetCell(16) != null)
                                     decimal.TryParse(Row.GetCell(16).ToString(),out nota);
 
+                                decimal TallerValor = 0;
+                                if (Row.GetCell(17) != null)
+                                    decimal.TryParse(Row.GetCell(16).ToString(), out TallerValor);
+
 
                                 decimal notaFinal = 0;
 
@@ -525,7 +529,8 @@ namespace BL
                                         CondicionId = condicion,
                                         NotaFinal = notaFinal,
                                         FechaGraba = DateTime.Now,
-                                        EmpresaId = empleado.EmpresaId
+                                        EmpresaId = empleado.EmpresaId,
+                                        TallerValor = TallerValor
                                     };
 
                                     empleadoCurso = EC;
