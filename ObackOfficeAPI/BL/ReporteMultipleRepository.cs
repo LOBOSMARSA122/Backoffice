@@ -54,7 +54,7 @@ namespace BL
                                    (data.Asistencia == -1 || data.Asistencia == d.Asistio) &&
                                    (data.Condicion == -1 || data.Condicion == g.CondicionId) &&
                                    (data.Ranking == null || g.NotaFinal >= data.Ranking) &&
-                                   (n.FechaInicio >= fi && n.FechaInicio <= ff) &&
+                                   //(n.FechaInicio >= fi && n.FechaInicio <= ff) &&
                                    a.EsEliminado == NoEsEliminado
                                    select new
                                    {
