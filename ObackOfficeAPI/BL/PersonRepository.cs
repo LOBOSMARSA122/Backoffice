@@ -390,30 +390,31 @@ namespace BL
 
                             if (!string.IsNullOrWhiteSpace(C.NombreCurso))
                             {
-                                Curso curso = (from a in ListaCursos where a.NombreCurso.ToUpper() == C.NombreCurso.ToUpper() select a).FirstOrDefault();
+                                //Curso curso = (from a in ListaCursos where a.NombreCurso.ToUpper() == C.NombreCurso.ToUpper() select a).FirstOrDefault();
 
-                                if (curso == null)
-                                {
-                                    curso = C;
-                                    curso.EsEliminado = NoEsEliminado;
-                                    curso.FechaGraba = DateTime.Now;
+                                //if (curso == null)
+                                //{
+                                //    curso = C;
+                                //    curso.EsEliminado = NoEsEliminado;
+                                //    curso.FechaGraba = DateTime.Now;
 
-                                    ctx.Cursos.Add(curso);
-                                    ctx.SaveChanges();
-                                }
+                                //    ctx.Cursos.Add(curso);
+                                //    ctx.SaveChanges();
+                                //}
 
+                                int cursoId = int.Parse(C.NombreCurso) ;
 
                                 DateTime fecha = Row.GetCell(12) != null ? Row.GetCell(12).DateCellValue : DateTime.Now;
 
                                 CursoProgramado cursoProgramado = (from a in ctx.CursosProgramados
-                                                                   where a.CursoId == curso.CursoId && a.FechaInicio == fecha
+                                                                   where a.CursoId == cursoId && a.FechaInicio == fecha
                                                                    select a).FirstOrDefault();
 
                                 if(cursoProgramado == null)
                                 {
                                     CursoProgramado CP = new CursoProgramado()
                                     {
-                                        CursoId = curso.CursoId,
+                                        CursoId = cursoId,//curso.CursoId,
                                         EventoId = 1,
                                         EsEliminado = NoEsEliminado,
                                         FechaInicio = fecha,
@@ -532,6 +533,22 @@ namespace BL
 
                                     ctx.EmpleadoCursos.Add(empleadoCurso);
                                     ctx.SaveChanges();
+                                    int idEmpleadoCurso = empleadoCurso.EmpleadoCursoId;
+                                    ParametroRepository oParametroRepository = new ParametroRepository();
+
+                                    var lPreguntas = oParametroRepository.GetParametroByGrupoId(105);
+                                    foreach (var item in lPreguntas)
+                                    {
+                                        EmpleadoTaller oEmpleadoTaller = new EmpleadoTaller();
+                                        oEmpleadoTaller.EmpleadoCursoId = idEmpleadoCurso;
+                                        oEmpleadoTaller.PreguntaId = item.Id;
+                                        oEmpleadoTaller.EsEliminado = 0;
+                                        oEmpleadoTaller.UsuGraba = 1;
+                                        oEmpleadoTaller.FechaGraba = DateTime.Now;
+                                        ctx.EmpleadoTalleres.Add(oEmpleadoTaller);
+                                        ctx.SaveChanges();
+                                    }
+
                                 }
 
 
