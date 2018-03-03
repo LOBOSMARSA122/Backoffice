@@ -45,6 +45,8 @@ namespace BL
                                    (data.CursoId == -1 || data.CursoId == a.CursoId) &&
                                    (NombreEmpleado == null || (j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno).Contains(NombreEmpleado)) &&
                                    (DNIEmpleado == null || j.NroDocumento.Contains(DNIEmpleado)) &&
+                                   (data.Asistencia == -1 || data.Asistencia == d.Asistio) &&
+                                   (data.Condicion == -1 || data.Condicion == g.CondicionId) &&
                                    a.EsEliminado == NoEsEliminado
                                    select new
                                    {
@@ -128,6 +130,8 @@ namespace BL
                            (data.SedeId == -1 || g.SedeId == data.SedeId) &&
                            (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado)) &&
                            (DNIEmpleado == null || h.NroDocumento.Contains(DNIEmpleado)) &&
+                           (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
+                           (data.Asistencia == -1 || data.Asistencia == e.Asistio) &&
                            a.EsEliminado == NoEsEliminado
                            select new
                            {
@@ -191,12 +195,15 @@ namespace BL
                            join e in ctx.Empleados on a.EmpleadoId equals e.EmpleadoId
                            join f in ctx.Eventos on c.EventoId equals f.EventoId
                            join g in ctx.Personas on e.PersonaId equals g.PersonaId
+                           join h in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals h.EmpleadoCursoId
                            where
                            (data.CursoId == -1 || d.CursoId == data.CursoId) &&
                            (data.EventoId == -1 || c.EventoId == data.EventoId) &&
                            (data.SedeId == -1 || f.SedeId == data.SedeId) &&
                            (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
                            (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
+                           (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
+                           (data.Asistencia == -1 || data.Asistencia == h.Asistio) &&
                            a.EsEliminado == NoEsEliminado
                            select new
                            {
@@ -250,12 +257,15 @@ namespace BL
                            join e in ctx.Empleados on a.EmpleadoId equals e.EmpleadoId
                            join f in ctx.Eventos on c.EventoId equals f.EventoId
                            join g in ctx.Personas on e.PersonaId equals g.PersonaId
+                           join h in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals h.EmpleadoCursoId
                            where
                            (data.CursoId == -1 || d.CursoId == data.CursoId) &&
                            (data.EventoId == -1 || c.EventoId == data.EventoId) &&
                            (data.SedeId == -1 || f.SedeId == data.SedeId) &&
                            (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
                            (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
+                           (data.Asistencia == -1 || data.Asistencia == h.Asistio) &&
+                           (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
                            a.EsEliminado == NoEsEliminado
                            select new
                            {
@@ -347,12 +357,12 @@ namespace BL
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Nota Cuantitativa");
+                TemplateCell.SetCellValue("Examen Teorico");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Nota Cualitativa");
+                TemplateCell.SetCellValue("Taller");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);

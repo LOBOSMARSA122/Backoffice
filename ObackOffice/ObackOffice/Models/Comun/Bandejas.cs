@@ -32,6 +32,7 @@ namespace ObackOffice.Models
 
     public class BandejaReporteAcademico : Bandejas
     {
+        public int Condicion { get; set; }
         public int SedeId { get; set; }
         public int EventoId { get; set; }
         public int CursoId { get; set; }
@@ -73,6 +74,8 @@ namespace ObackOffice.Models
 
     public class BandejaReporteMultiple : Bandejas
     {
+        public int Condicion { get; set; }
+        public int Asistencia { get; set; }
         public int SedeId { get; set; }
         public int EventoId { get; set; }
         public int CursoId { get; set; }

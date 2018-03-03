@@ -48,7 +48,7 @@
     <span class="informacion">Mostrando desde N° @Primer hasta @Ultimo de un total de @Total entradas</span>
     <div class="float-lg-right">
         Total de registros:
-        <select id="take">
+        <select id="take" onchange="FiltrarUsuarios(1)">
             <option value="10" @(Take == 10 ? "selected" : "")>10</option>
             <option value="25" @(Take == 25 ? "selected" : "")>25</option>
             <option value="50" @(Take == 50 ? "selected" : "")>50</option>
@@ -67,7 +67,7 @@
                     <th class="hidden-xs hidden-sm">Sede</th>
                     <th class="hidden-xs">Empresa</th>
                     <th>Curso</th>
-                    <th class="hidden-xs hidden-sm">Nota Cuantitativa</th>
+                    <th class="hidden-xs hidden-sm">Examen Teórico</th>
                     <th class="hidden-xs">Condición</th>
                     <th>Fecha</th>
                     <th class="hidden-xs hidden-sm hidden-md">Observación</th>
@@ -144,7 +144,7 @@
                                     <span class="page-link" aria-hidden="true">Siguiente</span>
                                 </li>
                                 <li class="page-item" onclick="FiltrarUsuarios(@(pagina))">
-                                    <span class="page-link" aria-hidden="true">Ultumo</span>
+                                    <span class="page-link" aria-hidden="true">Ultimo</span>
                                 </li>
                             }
                         }
