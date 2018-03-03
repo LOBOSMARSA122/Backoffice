@@ -54,6 +54,7 @@ namespace BE.Comun
         public string Empresa { get; set; }
         public string Curso { get; set; }
         public decimal Nota { get; set; }
+        public decimal NotaFinal { get; set; }
         public string Condicion { get; set; }
         public DateTime InicioCurso { get; set; }
         public DateTime FinCurso { get; set; }
@@ -76,6 +77,9 @@ namespace BE.Comun
         public int CursoId { get; set; }
         public string NombreEmpleado { get; set; }
         public string DNIEmpleado { get; set; }
+        public decimal? Ranking { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
         public int MaximasAsistencias { get; set; }
         public string[] Charts { get; set; }
         public List<ReporteMultipleList> Lista { get; set; }
@@ -94,7 +98,9 @@ namespace BE.Comun
         public string Empresa { get; set; }
         public string Capacitador { get; set; }
         public decimal Nota { get; set; }
+        public decimal NotaFinal { get; set; }
         public string NotaTaller { get; set; }
+        public decimal? TallerValor { get; set; }
         public string Condicion { get; set; }
         public DateTime InicioCurso { get; set; }
         public DateTime FinCurso { get; set; }

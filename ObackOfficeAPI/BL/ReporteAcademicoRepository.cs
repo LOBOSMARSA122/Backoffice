@@ -63,7 +63,8 @@ namespace BL
                                  InicioCurso = a.FechaInicio,
                                  FinCurso = a.FechaFin,
                                  Observaciones = g.Observacion,
-                                 EmpleadoCursoId = g.EmpleadoCursoId
+                                 EmpleadoCursoId = g.EmpleadoCursoId,
+                                 g.NotaFinal
                              }).ToList();
 
 
@@ -84,7 +85,8 @@ namespace BL
                              Nota = grp.FirstOrDefault().Nota,
                              InicioCurso = grp.FirstOrDefault().InicioCurso,
                              FinCurso = grp.FirstOrDefault().FinCurso,
-                             Observaciones = grp.FirstOrDefault().Observaciones
+                             Observaciones = grp.FirstOrDefault().Observaciones,
+                             NotaFinal = grp.FirstOrDefault().NotaFinal
                          }).ToList();
 
 
@@ -220,6 +222,12 @@ namespace BL
                     TemplateRow.GetCell(4).SetCellValue("Curso");
                     TemplateRow.GetCell(5).SetCellValue("Empresa");
                     TemplateRow.GetCell(6).SetCellValue("Examen Teorico");
+                    TemplateRow.GetCell(7).SetCellValue("Nota Final");
+                    TemplateRow.GetCell(8).SetCellValue("Condicion");
+                    TemplateRow.GetCell(9).SetCellValue("Fecha Inicio");
+                    TemplateRow.GetCell(10).SetCellValue("Fecha Fin");
+                    TemplateRow.CreateCell(11).SetCellValue("Observaciones");
+                    TemplateRow.GetCell(11).CellStyle = TemplateRow.GetCell(10).CellStyle;
                     TituloPersonaIndex = index;
                     index++;
 
@@ -233,10 +241,12 @@ namespace BL
                     TemplateRow.GetCell(4).SetCellValue(Alumno.Curso);
                     TemplateRow.GetCell(5).SetCellValue(Alumno.Empresa);
                     TemplateRow.GetCell(6).SetCellValue(Alumno.Nota.ToString());
-                    TemplateRow.GetCell(7).SetCellValue(Alumno.Condicion);
-                    TemplateRow.GetCell(8).SetCellValue(Alumno.InicioCurso.ToString("dd-MMM-yyyy"));
-                    TemplateRow.GetCell(9).SetCellValue(Alumno.FinCurso.ToString("dd-MMM-yyyy"));
-                    TemplateRow.GetCell(10).SetCellValue(Alumno.Observaciones);
+                    TemplateRow.GetCell(7).SetCellValue(Alumno.NotaFinal.ToString());
+                    TemplateRow.GetCell(8).SetCellValue(Alumno.Condicion);
+                    TemplateRow.GetCell(9).SetCellValue(Alumno.InicioCurso.ToString("dd-MMM-yyyy"));
+                    TemplateRow.GetCell(10).SetCellValue(Alumno.FinCurso.ToString("dd-MMM-yyyy"));
+                    TemplateRow.CreateCell(11).SetCellValue(Alumno.Observaciones);
+                    TemplateRow.GetCell(11).CellStyle = TemplateRow.GetCell(10).CellStyle;
                     index++;
 
                     TemplateRow = TemplateSheet.CopyRow(TituloDetalleIndex, index);
@@ -448,6 +458,7 @@ namespace BL
                 TemplateSheet.AutoSizeColumn(8);
                 TemplateSheet.AutoSizeColumn(9);
                 TemplateSheet.AutoSizeColumn(10);
+                TemplateSheet.AutoSizeColumn(11);
 
                 MemoryStream ms = new MemoryStream();
                 using (MemoryStream tempStream = new MemoryStream())

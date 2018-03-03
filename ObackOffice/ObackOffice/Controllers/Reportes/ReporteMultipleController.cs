@@ -48,12 +48,14 @@ namespace ObackOffice.Controllers.Reportes
             };
             ViewBag.ASISTENCIA = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
+            ViewBag.CURSOS = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
+
             ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>(),Take = 10};
             return View();
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public ActionResult FiltrarReporteMultiple(string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string DNIEmpleado, string Index, string Take)
+        public ActionResult FiltrarReporteMultiple(string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string DNIEmpleado, string Ranking, string FechaInicio, string FechaFin, string Index, string Take)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
@@ -65,6 +67,9 @@ namespace ObackOffice.Controllers.Reportes
                 { "CursoId", CursoId },
                 { "NombreEmpleado", NombreEmpleado },
                 { "DNIEmpleado", DNIEmpleado },
+                { "Ranking", Ranking },
+                { "FechaInicio", FechaInicio },
+                { "FechaFin", FechaFin },
                 { "Index", Index },
                 { "Take", Take }
             };

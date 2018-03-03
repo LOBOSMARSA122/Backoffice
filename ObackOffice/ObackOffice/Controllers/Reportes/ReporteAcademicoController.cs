@@ -21,34 +21,10 @@ namespace ObackOffice.Controllers.Reportes
             };
             ViewBag.CONDICION = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
+            ViewBag.CURSOS = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
+
             ViewBag.REGISTROS = new BandejaReporteAcademico() { Lista = new List<ReporteAcademicoList>(), Take = 10};
             return View("ReporteAcademico");
-        }
-
-        [GeneralSecurity(Rol = "Reportes-Reporte Académico")]
-        public JsonResult GetComboData(string combo, string valor)
-        {
-            Api API = new Api();
-            List<Dropdownlist> response = null;
-            switch (combo)
-            {
-                case "sede":
-                    {
-                        Dictionary<string, string> args = new Dictionary<string, string>
-                        {
-                            { "sedeId", valor }
-                        };
-                        response = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Eventos/ddlEventos", args), Constantes.All);
-                        break;
-                    }
-                case "evento":
-                    {
-                        response = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
-                        break;
-                    }
-            }
-
-            return Json(response);
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Académico")]

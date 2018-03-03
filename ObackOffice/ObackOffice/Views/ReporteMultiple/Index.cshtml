@@ -5,22 +5,24 @@
         padding: 0.375rem 0.75rem;
         color: white;
         cursor: pointer;
-        outline:none;
-        margin:10px;
+        outline: none;
+        margin: 10px;
     }
-    .button-inactive{
+
+    .button-inactive {
         background-color: #8f8f8f;
     }
-    .button-active{
+
+    .button-active {
         background-color: #efb44a;
     }
 
-    .pagination-active span{
-        color:#f39c12 !important;
+    .pagination-active span {
+        color: #f39c12 !important;
     }
 
-    #containers img,#containers div{
-        width:100%;
+    #containers img, #containers div {
+        width: 100%;
     }
 
     .headerOnTop {
@@ -37,9 +39,9 @@
         z-index: 9999;
     }
 
-    #Loading > img {
-        width: 200px;
-    }
+        #Loading > img {
+            width: 200px;
+        }
 </style>
 <div class="container-fluid">
     <div class="box box-default mt-2" id="acordion">
@@ -63,9 +65,15 @@
                 <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
                     <div class="form-group">
                         <label for="">Curso</label>
-                        <select name="curso" id="curso" class="form-control">
-                            <option value="-1">--Todos--</option>
-                        </select>
+                        @if (ViewBag.CURSOS != null)
+                        {
+                            <select name="curso" id="curso" class="form-control">
+                                @foreach (var item in ViewBag.CURSOS)
+                                {
+                                    <option value="@item.Id">@item.Value</option>
+                                }
+                            </select>
+                        }
                     </div>
                 </div>
             </div>
@@ -98,6 +106,27 @@
                         }
                     </div>
                 </div>
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="">Ranking</label>
+                        <input type="text" id="ranking" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nota" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="">Fecha Inicio</label>
+                        <input type="text" id="fechainicio" name="Fecha Inicio" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <label for="">Fecha Fin</label>
+                        <input type="text" id="fechafin" name="Fecha Fin" class="form-control" />
+                    </div>
+                </div>
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-2">
                     <div class="form-group">
                         <label for=""></label>
@@ -107,6 +136,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <div id="RenderBandejaReporteMultiple">
@@ -150,233 +180,46 @@
     <img src="~/Content/icons/loading.gif" />
 </div>
 
-<script>
-    var alturaTabla;
-    function ColapsarFiltro(id) {
-        setTimeout(function () {
-            var height = 10;
+@section Scripts{
+    <script>
+        var alturaTabla;
+        function ColapsarFiltro(id) {
+            setTimeout(function () {
+                var height = 10;
 
-            for (i = 0; i < $("#" + id + " .row").length; i++) {
-                height = height + $($("#" + id + " .row")[i]).height();
-            }
+                for (i = 0; i < $("#" + id + " .row").length; i++) {
+                    height = height + $($("#" + id + " .row")[i]).height();
+                }
 
-            if ($("#" + id).height() == 0) {
-                $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+                if ($("#" + id).height() == 0) {
+                    $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+                } else {
+                    $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
+                }
+            }, 200);
+        }
+
+        function ColapsarTabla(id) {
+            if ($("." + id).height() == 0) {
+                $("." + id).animate({ "height": alturaTabla + "px" }, 400);
             } else {
-                $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
-            }
-        }, 200);
-    }
-
-    function ColapsarTabla(id) {
-        if ($("." + id).height() == 0) {
-            $("." + id).animate({ "height": alturaTabla +"px" }, 400);
-        } else {
-            alturaTabla = $("." + id).height();
-            $("." + id).animate({ "height": "0px" }, 400);
-        }
-    }
-
-    function ChangeSelect(combo) {
-        if ($(combo).val() == -1) {
-            switch ($(combo).attr("id")) {
-                case "sede": {
-                    $("#evento").val(-1);
-                    $("#curso").val(-1);
-                    break;
-                }
-                case "evento": {
-                    $("#curso").val(-1);
-                    break;
-                }
-            }
-        } else {
-            GetComboData($(combo).attr("id"),$(combo).val());
-        }
-    }
-
-    function GetComboData(nombre, valor) {
-        var width = $(window).width();
-        var height = $(window).height();
-        $("#Loading").show().css("width", width + "px").css("height", height + "px");
-        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
-
-        $.ajax({
-            cache: false,
-            dataType: 'json',
-            method: 'POST',
-            data: { combo: nombre ,valor:valor},
-            url: '/ReporteAcademico/GetComboData',
-            success: function (json) {
-                $("#Loading").hide();
-                switch (nombre) {
-                    case "sede": {
-                        $("#evento").html("");
-                        if (json.length > 0) {
-                            for (var a = 0; a < json.length; a++) {
-                                $("#evento").append($('<option>', {
-                                    value: json[a].Id,
-                                    text: json[a].Value
-                                }));
-                            }
-                        } else {
-                            $("#evento").append($('<option>', {
-                                value: -1,
-                                text: "--Todos--"
-                            }));
-                        }
-                        $("#curso").val(-1);
-                        break;
-                    }
-                    case "evento": {
-                        $("#curso").html("");
-                        if (json.length > 0) {
-                            for (var a = 0; a < json.length; a++) {
-                                $("#curso").append($('<option>', {
-                                    value: json[a].Id,
-                                    text: json[a].Value
-                                }));
-                            }
-                        } else {
-                            $("#curso").append($('<option>', {
-                                value: -1,
-                                text: "--Todos--"
-                            }));
-                        }
-                        break;
-                    }
-                }
-            },
-            error: function (error) {
-                $("#Loading").hide();
-                console.log(error);
-            }
-        });
-    }
-
-    function FiltrarUsuarios(index) {
-        data = {
-            Condicion: $("#condicion").val(),
-            Asistencia: $("#asistencia").val(),
-            CursoId: $("#curso").val(),
-            NombreEmpleado: $("#Nombre").val(),
-            DNIEmpleado: $("#DNI").val(),
-            Index: index,
-            Take: $("#take").val()
-        };
-
-        var width = $(window).width();
-        var height = $(window).height();
-        $("#Loading").show().css("width", width + "px").css("height", height + "px");
-        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
-
-        $.ajax({
-            cache: false,
-            dataType: 'html',
-            method: 'POST',
-            data: data,
-            url: '/ReporteMultiple/FiltrarReporteMultiple',
-            success: function (html) {
-                $("#Loading").hide();
-                $("#RenderBandejaReporteMultiple").html(html);
-                $("#containers").html("");
-            },
-            error: function (error) {
-                $("#Loading").hide();
-                console.log(error);
-            }
-        });
-    }
-
-    function activateChartButton(Button, Action) {
-        if ($(Button).hasClass("button-active")) {
-            $(Button).removeClass("button-active").addClass("button-inactive");
-            CloseChart(Action);
-        } else {
-            if ($("#TablaAExportar tbody tr").length > 0) {
-                $(Button).removeClass("button-inactive").addClass("button-active");
-                OpenChart(Action);
-            }
-            else{
-                alert("Debe haber al menos un registro");
+                alturaTabla = $("." + id).height();
+                $("." + id).animate({ "height": "0px" }, 400);
             }
         }
-    }
 
-    function OpenChart(Action) {
-        data = {
-            Condicion: $("#condicion").val(),
-            Asistencia: $("#asistencia").val(),
-            CursoId: $("#curso").val(),
-            NombreEmpleado: $("#Nombre").val(),
-            DNIEmpleado: $("#DNI").val(),
-            Action: Action
-        };
-
-        var width = $(window).width();
-        var height = $(window).height();
-        $("#Loading").show().css("width", width + "px").css("height", height + "px");
-        $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
-
-        $.ajax({
-            cache: false,
-            dataType: 'json',
-            method: 'POST',
-            data: data,
-            url: '/ReporteMultiple/Chart',
-            success: function (json) {
-                $("#Loading").hide();
-                var div = "<div class=\"col-12 col-sm-6\" id=\"container-" + Action + "\"><img/></div>";
-                $("#collapse2 #containers").append(div);
-                $("#container-" + Action + " img").attr("src", "data:img;base64," + json);
-
-                setTimeout(function () {
-                    var height = 10;
-
-                    for (i = 0; i < $("#collapse2 .row").length; i++) {
-                        height = height + $($("#collapse2 .row")[i]).height();
-                    }
-
-                    $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
-                }, 200);
-            },
-            error: function (error) {
-                $("#Loading").hide();
-                console.log(error);
-            }
-        });
-    }
-
-    function CloseChart(Action) {
-        $("#container-" + Action).remove();
-
-        setTimeout(function () {
-            var height = 10;
-
-            for (i = 0; i < $("#collapse2 .row").length; i++) {
-                height = height + $($("#collapse2 .row")[i]).height();
-            }
-
-            $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
-        }, 200);
-    }
-
-    function ExportarExcel() {
-        if ($("#TablaAExportar tbody tr").length > 0) {
-
-            var charts = new Array();
-            
-            for (i = 0; i < $("#collapse2 .button-active").length; i++) {
-                charts.push($($("#collapse2 .button-active")[i]).html().split("</i>")[1].trim());
-            }
-
+        function FiltrarUsuarios(index) {
             data = {
                 Condicion: $("#condicion").val(),
                 Asistencia: $("#asistencia").val(),
                 CursoId: $("#curso").val(),
                 NombreEmpleado: $("#Nombre").val(),
                 DNIEmpleado: $("#DNI").val(),
-                charts: charts
+                Ranking: $("#ranking").val(),
+                FechaInicio: $("#fechainicio").val(),
+                FechaFin: $("#fechafin").val(),
+                Index: index,
+                Take: $("#take").val()
             };
 
             var width = $(window).width();
@@ -386,63 +229,183 @@
 
             $.ajax({
                 cache: false,
+                dataType: 'html',
                 method: 'POST',
                 data: data,
-                url: '/ReporteMultiple/CrearExcel',
-                success: function (response) {
+                url: '/ReporteMultiple/FiltrarReporteMultiple',
+                success: function (html) {
                     $("#Loading").hide();
-                    var base64 = JSON.parse(response);
-                    var binaryString = window.atob(base64._buffer);
-
-                    var binaryLen = binaryString.length;
-                    var bytes = new Uint8Array(binaryLen);
-                    for (var i = 0; i < binaryLen; i++) {
-                        var ascii = binaryString.charCodeAt(i);
-                        bytes[i] = ascii;
-                    }
-                    var d = new Date();
-                    var fileName = "Reporte Multiple " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
-                    var blob = new Blob([bytes], { type: 'application/vnd.ms-excel' });
-
-                    if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
-                    {
-
-                        window.navigator.msSaveOrOpenBlob(blob, fileName);
-
-                    } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
-
-                        var url = window.URL.createObjectURL(blob);
-
-                        var anchorElem = document.createElement("a");
-                        anchorElem.style = "display: none";
-                        anchorElem.href = url;
-                        anchorElem.download = fileName;
-
-                        document.body.appendChild(anchorElem);
-                        anchorElem.click();
-
-                        document.body.removeChild(anchorElem);
-
-                        // On Edge, revokeObjectURL should be called only after
-                        // a.click() has completed, atleast on EdgeHTML 15.15048
-                        setTimeout(function () {
-                            window.URL.revokeObjectURL(url);
-                        }, 1000);
-
-                    } else { // tested on chrome and Opera
-                        var link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = fileName;
-                        link.click();
-                    }
+                    $("#RenderBandejaReporteMultiple").html(html);
+                    $("#containers").html("");
                 },
                 error: function (error) {
                     $("#Loading").hide();
                     console.log(error);
                 }
             });
-        } else {
-            alert("Debe haber al menos un registro");
         }
-    }
-</script>
+
+        function activateChartButton(Button, Action) {
+            if ($(Button).hasClass("button-active")) {
+                $(Button).removeClass("button-active").addClass("button-inactive");
+                CloseChart(Action);
+            } else {
+                if ($("#TablaAExportar tbody tr").length > 0) {
+                    $(Button).removeClass("button-inactive").addClass("button-active");
+                    OpenChart(Action);
+                }
+                else {
+                    alert("Debe haber al menos un registro");
+                }
+            }
+        }
+
+        function OpenChart(Action) {
+            data = {
+                Condicion: $("#condicion").val(),
+                Asistencia: $("#asistencia").val(),
+                CursoId: $("#curso").val(),
+                NombreEmpleado: $("#Nombre").val(),
+                DNIEmpleado: $("#DNI").val(),
+                Action: Action
+            };
+
+            var width = $(window).width();
+            var height = $(window).height();
+            $("#Loading").show().css("width", width + "px").css("height", height + "px");
+            $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                method: 'POST',
+                data: data,
+                url: '/ReporteMultiple/Chart',
+                success: function (json) {
+                    $("#Loading").hide();
+                    var div = "<div class=\"col-12 col-sm-6\" id=\"container-" + Action + "\"><img/></div>";
+                    $("#collapse2 #containers").append(div);
+                    $("#container-" + Action + " img").attr("src", "data:img;base64," + json);
+
+                    setTimeout(function () {
+                        var height = 10;
+
+                        for (i = 0; i < $("#collapse2 .row").length; i++) {
+                            height = height + $($("#collapse2 .row")[i]).height();
+                        }
+
+                        $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
+                    }, 200);
+                },
+                error: function (error) {
+                    $("#Loading").hide();
+                    console.log(error);
+                }
+            });
+        }
+
+        function CloseChart(Action) {
+            $("#container-" + Action).remove();
+
+            setTimeout(function () {
+                var height = 10;
+
+                for (i = 0; i < $("#collapse2 .row").length; i++) {
+                    height = height + $($("#collapse2 .row")[i]).height();
+                }
+
+                $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
+            }, 200);
+        }
+
+        function ExportarExcel() {
+            if ($("#TablaAExportar tbody tr").length > 0) {
+
+                var charts = new Array();
+
+                for (i = 0; i < $("#collapse2 .button-active").length; i++) {
+                    charts.push($($("#collapse2 .button-active")[i]).html().split("</i>")[1].trim());
+                }
+
+                data = {
+                    Condicion: $("#condicion").val(),
+                    Asistencia: $("#asistencia").val(),
+                    CursoId: $("#curso").val(),
+                    NombreEmpleado: $("#Nombre").val(),
+                    DNIEmpleado: $("#DNI").val(),
+                    charts: charts
+                };
+
+                var width = $(window).width();
+                var height = $(window).height();
+                $("#Loading").show().css("width", width + "px").css("height", height + "px");
+                $("#Loading > img").css("margin-left", ((width - 200) / 2) + "px").css("margin-top", ((height - 266) / 2) + "px");
+
+                $.ajax({
+                    cache: false,
+                    method: 'POST',
+                    data: data,
+                    url: '/ReporteMultiple/CrearExcel',
+                    success: function (response) {
+                        $("#Loading").hide();
+                        var base64 = JSON.parse(response);
+                        var binaryString = window.atob(base64._buffer);
+
+                        var binaryLen = binaryString.length;
+                        var bytes = new Uint8Array(binaryLen);
+                        for (var i = 0; i < binaryLen; i++) {
+                            var ascii = binaryString.charCodeAt(i);
+                            bytes[i] = ascii;
+                        }
+                        var d = new Date();
+                        var fileName = "Reporte Multiple " + d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + ".xlsx";
+                        var blob = new Blob([bytes], { type: 'application/vnd.ms-excel' });
+
+                        if (window.navigator.msSaveOrOpenBlob)      // If Internet Explorer
+                        {
+
+                            window.navigator.msSaveOrOpenBlob(blob, fileName);
+
+                        } else if (window.navigator.userAgent.indexOf("Firefox") > 0) {
+
+                            var url = window.URL.createObjectURL(blob);
+
+                            var anchorElem = document.createElement("a");
+                            anchorElem.style = "display: none";
+                            anchorElem.href = url;
+                            anchorElem.download = fileName;
+
+                            document.body.appendChild(anchorElem);
+                            anchorElem.click();
+
+                            document.body.removeChild(anchorElem);
+
+                            // On Edge, revokeObjectURL should be called only after
+                            // a.click() has completed, atleast on EdgeHTML 15.15048
+                            setTimeout(function () {
+                                window.URL.revokeObjectURL(url);
+                            }, 1000);
+
+                        } else { // tested on chrome and Opera
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = fileName;
+                            link.click();
+                        }
+                    },
+                    error: function (error) {
+                        $("#Loading").hide();
+                        console.log(error);
+                    }
+                });
+            } else {
+                alert("Debe haber al menos un registro");
+            }
+        }
+
+        $(document).ready(function () {
+            $("#fechainicio").datepicker();
+            $("#fechafin").datepicker();
+        });
+    </script>
+}
