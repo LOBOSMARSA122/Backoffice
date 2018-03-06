@@ -219,6 +219,7 @@ namespace BL
                 foreach (var Alumno in Lista)
                 {
                     IRow TemplateRow = TemplateSheet.CopyRow(TituloPersonaIndex, index);
+                    TemplateRow.GetCell(3).SetCellValue("Unidad");
                     TemplateRow.GetCell(4).SetCellValue("Curso");
                     TemplateRow.GetCell(5).SetCellValue("Empresa");
                     TemplateRow.GetCell(6).SetCellValue("Examen Teorico");

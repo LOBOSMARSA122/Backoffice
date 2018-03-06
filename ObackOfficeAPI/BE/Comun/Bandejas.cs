@@ -101,6 +101,8 @@ namespace BE.Comun
         public string Curso { get; set; }
         public string Empresa { get; set; }
         public string Capacitador { get; set; }
+        public string Area { get; set; }
+        public string Cargo { get; set; }
         public decimal Nota { get; set; }
         public decimal NotaFinal { get; set; }
         public string NotaTaller { get; set; }

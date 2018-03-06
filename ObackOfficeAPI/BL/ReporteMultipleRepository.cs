@@ -50,6 +50,8 @@ namespace BL
                                    join l in ctx.Parametros on new { a = b.SedeId, b = SedeGroupId } equals new { a = l.ParametroId, b = l.GrupoId }
                                    join m in ctx.Parametros on new { a = g.CondicionId, b = ConsidionGroupId } equals new { a = m.ParametroId, b = m.GrupoId }
                                    join n in ctx.CursosProgramados on  e.CursoProgramadoId equals n.CursoProgramadoId
+                                   join o in ctx.Capacitadores on e.CapacitadorId equals o.CapacitadorId
+                                   join p in ctx.Personas on o.PersonaId equals p.PersonaId
                                    where
                                    (data.SedeId == -1 || data.SedeId == b.SedeId) &&
                                    (data.EventoId == -1 || data.EventoId == b.EventoId) &&
@@ -82,7 +84,11 @@ namespace BL
                                        Asistencia = d.Asistio,
                                        AsistenciaID = d.EmpleadoAsistenciaId,
                                        g.NotaFinal,
-                                       g.TallerValor
+                                       g.TallerValor,
+                                       Capacitador = p.Nombres + " " + p.ApellidoPaterno + " " + p.ApellidoMaterno,
+                                       i.Area,
+                                       i.Cargo,
+                                       n.FechaInicio
                                    }).ToList();
 
                 var parametroAsistencia = (from a in ctx.Parametros where a.GrupoId == AsistenciaGroupId select a).ToList();
@@ -105,7 +111,11 @@ namespace BL
                                        Condicion = grp.FirstOrDefault().Condicion,
                                        Asistencia = grp.GroupBy(x => x.AsistenciaID).Select( y => y.FirstOrDefault().Asistencia.HasValue ? parametroAsistencia.Where(z => z.ParametroId == y.FirstOrDefault().Asistencia.Value).FirstOrDefault().Valor1 : "Por Iniciar").ToList(),
                                        NotaFinal = grp.FirstOrDefault().NotaFinal,
-                                       TallerValor = grp.FirstOrDefault().TallerValor
+                                       TallerValor = grp.FirstOrDefault().TallerValor,
+                                       Capacitador = grp.FirstOrDefault().Capacitador,
+                                       Area = grp.FirstOrDefault().Area.ToUpper(),
+                                       Cargo = grp.FirstOrDefault().Cargo.ToUpper(),
+                                       InicioCurso = grp.FirstOrDefault().FechaInicio
                                    }).ToList();
 
                 data.TotalRegistros = return_data.Count;
@@ -356,6 +366,79 @@ namespace BL
             return bytes;
         }
 
+        public byte[] ChartFaltas(BandejaReporteMultiple data)
+        {
+            string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
+            string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+            string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+            int EmpresaId = 0;
+            if (!string.IsNullOrWhiteSpace(data.Empresa))
+            {
+                EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+            }
+            int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
+
+            int AsistieronID = (int)Enumeradores.Asistencia.Asistio;
+            int FaltaronID = (int)Enumeradores.Asistencia.Falto;
+
+            bool validfi = DateTime.TryParseExact(data.FechaInicio, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fi);
+            bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
+
+            var listado_temp = (from a in ctx.EmpleadoCursos
+                                join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
+                                join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
+                                join d in ctx.Cursos on c.CursoId equals d.CursoId
+                                join e in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals e.EmpleadoCursoId
+                                join f in ctx.Empleados on a.EmpleadoId equals f.EmpleadoId
+                                join g in ctx.Eventos on c.EventoId equals g.EventoId
+                                join h in ctx.Personas on f.PersonaId equals h.PersonaId
+                                where
+                                (data.CursoId == -1 || d.CursoId == data.CursoId) &&
+                                (data.EventoId == -1 || c.EventoId == data.EventoId) &&
+                                (data.SedeId == -1 || g.SedeId == data.SedeId) &&
+                                (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado) || h.NroDocumento.Contains(NombreEmpleado)) &&
+                                (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
+                                (data.Asistencia == -1 || data.Asistencia == e.Asistio) &&
+                                (Area == null ^ f.Area == Area) &&
+                                (Categoria == null ^ f.Cargo == Categoria) &&
+                                (EmpresaId == 0 || a.EmpresaId == EmpresaId) &&
+                                (data.CapacitadorId == -1 || b.CapacitadorId == data.CapacitadorId) &&
+                                (!validfi || c.FechaInicio >= fi) &&
+                                 (!validff || c.FechaInicio <= ff) &&
+                                a.EsEliminado == NoEsEliminado
+                                select new
+                                {
+                                    a = 1,
+                                    e.Asistio,
+                                    e.EmpleadoAsistenciaId
+                                }).ToList();
+
+
+            var listado = (from a in listado_temp
+                           group a by a.a into grp
+                           select new
+                           {
+                               Asistieron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == AsistieronID : false).Count(),
+                               Faltaron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == FaltaronID : false).Count(),
+                           }).FirstOrDefault();
+
+
+
+            var Chart = new Chart(800, 600, ChartTheme.Green);
+            Chart.AddTitle("Porcentaje de Faltas");
+            Chart.AddSeries(name: "Faltas",
+            chartType: "Pie",
+            xValue: new[] { "Asistieron " + ((float)(listado.Asistieron * 100) / (listado.Asistieron + listado.Faltaron)).ToString("N2") + "%", "Faltaron " + ((float)(listado.Faltaron * 100) / (listado.Asistieron + listado.Faltaron)).ToString("N2") + "%" },
+            yValues: new[] { listado.Asistieron, listado.Faltaron });
+
+            Chart.AddLegend("Leyenda");
+
+            byte[] bytes = Chart.GetBytes();
+
+
+            return bytes;
+        }
+
         public MemoryStream BandejaReporteMultipleExcel(BandejaReporteMultiple data, FileStream TemplateFile)
         {
             try
@@ -380,22 +463,22 @@ namespace BL
                 #region TITULOS
                 ICell TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Unidad");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Empresa");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
                 TemplateCell.SetCellValue("Colaborador");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Tipo Documento");
-                indexcell++;
-
-                TemplateCell = TemplateRow.CreateCell(indexcell);
-                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Nro Documento");
-                indexcell++;
-
-                TemplateCell = TemplateRow.CreateCell(indexcell);
-                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Sede");
+                TemplateCell.SetCellValue("Documento");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
@@ -405,7 +488,22 @@ namespace BL
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Empresa");
+                TemplateCell.SetCellValue("Fecha Inicio");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Capacitador");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Area");
+                indexcell++;
+
+                TemplateCell = TemplateRow.CreateCell(indexcell);
+                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
+                TemplateCell.SetCellValue("Categoria");
                 indexcell++;
 
                 for (int i = 0; i < data.MaximasAsistencias; i++)
@@ -445,22 +543,22 @@ namespace BL
                     #region CAMPOS
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.Sede);
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.Empresa);
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
                     TemplateCell.SetCellValue(Alumno.Nombre);
                     indexcell++;
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.TipoDocumento);
-                    indexcell++;
-
-                    TemplateCell = TemplateRow.CreateCell(indexcell);
-                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.NroDocumento);
-                    indexcell++;
-
-                    TemplateCell = TemplateRow.CreateCell(indexcell);
-                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.Sede);
+                    TemplateCell.SetCellValue(Alumno.TipoDocumento + " - " + Alumno.NroDocumento);
                     indexcell++;
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);
@@ -470,7 +568,22 @@ namespace BL
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.Empresa);
+                    TemplateCell.SetCellValue(Alumno.InicioCurso.ToString("dd/MM/yyyy"));
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.Capacitador);
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.Area);
+                    indexcell++;
+
+                    TemplateCell = TemplateRow.CreateCell(indexcell);
+                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
+                    TemplateCell.SetCellValue(Alumno.Cargo);
                     indexcell++;
 
                     for (int i = 0; i < data.MaximasAsistencias; i++)
@@ -536,6 +649,11 @@ namespace BL
                         case "Promedios":
                             {
                                 Image = ChartPromedio(data);
+                                break;
+                            }
+                        case "Faltas":
+                            {
+                                Image = ChartFaltas(data);
                                 break;
                             }
                     }

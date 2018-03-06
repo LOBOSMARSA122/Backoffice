@@ -39,9 +39,14 @@
         z-index: 9999;
     }
 
-        #Loading > img {
-            width: 200px;
-        }
+    #Loading > img {
+        width: 200px;
+    }
+
+    button{
+        display:inline-block !important;
+        cursor:pointer;
+    }
 </style>
 <div class="container-fluid">
     <div class="box box-default mt-2" id="acordion">
@@ -168,9 +173,11 @@
                 </div>
 
 
-                <div class="col-6 col-sm-4 col-lg-2 col-xl-2">
+                <div class="col-12">
                     <div class="form-group">
-                        <label for=""></label>
+                        <button class="btn-warning boton form-control" onclick="LimpiarFiltros()">
+                            <i class="fa fa-search"></i> Limpiar
+                        </button>
                         <button class="btn-warning boton form-control" onclick="FiltrarUsuarios(1)">
                             <i class="fa fa-search"></i> Filtrar
                         </button>
@@ -199,6 +206,9 @@
                         </button>
                         <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Promedios')">
                             <i class="fa fa-search"></i> Promedios
+                        </button>
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Faltas')">
+                            <i class="fa fa-search"></i> Faltas
                         </button>
                     </div>
                 </nav>
@@ -483,5 +493,19 @@
             }
         }
 
+        function LimpiarFiltros() {
+            $("#Nombre").val("");
+            $("#area").val("");
+            $("#categoria").val("");
+            $("#empresa").val("");
+            $("#ranking").val("");
+            $("#fechainicio").val("");
+            $("#fechafin").val("");
+            $("#sede").val(-1);
+            $("#curso").val(-1);
+            $("#capacitador").val(-1);
+            $("#condicion").val(-1);
+            $("#asistencia").val(-1);
+        }
     </script>
 }
