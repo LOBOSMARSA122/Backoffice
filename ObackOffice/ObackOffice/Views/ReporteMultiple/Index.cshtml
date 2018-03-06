@@ -50,19 +50,47 @@
         </div>
         <div id="collapse1" class="box-body collapse show" aria-labelledby="heading1" style="overflow:hidden;">
             <div class="row">
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
-                        <label for="">Nombre</label>
-                        <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre" />
+                        <label for="">Unidad</label>
+                        @if (ViewBag.SEDES != null)
+                        {
+                            <select name="sede" id="sede" class="form-control">
+                                @foreach (var item in ViewBag.SEDES)
+                                {
+                                    <option value="@item.Id">@item.Value</option>
+                                }
+                            </select>
+                        }
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
-                        <label for="">DNI</label>
-                        <input type="text" id="DNI" name="DNI" class="form-control" maxlength="150" placeholder="Ingrese DNI" />
+                        <label for="">Colaborador</label>
+                        <input type="text" id="Nombre" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nombre / DNI" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Área</label>
+                        <input type="text" id="area" name="area" class="form-control" maxlength="150" placeholder="Ingrese Área" onkeyup="autoComplete('area')" />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Categoría</label>
+                        <input type="text" id="categoria" name="categoria" class="form-control" maxlength="150" placeholder="Ingrese Categoría" onkeyup="autoComplete('categoria')" />
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Empresa</label>
+                        <input type="text" id="empresa" name="empresa" class="form-control" maxlength="150" placeholder="Ingrese Empresa" onkeyup="autoComplete('empresa')" />
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Curso</label>
                         @if (ViewBag.CURSOS != null)
@@ -76,9 +104,21 @@
                         }
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
+                    <div class="form-group">
+                        <label for="">Capacitador</label>
+                        @if (ViewBag.CAPACITADORES != null)
+                        {
+                            <select name="capacitador" id="capacitador" class="form-control">
+                                @foreach (var item in ViewBag.CAPACITADORES)
+                                {
+                                    <option value="@item.Id">@item.Value</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Condición</label>
                         @if (ViewBag.CONDICION != null)
@@ -92,7 +132,9 @@
                         }
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+
+
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Asistencia</label>
                         @if (ViewBag.ASISTENCIA != null)
@@ -106,27 +148,26 @@
                         }
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Ranking</label>
                         <input type="text" id="ranking" name="Nombre" class="form-control" maxlength="150" placeholder="Ingrese Nota" />
                     </div>
                 </div>
-
-            </div>
-            <div class="row">
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Fecha Inicio</label>
-                        <input type="text" id="fechainicio" name="Fecha Inicio" class="form-control" />
+                        <input type="date" id="fechainicio" name="Fecha Inicio" class="form-control" />
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 col-lg-4 col-xl-4">
+                <div class="col-12 col-sm-4 col-lg-3 col-xl-3">
                     <div class="form-group">
                         <label for="">Fecha Fin</label>
-                        <input type="text" id="fechafin" name="Fecha Fin" class="form-control" />
+                        <input type="date" id="fechafin" name="Fecha Fin" class="form-control" />
                     </div>
                 </div>
+
+
                 <div class="col-6 col-sm-4 col-lg-2 col-xl-2">
                     <div class="form-group">
                         <label for=""></label>
@@ -210,14 +251,23 @@
 
         function FiltrarUsuarios(index) {
             data = {
+                area: $("#area").val(),
+                categoria: $("#categoria").val(),
+                empresa: $("#empresa").val(),
+                capacitador: $("#capacitador").val(),
+                sede: $("#sede").val(),
                 Condicion: $("#condicion").val(),
                 Asistencia: $("#asistencia").val(),
                 CursoId: $("#curso").val(),
                 NombreEmpleado: $("#Nombre").val(),
-                DNIEmpleado: $("#DNI").val(),
                 Ranking: $("#ranking").val(),
+<<<<<<< HEAD
                 FechaInicio: $("#fechainicio).val(),
                 FechaFin: $("#fechafin").val(),
+=======
+                FechaInicio: moment($("#fechainicio").val()).format("YYYY/MM/DD"),
+                FechaFin: moment($("#fechafin").val()).format("YYYY/MM/DD"),
+>>>>>>> origin/Jesus
                 Index: index,
                 Take: $("#take").val()
             };
@@ -262,11 +312,17 @@
 
         function OpenChart(Action) {
             data = {
+                empresa: $("#empresa").val(),
+                area: $("#area").val(),
+                categoria: $("#categoria").val(),
+                capacitador: $("#capacitador").val(),
+                sede: $("#sede").val(),
                 Condicion: $("#condicion").val(),
                 Asistencia: $("#asistencia").val(),
                 CursoId: $("#curso").val(),
                 NombreEmpleado: $("#Nombre").val(),
-                DNIEmpleado: $("#DNI").val(),
+                FechaInicio: moment($("#fechainicio").val()).format("YYYY/MM/DD"),
+                FechaFin: moment($("#fechafin").val()).format("YYYY/MM/DD"),
                 Action: Action
             };
 
@@ -328,11 +384,17 @@
                 }
 
                 data = {
+                    empresa: $("#empresa").val(),
+                    area: $("#area").val(),
+                    categoria: $("#categoria").val(),
+                    capacitador: $("#capacitador").val(),
+                    sede: $("#sede").val(),
                     Condicion: $("#condicion").val(),
                     Asistencia: $("#asistencia").val(),
                     CursoId: $("#curso").val(),
                     NombreEmpleado: $("#Nombre").val(),
-                    DNIEmpleado: $("#DNI").val(),
+                    FechaInicio: moment($("#fechainicio").val()).format("YYYY/MM/DD"),
+                    FechaFin: moment($("#fechafin").val()).format("YYYY/MM/DD"),
                     charts: charts
                 };
 
@@ -403,9 +465,28 @@
             }
         }
 
-        $(document).ready(function () {
-            $("#fechainicio").datepicker();
-            $("#fechafin").datepicker();
-        });
+        function autoComplete(Field) {
+            if ($('#' + Field).val().trim() != "") {
+                $.ajax(
+                {
+                    url: '/ReporteMultiple/Autocomplete?campo=' + Field + '&valor=' + $('#' + Field).val(),
+                    type: 'GET',
+                    success: function (availableTags) {
+                        var lista = [];
+                        for (var i = 0; i < availableTags.length; i++) {
+                            lista.push(availableTags[i]);
+                        }
+                        console.log(lista);
+                        $("#" + Field).autocomplete({
+                            source: lista
+                        });
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });
+            }
+        }
+
     </script>
 }

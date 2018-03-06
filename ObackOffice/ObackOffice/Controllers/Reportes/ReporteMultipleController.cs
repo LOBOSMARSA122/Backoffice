@@ -11,18 +11,23 @@ namespace ObackOffice.Controllers.Reportes
     public class ReporteMultipleController : Controller
     {
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public JsonResult Chart(string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
+        public JsonResult Chart(string area, string categoria, string empresa, string capacitador, string sede, string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string Action, string FechaInicio, string FechaFin)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
-            { 
-                { "SedeId", "1" },
+            {
+                { "Area", area },
+                { "Categoria", categoria },
+                { "Empresa", empresa },
+                { "Capacitador", capacitador },
+                { "SedeId", sede },
                 { "Condicion", Condicion },
                 { "Asistencia", Asistencia},
                 { "EventoId", "1" },
                 { "CursoId", CursoId },
                 { "NombreEmpleado", NombreEmpleado },
-                { "DNIEmpleado", DNIEmpleado },
+                { "FechaInicio", FechaInicio},
+                { "FechaFin", FechaFin},
                 { "Action", Action }
             };
 
@@ -48,25 +53,36 @@ namespace ObackOffice.Controllers.Reportes
             };
             ViewBag.ASISTENCIA = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
 
+            args = new Dictionary<string, string>
+            {
+                { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
+            };
+            ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
+
             ViewBag.CURSOS = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
+
+            ViewBag.CAPACITADORES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Capacitador/ddlCapacitador"), Constantes.All);
 
             ViewBag.REGISTROS = new BandejaReporteMultiple() { Lista = new List<ReporteMultipleList>(),Take = 10};
             return View();
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public ActionResult FiltrarReporteMultiple(string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string DNIEmpleado, string Ranking, string FechaInicio, string FechaFin, string Index, string Take)
+        public ActionResult FiltrarReporteMultiple(string area, string categoria, string empresa, string capacitador, string sede, string Condicion, string Asistencia, string CursoId, string NombreEmpleado, string Ranking, string FechaInicio, string FechaFin, string Index, string Take)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
-                { "SedeId", "1" },
+                { "Area", area },
+                { "Categoria", categoria },
+                { "Empresa", empresa},
+                { "CapacitadorId", capacitador },
+                { "SedeId", sede },
                 { "Condicion", Condicion },
                 { "Asistencia", Asistencia },
                 { "EventoId", "1" },
                 { "CursoId", CursoId },
                 { "NombreEmpleado", NombreEmpleado },
-                { "DNIEmpleado", DNIEmpleado },
                 { "Ranking", Ranking },
                 { "FechaInicio", FechaInicio },
                 { "FechaFin", FechaFin },
@@ -78,22 +94,27 @@ namespace ObackOffice.Controllers.Reportes
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]
-        public JsonResult CrearExcel(int Condicion, int Asistencia, int CursoId, string NombreEmpleado, string DNIEmpleado, string[] Charts)
+        public JsonResult CrearExcel(string area, string categoria, string empresa, int capacitador, int sede, int Condicion, int Asistencia, int CursoId, string NombreEmpleado, string FechaInicio, string FechaFin, string[] Charts)
         {
             Api API = new Api();
 
             BandejaReporteMultiple data = new BandejaReporteMultiple()
             {
+                Area = area,
+                Categoria = categoria,
+                Empresa = empresa,
+                CapacitadorId = capacitador,
                 Index = 1,
                 Take = 0,
                 Charts = Charts,
-                SedeId = 1,
+                SedeId = sede,
                 EventoId = 1,
                 CursoId = CursoId,
                 NombreEmpleado = NombreEmpleado,
-                DNIEmpleado = DNIEmpleado,
                 Condicion = Condicion,
-                Asistencia = Asistencia
+                Asistencia = Asistencia,
+                FechaInicio = FechaInicio,
+                FechaFin = FechaFin
             };
 
             Dictionary<string, string> args = new Dictionary<string, string>
@@ -111,6 +132,19 @@ namespace ObackOffice.Controllers.Reportes
             Response.End();
 
             return Json(Response);
+        }
+
+        public JsonResult Autocomplete(string campo, string valor)
+        {
+            Api API = new Api();
+            string url = "ReporteMultiple/GetAutocomplete";
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "campo",campo},
+                { "valor",valor }
+            };
+            List<string> data = API.Get<List<string>>(url, args);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

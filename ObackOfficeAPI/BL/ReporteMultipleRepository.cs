@@ -7,6 +7,7 @@ using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Web.Helpers;
+using System.Globalization;
 
 namespace BL
 {
@@ -24,14 +25,18 @@ namespace BL
                 int ConsidionGroupId = (int)Enumeradores.GrupoParametros.Condición;
                 int AsistenciaGroupId = (int)Enumeradores.GrupoParametros.Asistencia;
                 string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
-                string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+                string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+                string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+                int EmpresaId = 0;
+                if (!string.IsNullOrWhiteSpace(data.Empresa))
+                {
+                    EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+                }
                 int skip = (data.Index - 1) * data.Take;
 
-                //DateTime fi = DateTime.Parse("2018-02-04 00:00:00.000");
-                //DateTime ff = DateTime.Parse("2018-02-05 00:00:00.000");
+                bool validfi = DateTime.TryParseExact(data.FechaInicio,"yyyy/MM/dd",CultureInfo.InvariantCulture,DateTimeStyles.None, out DateTime fi);
+                bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
 
-                DateTime fi = data.FechaInicio;
-                DateTime ff = data.FechaFin.AddDays(1);
                 var query = (from a in ctx.CursosProgramados
                                    join b in ctx.Eventos on a.EventoId equals b.EventoId
                                    join c in ctx.Cursos on a.CursoId equals c.CursoId
@@ -49,12 +54,16 @@ namespace BL
                                    (data.SedeId == -1 || data.SedeId == b.SedeId) &&
                                    (data.EventoId == -1 || data.EventoId == b.EventoId) &&
                                    (data.CursoId == -1 || data.CursoId == a.CursoId) &&
-                                   (NombreEmpleado == null || (j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno).Contains(NombreEmpleado)) &&
-                                   (DNIEmpleado == null || j.NroDocumento.Contains(DNIEmpleado)) &&
+                                   (NombreEmpleado == null || (j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno).Contains(NombreEmpleado) || j.NroDocumento.Contains(NombreEmpleado)) &&
                                    (data.Asistencia == -1 || data.Asistencia == d.Asistio) &&
                                    (data.Condicion == -1 || data.Condicion == g.CondicionId) &&
                                    (data.Ranking == null || g.NotaFinal >= data.Ranking) &&
-                                   //(n.FechaInicio >= fi && n.FechaInicio <= ff) &&
+                                   (!validfi || n.FechaInicio >= fi) && 
+                                   (!validff || n.FechaInicio <= ff) &&
+                                   (Area == null || i.Area == Area) &&
+                                   (Categoria == null || i.Cargo == Categoria) &&
+                                   (EmpresaId == 0 || g.EmpresaId == EmpresaId) &&
+                                   (data.CapacitadorId == -1 || e.CapacitadorId == data.CapacitadorId) &&
                                    a.EsEliminado == NoEsEliminado
                                    select new
                                    {
@@ -121,12 +130,20 @@ namespace BL
         public byte[] ChartAsistencia(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
-            string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+            string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+            string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+            int EmpresaId = 0;
+            if (!string.IsNullOrWhiteSpace(data.Empresa))
+            {
+                EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+            }
             int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
 
             int AsistieronID = (int)Enumeradores.Asistencia.Asistio;
             int FaltaronID = (int)Enumeradores.Asistencia.Falto;
 
+            bool validfi = DateTime.TryParseExact(data.FechaInicio, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fi);
+            bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
 
             var listado_temp = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
@@ -140,10 +157,15 @@ namespace BL
                            (data.CursoId == -1 || d.CursoId == data.CursoId) &&
                            (data.EventoId == -1 || c.EventoId == data.EventoId) &&
                            (data.SedeId == -1 || g.SedeId == data.SedeId) &&
-                           (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado)) &&
-                           (DNIEmpleado == null || h.NroDocumento.Contains(DNIEmpleado)) &&
+                           (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado) || h.NroDocumento.Contains(NombreEmpleado)) &&
                            (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
                            (data.Asistencia == -1 || data.Asistencia == e.Asistio) &&
+                           (Area == null ^ f.Area == Area) &&
+                           (Categoria == null ^ f.Cargo == Categoria) &&
+                           (EmpresaId == 0 || a.EmpresaId == EmpresaId) &&
+                           (data.CapacitadorId == -1 || b.CapacitadorId == data.CapacitadorId) &&
+                           (!validfi || c.FechaInicio >= fi) &&
+                            (!validff || c.FechaInicio <= ff) &&
                            a.EsEliminado == NoEsEliminado
                            select new
                            {
@@ -192,13 +214,21 @@ namespace BL
         public byte[] ChartAprobados(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
-            string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+            string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+            string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+            int EmpresaId = 0;
+            if (!string.IsNullOrWhiteSpace(data.Empresa))
+            {
+                EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+            }
             int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
 
             int AprobaronID = (int)Enumeradores.Condicion.Aprobado;
             int DesaprobaronID = (int)Enumeradores.Condicion.Desaprobado;
             int PorIniciarID = (int)Enumeradores.Condicion.PorIniciar;
 
+            bool validfi = DateTime.TryParseExact(data.FechaInicio, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fi);
+            bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
 
             var listado_temp = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
@@ -212,10 +242,15 @@ namespace BL
                            (data.CursoId == -1 || d.CursoId == data.CursoId) &&
                            (data.EventoId == -1 || c.EventoId == data.EventoId) &&
                            (data.SedeId == -1 || f.SedeId == data.SedeId) &&
-                           (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
-                           (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
+                           (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado) || g.NroDocumento.Contains(NombreEmpleado)) &&
                            (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
                            (data.Asistencia == -1 || data.Asistencia == h.Asistio) &&
+                           (Area == null ^ e.Area == Area) &&
+                           (Categoria == null ^ e.Cargo == Categoria) &&
+                           (EmpresaId == 0 || a.EmpresaId == EmpresaId) &&
+                           (!validfi || c.FechaInicio >= fi) &&
+                            (!validff || c.FechaInicio <= ff) &&
+                           (data.CapacitadorId == -1 || b.CapacitadorId == data.CapacitadorId) &&
                            a.EsEliminado == NoEsEliminado
                            select new
                            {
@@ -259,8 +294,17 @@ namespace BL
         public byte[] ChartPromedio(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
-            string DNIEmpleado = string.IsNullOrWhiteSpace(data.DNIEmpleado) ? null : data.DNIEmpleado;
+            string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+            string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+            int EmpresaId = 0;
+            if (!string.IsNullOrWhiteSpace(data.Empresa))
+            {
+                EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+            }
             int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
+
+            bool validfi = DateTime.TryParseExact(data.FechaInicio, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fi);
+            bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
 
             var listado_temp = (from a in ctx.EmpleadoCursos
                            join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
@@ -274,10 +318,15 @@ namespace BL
                            (data.CursoId == -1 || d.CursoId == data.CursoId) &&
                            (data.EventoId == -1 || c.EventoId == data.EventoId) &&
                            (data.SedeId == -1 || f.SedeId == data.SedeId) &&
-                           (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado)) &&
-                           (DNIEmpleado == null || g.NroDocumento.Contains(DNIEmpleado)) &&
+                           (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado) || g.NroDocumento.Contains(NombreEmpleado)) &&
                            (data.Asistencia == -1 || data.Asistencia == h.Asistio) &&
                            (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
+                           (Area == null || e.Area == Area) &&
+                           (Categoria == null || e.Cargo == Categoria) &&
+                           (EmpresaId == 0 || a.EmpresaId == EmpresaId) &&
+                           (!validfi || c.FechaInicio >= fi) &&
+                            (!validff || c.FechaInicio <= ff) &&
+                           (data.CapacitadorId == -1 || b.CapacitadorId == data.CapacitadorId) &&
                            a.EsEliminado == NoEsEliminado
                            select new
                            {
@@ -331,7 +380,7 @@ namespace BL
                 #region TITULOS
                 ICell TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Alumno");
+                TemplateCell.SetCellValue("Colaborador");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
@@ -370,11 +419,6 @@ namespace BL
                 TemplateCell = TemplateRow.CreateCell(indexcell);
                 TemplateCell.CellStyle = CeldaTitulo.CellStyle;
                 TemplateCell.SetCellValue("Examen Teorico");
-                indexcell++;
-
-                TemplateCell = TemplateRow.CreateCell(indexcell);
-                TemplateCell.CellStyle = CeldaTitulo.CellStyle;
-                TemplateCell.SetCellValue("Taller");
                 indexcell++;
 
                 TemplateCell = TemplateRow.CreateCell(indexcell);
@@ -440,11 +484,6 @@ namespace BL
                     TemplateCell = TemplateRow.CreateCell(indexcell);
                     TemplateCell.CellStyle = CeldaNormal.CellStyle;
                     TemplateCell.SetCellValue(Alumno.Nota.ToString());
-                    indexcell++;
-
-                    TemplateCell = TemplateRow.CreateCell(indexcell);
-                    TemplateCell.CellStyle = CeldaNormal.CellStyle;
-                    TemplateCell.SetCellValue(Alumno.NotaTaller);
                     indexcell++;
 
                     TemplateCell = TemplateRow.CreateCell(indexcell);
@@ -531,6 +570,27 @@ namespace BL
             {
                 return null;
             }
+        }
+
+        public List<string> GetAreaAutocomplete(string valor)
+        {
+            List<string> data = (from a in ctx.Empleados select a.Area).ToList().Select(x => x.ToUpper()).Distinct().Where(x => x.Contains(valor.ToUpper())).ToList();
+
+            return data;
+        }
+
+        public List<string> GetCategoriaAutocomplete(string valor)
+        {
+            List<string> data = (from a in ctx.Empleados select a.Cargo).ToList().Select(x => x.ToUpper()).Distinct().Where(x => x.Contains(valor.ToUpper())).ToList();
+
+            return data;
+        }
+
+        public List<string> GetEmpresaAutocomplete(string valor)
+        {
+            List<string> data = (from a in ctx.Empresas select a.RazonSocial).ToList().Select(x => x.ToUpper()).Distinct().Where(x => x.Contains(valor.ToUpper())).ToList();
+
+            return data;
         }
     }
 }

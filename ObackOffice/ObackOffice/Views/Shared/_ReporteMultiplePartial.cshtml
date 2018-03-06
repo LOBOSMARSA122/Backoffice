@@ -55,7 +55,7 @@
                         <th class="headerOnTop" colspan="@MaximasAsistencias">Asistencias</th>
                     </tr>
                     <tr>
-                        <th>Alumno</th>
+                        <th>Colaborador</th>
                         <th class="hidden-xs hidden-sm hidden-md">Tipo Documento</th>
                         <th class="hidden-xs">Nro Documento</th>
                         <th class="hidden-xs hidden-sm">Sede</th>
@@ -68,7 +68,6 @@
                             }
                         }
                         <th class="hidden-xs hidden-sm">Examen Teórico</th>
-                        <th class="hidden-xs hidden-sm">Taller</th>
                         <th>Nota Taller</th>
                         <th>Nota Final</th>
                         <th>Condición</th>
@@ -108,7 +107,6 @@
 
                                     }
                                     <td class="hidden-xs hidden-sm">@item.Nota</td>
-                                    <td class="hidden-xs hidden-sm">@item.NotaTaller</td>
                                     <td>@(item.TallerValor.HasValue ? item.TallerValor.Value.ToString() : "")</td>
                                     <td>@item.NotaFinal</td>
                                     <td>@item.Condicion</td>
