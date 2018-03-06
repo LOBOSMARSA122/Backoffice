@@ -70,6 +70,10 @@ namespace BE.Comun
 
     public class BandejaReporteMultiple : Bandejas
     {
+        public string Area { get; set; }
+        public string Categoria { get; set; }
+        public string Empresa { get; set; }
+        public int CapacitadorId { get; set; }
         public int Condicion { get; set; }
         public int Asistencia { get; set; }
         public int SedeId { get; set; }
@@ -78,8 +82,8 @@ namespace BE.Comun
         public string NombreEmpleado { get; set; }
         public string DNIEmpleado { get; set; }
         public decimal? Ranking { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin { get; set; }
+        public string FechaInicio { get; set; }
+        public string FechaFin { get; set; }
         public int MaximasAsistencias { get; set; }
         public string[] Charts { get; set; }
         public List<ReporteMultipleList> Lista { get; set; }

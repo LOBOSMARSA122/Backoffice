@@ -23,18 +23,21 @@ namespace ObackOfficeAPI.Controllers.Reportes
         }
 
         [HttpGet]
-        public IHttpActionResult Chart(int Condicion, int Asistencia, int SedeId, int EventoId, int CursoId, string NombreEmpleado, string DNIEmpleado, string Action)
+        public IHttpActionResult Chart(string Area, string Categoria, string Empresa, int Capacitador, int Condicion, int Asistencia, int SedeId, int EventoId, int CursoId, string NombreEmpleado, string Action)
         {
             if (SedeId == 0 || EventoId == 0 || CursoId == 0 || string.IsNullOrWhiteSpace(Action))
                 return BadRequest("Alguno de los parámetros es incorrecto");
 
             BandejaReporteMultiple data = new BE.Comun.BandejaReporteMultiple()
             {
+                Area = Area,
+                Categoria = Categoria,
+                Empresa = Empresa,
+                CapacitadorId = Capacitador,
                 SedeId = SedeId,
                 EventoId = EventoId,
                 CursoId = CursoId,
                 NombreEmpleado = NombreEmpleado,
-                DNIEmpleado = DNIEmpleado,
                 Condicion = Condicion,
                 Asistencia = Asistencia
             };
@@ -101,6 +104,32 @@ namespace ObackOfficeAPI.Controllers.Reportes
             response.Write(binaryData, 0, (int)inFile.Length);
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetAutocomplete(string campo, string valor)
+        {
+            List<string> data = new List<string>();
+            switch (campo)
+            {
+                case "area":
+                    {
+                        data = rmr.GetAreaAutocomplete(valor);
+                        break;
+                    }
+                case "categoria":
+                    {
+                        data = rmr.GetCategoriaAutocomplete(valor);
+                        break;
+                    }
+                case "empresa":
+                    {
+                        data = rmr.GetEmpresaAutocomplete(valor);
+                        break;
+                    }
+            }
+
+            return Ok(data);
         }
     }
 }
