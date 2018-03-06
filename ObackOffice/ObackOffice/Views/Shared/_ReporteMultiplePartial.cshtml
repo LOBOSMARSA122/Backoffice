@@ -48,19 +48,22 @@
             <table class="table table-hover" id="TablaAExportar">
                 <thead>
                     <tr>
-                        <th colspan="2" class="hidden-sm hidden-md hidden-lg hidden-xl"></th>
-                        <th colspan="4" class="hidden-xs hidden-md hidden-lg hidden-xl"></th>
-                        <th colspan="5" class="hidden-xs hidden-sm hidden-lg hidden-xl"></th>
-                        <th colspan="6" class="hidden-xs hidden-sm hidden-md"></th>
+                        <th colspan="6" class="hidden-sm hidden-md hidden-lg hidden-xl"></th>
+                        <th colspan="7" class="hidden-xs hidden-md hidden-lg hidden-xl"></th>
+                        <th colspan="8" class="hidden-xs hidden-sm hidden-lg hidden-xl"></th>
+                        <th colspan="9" class="hidden-xs hidden-sm hidden-md"></th>
                         <th class="headerOnTop" colspan="@MaximasAsistencias">Asistencias</th>
                     </tr>
                     <tr>
-                        <th>Colaborador</th>
-                        <th class="hidden-xs hidden-sm hidden-md">Tipo Documento</th>
-                        <th class="hidden-xs">Nro Documento</th>
-                        <th class="hidden-xs hidden-sm">Sede</th>
-                        <th>Curso</th>
+                        <th class="hidden-xs hidden-sm">Unidad</th>
                         <th class="hidden-xs">Empresa</th>
+                        <th>Colaborador</th>
+                        <th class="hidden-xs hidden-sm hidden-md">Documento</th>
+                        <th>Curso</th>
+                        <th>Fecha Inicio</th>
+                        <th>Capacitador</th>
+                        <th>Área</th>
+                        <th>Categoría</th>
                         @{
                             for (int i = 1; i <= MaximasAsistencias; i++)
                             {
@@ -88,12 +91,15 @@
                             foreach (ObackOffice.Models.ReporteMultipleList item in ViewBag.REGISTROS.Lista)
                             {
                                 <tr>
-                                    <td>@item.Nombre</td>
-                                    <td class="hidden-xs hidden-sm hidden-md">@item.TipoDocumento</td>
-                                    <td class="hidden-xs">@item.NroDocumento</td>
                                     <td class="hidden-xs hidden-sm">@item.Sede</td>
-                                    <td>@item.Curso</td>
                                     <td class="hidden-xs">@item.Empresa</td>
+                                    <td>@item.Nombre</td>
+                                    <td class="hidden-xs hidden-sm hidden-md">@item.TipoDocumento - @item.NroDocumento</td>
+                                    <td>@item.Curso</td>
+                                    <td>@item.InicioCurso.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.Capacitador</td>
+                                    <td>@item.Area</td>
+                                    <td>@item.Cargo</td>
                                     @for (int i = 0; i < MaximasAsistencias; i++)
                                     {
                                         if (item.Asistencia.Count > i)

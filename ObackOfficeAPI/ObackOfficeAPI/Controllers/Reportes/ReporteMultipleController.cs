@@ -56,6 +56,10 @@ namespace ObackOfficeAPI.Controllers.Reportes
                     {
                         return Ok(Convert.ToBase64String(rmr.ChartPromedio(data)));
                     }
+                case "Faltas":
+                    {
+                        return Ok(Convert.ToBase64String(rmr.ChartFaltas(data)));
+                    }
             }
 
             return BadRequest("No se encontró la acción dentro del controlador.");
