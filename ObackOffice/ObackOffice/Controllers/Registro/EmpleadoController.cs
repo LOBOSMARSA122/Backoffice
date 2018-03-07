@@ -190,5 +190,26 @@ namespace ObackOffice.Controllers.Registro
 
             return View(data);
         }
+
+        [GeneralSecurity(Rol = "Empleado-Historial de Notas")]
+        public JsonResult DownloadFile(string documento)
+        {
+            Api API = new Api();
+            Dictionary<string, string> arg = new Dictionary<string, string>()
+            {
+                { "documento", documento },
+            };
+
+            byte[] ms = API.PostDownloadStream("ReporteMultiple/DownloadFile", arg);
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("Content-Disposition", "attachment; filename=FileName.pdf");
+            Response.BinaryWrite(ms);
+            Response.End();
+
+            return Json(Response);
+        }
     }
 }
