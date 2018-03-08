@@ -5,10 +5,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Web;
 using System.Web.Http;
 
 namespace ObackOfficeAPI.Controllers.Administracion
@@ -43,6 +45,18 @@ namespace ObackOfficeAPI.Controllers.Administracion
             {
                 return BadRequest("Parámetros incorrectos");
             }
+        }
+
+        [HttpPost]
+        public IHttpActionResult CargaExamenDiploma(MultiDataModel data)
+        {
+            Dictionary<string, byte[]> listado = JsonConvert.DeserializeObject<Dictionary<string, byte[]>>(data.String1);
+            string directorioExamenes = string.Format("{0}{1}\\", System.Web.Hosting.HostingEnvironment.MapPath("~/"), System.Configuration.ConfigurationManager.AppSettings["directorioExamenes"].ToString());
+            string directorioDiplomas = string.Format("{0}{1}\\", System.Web.Hosting.HostingEnvironment.MapPath("~/"), System.Configuration.ConfigurationManager.AppSettings["directorioDiplomas"].ToString());
+
+            var response = rr.CargaExamenDiploma(listado,directorioExamenes,directorioDiplomas);
+
+            return Ok(response);
         }
     }
 }

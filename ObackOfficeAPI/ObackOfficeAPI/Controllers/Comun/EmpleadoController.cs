@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.IO;
 using System.Web.Http;
 
 namespace ObackOfficeAPI.Controllers.Comun
@@ -50,6 +51,17 @@ namespace ObackOfficeAPI.Controllers.Comun
 
             List<ReporteMultipleList> data = er.ObtenerHistorialEmpleado(usuarioId);
             return Ok(data);
+        }
+
+        [HttpPost]
+        public IHttpActionResult DownloadFile(data data)
+        {
+            string directorioExamenes = string.Format("{0}{1}\\", System.Web.Hosting.HostingEnvironment.MapPath("~/"), System.Configuration.ConfigurationManager.AppSettings["directorioExamenes"].ToString());
+            string directorioDiplomas = string.Format("{0}{1}\\", System.Web.Hosting.HostingEnvironment.MapPath("~/"), System.Configuration.ConfigurationManager.AppSettings["directorioDiplomas"].ToString());
+
+            MemoryStream response = er.DownloadFile(data.documento, directorioExamenes, directorioDiplomas);
+
+            return Ok(response);
         }
     }
 }

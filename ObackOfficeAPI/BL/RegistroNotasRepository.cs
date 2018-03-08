@@ -5,8 +5,7 @@ using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace BL
 {
@@ -226,6 +225,46 @@ namespace BL
                 ctx.Database.CurrentTransaction.Rollback();
                 throw;
             }
+        }
+
+        public List<string> CargaExamenDiploma(Dictionary<string, byte[]> lista,string directorioExamenes, string directorioDiplomas)
+        {
+            List<string> return_data = new List<string>();
+            foreach (var Archivo in lista)
+            {
+                try
+                {
+                    string path = "";
+
+                    switch (Archivo.Key.Split('-')[0])
+                    {
+                        case "E":
+                            {
+                                path = directorioExamenes;
+                                break;
+                            }
+                        case "D":
+                            {
+                                path = directorioDiplomas;
+                                break;
+                            }
+                        default:
+                            {
+                                throw new Exception();
+                            }
+                    }
+
+                    path += Archivo.Key;
+
+                    File.WriteAllBytes(path, Archivo.Value);
+                    
+                }
+                catch (Exception e)
+                {
+                    return_data.Add(Archivo.Key);
+                }
+            }
+            return return_data;
         }
     }
 }

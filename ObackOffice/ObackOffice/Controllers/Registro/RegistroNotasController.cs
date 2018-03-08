@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
+using ObackOffice.Controllers.Seguridad;
 using ObackOffice.Models;
 using ObackOffice.Models.Administracion;
 using ObackOffice.Models.Comun;
 using ObackOffice.Utils;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.IO;
 using System.Web.Mvc;
 
 namespace ObackOffice.Controllers.Registro
@@ -78,5 +77,35 @@ namespace ObackOffice.Controllers.Registro
             return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+        [GeneralSecurity(Rol = "Administración-Subir Documentos")]
+        public ActionResult SubirDocumentos()
+        {
+            return View();
+        }
+
+        [GeneralSecurity(Rol = "Administración-Subir Documentos")]
+        public JsonResult CargaArchivo()
+        {
+            Api API = new Api();
+
+            Dictionary<string, byte[]> list = new Dictionary<string, byte[]>();
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                using (var binaryReader = new BinaryReader(Request.Files[i].InputStream))
+                {
+                    list.Add(Request.Files[i].FileName, binaryReader.ReadBytes(Request.Files[i].ContentLength));
+                }
+            }
+
+
+            Dictionary<string, string> args = new Dictionary<string, string>()
+            {
+                {"String1", JsonConvert.SerializeObject(list)}
+            };
+
+            var response = API.Post<List<string>>("RegistroNotas/CargaExamenDiploma", args);
+
+            return Json(response);
+        }
     }
 }

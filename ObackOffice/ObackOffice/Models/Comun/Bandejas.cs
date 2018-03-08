@@ -44,6 +44,7 @@ namespace ObackOffice.Models
     public class ReporteAcademicoList
     {
         public int CursoProgramadoId { get; set; }
+        public int EmpleadoCursoId { get; set; }
         public int PersonaId { get; set; }
         public string Nombre { get; set; }
         public string TipoDocumento { get; set; }

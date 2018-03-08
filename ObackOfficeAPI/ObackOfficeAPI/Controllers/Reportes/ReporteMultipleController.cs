@@ -77,24 +77,6 @@ namespace ObackOfficeAPI.Controllers.Reportes
             return Ok(response);
         }
 
-
-        [HttpPost]
-        public IHttpActionResult DownloadFile(data data)
-        {
-            string fullPath ="";
-            if (data.documento == "Diploma") fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/diploma.pdf");
-            else fullPath = HostingEnvironment.MapPath(@"~/Plantillas Excel/examen.pdf");
-
-            byte[] binaryData;
-            FileStream inFile = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
-            binaryData = new Byte[inFile.Length];
-            inFile.Read(binaryData, 0, (int)inFile.Length);
-            MemoryStream response = new MemoryStream();
-            response.Write(binaryData, 0, (int)inFile.Length);
-            
-            return Ok(response);
-        }
-
         [HttpPost]
         public IHttpActionResult DownloadFileValidacion()
         {
