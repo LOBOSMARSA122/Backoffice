@@ -39,13 +39,13 @@
         z-index: 9999;
     }
 
-    #Loading > img {
-        width: 200px;
-    }
+        #Loading > img {
+            width: 200px;
+        }
 
-    button{
-        display:inline-block !important;
-        cursor:pointer;
+    button {
+        display: inline-block !important;
+        cursor: pointer;
     }
 </style>
 <div class="container-fluid">
@@ -213,7 +213,8 @@
                     </div>
                 </nav>
             </div>
-            <div class="row" id="containers"></div>
+            <div class="row" id="containers">
+            </div>
         </div>
     </div>
     <div>
@@ -232,7 +233,36 @@
 </div>
 
 @section Scripts{
+    <link href="~/Content/css/highcharts.css" rel="stylesheet">
+    <script src="~/Scripts/highcharts.js"></script>
     <script>
+
+        $(function () {
+            var myChart = Highcharts.chart('containers', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Fruit Consumption'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Bananas', 'Oranges']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Fruit eaten'
+                    }
+                },
+                series: [{
+                    name: 'Jane',
+                    data: [1, 0, 4]
+                }, {
+                    name: 'John',
+                    data: [5, 7, 3]
+                }]
+            });
+        });
+
         var alturaTabla;
         function ColapsarFiltro(id) {
             setTimeout(function () {
@@ -473,23 +503,23 @@
         function autoComplete(Field) {
             if ($('#' + Field).val().trim() != "") {
                 $.ajax(
-                {
-                    url: '/ReporteMultiple/Autocomplete?campo=' + Field + '&valor=' + $('#' + Field).val(),
-                    type: 'GET',
-                    success: function (availableTags) {
-                        var lista = [];
-                        for (var i = 0; i < availableTags.length; i++) {
-                            lista.push(availableTags[i]);
+                    {
+                        url: '/ReporteMultiple/Autocomplete?campo=' + Field + '&valor=' + $('#' + Field).val(),
+                        type: 'GET',
+                        success: function (availableTags) {
+                            var lista = [];
+                            for (var i = 0; i < availableTags.length; i++) {
+                                lista.push(availableTags[i]);
+                            }
+                            console.log(lista);
+                            $("#" + Field).autocomplete({
+                                source: lista
+                            });
+                        },
+                        error: function () {
+                            alert('error');
                         }
-                        console.log(lista);
-                        $("#" + Field).autocomplete({
-                            source: lista
-                        });
-                    },
-                    error: function () {
-                        alert('error');
-                    }
-                });
+                    });
             }
         }
 

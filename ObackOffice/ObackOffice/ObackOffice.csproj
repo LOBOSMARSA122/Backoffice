@@ -217,6 +217,7 @@
     <Content Include="Content\css\fontello-ie7.css" />
     <Content Include="Content\css\fontello.css" />
     <Content Include="Content\css\FullCalendar-custom.css" />
+    <Content Include="Content\css\highcharts.css" />
     <Content Include="Content\font\fontello.svg" />
     <Content Include="Content\font\user-plus.svg" />
     <Content Include="Content\fullcalendar.css" />
@@ -302,6 +303,7 @@
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\gcal.js" />
     <Content Include="Scripts\gcal.min.js" />
+    <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
