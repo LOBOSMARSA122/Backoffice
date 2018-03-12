@@ -22,20 +22,20 @@ namespace ObackOffice.Controllers.Administracion
                 { "grupoId", ((int)Enums.Parametros.Sedes).ToString() }
             };
             ViewBag.SEDES = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Parametro/GetParametroByGrupoId", args), Constantes.All);
-
+            ViewBag.CURSOS = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Curso/ddlCurso"), Constantes.All);
             ViewBag.CAPACITADOR = Utils.Utils.LoadDropDownList(API.Get<List<Dropdownlist>>("Capacitador/ddlCapacitador"), Constantes.Select);
 
             return View();
         }
 
         [GeneralSecurity(Rol = "Administración-Programación de Cursos")]
-        public JsonResult FiltrarCalendario(string SedeId, string EventoId, string CursoId, string year, string month)
+        public JsonResult FiltrarCalendario(string SedeId, string CursoId, string year, string month)
         {
             Api API = new Api();
             Dictionary<string, string> args = new Dictionary<string, string>
             {
                 { "SedeId",SedeId },
-                { "EventoId",EventoId },
+                { "EventoId", "1" },
                 { "CursoId",CursoId },
                 { "year",year },
                 { "month",month }
@@ -52,6 +52,7 @@ namespace ObackOffice.Controllers.Administracion
             Api API = new Api();
 
             ProgramacionCursos prog = JsonConvert.DeserializeObject<ProgramacionCursos>(data);
+            prog.EventoId = 1;
             prog.UsuarioActualizaID = ViewBag.USUARIO.UsuarioId;
 
             Dictionary<string, string> args = new Dictionary<string, string>

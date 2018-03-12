@@ -504,6 +504,7 @@
     <Content Include="Views\Empleado\HistorialDeNotas.cshtml" />
     <Content Include="Scripts\JqueryFormValidate.min.js" />
     <Content Include="Views\Acceso\CargaMasiva.cshtml" />
+    <Content Include="Views\RegistroNotas\SubirDocumentos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

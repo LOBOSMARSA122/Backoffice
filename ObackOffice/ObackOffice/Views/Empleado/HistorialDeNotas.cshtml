@@ -51,8 +51,8 @@
                                     <td class="hidden-xs hidden-sm">@Curso.Nota</td>
                                     <td class="hidden-xs hidden-sm">@Curso.NotaTaller</td>
                                     <td>@Curso.Condicion</td>
-                                    <td onclick="DownloadFile('Examen')"><i class="icon-check"></i></td>
-                                    <td onclick="DownloadFile('Diploma')"><i class="icon-graduation-cap"></i></td>
+                                    <td onclick="DownloadFile('E-@Curso.EmpleadoCursoId')"><i class="icon-check"></i></td>
+                                    <td onclick="DownloadFile('D-@Curso.EmpleadoCursoId')"><i class="icon-graduation-cap"></i></td>
                                 </tr>
                             }
                         }
@@ -79,7 +79,7 @@
             cache: false,
             method: 'POST',
             data: data,
-            url: '/ReporteAcademico/DownloadFile',
+            url: '/Empleado/DownloadFile',
             success: function (response) {
                 $("#Loading").hide();
                 var base64 = JSON.parse(response);

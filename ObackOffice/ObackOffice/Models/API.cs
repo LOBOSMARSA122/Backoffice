@@ -6,6 +6,7 @@ using System.Net;
 using System.IO;
 using System.Configuration;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace ObackOffice.Models
 {
@@ -87,6 +88,7 @@ namespace ObackOffice.Models
         {
             return CallStream(relativePath, HttpVerb.POST, arr);
         }
+
         public byte[] PostDownloadStream(string relativePath, Dictionary<string, string> args)
         {
             return CallStream(relativePath, HttpVerb.POST, args);
@@ -288,6 +290,7 @@ namespace ObackOffice.Models
                 throw;
             }
         }
+
 
         private string EncodeDictionary(Dictionary<string, string> dict, bool questionMark)
         {

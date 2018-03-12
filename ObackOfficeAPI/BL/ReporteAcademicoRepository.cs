@@ -86,7 +86,8 @@ namespace BL
                              InicioCurso = grp.FirstOrDefault().InicioCurso,
                              FinCurso = grp.FirstOrDefault().FinCurso,
                              Observaciones = grp.FirstOrDefault().Observaciones,
-                             NotaFinal = grp.FirstOrDefault().NotaFinal
+                             NotaFinal = grp.FirstOrDefault().NotaFinal,
+                             EmpleadoCursoId = grp.FirstOrDefault().EmpleadoCursoId
                          }).ToList();
 
 

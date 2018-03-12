@@ -99,7 +99,7 @@ namespace ObackOffice.Controllers.Reportes
                 { "documento", documento },               
             };
 
-            byte[] ms = API.PostDownloadStream("ReporteMultiple/DownloadFile", arg);
+            byte[] ms = API.PostDownloadStream("Empleado/DownloadFile", arg);
 
             Response.ClearContent();
             Response.ClearHeaders();

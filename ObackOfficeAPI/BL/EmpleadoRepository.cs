@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace BL
 {
@@ -303,10 +304,73 @@ namespace BL
                                        Nota = d.Nota,
                                        NotaTaller = d.NotaTaller,
                                        Condicion = h.Valor1,
-                                       Capacitador = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno
+                                       Capacitador = j.Nombres + " " + j.ApellidoPaterno + " " + j.ApellidoMaterno,
+                                       EmpleadoCursoId = d.EmpleadoCursoId
                                    }).ToList();
 
                 return return_data;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+        }
+
+        public MemoryStream DownloadFile(string data, string directorioExamenes, string directorioDiplomas)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(data))
+                    throw new Exception();
+
+                string tipoArchivo = data.Split('-')[0];
+                int EmpleadoCursoId = int.Parse(data.Split('-')[1]);
+
+                string basePath = "";
+
+                switch (tipoArchivo)
+                {
+                    case "E":
+                        {
+                            basePath = directorioExamenes;
+                            break;
+                        }
+                    case "D":
+                        {
+                            basePath = directorioDiplomas;
+                            break;
+                        }
+                    default:
+                        {
+                            throw new Exception();
+                        }
+                }
+
+
+                var datos_empleados = (from a in ctx.EmpleadoCursos
+                                       join b in ctx.Empleados on a.EmpleadoId equals b.EmpleadoId
+                                       join c in ctx.Personas on b.PersonaId equals c.PersonaId
+                                       join d in ctx.SalonProgramados on a.SalonProgramadoId equals d.SalonProgramadoId
+                                       join e in ctx.CursosProgramados on d.CursoProgramadoId equals e.CursoProgramadoId
+                                       join f in ctx.Cursos on e.CursoId equals f.CursoId
+                                       where a.EmpleadoCursoId == EmpleadoCursoId
+                                       select new
+                                       {
+                                           DNI = c.NroDocumento,
+                                           FInicio = e.FechaInicio,
+                                           CodCurso = f.CodigoCurso
+                                       }).FirstOrDefault();
+
+                string path = string.Format("{0}{1}-{2}-{3}-{4}.pdf", basePath, tipoArchivo,datos_empleados.DNI,string.Join("",datos_empleados.CodCurso.Split('-')),datos_empleados.FInicio.ToString("ddMMyyyy"));
+
+                byte[] binaryData;
+                FileStream inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
+                binaryData = new Byte[inFile.Length];
+                inFile.Read(binaryData, 0, (int)inFile.Length);
+
+                MemoryStream ms = new MemoryStream(binaryData);
+
+                return ms;
             }
             catch(Exception e)
             {
