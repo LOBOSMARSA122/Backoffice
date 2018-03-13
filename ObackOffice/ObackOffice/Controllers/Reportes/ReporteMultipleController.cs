@@ -31,9 +31,9 @@ namespace ObackOffice.Controllers.Reportes
                 { "Action", Action }
             };
 
-            string base64 = API.Get<string>("ReporteMultiple/Chart", args);
+            string JsonString = API.Get<string>("ReporteMultiple/Chart", args);
 
-            return Json(base64);
+            return Json(JsonString);
         }
 
         [GeneralSecurity(Rol = "Reportes-Reporte Múltiple")]

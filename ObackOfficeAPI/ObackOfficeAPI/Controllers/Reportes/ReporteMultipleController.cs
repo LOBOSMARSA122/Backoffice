@@ -46,19 +46,27 @@ namespace ObackOfficeAPI.Controllers.Reportes
             {
                 case "Asistencia":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartAsistencia(data)));
+                        return Ok(JsonConvert.SerializeObject(rmr.ChartAsistencia(data)));
                     }
                 case "Aprobados":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartAprobados(data)));
+                        return Ok(JsonConvert.SerializeObject(rmr.ChartAprobados(data)));
                     }
                 case "Promedios":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartPromedio(data)));
+                        return Ok(JsonConvert.SerializeObject(rmr.ChartPromedio(data)));
                     }
                 case "Faltas":
                     {
-                        return Ok(Convert.ToBase64String(rmr.ChartFaltas(data)));
+                        return Ok(JsonConvert.SerializeObject(rmr.ChartFaltas(data)));
+                    }
+                case "CondicionArea":
+                    {
+                        return Ok(JsonConvert.SerializeObject(rmr.ChartCondicionArea(data)));
+                    }
+                case "AsistenciaVsTotal":
+                    {
+                        return Ok(JsonConvert.SerializeObject(rmr.ChartAsistenciaVsTotal(data)));
                     }
             }
 
