@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ObackOffice</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    
+
     @Html.Partial("_HeaderPartial")
 
     <div id="wrapper" class="active">
@@ -49,6 +48,5 @@
     @Scripts.Render("~/bundles/main")
     @RenderSection("scripts", required: false)
     <script src="/Scripts/bootstrap-treeview.js"></script>
-
 </body>
 </html>

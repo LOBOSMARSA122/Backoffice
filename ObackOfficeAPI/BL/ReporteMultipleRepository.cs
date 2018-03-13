@@ -8,6 +8,8 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Web.Helpers;
 using System.Globalization;
+using Svg;
+using System.Drawing;
 
 namespace BL
 {
@@ -137,7 +139,7 @@ namespace BL
             }
         }
 
-        public byte[] ChartAsistencia(BandejaReporteMultiple data)
+        public object ChartAsistencia(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
             string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
@@ -196,32 +198,45 @@ namespace BL
                                PorIniciar = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue == false).Count()
                            }).ToList();
 
+            var return_data = new
+            {
+                exporting = new
+                {
+                    fallbackToExportServer = false
+                },
+                chart = new { type = "bar" },
+                title = new { text = "Asistencias Por Curso" },
+                xAxis = new
+                {
+                    categories = listado.Select(x => x.Curso).ToList()
+                },
+                yAxis = new
+                {
+                    title = new { text = "Asistencias" }
+                },
+                series = new[]
+                                   {
+                                       new {
+                                           name = "Asistieron",
+                                           data = listado.Select(x => x.Asistieron).ToList()
+                                       },
+                                       new
+                                       {
+                                           name = "Faltaron",
+                                           data = listado.Select(x => x.Faltaron).ToList()
+                                       },
+                                       new
+                                       {
+                                           name = "PorIniciar",
+                                           data = listado.Select(x => x.PorIniciar).ToList()
+                                       }
+                                   }
+            };
 
-
-            var Chart = new Chart(800, 600, ChartTheme.Green);
-            Chart.AddTitle("Asistencias Por Cursos");
-            Chart.AddSeries(name: "Asistieron",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.Asistieron).ToArray());
-
-            Chart.AddSeries(name: "Faltaron",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.Faltaron).ToArray());
-
-            Chart.AddSeries(name: "Por Iniciar",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.PorIniciar).ToArray());
-
-
-            Chart.AddLegend("Leyenda");
-
-            byte[] bytes = Chart.GetBytes();
-
-
-            return bytes;
+            return return_data;
         }
 
-        public byte[] ChartAprobados(BandejaReporteMultiple data)
+        public object ChartAprobados(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
             string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
@@ -279,29 +294,45 @@ namespace BL
                                PorIniciar = grp.Where(x => x.CondicionId == PorIniciarID).Count()
                            }).ToList();
 
-            var Chart = new Chart(800, 600, ChartTheme.Green);
-            Chart.AddTitle("Aprobados Por Cursos");
-            Chart.AddSeries(name: "Aprobaron",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.Aprobaron).ToArray());
+            var return_data = new
+            {
+                exporting = new
+                {
+                    fallbackToExportServer = false
+                },
+                chart = new { type = "bar" },
+                title = new { text = "Aprobados Por Curso" },
+                xAxis = new
+                {
+                    categories = listado.Select(x => x.Curso).ToList()
+                },
+                yAxis = new
+                {
+                    title = new { text = "Aprobados" }
+                },
+                series = new[]
+                        {
+                            new {
+                                name = "Aprobaron",
+                                data = listado.Select(x => x.Aprobaron).ToList()
+                            },
+                            new
+                            {
+                                name = "Reprobaron",
+                                data = listado.Select(x => x.Desaprobaron).ToList()
+                            },
+                            new
+                            {
+                                name = "PorIniciar",
+                                data = listado.Select(x => x.PorIniciar).ToList()
+                            }
+                        }
+            };
 
-            Chart.AddSeries(name: "Desaprobaron",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.Desaprobaron).ToArray());
-
-            Chart.AddSeries(name: "Por Iniciar",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.PorIniciar).ToArray());
-
-            Chart.AddLegend("Leyenda");
-
-            byte[] bytes = Chart.GetBytes();
-
-
-            return bytes;
+            return return_data;
         }
 
-        public byte[] ChartPromedio(BandejaReporteMultiple data)
+        public object ChartPromedio(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
             string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
@@ -350,23 +381,39 @@ namespace BL
                            select new
                            {
                                grp.FirstOrDefault().Curso,
-                               Promedio = grp.Select(x => x.Nota).Sum() / (decimal)grp.Select(x => x.Nota).Count()
+                               Promedio = (grp.Select(x => x.Nota).Sum() / (decimal)grp.Select(x => x.Nota).Count()).ToString("N2")
                            }).ToList();
 
 
-            var Chart = new Chart(800, 600, ChartTheme.Green);
-            Chart.AddTitle("Promedio Por Cursos");
-            Chart.AddSeries(name: "Promedio",
-            xValue: listado.Select(x => x.Curso).ToArray(),
-            yValues: listado.Select(x => x.Promedio).ToArray());
+            var return_data = new
+            {
+                exporting = new
+                {
+                    fallbackToExportServer = false
+                },
+                chart = new { type = "bar" },
+                title = new { text = "Promedio Por Curso" },
+                xAxis = new
+                {
+                    categories = listado.Select(x => x.Curso).ToList()
+                },
+                yAxis = new
+                {
+                    title = new { text = "Promedios" }
+                },
+                series = new[]
+                        {
+                            new {
+                                name = "Promedio",
+                                data = listado.Select(x => decimal.Parse(x.Promedio)).ToList()
+                            }
+                        }
+            };
 
-
-            byte[] bytes = Chart.GetBytes();
-
-            return bytes;
+            return return_data;
         }
 
-        public byte[] ChartFaltas(BandejaReporteMultiple data)
+        public object ChartFaltas(BandejaReporteMultiple data)
         {
             string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
             string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
@@ -422,21 +469,225 @@ namespace BL
                                Faltaron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == FaltaronID : false).Count(),
                            }).FirstOrDefault();
 
+            var return_data = new
+            {
+                exporting = new
+                {
+                    fallbackToExportServer = false
+                },
+                chart = new { type = "pie" },
+                title = new { text = "Faltantes en Cursos" },
+                series = new[]
+                        {
+                            new {
+                                name = "Faltantes",
+                                data = new[]
+                                {
+                                    new
+                                    {
+                                        name = "Asistieron",
+                                        y = decimal.Parse(((float)(listado.Asistieron * 100) / (listado.Asistieron + listado.Faltaron)).ToString("N2"))
+                                    },
+                                    new
+                                    {
+                                        name = "Faltaron",
+                                        y = decimal.Parse(((float)(listado.Faltaron * 100) / (listado.Asistieron + listado.Faltaron)).ToString("N2"))
+                                    }
+                                }
+                            }
+                        }
+            };
 
 
-            var Chart = new Chart(800, 600, ChartTheme.Green);
-            Chart.AddTitle("Porcentaje de Faltas");
-            Chart.AddSeries(name: "Faltas",
-            chartType: "Pie",
-            xValue: new[] { "Asistieron " + ((float)(listado.Asistieron * 100) / (listado.Asistieron + listado.Faltaron)).ToString("N2") + "%", "Faltaron " + ((float)(listado.Faltaron * 100) / (listado.Asistieron + listado.Faltaron)).ToString("N2") + "%" },
-            yValues: new[] { listado.Asistieron, listado.Faltaron });
+            return return_data;
+        }
 
-            Chart.AddLegend("Leyenda");
+        public object ChartCondicionArea(BandejaReporteMultiple data)
+        {
+            string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
+            string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+            string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+            int EmpresaId = 0;
+            if (!string.IsNullOrWhiteSpace(data.Empresa))
+            {
+                EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+            }
+            int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
 
-            byte[] bytes = Chart.GetBytes();
+            int AprobaronID = (int)Enumeradores.Condicion.Aprobado;
+            int DesaprobaronID = (int)Enumeradores.Condicion.Desaprobado;
+            int PorIniciarID = (int)Enumeradores.Condicion.PorIniciar;
+
+            bool validfi = DateTime.TryParseExact(data.FechaInicio, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fi);
+            bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
+
+            var listado_temp = (from a in ctx.EmpleadoCursos
+                                join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
+                                join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
+                                join d in ctx.Cursos on c.CursoId equals d.CursoId
+                                join e in ctx.Empleados on a.EmpleadoId equals e.EmpleadoId
+                                join f in ctx.Eventos on c.EventoId equals f.EventoId
+                                join g in ctx.Personas on e.PersonaId equals g.PersonaId
+                                join h in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals h.EmpleadoCursoId
+                                where
+                                (data.CursoId == -1 || d.CursoId == data.CursoId) &&
+                                (data.EventoId == -1 || c.EventoId == data.EventoId) &&
+                                (data.SedeId == -1 || f.SedeId == data.SedeId) &&
+                                (NombreEmpleado == null || (g.Nombres + " " + g.ApellidoPaterno + " " + g.ApellidoMaterno).Contains(NombreEmpleado) || g.NroDocumento.Contains(NombreEmpleado)) &&
+                                (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
+                                (data.Asistencia == -1 || data.Asistencia == h.Asistio) &&
+                                (Area == null ^ e.Area == Area) &&
+                                (Categoria == null ^ e.Cargo == Categoria) &&
+                                (EmpresaId == 0 || a.EmpresaId == EmpresaId) &&
+                                (!validfi || c.FechaInicio >= fi) &&
+                                 (!validff || c.FechaInicio <= ff) &&
+                                (data.CapacitadorId == -1 || b.CapacitadorId == data.CapacitadorId) &&
+                                a.EsEliminado == NoEsEliminado
+                                select new
+                                {
+                                    e.Area,
+                                    d.CursoId,
+                                    a.CondicionId
+                                }).ToList();
+
+            var listado = (from a in listado_temp
+                           group a by a.Area into grp
+                           select new
+                           {
+                               grp.FirstOrDefault().Area,
+                               Aprobaron = grp.Where(x => x.CondicionId == AprobaronID).Count(),
+                               Desaprobaron = grp.Where(x => x.CondicionId == DesaprobaronID).Count(),
+                               PorIniciar = grp.Where(x => x.CondicionId == PorIniciarID).Count()
+                           }).ToList();
+
+            var return_data = new
+            {
+                exporting = new
+                {
+                    fallbackToExportServer = false
+                },
+                chart = new { type = "column" },
+                title = new { text = "Condición Por Area" },
+                xAxis = new
+                {
+                    categories = listado.Select(x => x.Area).ToList()
+                },
+                yAxis = new
+                {
+                    title = new { text = "Condicion" }
+                },
+                series = new[]
+                        {
+                            new {
+                                name = "Aprobaron",
+                                data = listado.Select(x => x.Aprobaron).ToList()
+                            },
+                            new
+                            {
+                                name = "Reprobaron",
+                                data = listado.Select(x => x.Desaprobaron).ToList()
+                            },
+                            new
+                            {
+                                name = "PorIniciar",
+                                data = listado.Select(x => x.PorIniciar).ToList()
+                            }
+                        }
+            };
+
+            return return_data;
+        }
+
+        public object ChartAsistenciaVsTotal(BandejaReporteMultiple data)
+        {
+            string NombreEmpleado = string.IsNullOrWhiteSpace(data.NombreEmpleado) ? null : data.NombreEmpleado;
+            string Categoria = string.IsNullOrWhiteSpace(data.Categoria) ? null : data.Categoria;
+            string Area = string.IsNullOrWhiteSpace(data.Area) ? null : data.Area;
+            int EmpresaId = 0;
+            if (!string.IsNullOrWhiteSpace(data.Empresa))
+            {
+                EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+            }
+            int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
+
+            int AsistieronID = (int)Enumeradores.Asistencia.Asistio;
+            int FaltaronID = (int)Enumeradores.Asistencia.Falto;
+
+            bool validfi = DateTime.TryParseExact(data.FechaInicio, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fi);
+            bool validff = DateTime.TryParseExact(data.FechaFin, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ff);
+
+            var listado_temp = (from a in ctx.EmpleadoCursos
+                                join b in ctx.SalonProgramados on a.SalonProgramadoId equals b.SalonProgramadoId
+                                join c in ctx.CursosProgramados on b.CursoProgramadoId equals c.CursoProgramadoId
+                                join d in ctx.Cursos on c.CursoId equals d.CursoId
+                                join e in ctx.EmpleadoAsistencias on a.EmpleadoCursoId equals e.EmpleadoCursoId
+                                join f in ctx.Empleados on a.EmpleadoId equals f.EmpleadoId
+                                join g in ctx.Eventos on c.EventoId equals g.EventoId
+                                join h in ctx.Personas on f.PersonaId equals h.PersonaId
+                                where
+                                (data.CursoId == -1 || d.CursoId == data.CursoId) &&
+                                (data.EventoId == -1 || c.EventoId == data.EventoId) &&
+                                (data.SedeId == -1 || g.SedeId == data.SedeId) &&
+                                (NombreEmpleado == null || (h.Nombres + " " + h.ApellidoPaterno + " " + h.ApellidoMaterno).Contains(NombreEmpleado) || h.NroDocumento.Contains(NombreEmpleado)) &&
+                                (data.Condicion == -1 || data.Condicion == a.CondicionId) &&
+                                (data.Asistencia == -1 || data.Asistencia == e.Asistio) &&
+                                (Area == null ^ f.Area == Area) &&
+                                (Categoria == null ^ f.Cargo == Categoria) &&
+                                (EmpresaId == 0 || a.EmpresaId == EmpresaId) &&
+                                (data.CapacitadorId == -1 || b.CapacitadorId == data.CapacitadorId) &&
+                                (!validfi || c.FechaInicio >= fi) &&
+                                 (!validff || c.FechaInicio <= ff) &&
+                                a.EsEliminado == NoEsEliminado
+                                select new
+                                {
+                                    Curso = d.NombreCurso,
+                                    CursoID = d.CursoId,
+                                    e.Asistio,
+                                    e.EmpleadoAsistenciaId
+                                }).ToList();
 
 
-            return bytes;
+            var listado = (from a in listado_temp
+                           group a by a.CursoID into grp
+                           select new
+                           {
+                               grp.FirstOrDefault().Curso,
+                               Asistieron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == AsistieronID : false).Count(),
+                               Faltaron = grp.GroupBy(x => x.EmpleadoAsistenciaId).Where(y => y.FirstOrDefault().Asistio.HasValue ? y.FirstOrDefault().Asistio.Value == FaltaronID : false).Count()
+                           }).ToList();
+
+            var return_data = new
+            {
+                exporting = new
+                {
+                    fallbackToExportServer = false
+                },
+                title = new { text = "Asistencias Vs Total" },
+                xAxis = new
+                {
+                    categories = listado.Select(x => x.Curso).ToList()
+                },
+                yAxis = new
+                {
+                    title = new { text = "Asistencias" }
+                },
+                series = new[]
+                    {
+                        new {
+                            name = "Asistieron",
+                            type = "column",
+                            data = listado.Select(x => x.Asistieron).ToList()
+                        },
+                        new
+                        {
+                            name = "Total Deseado",
+                            type = "spline",
+                            data = listado.Select(x => (x.Faltaron + x.Asistieron)).ToList()
+                        }
+                    }
+            };
+
+            return return_data;
         }
 
         public MemoryStream BandejaReporteMultipleExcel(BandejaReporteMultiple data, FileStream TemplateFile)
@@ -451,12 +702,47 @@ namespace BL
                 ICell CeldaTitulo = TemplateSheet.GetRow(99).GetCell(0);
                 ICell CeldaNormal = TemplateSheet.GetRow(100).GetCell(0);
 
+                ImageConverter IC = new ImageConverter();
                 string[] chartList = data.Charts == null ? new List<string>().ToArray() : data.Charts;
 
                 data = BandejaReporteMultiple(data);
 
                 int index = 0;
                 int indexcell = 0;
+
+                //foreach(var chart in chartList)
+                //{
+                //    byte[] Image = null;
+                //    try
+                //    {
+                //        byte[] SVGImage = Convert.FromBase64String(chart);
+                //        MemoryStream svgStream = new MemoryStream(SVGImage);
+                //        SvgDocument svgDocument = SvgDocument.Open<SvgDocument>(svgStream);
+                //        Bitmap bm = svgDocument.Draw();
+                //        MemoryStream PNGStream = new MemoryStream();
+                //        bm.Save(PNGStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                //        Image = PNGStream.ToArray();
+                //    }
+                //    catch(Exception e)
+                //    {
+
+                //    }
+
+                //    if (Image != null)
+                //    {
+                //        int pictureIndex = TemplateBook.AddPicture(Image, PictureType.JPEG);
+                //        ICreationHelper helper = TemplateBook.GetCreationHelper();
+                //        IDrawing drawing = TemplateSheet.CreateDrawingPatriarch();
+
+                //        IClientAnchor anchor = helper.CreateClientAnchor();
+                //        anchor.Col1 = 0;//0 index based column
+                //        anchor.Row1 = index;//0 index based row
+                //        IPicture picture = drawing.CreatePicture(anchor, pictureIndex);
+                //        picture.Resize(); //will reset client anchor
+
+                //        index = index + 30;
+                //    }
+                //}
 
                 IRow TemplateRow = TemplateSheet.CreateRow(index);
                 index++;
@@ -631,48 +917,48 @@ namespace BL
                     TemplateSheet.AutoSizeColumn(i);
                 }
 
-                foreach (var chart in chartList)
-                {
-                    byte[] Image = null;
-                    switch (chart)
-                    {
-                        case "Asistencia":
-                            {
-                                Image = ChartAsistencia(data);
-                                break;
-                            }
-                        case "Aprobados":
-                            {
-                                Image = ChartAprobados(data);
-                                break;
-                            }
-                        case "Promedios":
-                            {
-                                Image = ChartPromedio(data);
-                                break;
-                            }
-                        case "Faltas":
-                            {
-                                Image = ChartFaltas(data);
-                                break;
-                            }
-                    }
+                //foreach (var chart in chartList)
+                //{
+                //    byte[] Image = null;
+                //    switch (chart)
+                //    {
+                //        case "Asistencia":
+                //            {
+                //                Image = ChartAsistencia(data);
+                //                break;
+                //            }
+                //        case "Aprobados":
+                //            {
+                //                Image = ChartAprobados(data);
+                //                break;
+                //            }
+                //        case "Promedios":
+                //            {
+                //                Image = ChartPromedio(data);
+                //                break;
+                //            }
+                //        case "Faltas":
+                //            {
+                //                Image = ChartFaltas(data);
+                //                break;
+                //            }
+                //    }
 
-                    if (Image != null)
-                    {
-                        int pictureIndex = TemplateBook.AddPicture(Image, PictureType.PNG);
-                        ICreationHelper helper = TemplateBook.GetCreationHelper();
-                        IDrawing drawing = TemplateSheet.CreateDrawingPatriarch();
+                //    if (Image != null)
+                //    {
+                //        int pictureIndex = TemplateBook.AddPicture(Image, PictureType.PNG);
+                //        ICreationHelper helper = TemplateBook.GetCreationHelper();
+                //        IDrawing drawing = TemplateSheet.CreateDrawingPatriarch();
 
-                        IClientAnchor anchor = helper.CreateClientAnchor();
-                        anchor.Col1 = 0;//0 index based column
-                        anchor.Row1 = index;//0 index based row
-                        IPicture picture = drawing.CreatePicture(anchor, pictureIndex);
-                        picture.Resize(); //will reset client anchor
+                //        IClientAnchor anchor = helper.CreateClientAnchor();
+                //        anchor.Col1 = 0;//0 index based column
+                //        anchor.Row1 = index;//0 index based row
+                //        IPicture picture = drawing.CreatePicture(anchor, pictureIndex);
+                //        picture.Resize(); //will reset client anchor
 
-                        index = index + 30;
-                    }
-                }
+                //        index = index + 30;
+                //    }
+                //}
 
                 MemoryStream ms = new MemoryStream();
                 using (MemoryStream tempStream = new MemoryStream())

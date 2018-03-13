@@ -210,6 +210,12 @@
                         <button class="button-inactive boton-chart" onclick="activateChartButton(this,'Faltas')">
                             <i class="fa fa-search"></i> Faltas
                         </button>
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'CondicionArea')">
+                            <i class="fa fa-search"></i> Condición Por Area
+                        </button>
+                        <button class="button-inactive boton-chart" onclick="activateChartButton(this,'AsistenciaVsTotal')">
+                            <i class="fa fa-search"></i> Asistencia Vs Total Deseado
+                        </button>
                     </div>
                 </nav>
             </div>
@@ -233,36 +239,12 @@
 </div>
 
 @section Scripts{
-    <link href="~/Content/css/highcharts.css" rel="stylesheet">
     <script src="~/Scripts/highcharts.js"></script>
+    <script src="~/Scripts/exporting.js"></script>
+    <script src="~/Scripts/offline-exporting.js"></script>
+
+    <link href="~/Content/css/highcharts.css" rel="stylesheet">
     <script>
-
-        $(function () {
-            var myChart = Highcharts.chart('containers', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Fruit Consumption'
-                },
-                xAxis: {
-                    categories: ['Apples', 'Bananas', 'Oranges']
-                },
-                yAxis: {
-                    title: {
-                        text: 'Fruit eaten'
-                    }
-                },
-                series: [{
-                    name: 'Jane',
-                    data: [1, 0, 4]
-                }, {
-                    name: 'John',
-                    data: [5, 7, 3]
-                }]
-            });
-        });
-
         var alturaTabla;
         function ColapsarFiltro(id) {
             setTimeout(function () {
@@ -274,6 +256,7 @@
 
                 if ($("#" + id).height() == 0) {
                     $("#" + id).animate({ "height": height + "px", "padding": "10px" }, 400);
+                    setTimeout(function () { $("#" + id).height("auto"); }, 500);
                 } else {
                     $("#" + id).animate({ "height": "0px", "padding": "0px 10px" }, 400);
                 }
@@ -373,20 +356,16 @@
                 data: data,
                 url: '/ReporteMultiple/Chart',
                 success: function (json) {
+                    json = JSON.parse(json);
                     $("#Loading").hide();
-                    var div = "<div class=\"col-12 col-sm-6\" id=\"container-" + Action + "\"><img/></div>";
+
+                    var nombreContenedor = "container-" + Action;
+
+                    var div = "<div class=\"col-12 col-sm-6\" id=\"" + nombreContenedor + "\"></div>";
                     $("#collapse2 #containers").append(div);
-                    $("#container-" + Action + " img").attr("src", "data:img;base64," + json);
 
-                    setTimeout(function () {
-                        var height = 10;
+                    var myChart = Highcharts.chart(nombreContenedor, json);
 
-                        for (i = 0; i < $("#collapse2 .row").length; i++) {
-                            height = height + $($("#collapse2 .row")[i]).height();
-                        }
-
-                        $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
-                    }, 200);
                 },
                 error: function (error) {
                     $("#Loading").hide();
@@ -397,16 +376,6 @@
 
         function CloseChart(Action) {
             $("#container-" + Action).remove();
-
-            setTimeout(function () {
-                var height = 10;
-
-                for (i = 0; i < $("#collapse2 .row").length; i++) {
-                    height = height + $($("#collapse2 .row")[i]).height();
-                }
-
-                $("#collapse2").animate({ "height": height + "px", "padding": "10px" }, 400);
-            }, 200);
         }
 
         function ExportarExcel() {
@@ -414,8 +383,9 @@
 
                 var charts = new Array();
 
-                for (i = 0; i < $("#collapse2 .button-active").length; i++) {
-                    charts.push($($("#collapse2 .button-active")[i]).html().split("</i>")[1].trim());
+                for (i = 0; i < $("#containers > div").length; i++) {
+                    var svg = $($("#containers > div")[i]).highcharts().getSVG();
+                    charts.push(btoa(unescape(encodeURIComponent(svg))));
                 }
 
                 data = {
