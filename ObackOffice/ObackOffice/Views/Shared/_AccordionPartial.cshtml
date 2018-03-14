@@ -99,10 +99,7 @@
 </div>
 
 <script>
-    $("#Accordion-Rol-Copia").append($('<option>', {
-        value: "0",
-        text: "Seleccione"
-    })).append($("#UserRol").html()).change(function () {
+    $("#Accordion-Rol-Copia").append($("#UserRol").html()).change(function () {
         getTree($("#Accordion-Rol-Copia").val());
     });
 

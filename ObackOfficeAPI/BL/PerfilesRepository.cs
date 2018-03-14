@@ -62,6 +62,7 @@ namespace BL
         {
             try
             {
+                int rows = 0;
                 int grupo = (int)Enumeradores.GrupoParametros.Roles;
                 int NoEliminado = (int)Enumeradores.EsEliminado.No;
                 List<Parametro> Listado = (from a in ctx.Parametros where a.GrupoId == grupo select a).ToList();
@@ -70,27 +71,43 @@ namespace BL
 
                 Parametro Parametro = (from a in Listado where a.Valor1 == Nombre select a).FirstOrDefault();
 
-                if (Parametro != null)
-                    return null;
-
-                Parametro = new Parametro()
+                if (Parametro == null)
                 {
-                    GrupoId = grupo,
-                    ParametroId = parametroId,
-                    Valor1 = Nombre,
-                    PadreParametroId = -1,
-                    Orden = orden,
-                    EsEliminado = NoEliminado,
-                    FechaGraba = DateTime.Now,
-                    UsuGraba = UserID
-                };
+                    Parametro = new Parametro()
+                    {
+                        GrupoId = grupo,
+                        ParametroId = parametroId,
+                        Valor1 = Nombre,
+                        PadreParametroId = -1,
+                        Orden = orden,
+                        EsEliminado = NoEliminado,
+                        FechaGraba = DateTime.Now,
+                        UsuGraba = UserID
+                    };
 
-                List<Perfil> ListPerfiles = new List<Perfil>();
+                    ctx.Parametros.Add(Parametro);
+                    rows = rows + ctx.SaveChanges();
+                }
+
+
+                List<Perfil> ListPerfiles = (from a in ctx.Perfiles where a.RolId == Parametro.ParametroId select a).ToList();
+
+                if(ListPerfiles != null)
+                {
+                    if(ListPerfiles.Count > 0)
+                    {
+                        ctx.Perfiles.RemoveRange(ListPerfiles);
+                        ctx.SaveChanges();
+                    }
+                }
+
+                ListPerfiles = new List<Perfil>();
+
                 foreach(var P in Tree)
                 {
                     Perfil perfil = new Perfil()
                     {
-                        RolId = parametroId,
+                        RolId = Parametro.ParametroId,
                         MenuId = P.MenuId,
                         EsEliminado = NoEliminado,
                         FechaGraba = DateTime.Now,
@@ -100,11 +117,11 @@ namespace BL
                     ListPerfiles.Add(perfil);
                 }
 
-                ctx.Parametros.Add(Parametro);
+                
                 ctx.Perfiles.AddRange(ListPerfiles);
 
 
-                int rows = ctx.SaveChanges();
+                rows = rows + ctx.SaveChanges();
                 if (rows > 0)
                     return Parametro;
 

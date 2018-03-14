@@ -181,13 +181,13 @@ namespace BL
                     int contadorSalon = 0;
                     foreach (var S in data.Salones)
                     {
-                        contadorSalon++;
+                        
                         SalonProgramado Salon = new SalonProgramado()
                         {
                             CapacitadorId = S.CapacitadorId,
                             CursoProgramadoId = Curso.CursoProgramadoId,
                             EsEliminado = EsNoEliminado,
-                            EventoSalonId = salonesID.Where(x => x.Nombre.Contains(contadorSalon.ToString())).FirstOrDefault().EventoSalonId,
+                            EventoSalonId = salonesID[contadorSalon].EventoSalonId,
                             NroCupos = S.Cupos,
                             UsuGraba = data.UsuarioActualizaID,
                             FechaGraba = DateTime.Now
@@ -218,6 +218,7 @@ namespace BL
                             }
                             ctx.SaveChanges();
                         }
+                        contadorSalon++;
                     }
                 }
 
@@ -319,7 +320,7 @@ namespace BL
                 int contadorSalon = 0;
                 foreach (var S in data.Salones)
                 {
-                    contadorSalon++;
+                    
                     switch (S.RecordStatus)
                     {
                         case (int)Enumeradores.RecordStatus.Agregar:
@@ -329,7 +330,7 @@ namespace BL
                                     CapacitadorId = S.CapacitadorId,
                                     CursoProgramadoId = data.CursoProgramadoId,
                                     EsEliminado = EsNoEliminado,
-                                    EventoSalonId = salonesID.Where(x => x.Nombre.Contains(contadorSalon.ToString())).FirstOrDefault().EventoSalonId,
+                                    EventoSalonId = salonesID[contadorSalon].EventoSalonId ,
                                     NroCupos = S.Cupos,
                                     UsuGraba = data.UsuarioActualizaID,
                                     FechaGraba = DateTime.Now
@@ -360,6 +361,7 @@ namespace BL
                                     }
                                     ctx.SaveChanges();
                                 }
+                                contadorSalon++;
                                 break;
                             }
                         case (int)Enumeradores.RecordStatus.Eliminar:
