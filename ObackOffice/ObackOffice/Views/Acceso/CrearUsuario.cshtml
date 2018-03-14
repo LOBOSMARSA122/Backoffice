@@ -138,31 +138,31 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Numero Documento: </div>
-                            <div><input type="text" id="PersonaNroDocumento" value="@NroDocumento" data-validation="required"/></div>
+                            <div><input type="text" id="PersonaNroDocumento" value="@NroDocumento" data-validation="length" data-validation-length="8-50" data-validation-error-msg="El Documento debe de tener entre 8 y 50 caracteres"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Nombres: </div>
-                            <div><input type="text" id="PersonaNombre" value="@Nombres" data-validation="required"/></div>
+                            <div><input type="text" id="PersonaNombre" value="@Nombres" data-validation="length" data-validation-length="3-150" data-validation-error-msg="El Nombre debe de tener entre 3 y 150 caracteres" onkeypress="soloLetras(event)"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Apellido Paterno: </div>
-                            <div><input type="text" id="PersonaApellidoPaterno" value="@ApellidoPaterno" data-validation="required"/></div>
+                            <div><input type="text" id="PersonaApellidoPaterno" value="@ApellidoPaterno" data-validation="length" data-validation-length="3-150" data-validation-error-msg="El Apellido Paterno debe de tener entre 3 y 150 caracteres" onkeypress="soloLetras(event)"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Apellido Materno: </div>
-                            <div><input type="text" id="PersonaApellidoMaterno" value="@ApellidoMaterno" data-validation="required"/></div>
+                            <div><input type="text" id="PersonaApellidoMaterno" value="@ApellidoMaterno" data-validation="length" data-validation-length="3-150" data-validation-error-msg="El Apellido Materno debe de tener entre 3 y 150 caracteres" onkeypress="soloLetras(event)"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Fecha Nacimiento: </div>
-                            <div><input type="date" id="PersonaFechaNacimiento" value="@(FechaNacimiento.HasValue ? FechaNacimiento.Value.ToString("yyyy-MM-dd") : "")" /></div>
+                            <div><input type="date" id="PersonaFechaNacimiento" data-validation="date" value="@(FechaNacimiento.HasValue ? FechaNacimiento.Value.ToString("yyyy-MM-dd") : "")" /></div>
                         </div>
                     </div>
                     <div class="row">
@@ -187,13 +187,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Correo: </div>
-                            <div><input type="email" id="PersonaCorreo" value="@CorreoElectronico" data-validation="required"/></div>
+                            <div><input type="email" id="PersonaCorreo" value="@CorreoElectronico" data-validation="email length" data-validation-length="max150"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Teléfono Celular: </div>
-                            <div><input type="tel" id="PersonaCelular" value="@NumeroCelular" /></div>
+                            <div><input type="tel" id="PersonaCelular" value="@NumeroCelular" data-validation="length" data-validation-length="max50" data-validation-optional="true"/></div>
                         </div>
                     </div>
                 </div>
@@ -204,19 +204,19 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Usuario: </div>
-                            <div><input type="text" id="UserName" value="@NombreUsuario" data-validation="required"/></div>
+                            <div><input type="text" id="UserName" value="@NombreUsuario" data-validation="length" data-validation-length="8-50" data-validation-error-msg="El Usuario debe de tener entre 8 y 50 caracteres"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Contraseña: </div>
-                            <div><input type="password" id="UserPassword" name="UserPassword" @(UsuarioId == 0 ? "data-validation=required" : "") /></div>
+                            <div><input type="password" id="UserPassword" name="UserPassword" @(UsuarioId == 0 ? "data-validation=length data-validation-length=8-50" : "data-validation=length data-validation-length=8-50 data-validation-optional=true") data-validation-error-msg="La Contraseña debe de tener entre 8 y 50 caracteres"/></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="SubTitulo">Confirmar Contraseña: </div>
-                            <div><input type="password" id="UserRepeatPassword" @(UsuarioId == 0 ? "data-validation=confirmation data-validation-confirm=UserPassword" : "") /></div>
+                            <div><input type="password" id="UserRepeatPassword" data-validation="confirmation" data-validation-confirm="UserPassword" data-validation-error-msg="La Contraseña no coincide"/></div>
                         </div>
                     </div>
                     <div class="row">
@@ -305,7 +305,10 @@
     <script src="~/Scripts/JqueryFormValidate.js"></script>
     <script src="~/Scripts/FormValidateSecurity.js"></script>
     <link href="~/Content/themes/base/FormValidatorTheme.css" rel="stylesheet" type="text/css" />
+    
+
     <script>
+
         $.validate({
             modules: 'security'
         });
@@ -408,6 +411,14 @@
                 height: $("#Accordion-Container > .row").height() + "px"
             }, 600);
         }, 200);
+        }
+
+    function soloLetras(e) {
+        if ((e.keyCode > 64 && e.keyCode < 91) || (e.keyCode > 96 && e.keyCode < 123) || e.keyCode == 241 || e.keyCode == 209 || e.keyCode == 32) {
+            console.log("aceptado");
+        } else {
+            e.preventDefault();
+        }
     }
     </script>
 }
