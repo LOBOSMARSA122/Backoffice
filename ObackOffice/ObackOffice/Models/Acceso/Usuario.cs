@@ -13,7 +13,7 @@ namespace ObackOffice.Models.Acceso
         public string Contrasenia { get; set; }
         public string PreguntaSecreta { get; set; }
         public string RespuestaSecreta { get; set; }
-        public DateTime FechaCaduca { get; set; }
+        public DateTime? FechaCaduca { get; set; }
         public int RolId { get; set; }
         public int EmpresaId { get; set; }
 

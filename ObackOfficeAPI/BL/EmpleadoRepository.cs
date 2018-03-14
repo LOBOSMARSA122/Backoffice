@@ -180,12 +180,12 @@ namespace BL
                 int NoEliminado = (int)Enumeradores.EsEliminado.No;
                 int RolEmpleado = (int)Enumeradores.Roles.Empleado;
 
-                var Persona = (from a in ctx.Personas where a.NroDocumento == usuario select a).FirstOrDefault();
+                var Persona = (from a in ctx.Personas where a.NroDocumento == usuario && a.EsEliminado == NoEliminado select a).FirstOrDefault();
 
                 if (Persona == null)
                     return "El documento ingresado no es válido";
 
-                var Empleados = (from a in ctx.Empleados where a.PersonaId == Persona.PersonaId select a).ToList();
+                var Empleados = (from a in ctx.Empleados where a.PersonaId == Persona.PersonaId && a.EsEliminado == NoEliminado select a).ToList();
 
                 if (Empleados.Count == 0 || Empleados.Where(x => x.EsEliminado == NoEliminado).ToList().Count == 0)
                     return "Usted no se encuentra activo en ninguna empresa";
@@ -195,7 +195,7 @@ namespace BL
 
                 var Empleado = Empleados.Where(x => x.EsEliminado == NoEliminado).FirstOrDefault();
 
-                var Usuario = (from a in ctx.Usuarios where a.PersonaId == Persona.PersonaId select a).FirstOrDefault();
+                var Usuario = (from a in ctx.Usuarios where a.PersonaId == Persona.PersonaId && a.EsEliminado == NoEliminado select a).FirstOrDefault();
 
                 if (Usuario != null)
                     return "Usted ya posee una cuenta";
@@ -247,7 +247,7 @@ namespace BL
                 int parametroClave = (int)Enumeradores.Correo.ClaveCorreo;
                 int parametroHost = (int)Enumeradores.Correo.HostSMTP;
 
-                var parametros = (from a in ctx.Parametros where a.GrupoId == grupoEmail select a).ToList();
+                var parametros = (from a in ctx.Parametros where a.GrupoId == grupoEmail && a.EsEliminado == NoEliminado select a).ToList();
 
                 string CorreoSistema = (from a in parametros where a.ParametroId == parametroCorreo select a.Valor2).FirstOrDefault();
                 string ClaveCorreo = (from a in parametros where a.ParametroId == parametroClave select a.Valor2).FirstOrDefault();
