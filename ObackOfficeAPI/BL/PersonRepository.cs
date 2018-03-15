@@ -210,9 +210,9 @@ namespace BL
                     ctxUsuario.Contrasenia = Utils.Encrypt(Usuario.Contrasenia);
                 ctxUsuario.EmpresaId = Usuario.EmpresaId;
                 ctxUsuario.RolId = Usuario.RolId;
-                ctxUsuario.PreguntaSecreta = Usuario.PreguntaSecreta;
-                if (Utils.Encrypt(Usuario.RespuestaSecreta) != ctxUsuario.RespuestaSecreta && !string.IsNullOrWhiteSpace(Usuario.RespuestaSecreta))
-                    ctxUsuario.RespuestaSecreta = Utils.Encrypt(Usuario.RespuestaSecreta);
+                //ctxUsuario.PreguntaSecreta = Usuario.PreguntaSecreta;
+                //if (Utils.Encrypt(Usuario.RespuestaSecreta) != ctxUsuario.RespuestaSecreta && !string.IsNullOrWhiteSpace(Usuario.RespuestaSecreta))
+                //    ctxUsuario.RespuestaSecreta = Utils.Encrypt(Usuario.RespuestaSecreta);
                 ctxUsuario.UsuActualiza = UsuarioID;
                 ctxUsuario.FechaActualiza = DateTime.Now;
 

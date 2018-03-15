@@ -104,7 +104,9 @@
     });
 
     function HideAccordion(e) {
-        e.preventDefault();
+        if (e != undefined)
+            e.preventDefault();
+
         $("#Accordion-Container").animate({
             height: "0px"
         }, 800);
@@ -220,6 +222,8 @@
                 url: url,
                 data: data,
                 success: function (json) {
+                    console.log(json);
+                    console.log(type);
                     $("#Loading").hide();
                     if (type == "Gender") {
                         $('#PersonaGenero').append($('<option>', {
@@ -232,6 +236,7 @@
                             value: json.ParametroId,
                             text: json.Valor1
                         }));
+                        $('#UserRol').val(json.ParametroId);
                         HideAccordion();
                     }
                 },
