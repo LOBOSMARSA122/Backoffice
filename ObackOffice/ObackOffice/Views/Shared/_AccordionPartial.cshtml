@@ -101,6 +101,13 @@
 <script>
     $("#Accordion-Rol-Copia").append($("#UserRol").html()).change(function () {
         getTree($("#Accordion-Rol-Copia").val());
+    }).val($("#UserRol").val());
+
+    $(document).ready(function ()
+    {
+        var Nombre = $("#Accordion-Rol-Copia").val() == -1 ? "" : $("#Accordion-Rol-Copia").find(":selected").text();;
+        $("#Accordion-Rol").val(Nombre);
+        getTree($("#Accordion-Rol-Copia").val());
     });
 
     function HideAccordion(e) {

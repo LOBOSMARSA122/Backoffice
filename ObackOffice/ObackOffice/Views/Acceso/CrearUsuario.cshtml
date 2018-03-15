@@ -247,7 +247,7 @@
                                         <select id="UserRol" data-validation="number" data-validation-allowing="range[1;100]" data-validation-error-msg="Debe seleccionar una opción">
                                             @foreach (ObackOffice.Models.Comun.Dropdownlist R in ViewBag.Roles)
                                             {
-                                                <option value="@R.Id" @(RolId == R.Id ? "selected" : "")>@R.Value</option>
+                                                <option value="@R.Id">@R.Value</option>
                                             }
                                         </select>
                                     }
@@ -308,6 +308,10 @@
     
 
     <script>
+
+        $(document).ready(function () {
+            $("#UserRol").val(@(RolId == 0 ? -1 : RolId));
+        });
 
         $.validate({
             modules: 'security'
