@@ -198,6 +198,7 @@
     <Compile Include="Controllers\Prueba\ExcelController.cs" />
     <Compile Include="Controllers\Prueba\ObackOfficePruebaController.cs" />
     <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteCumplimientoController.cs" />
     <Compile Include="Controllers\Reportes\ReporteMultipleController.cs" />
     <Compile Include="Controllers\Usuario\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
