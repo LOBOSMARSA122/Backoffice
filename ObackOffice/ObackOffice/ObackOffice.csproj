@@ -166,6 +166,7 @@
     <Compile Include="Controllers\Registro\EmpleadoController.cs" />
     <Compile Include="Controllers\Registro\RegistroNotasController.cs" />
     <Compile Include="Controllers\Reportes\ReporteAcademicoController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteCumplimientoController.cs" />
     <Compile Include="Controllers\Reportes\ReporteMultipleController.cs" />
     <Compile Include="Controllers\Seguridad\AccesoController.cs" />
     <Compile Include="Controllers\Seguridad\GeneralSecurityAttribute.cs" />
@@ -509,6 +510,8 @@
     <Content Include="Scripts\JqueryFormValidate.min.js" />
     <Content Include="Views\Acceso\CargaMasiva.cshtml" />
     <Content Include="Views\RegistroNotas\SubirDocumentos.cshtml" />
+    <Content Include="Views\ReporteCumplimiento\Index.cshtml" />
+    <Content Include="Views\Shared\_ReporteCumplimientoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

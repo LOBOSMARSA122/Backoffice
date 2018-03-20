@@ -17,34 +17,44 @@ namespace BL
                 int NoEsEliminado = (int)Enumeradores.EsEliminado.No;
                 int AprobadoId = (int)Enumeradores.Condicion.Aprobado;
 
+                int EmpresaId = 0;
+                if (!string.IsNullOrWhiteSpace(data.Empresa))
+                {
+                    EmpresaId = (from a in ctx.Empresas where a.RazonSocial == data.Empresa select a.EmpresaId).FirstOrDefault();
+                }
+
                 List<int> ListaCursoId = new List<int>() {7,3,8,12,1,9,26};
 
                 var Listado = (from a in ctx.Cursos
-                              join b in
-                              (from a in ctx.Personas
-                               join b in ctx.Empleados on a.PersonaId equals b.PersonaId
-                               join EC in ctx.EmpleadoCursos on b.EmpleadoId equals EC.EmpleadoId into ECG
-                               from c in ECG.DefaultIfEmpty()
-                               join SP in ctx.SalonProgramados on c.SalonProgramadoId equals SP.SalonProgramadoId into SPG
-                               from d in SPG.DefaultIfEmpty()
-                               join CP in ctx.CursosProgramados on d.CursoProgramadoId equals CP.CursoProgramadoId into CPG
-                               from e in CPG.DefaultIfEmpty()
+                               join b in
+                               (from a in ctx.Personas
+
+                                join b in ctx.Empleados on a.PersonaId equals b.PersonaId
+
+                                join EC in ctx.EmpleadoCursos on b.EmpleadoId equals EC.EmpleadoId
+
+                                join SP in ctx.SalonProgramados on EC.SalonProgramadoId equals SP.SalonProgramadoId
+
+                                join CP in ctx.CursosProgramados on SP.CursoProgramadoId equals CP.CursoProgramadoId
+                                select new
+                                {
+                                    a.PersonaId,
+                                    EC.CondicionId,
+                                    CP.CursoId,
+                                    b.Area,
+                                    b.EmpresaId
+                                }) on a.CursoId equals b.CursoId
+                               where (EmpresaId == 0 || b.EmpresaId == EmpresaId)
                                select new
                                {
-                                   a.PersonaId,
-                                   c.CondicionId,
-                                   e.CursoId,
+                                   a.CursoId,
+                                   a.NombreCurso,
+                                   b.CondicionId,
+                                   b.PersonaId,
                                    b.Area
-                               }) on a.CursoId equals b.CursoId into joined
-                              from j in joined.DefaultIfEmpty()
-                              select new
-                              {
-                                  a.CursoId,
-                                  a.NombreCurso,
-                                  j.CondicionId,
-                                  j.PersonaId,
-                                  j.Area
-                              }).ToList();
+                               }).ToList();
+
+                data = new BandejaReporteCumplimiento();
 
                 data.Lista = (from a in Listado
                           group a by a.Area into grp
@@ -61,7 +71,7 @@ namespace BL
                               RiesgosCriticosGeneral = (from b in grp where b.CursoId == 26 && b.CondicionId == AprobadoId group b by b.CursoId into z select z.Count()).Sum(),
                           }).ToList();
 
-
+               
                 return data;
             }
             catch(Exception e)

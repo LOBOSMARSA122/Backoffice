@@ -663,6 +663,15 @@ margin:0;
     color: #fff !important;
 }
 
+.nro-incumplimiento{
+    color:red;
+    text-align:center;
+}
+
+.nro-cumplimiento {
+    color: black;
+    text-align: center;
+}
 
 .boton-table-warning {
     background-color: #f39c12 !important;
