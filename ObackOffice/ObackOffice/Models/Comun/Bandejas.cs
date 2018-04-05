@@ -145,5 +145,23 @@ namespace ObackOffice.Models
         public int estadoId { get; set; }
         public string estado { get; set; }
     }
+
+    public class BandejaReporteCumplimiento : Bandejas
+    {       
+        public List<ReporteCumplimientoList> Lista { get; set; }
+    }
+
+    public class ReporteCumplimientoList
+    {
+        public string Area { get; set; }
+        public int Total { get; set; }
+        public int ExcavacionesSubterraneas { get; set; }
+        public int HerramientasManuales { get; set; }
+        public int PrevencionDeCaidas { get; set; }
+        public int VehiculosEquiposMoviles { get; set; }
+        public int AislamientoBloqueoDeEnergia { get; set; }
+        public int SistemasPresurizados { get; set; }
+        public int RiesgosCriticosGeneral { get; set; }
+    }
 }
 

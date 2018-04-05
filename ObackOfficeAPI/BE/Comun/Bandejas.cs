@@ -143,6 +143,7 @@ namespace BE.Comun
 
     public class BandejaReporteCumplimiento : Bandejas
     {
+        public string Empresa { get; set; }
         public List<ReporteCumplimientoList> Lista { get; set; }
     }
 

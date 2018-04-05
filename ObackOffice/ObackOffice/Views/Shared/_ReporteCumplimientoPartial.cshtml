@@ -1,0 +1,48 @@
+﻿
+<div class="box box-warning mt-2">
+    <div class="table-responsive">
+        <table class="table table-hover" id="TablaAExportar">
+            <thead>
+                <tr>
+                    <th>ÁREA</th>
+                    <th>HEADCOUNT</th>
+                    <th>EXCAVACIONES SUBTERRANEAS</th>
+                    <th>HERRAMIENTAS MANUALES</th>
+                    <th>PREVENCION DE CAIDAS</th>
+                    <th>VEHICULOS Y EQUIPOS MOVILES</th>
+                    <th>AISLAMIENTO Y BLOQUEO DE ENERGIA</th>
+                    <th>SISTEMAS PRESURIZADOS</th>
+                    <th>RIESGOS CRITICOS GENERAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in ViewBag.REGISTROS.Lista)
+                    {
+
+                        var a = @item.Area;
+                        var b = @item.Total;
+                        var c = @item.ExcavacionesSubterraneas * 100 / @item.Total;
+                        var d = @item.HerramientasManuales * 100 / @item.Total;
+                        var e = @item.PrevencionDeCaidas * 100 / @item.Total;
+                        var f = @item.VehiculosEquiposMoviles * 100 / @item.Total;
+                        var g = @item.AislamientoBloqueoDeEnergia * 100 / @item.Total;
+                        var h = @item.SistemasPresurizados * 100 / @item.Total;
+                        var i = @item.RiesgosCriticosGeneral * 100 / @item.Total;
+                        <tr>
+                            <td>@a</td>
+                            <td>@b</td>
+                            <td class="@(c < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@c% (@item.ExcavacionesSubterraneas)</td>
+                            <td class="@(d < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@d% (@item.HerramientasManuales)</td>
+                            <td class="@(e < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@e% (@item.PrevencionDeCaidas)</td>
+                            <td class="@(f < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@f% (@item.VehiculosEquiposMoviles)</td>
+                            <td class="@(g < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@g% (@item.AislamientoBloqueoDeEnergia)</td>
+                            <td class="@(h < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@h% (@item.SistemasPresurizados)</td>
+                            <td class="@(i < 50 ? "nro-incumplimiento" : "nro-cumplimiento")">@i% (@item.RiesgosCriticosGeneral)</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
